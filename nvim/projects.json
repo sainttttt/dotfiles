@@ -1,0 +1,12 @@
+{
+  "~/code/veronica": {
+    "name": "veronica",
+    "description": "veronica",
+    "command": "nim c -r -d:ssl bot.nim"
+  },
+  "~/code/gloss": {
+    "name": "gloss",
+    "description": "gloss",
+    "command": "xcodebuild -configuration Debug -target gloss -sdk iphonesimulator16.2 && open -a simulator && xcrun simctl install booted build/Debug-iphonesimulator/gloss.app && xcrun simctl launch booted com.emily.gloss"
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "languageserver": {
+        "nim": {
+            "command": "nimlsp",
+            "filetypes": ["nim"],
+            "trace.server": "verbose"
+        }
+    },
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportOptionalMemberAccess": "none",
+        "reportMissingImports": "none",
+        "reportUnusedVariable": "none",
+        "reportOptionalSubscript": "none"
+    },
+    "diagnostic.level": "information"
+}
