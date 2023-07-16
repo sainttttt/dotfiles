@@ -38,7 +38,6 @@ nnoremap <silent> AQ :qa!<CR>
 nnoremap <silent><C-w><C-w> :q!<CR>
 
 
-
 " autocmd CursorMoved * :lua echo_diagnostic()
 
 
@@ -410,9 +409,9 @@ set novisualbell
 
 "" edit vimrc
 noremap <Leader>vv :vsp ~/.config/nvim/init.vim<CR>
-noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins.lua<CR>
+noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
 noremap <Leader>vz :vsp ~/.config/nvim/lua/init.lua<CR>
-noremap <Leader>vx :vsp ~/.config/nvim/lua/<CR>
+" noremap <Leader>vx :vsp ~/.config/nvim/lua/<CR>
 
 noremap <Leader>xr :!chmod +x % <CR><CR>
 
