@@ -151,10 +151,10 @@ autocmd FileChangedShellPost *
 
 
 " Overwrite / and ?.
-nnoremap ? <Cmd>lua searchXBack()<CR>
+nnoremap ? <Cmd>lua searchXBackward()<CR>
 nnoremap / <Cmd>lua searchXForward()<CR>
 
-xnoremap ? <Cmd>lua searchXBack()<CR>
+xnoremap ? <Cmd>lua searchXBackward()<CR>
 xnoremap / <Cmd>lua searchXForward()<CR>
 cnoremap ; <Cmd>call searchx#select()<CR>
 
