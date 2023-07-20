@@ -1,6 +1,17 @@
 return
 {
   {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      -- position = "bo",
+      height = 24,
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  },
+  {
     'nvim-telescope/telescope.nvim', tag = '0.1.1',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
@@ -16,6 +27,7 @@ return
       vim.api.nvim_set_keymap("n", "<M-i>", [[<cmd>Telescope resume<cr>]], {})
       vim.api.nvim_set_keymap("n", "<M-I>", [[<cmd>Telescope resume<cr>]], {})
       vim.api.nvim_set_keymap("n", "<leader>vx", [[<cmd>lua require("telescope.builtin").find_files({cwd = "~/.config/nvim/"})<CR>]], {})
+      vim.api.nvim_set_keymap("n", "<leader>vc", [[<cmd>lua require("telescope.builtin").live_grep({cwd = "~/.config/nvim/"})<CR>]], {})
 
 -- lua require("telescope.builtin").find_files({cwd = "~/.config/nvim/"})
       vim.api.nvim_set_keymap("n", "`", [[<cmd>Telescope find_files<cr>]], {})
@@ -34,7 +46,7 @@ return
           },
           mappings = {
             i = {
-              ["<c-e>"] = trouble.open_with_trouble,
+              -- ["<c-e>"] = trouble.open_with_trouble,
               ["<C-j>"] = actions.move_selection_next,
               ["<C-x>"] = actions.exclude,
               ["<C-k>"] = actions.move_selection_previous
@@ -53,6 +65,5 @@ return
       }
     end
   },
-
   {'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
 }

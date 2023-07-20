@@ -30,7 +30,8 @@ nnoremap <silent> <Leader>ss :lua MiniSessions.read()<CR>
 nnoremap <silent> WW :close!<CR>
 nnoremap <silent> <M-w> :close!<CR> 
 nnoremap <silent> <M-z> :Undoquit<CR>
-nnoremap <silent> SS :up<CR>
+" unmap S
+nnoremap <silent> S :up<CR>
 nnoremap <silent> <M-s> :up<CR>
 inoremap <silent> <M-s> <esc>:w<CR>
 nnoremap <silent> WQ :up<CR>:close!<CR>
@@ -151,18 +152,18 @@ autocmd FileChangedShellPost *
 
 
 " Overwrite / and ?.
-nnoremap ? <Cmd>lua searchXBackward()<CR>
-nnoremap / <Cmd>lua searchXForward()<CR>
+" nnoremap ? <Cmd>lua searchXBackward()<CR>
+" nnoremap / <Cmd>lua searchXForward()<CR>
 
-xnoremap ? <Cmd>lua searchXBackward()<CR>
-xnoremap / <Cmd>lua searchXForward()<CR>
-cnoremap ; <Cmd>call searchx#select()<CR>
+" xnoremap ? <Cmd>lua searchXBackward()<CR>
+" xnoremap / <Cmd>lua searchXForward()<CR>
+" cnoremap ; <Cmd>call searchx#select()<CR>
 
-" Move to next/prev match.
-nnoremap N <Cmd>call searchx#prev_dir()<CR>
-nnoremap n <Cmd>call searchx#next_dir()<CR>
-xnoremap N <Cmd>call searchx#prev_dir()<CR>
-xnoremap n <Cmd>call searchx#next_dir()<CR>
+" " Move to next/prev match.
+" nnoremap N <Cmd>call searchx#prev_dir()<CR>
+" nnoremap n <Cmd>call searchx#next_dir()<CR>
+" xnoremap N <Cmd>call searchx#prev_dir()<CR>
+" xnoremap n <Cmd>call searchx#next_dir()<CR>
 " nnoremap <C-k> <Cmd>call searchx#prev()<CR>
 " nnoremap <C-j> <Cmd>call searchx#next()<CR>
 " xnoremap <C-k> <Cmd>call searchx#prev()<CR>
@@ -409,7 +410,7 @@ set novisualbell
 
 "" edit vimrc
 noremap <Leader>vv :vsp ~/.config/nvim/init.vim<CR>
-noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
+" noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
 noremap <Leader>vz :vsp ~/.config/nvim/lua/init.lua<CR>
 " noremap <Leader>vx :vsp ~/.config/nvim/lua/<CR>
 
@@ -574,6 +575,7 @@ call SetupCommandAlias("h","vert h")
 call SetupCommandAlias("H","vert h")
 call SetupCommandAlias("vh","vert h")
 call SetupCommandAlias("Vh","vert h")
+call SetupCommandAlias("Vsp","vsp")
 
 function! RunMacro(macro_reg)
   echo a:macro_reg
@@ -617,6 +619,7 @@ endfunction
 let g:hybrid_use_Xresources = 1
 set termguicolors
 colorscheme hybrid3
+" colorscheme hybrid
 
 highlight Conceal ctermbg=237 guibg=NONE guifg=DarkGrey term=NONE
 " hi IncSearch cterm=NONE ctermfg=yellow ctermbg=red

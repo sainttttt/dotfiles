@@ -1,27 +1,24 @@
 return {
- git = {
-    -- defaults for the `Lazy log` command
-    -- log = { "-10" }, -- show the last 10 commits
-    log = { "--since=3 days ago" }, -- show commits from the last 3 days
-    timeout = 10000, -- kill processes that take more than 2 minutes
-    url_format = "https://github.com/%s.git",
-    -- lazy.nvim requires git >=2.19.0. If you really want to use lazy with an older version,
-    -- then set the below to false. This should work, but is NOT supported and will
-    -- increase downloads a lot.
-    filter = true,
-  },
+  git = {
+     -- defaults for the `Lazy log` command
+     -- log = { "-10" }, -- show the last 10 commits
+     log = { "--since=3 days ago" }, -- show commits from the last 3 days
+     timeout = 10000, -- kill processes that take more than 2 minutes
+     url_format = "https://github.com/%s.git",
+     -- lazy.nvim requires git >=2.19.0. If you really want to use lazy with an older version,
+     -- then set the below to false. This should work, but is NOT supported and will
+     -- increase downloads a lot.
+     filter = true,
+   },
 
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      -- position = "bo",
-      height = 24,
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
-  },
+   -- {
+   --   'norcalli/nvim-colorizer.lua',
+   --   config = function()
+   --     require'colorizer'.setup()
+   --   end
+   -- },
+
+  'tpope/vim-commentary',
 
   { 'bkad/CamelCaseMotion' },
   {'dgagn/diagflow.nvim',
@@ -57,9 +54,19 @@ return {
         lightbulb = {
           enable = false,
         },
-
+        finder = {
+          max_height = 0.6,
+          keys = {
+            vsplit = 'v'
+          }
+        }
       })
+
+      vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
+      vim.keymap.set("n", "ga", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
+
     end,
+
     dependencies = {
       {"nvim-tree/nvim-web-devicons"},
       --Please make sure you install markdown and markdown_inline parser
@@ -86,11 +93,31 @@ return {
 
   'mfussenegger/nvim-lint',
 
-  { 'CRAG666/code_runner.nvim', dependencies = 'nvim-lua/plenary.nvim' },
+  { 'CRAG666/code_runner.nvim', 
+  dependencies = 'nvim-lua/plenary.nvim',
+
+  config = function()
+    require('code_runner').setup({
+      mode = "term",
+      focus = false,
+      startinsert = true,
+      term = {
+        position = "vert",
+        size = 50,
+      },
+      filetype_path = vim.fn.expand('~/.config/nvim/code_runner.json'),
+      project_path = vim.fn.expand('~/.config/nvim/projects.json')
+    })
+
+
+    vim.keymap.set('n', '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false })
+    vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false })
+    vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false })
+
+  end
+},
   { 'CRAG666/betterTerm.nvim' },
 
-  -- "nullchilly/fsread.nvim",
-  'tpope/vim-commentary',
   'tpope/vim-scriptease',
   -- { 'JellyApple102/easyread.nvim' },
 
@@ -323,7 +350,6 @@ opts = {
    end
   },
 
-{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
 
   { "jake-stewart/jfind.nvim", branch = "1.0" },
   { 'ibhagwan/fzf-lua',
@@ -368,6 +394,6 @@ opts = {
     end
   },
 
-  -- 'ervandew/supertab',
-  -- { "lukas-reineke/indent-blankline.nvim" },
+   --'ervandew/supertab',
+   --{ "lukas-reineke/indent-blankline.nvim" },
 }

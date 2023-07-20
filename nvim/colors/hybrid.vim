@@ -349,11 +349,11 @@ exe "hi! Comment"         .s:fg_comment     .s:bg_none        .s:fmt_none
 exe "hi! Constant"        .s:fg_red         .s:bg_none        .s:fmt_none
 exe "hi! String"          .s:fg_green       .s:bg_none        .s:fmt_none
 "   Character"
-"   Number"
+exe "hi! Number"          .s:fg_purple       .s:bg_none        .s:fmt_none
 "   Boolean"
 "   Float"
 
-exe "hi! Identifier"      .s:fg_purple      .s:bg_none        .s:fmt_none
+exe "hi! Identifier"      .s:fg_red      .s:bg_none        .s:fmt_none
 exe "hi! Function"        .s:fg_aqua      .s:bg_none        .s:fmt_none
 
 exe "hi! Statement"       .s:fg_blue        .s:bg_none        .s:fmt_none
@@ -370,7 +370,7 @@ exe "hi! PreProc"         .s:fg_blue        .s:bg_none        .s:fmt_none
 "   Macro"
 "   PreCondit"
 
-exe "hi! Type"            .s:fg_orange      .s:bg_none        .s:fmt_none
+exe "hi! Type"            .s:fg_aqua      .s:bg_none        .s:fmt_none
 "   StorageClass"
 exe "hi! Structure"       .s:fg_aqua        .s:bg_none        .s:fmt_none
 "   Typedef"

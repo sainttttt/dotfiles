@@ -1,4 +1,4 @@
-" Initialisation:"{{{
+" Initialisation:"{{n
 " ----------------------------------------------------------------------------
 if !has("gui_running") && &t_Co < 256
   finish
@@ -19,7 +19,12 @@ let colors_name = "hybrid"
 
 let s:gui = 1
 
+if s:gui
+  set termguicolors
+endif
+
 function! HexOrTermColor(hex, cterm)
+
   if s:gui
     return a:hex
   else
@@ -30,7 +35,7 @@ endfunction
 "}}}
 " GUI And Cterm Palettes:"{{{
 " ----------------------------------------------------------------------------
-if 1
+if s:gui
   let s:vmode      = "gui"
   let s:background = "#181818"
 
@@ -51,14 +56,14 @@ if 1
   let s:selection  = "#373a40"    " DarkGrey
   let s:line       = HexOrTermColor("#181818", 0)    " Black
   let s:comment    = HexOrTermColor("#5f666d", 7)    " LightGrey
-  let s:red        = HexOrTermColor("#da6a78", 9)    " LightRed
+  let s:red        = HexOrTermColor("#c85a80", 9)    " LightRed
   let s:darkred    = HexOrTermColor("#821e35", 1)    " Maroon ? 
-  let s:orange     = HexOrTermColor("#dd925e", 3)    " DarkYellow
+  let s:orange     = HexOrTermColor("#dd9767", 3)    " DarkYellow
   let s:yellow     = HexOrTermColor("#967e7f", 11)   " LightYellow
   let s:green      = HexOrTermColor("#9f416d", 10)   " LightGreen
   let s:aqua       = HexOrTermColor("#b75f65", 14)   " LightCyan
   let s:blue       = HexOrTermColor("#7181a0", 12)   " LightBlue
-  let s:purple     = HexOrTermColor("#b47891", 13)   " LightMagenta
+  let s:purple     = HexOrTermColor("#c85a80", 13)   " LightMagenta
 
 else
   let s:vmode      = "cterm"
@@ -73,7 +78,9 @@ else
   let s:darkcyan   = "24"
   let s:darkred    = "52"
   let s:darkpurple = "53"
-  if g:hybrid_use_Xresources == 1
+  " if g:hybrid_use_Xresources == 1
+  if 1
+
     let s:foreground = "15"   " White
     let s:selection  = "8"    " DarkGrey
     let s:line       = "0"    " Black
@@ -178,7 +185,7 @@ exe "let s:fmt_revr      = ' ".s:vmode."=NONE".s:r.      " term=NONE".s:r    ."'
 exe "let s:fmt_revb      = ' ".s:vmode."=NONE".s:r.s:b.  " term=NONE".s:r.s:b."'"
 
 " if has("gui_running")
-if 1
+if s:gui
   exe "let s:sp_none       = ' guisp=".s:none      ."'"
   exe "let s:sp_foreground = ' guisp=".s:foreground."'"
   exe "let s:sp_background = ' guisp=".s:background."'"
@@ -275,7 +282,7 @@ exe "hi! Title"         .s:fg_yellow      .s:bg_none        .s:fmt_none
 exe "hi! Visual"        .s:fg_none        .s:bg_selection   .s:fmt_none
 "   VisualNos"
 exe "hi! WarningMsg"    .s:fg_red         .s:bg_none        .s:fmt_none
-hi LongLineWarning  guifg=NONE        guibg=#371F1C     gui=underline ctermfg=NONE        ctermbg=NONE        cterm=underline
+" hi LongLineWarning  guifg=NONE        guibg=#371F1C     gui=underline ctermfg=NONE        ctermbg=NONE        cterm=underline
 "   WildMenu"
 
 exe "hi! NvimTreeNormalFloat"        .s:fg_yellow  .s:bg_none        .s:fmt_none
@@ -283,7 +290,7 @@ exe "hi! NvimTreeFolderIcon"        .s:fg_darkred  .s:bg_none        .s:fmt_none
 
 " Use Xresources for background colour
 " if has('gui_running') || g:hybrid_use_Xresources != 1
-if 1
+if s:gui
   exe "hi! Normal"        .s:fg_foreground  .s:bg_background  .s:fmt_none
 else
   exe "hi! Normal"        .s:fg_foreground  .s:bg_none        .s:fmt_none
@@ -296,6 +303,7 @@ exe "hi! Comment"         .s:fg_comment     .s:bg_none        .s:fmt_none
 
 exe "hi! Constant"        .s:fg_red         .s:bg_none        .s:fmt_none
 exe "hi! String"          .s:fg_green       .s:bg_none        .s:fmt_none
+exe "hi! Number"          .s:fg_red       .s:bg_none        .s:fmt_none
 "   Character"
 "   Number"
 "   Boolean"
@@ -318,9 +326,9 @@ exe "hi! PreProc"         .s:fg_blue        .s:bg_none        .s:fmt_none
 "   Macro"
 "   PreCondit"
 
-exe "hi! Type"            .s:fg_orange      .s:bg_none        .s:fmt_none
+exe "hi! Type"            .s:fg_aqua      .s:bg_none        .s:fmt_none
 "   StorageClass"
-exe "hi! Structure"       .s:fg_aqua        .s:bg_none        .s:fmt_none
+exe "hi! Structure"       .s:fg_orange        .s:bg_none        .s:fmt_none
 "   Typedef"
 
 exe "hi! Special"         .s:fg_green       .s:bg_none        .s:fmt_none

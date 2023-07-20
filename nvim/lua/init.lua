@@ -17,37 +17,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = "," -- Make sure to set `mapleader` before lazy so your mappings are correct
 
-
 require("lazy").setup("plugins")
 
--- require('plugins')
 
--- vim.g.flow_strength = 0.7 -- low: 0.3, middle: 0.5, high: 0.7 (default)
--- vim.api.nvim_set_hl(0, "FSPrefix", { fg = "#cdd6f4" })
--- vim.api.nvim_set_hl(0, "FSSuffix", { fg = "#6C7086" })
-
-vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
-vim.keymap.set("n", "ga", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
-
-
-require('code_runner').setup({
-  mode = "term",
-  focus = false,
-  startinsert = true,
-  term = {
-		position = "vert",
-		size = 50,
-	},
-  filetype_path = vim.fn.expand('~/.config/nvim/code_runner.json'),
-	project_path = vim.fn.expand('~/.config/nvim/projects.json')
-})
-
--- vim.keymap.set('n', '<leader>r', ':RunCode<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false })
---vim.keymap.set('n', '<leader>crf', ':CRFiletype<CR>', { noremap = true, silent = false })
---vim.keymap.set('n', '<leader>crp', ':CRProjects<CR>', { noremap = true, silent = false })
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -80,27 +52,9 @@ vim.o.updatetime = 750
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  -- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua show_line_diagnostics()]]
-
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-end
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 
 
 function show_line_diagnostics()
@@ -122,45 +76,6 @@ vim.keymap.set("n", "<leader>lm", "<cmd>lua LspSwap()<CR>", {noremap=true})
 --     on_attach = on_attach,
 -- }
 
-require'lspconfig'.nim_langserver.setup{
-    on_attach = on_attach,
-}
-
-require'lspconfig'.lua_ls.setup {
-  on_attach = on_attach,
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-        disable = { "redefined-local", "missing-parameter", "redundant-parameter" },
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false,
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-
-  },
-}
-
-local lsp_config = require('lspconfig')
-require'lspconfig'.sourcekit.setup {
-  on_attach = on_attach,
-  -- capabilities = capabilities,
-  -- cmd = { "sourcekit-lsp" },
-  -- filetypes = { "swift", "c", "cpp", "objective-c", "objective-cpp" },
-  -- root_dir = lsp_config.util.root_pattern("Package.swift", ".git", "*.xcodeproj")
-}
 
 --require'lspconfig'.clangd.setup{}
 
