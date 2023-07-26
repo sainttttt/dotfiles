@@ -1,108 +1,162 @@
 return {
   git = {
-     -- defaults for the `Lazy log` command
-     -- log = { "-10" }, -- show the last 10 commits
-     log = { "--since=3 days ago" }, -- show commits from the last 3 days
-     timeout = 10000, -- kill processes that take more than 2 minutes
-     url_format = "https://github.com/%s.git",
-     -- lazy.nvim requires git >=2.19.0. If you really want to use lazy with an older version,
-     -- then set the below to false. This should work, but is NOT supported and will
-     -- increase downloads a lot.
-     filter = true,
-   },
+    -- defaults for the `Lazy log` command
+    -- log = { "-10" }, -- show the last 10 commits
+    log = { "--since=3 days ago" }, -- show commits from the last 3 days
+    timeout = 10000, -- kill processes that take more than 2 minutes
+    url_format = "https://github.com/%s.git",
+    -- lazy.nvim requires git >=2.19.0. If you really want to use lazy with an older version,
+    -- then set the below to false. This should work, but is NOT supported and will
+    -- increase downloads a lot.
+    filter = true,
+  },
 
-   -- {
-   --   'norcalli/nvim-colorizer.lua',
-   --   config = function()
-   --     require'colorizer'.setup()
-   --   end
-   -- },
+  {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require'colorizer'.setup()
+    end
+  },
 
   'tpope/vim-commentary',
 
   { 'bkad/CamelCaseMotion' },
-  {'dgagn/diagflow.nvim',
-  config = function()
-    require("diagflow").setup({
+  {
+    'dgagn/diagflow.nvim',
+    config = function()
+      require("diagflow").setup({
+
+        severity_colors = {  -- The highlight groups to use for each diagnostic severity level
+        error = "WarningMsg",
+        warning = "Function",
+        info = "Statement",
+        hint = "Operator",
+      },
     })
   end
-  },
+},
 
-  {
-    "HampusHauffman/block.nvim",
-    config = function()
-      require("block").setup({
-        percent = 0.8,
-        depth = 4,
-        colors = nil,
-        automatic = false,
-        --      bg = nil,
-        --      colors = {
-        --          "#ff0000"
-        --          "#00ff00"
-        --          "#0000ff"
-        --      },
-      })
-    end
-  },
-
-  {
-    "glepnir/lspsaga.nvim",
-    event = "LspAttach",
-    config = function()
-      require("lspsaga").setup({
-        lightbulb = {
-          enable = false,
-        },
-        finder = {
-          max_height = 0.6,
-          keys = {
-            vsplit = 'v'
-          }
-        }
-      })
-
-      vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
-      vim.keymap.set("n", "ga", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
-
-    end,
-
-    dependencies = {
-      {"nvim-tree/nvim-web-devicons"},
-      --Please make sure you install markdown and markdown_inline parser
-      {"nvim-treesitter/nvim-treesitter"}
-    }
-  },
-
-  'hood/popui.nvim',
-  "sindrets/diffview.nvim",
-  'neovim/nvim-lspconfig', -- Configurations for Nvim LSP
-  'zah/nim.vim',
-  'hrsh7th/vim-searchx',
-  'prichrd/netrw.nvim',
-  -- 'preservim/nerdtree',
-  -- 'https://gitlab.com/madyanov/svart.nvim',
-
-  {'akinsho/toggleterm.nvim',
+{
+  "HampusHauffman/block.nvim",
   config = function()
-    require("toggleterm").setup({
-      shell = vim.o.shell, -- change the default shell
-      auto_scroll = true, -- automatically scroll to the bottom on terminal output
+    require("block").setup({
+      percent = 0.8,
+      depth = 4,
+      colors = nil,
+      automatic = false,
+      --      bg = nil,
+      --      colors = {
+      --          "#ff0000"
+      --          "#00ff00"
+      --          "#0000ff"
+      --      },
     })
-  end},
+  end
+},
 
-  'mfussenegger/nvim-lint',
+{
+  "glepnir/lspsaga.nvim",
+  event = "LspAttach",
+  config = function()
+    require("lspsaga").setup({
+      lightbulb = {
+        enable = false,
+      },
+      finder = {
+        max_height = 0.6,
+        keys = {
+          vsplit = 'v'
+        }
+      }
+    })
 
-  { 'CRAG666/code_runner.nvim', 
+    vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
+    vim.keymap.set("n", "ga", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
+
+  end,
+
+  dependencies = {
+    {"nvim-tree/nvim-web-devicons"},
+    --Please make sure you install markdown and markdown_inline parser
+    {"nvim-treesitter/nvim-treesitter"}
+  }
+},
+
+'hood/popui.nvim',
+"sindrets/diffview.nvim",
+'neovim/nvim-lspconfig', -- Configurations for Nvim LSP
+'zah/nim.vim',
+'hrsh7th/vim-searchx',
+'prichrd/netrw.nvim',
+-- 'preservim/nerdtree',
+-- 'https://gitlab.com/madyanov/svart.nvim',
+
+{'akinsho/toggleterm.nvim',
+config = function()
+  require("toggleterm").setup({
+    shell = vim.o.shell, -- change the default shell
+    auto_scroll = true, -- automatically scroll to the bottom on terminal output
+
+    shading_factor = '0',
+
+    -- highlights = {
+    --   -- highlights which map to a highlight group name and a table of it's values
+    --   -- NOTE: this is only a subset of values, any group placed here will be set for the terminal window split
+    --   Normal = {
+    --     guibg = 'Normal'
+    --   },
+    --   NormalFloat = {
+    --     link = 'Normal'
+    --   },
+    --   -- FloatBorder = {
+    --   --   guifg = "<VALUE-HERE>",
+    --   --   guibg = "<VALUE-HERE>",
+    --   -- },
+    -- },
+
+
+
+  })
+
+  vim.keymap.set('n', '<leader>rq', ':ToggleTerm<CR>', { noremap = true, silent = false })
+end
+},
+
+
+
+
+--  { 'CRAG666/betterTerm.nvim' ,
+
+--  config = function()
+
+--    require('betterTerm').setup {
+--      prefix = "Term_",
+--      startInserted = true,
+--      position = "bot",
+--      size = 18
+--    }
+
+--    -- vim.keymap.set("n", "<leader>rf", function()
+--    --   require("betterTerm").send(require("code_runner.commands").get_filetype_command(), 1, { clean = true, interrupt = true })
+--    -- end, { desc = "Excute File"})
+
+--  end
+
+--  },
+
+'mfussenegger/nvim-lint',
+
+{ 
+  'CRAG666/code_runner.nvim', 
   dependencies = 'nvim-lua/plenary.nvim',
 
   config = function()
     require('code_runner').setup({
-      mode = "term",
+      mode = "toggleterm",
       focus = false,
       startinsert = true,
       term = {
-        position = "vert",
+        position = "float",
         size = 50,
       },
       filetype_path = vim.fn.expand('~/.config/nvim/code_runner.json'),
@@ -114,28 +168,28 @@ return {
     vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false })
     vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false })
 
+
   end
 },
-  { 'CRAG666/betterTerm.nvim' },
 
-  'tpope/vim-scriptease',
-  -- { 'JellyApple102/easyread.nvim' },
+'tpope/vim-scriptease',
+-- { 'JellyApple102/easyread.nvim' },
 
-  { 'echasnovski/mini.nvim', version = false, },
+{ 'echasnovski/mini.nvim', version = false, },
 
-  'neovim/nvim-lspconfig',
+'neovim/nvim-lspconfig',
 
-  {
-    'xbase-lab/xbase',
-    build = 'make install', -- or "make install && make free_space" (not recommended, longer build time)
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "nvim-telescope/telescope.nvim", -- optional
-      "nvim-lua/plenary.nvim", -- optional/requirement of telescope.nvim
-      -- "stevearc/dressing.nvim", -- optional (in case you don't use telescope but something else)
-    },
-    config = function()
-      require'xbase'.setup({
+{
+  'xbase-lab/xbase',
+  build = 'make install', -- or "make install && make free_space" (not recommended, longer build time)
+  dependencies = {
+    "neovim/nvim-lspconfig",
+    "nvim-telescope/telescope.nvim", -- optional
+    "nvim-lua/plenary.nvim", -- optional/requirement of telescope.nvim
+    -- "stevearc/dressing.nvim", -- optional (in case you don't use telescope but something else)
+  },
+  config = function()
+    require'xbase'.setup({
       sourcekit = {
         on_attach = function(client, bufnr)
           -- Enable completion triggered by <c-x><c-o>
@@ -159,78 +213,92 @@ return {
         watchOS = {}, -- all available devices
         tvOS = {}, -- all available devices
       },
-                mappings = {
-                  --- Whether xbase mapping should be disabled.
-                  enable = true,
-                  --- Open build picker. showing targets and configuration.
-                  build_picker = "<leader>rt", --- set to 0 to disable
-                  --- Open run picker. showing targets, devices and configuration
-                  run_picker = "<leader>rr", --- set to 0 to disable
-                  --- Open watch picker. showing run or build, targets, devices and configuration
-                  watch_picker = "<leader>ry", --- set to 0 to disable
-                  --- A list of all the previous pickers
-                  all_picker = "<leader>re", --- set to 0 to disable
-                  --- horizontal toggle log buffer
-                  toggle_split_log_buffer = "<leader>ll",
-                  --- vertical toggle log buffer
-                  toggle_vsplit_log_buffer = "<leader>lp",
-                },
-      })
+      mappings = {
+        --- Whether xbase mapping should be disabled.
+        enable = true,
+        --- Open build picker. showing targets and configuration.
+        build_picker = "<leader>rt", --- set to 0 to disable
+        --- Open run picker. showing targets, devices and configuration
+        run_picker = "<leader>rr", --- set to 0 to disable
+        --- Open watch picker. showing run or build, targets, devices and configuration
+        watch_picker = "<leader>ry", --- set to 0 to disable
+        --- A list of all the previous pickers
+        all_picker = "<leader>re", --- set to 0 to disable
+        --- horizontal toggle log buffer
+        toggle_split_log_buffer = "<leader>ll",
+        --- vertical toggle log buffer
+        toggle_vsplit_log_buffer = "<leader>lp",
+      },
+    })
+
+
+    function _G.XbaseBuildDefault()
+      local xbase_proj = require("xbase.state").project_info
+      local next = pairs(xbase_proj)
+      local proj_root = next(xbase_proj)
+
+      local args = require('xbase.pickers.util').generate_entries(proj_root, 'Run')[1]
+      local xbase = require("xbase.pickers.util")
+      xbase.run_command(args)
     end
-  },
 
-  'AndrewRadev/undoquit.vim',
-  {'nvim-tree/nvim-tree.lua',
-    config = function()
+    vim.api.nvim_set_keymap("n", "<M-r>", [[<cmd>lua XbaseBuildDefault()<cr>]], {})
 
-      local HEIGHT_RATIO = 0.5 -- You can change this
-      local WIDTH_RATIO = 0.5  -- You can change this too
-      require("nvim-tree").setup({
-        actions = {
-          open_file = {
-            window_picker = {
-              enable = false
-            }
-          }
-        },
-        view = {
-          relativenumber = true,
-          float = {
-            enable = true,
-            open_win_config = function()
-              local screen_w = vim.opt.columns:get()
-              local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
-              local window_w = screen_w * WIDTH_RATIO
-              local window_h = screen_h * HEIGHT_RATIO
-              local window_w_int = math.floor(window_w)
-              local window_h_int = math.floor(window_h)
-              local center_x = (screen_w - window_w) / 2
-              local center_y = ((vim.opt.lines:get() - window_h) / 2)
-              - vim.opt.cmdheight:get()
-              return {
-                border = "rounded",
-                relative = "editor",
-                row = center_y,
-                col = center_x,
-                width = window_w_int,
-                height = window_h_int,
-              }
-            end,
-          },
-          width = function()
-            return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
-          end,
-        },
-        renderer = {
-          icons = {
-            show = {
-              file = false
-            }
-          }
+  end
+},
+
+'AndrewRadev/undoquit.vim',
+{'nvim-tree/nvim-tree.lua',
+config = function()
+
+  local HEIGHT_RATIO = 0.5 -- You can change this
+  local WIDTH_RATIO = 0.5  -- You can change this too
+  require("nvim-tree").setup({
+    actions = {
+      open_file = {
+        window_picker = {
+          enable = false
         }
+      }
+    },
+    view = {
+      relativenumber = true,
+      float = {
+        enable = true,
+        open_win_config = function()
+          local screen_w = vim.opt.columns:get()
+          local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+          local window_w = screen_w * WIDTH_RATIO
+          local window_h = screen_h * HEIGHT_RATIO
+          local window_w_int = math.floor(window_w)
+          local window_h_int = math.floor(window_h)
+          local center_x = (screen_w - window_w) / 2
+          local center_y = ((vim.opt.lines:get() - window_h) / 2)
+          - vim.opt.cmdheight:get()
+          return {
+            border = "rounded",
+            relative = "editor",
+            row = center_y,
+            col = center_x,
+            width = window_w_int,
+            height = window_h_int,
+          }
+        end,
+      },
+      width = function()
+        return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
+      end,
+    },
+    renderer = {
+      icons = {
+        show = {
+          file = false
+        }
+      }
+    }
 
-      })
-    end
+  })
+end
   },
 
   'keith/swift.vim',
@@ -299,13 +367,13 @@ opts = {
 
 },
 
-  {'folke/noice.nvim', dependencies = {
-    "MunifTanjim/nui.nvim",
-    "rcarriga/nvim-notify",
-    },
-    -- enabled = false,
-   config = function()
-     require("noice").setup {
+{'folke/noice.nvim', dependencies = {
+  "MunifTanjim/nui.nvim",
+  "rcarriga/nvim-notify",
+},
+-- enabled = false,
+config = function()
+  require("noice").setup {
 
     -- views = {
     --   cmdline_popup = {
@@ -319,35 +387,35 @@ opts = {
     --     },
     --   },
     -- },
-       lsp = {
-         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-         override = {
-           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-           ["vim.lsp.util.stylize_markdown"] = true,
-           ["cmp.entry.get_documentation"] = true,
-         },
-       },
-       -- you can enable a preset for easier configuration
-       presets = {
-         bottom_search = true, -- use a classic bottom cmdline for search
-         -- command_palette = true, -- position the cmdline and popupmenu together
-         long_message_to_split = true, -- long messages will be sent to a split
-         inc_rename = false, -- enables an input dialog for inc-rename.nvim
-         lsp_doc_border = false, -- add a border to hover docs and signature help
-       },
+    lsp = {
+      -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+      override = {
+        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        ["vim.lsp.util.stylize_markdown"] = true,
+        ["cmp.entry.get_documentation"] = true,
+      },
+    },
+    -- you can enable a preset for easier configuration
+    presets = {
+      bottom_search = true, -- use a classic bottom cmdline for search
+      -- command_palette = true, -- position the cmdline and popupmenu together
+      long_message_to_split = true, -- long messages will be sent to a split
+      inc_rename = false, -- enables an input dialog for inc-rename.nvim
+      lsp_doc_border = false, -- add a border to hover docs and signature help
+    },
 
-       messages = {
-         -- NOTE: If you enable messages, then the cmdline is enabled automatically.
-         -- This is a current Neovim limitation.
-         enabled = false, -- enables the Noice messages UI
-         view = "notify", -- default view for messages
-         view_error = "notify", -- view for errors
-         view_warn = "notify", -- view for warnings
-         view_history = "messages", -- view for :messages
-         view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
-       },
-     }
-   end
+    messages = {
+      -- NOTE: If you enable messages, then the cmdline is enabled automatically.
+      -- This is a current Neovim limitation.
+      enabled = false, -- enables the Noice messages UI
+      view = "notify", -- default view for messages
+      view_error = "notify", -- view for errors
+      view_warn = "notify", -- view for warnings
+      view_history = "messages", -- view for :messages
+      view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+    },
+  }
+end
   },
 
 
@@ -362,8 +430,8 @@ opts = {
       }
 
     }
-    })
-  end
+  })
+end
   },
 
   {
@@ -391,9 +459,9 @@ opts = {
       preview_window_title = { enable = true, position = "left" }, -- Whether to set the preview window title as the filename
 
     }
-    end
-  },
+  end
+},
 
-   --'ervandew/supertab',
-   --{ "lukas-reineke/indent-blankline.nvim" },
+--'ervandew/supertab',
+--{ "lukas-reineke/indent-blankline.nvim" },
 }

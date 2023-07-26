@@ -7,7 +7,6 @@ set hidden
 set autoread
 filetype on
 filetype plugin on
-runtime macros/matchit.vim
 set nofoldenable
 set ignorecase
 set smartcase
@@ -21,12 +20,13 @@ map <silent> e <Plug>CamelCaseMotion_w
 
 map 4 $
 
-map <silent> <M-r> :exe "normal ,rr"<CR>
+map <silent> <M-r> :call feedkeys(,rr<CR>)<CR>
 " nnoremap <silent> <Leader>w :w<CR>:Runtime<CR>
 nnoremap <silent> <Leader>ww :up<CR>:Runtime<CR>
 nnoremap <silent> <Leader>bd :Bdelete hidden<CR>
 nnoremap <silent> <Leader>e :Messages<CR>
-nnoremap <silent> <Leader>ss :lua MiniSessions.read()<CR>
+" nnoremap <silent> <Leader>ss :lua MiniSessions.read()<CR>
+nnoremap <silent> <Leader>s :up<CR>
 nnoremap <silent> WW :close!<CR>
 nnoremap <silent> <M-w> :close!<CR> 
 nnoremap <silent> <M-z> :Undoquit<CR>
@@ -255,7 +255,7 @@ autocmd! bufwritepost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
 " trying out some html thing (experiment)
 nnoremap <Leader>h 0f<a/<esc>f<Space>C><esc>
 
-nnoremap <Leader>s :filetype detect<Esc>
+" nnoremap <Leader>s :filetype detect<Esc>
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(ale_go_to_definition)
@@ -411,7 +411,7 @@ set novisualbell
 "" edit vimrc
 noremap <Leader>vv :vsp ~/.config/nvim/init.vim<CR>
 " noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
-noremap <Leader>vz :vsp ~/.config/nvim/lua/init.lua<CR>
+noremap <Leader>vz :vsp ~/.config/nvim/lua/plugins/init.lua<CR>
 " noremap <Leader>vx :vsp ~/.config/nvim/lua/<CR>
 
 noremap <Leader>xr :!chmod +x % <CR><CR>
