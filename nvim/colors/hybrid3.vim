@@ -366,6 +366,16 @@ exe "hi! NotifyINFOBody"        .s:fg_blue      .s:bg_none        .s:fmt_none
 exe "hi! NotifyINFOIcon"        .s:fg_blue      .s:bg_none        .s:fmt_none
 
 
+exe "hi! DiagnosticError"        .s:fg_red      .s:bg_none        .s:fmt_none
+exe "hi! DiagnosticWarn"        .s:fg_aqua      .s:bg_none        .s:fmt_none
+exe "hi! DiagnosticInfo"        .s:fg_blue      .s:bg_none        .s:fmt_none
+exe "hi! DiagnosticHint"        .s:fg_blue      .s:bg_none        .s:fmt_none
+
+
+
+
+
+
 "}}}
 " Diff Syntax Highlighting:"{{{
 " ----------------------------------------------------------------------------
