@@ -177,6 +177,7 @@ config = function()
     auto_scroll = true, -- automatically scroll to the bottom on terminal output
 
     direction = 'float',
+    start_in_insert = false,
 
     shading_factor = '0',
 
