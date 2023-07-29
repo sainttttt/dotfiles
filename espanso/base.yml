@@ -1,0 +1,71 @@
+# espanso match file
+
+# For a complete introduction, visit the official docs at: https://espanso.org/docs/
+
+# You can use this file to define the base matches (aka snippets)
+# that will be available in every application when using espanso.
+
+# Matches are substitution rules: when you type the "trigger" string
+# it gets replaced by the "replace" string.
+matches:
+
+  - trigger: ",,rn"
+    replace: "site:reddit.com/r/ after:2023-01-01"
+    propagate_case: true
+
+  - trigger: ",,rb"
+    replace: "site:reddit.com/r/ after:2022-01-01"
+    propagate_case: true
+
+  - trigger: ",,rs"
+    replace: "site:reddit.com/r/"
+    propagate_case: true
+
+  - trigger: ",,sn"
+    replace: "site:reddit.com/r/ScientificNutrition"
+    propagate_case: true
+
+  - trigger: ",,hf"
+    replace: "site:head-fi.org"
+    propagate_case: true
+
+  - trigger: ",,an"
+    replace: "after:2023-01-01"
+    propagate_case: true
+
+  - trigger: ",,ab"
+    replace: "after:2022-01-01"
+    propagate_case: true
+
+  - trigger: ",,sw"
+    replace: "SwiftUI"
+    propagate_case: true
+
+  - trigger: ",,hug2"
+    replace: "https://cdn.discordapp.com/emojis/765313892783751249.gif?size=240&quality=lossless"
+    propagate_case: true
+
+
+  # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
+
+  # But matches can also be dynamic:
+
+  # Print the current date
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%m/%d/%Y"
+
+  # Print the output of a shell command
+  - trigger: ":shell"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "echo 'Hello from your shell'"
+
+  # And much more! For more information, visit the docs: https://espanso.org/docs/
