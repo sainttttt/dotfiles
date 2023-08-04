@@ -237,6 +237,8 @@ vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
 )
 
 function _G.runFile()
+
+  vim.cmd ("up")
   local buf = vim.api.nvim_get_current_buf()
   local ft = vim.api.nvim_buf_get_option(buf, "filetype")
   if ft == "swift" then
