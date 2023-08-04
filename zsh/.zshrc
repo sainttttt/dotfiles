@@ -112,7 +112,7 @@ alias tra="trash"
 alias src="vim ~/.zshrc"
 alias code="cd ~/code"
 alias lazy="cd ~/.local/share/nvim/lazy"
-alias gc='gc() { cd ~/code; git clone "$@"}; gc'
+alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
 
 
 source /usr/local/opt/chruby/share/chruby/chruby.sh
