@@ -94,7 +94,6 @@ function _G.luaReload(name)
 end
 
 -- local bufopts = { noremap=true, silent=true }
-vim.keymap.set('n', '<leader>qq', ':lua luaReload("init")<CR>', bufopts)
 -- vim.keymap.set('n', '<leader>l', ':LspRestart<CR>', bufopts)
 
 

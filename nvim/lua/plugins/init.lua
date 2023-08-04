@@ -220,7 +220,24 @@ config = function()
 
   })
 
-  vim.keymap.set('n', '<leader>rq', ':ToggleTerm<CR>', { noremap = true, silent = false })
+  vim.keymap.set('n', '<leader>qq', ':ToggleTerm<CR>', { noremap = true, silent = false })
+
+
+
+function _G.quitTerm()
+  local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+  end
+
+  if vim.bo.buftype == "terminal" then
+    vim.cmd("q")
+  else
+    feedkey("%", "n")
+  end
+end
+
+vim.keymap.set('n', 'q', ':lua quitTerm()<CR>', {silent = true})
+
 end
 },
 
