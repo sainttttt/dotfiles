@@ -32,6 +32,8 @@ nnoremap <silent> <M-w> :close!<CR>
 nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 nnoremap <silent> S :up<CR>
+nnoremap <silent> s <esc>
+nnoremap <silent> ss :up<CR>
 nnoremap <silent> <M-s> :up<CR>
 inoremap <silent> <M-s> <esc>:w<CR>
 nnoremap <silent> WQ :up<CR>:close!<CR>
@@ -164,12 +166,6 @@ autocmd FileChangedShellPost *
 " nnoremap n <Cmd>call searchx#next_dir()<CR>
 " xnoremap N <Cmd>call searchx#prev_dir()<CR>
 " xnoremap n <Cmd>call searchx#next_dir()<CR>
-" nnoremap <C-k> <Cmd>call searchx#prev()<CR>
-" nnoremap <C-j> <Cmd>call searchx#next()<CR>
-" xnoremap <C-k> <Cmd>call searchx#prev()<CR>
-" xnoremap <C-j> <Cmd>call searchx#next()<CR>
-" cnoremap <C-k> <Cmd>call searchx#prev()<CR>
-" cnoremap <C-j> <Cmd>call searchx#next()<CR>
 
 " Clear highlights
 " nnoremap <C-l> <Cmd>call searchx#clear()<CR>

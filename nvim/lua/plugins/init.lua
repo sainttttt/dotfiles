@@ -21,6 +21,20 @@ return {
   'tpope/vim-commentary',
 
   { 'bkad/CamelCaseMotion' },
+  --{
+  --  "folke/flash.nvim",
+  --  event = "VeryLazy",
+  --  ---@type Flash.Config
+  --  opts = {},
+  --  -- stylua: ignore
+  --  keys = {
+  --    { "/", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+  --    -- { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+  --    -- { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+  --    -- { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+  --    -- { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+  --  },
+  --},
 
   -- {
   --   'dgagn/diagflow.nvim',
@@ -165,7 +179,13 @@ return {
 "sindrets/diffview.nvim",
 'neovim/nvim-lspconfig', -- Configurations for Nvim LSP
 'zah/nim.vim',
-'hrsh7th/vim-searchx',
+{'hrsh7th/vim-searchx',
+config = function()
+  vim.keymap.set("n", "?", "<cmd>call searchx#start({ 'dir': 0 })<CR>")
+  vim.keymap.set("n", "/", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+end
+
+},
 'prichrd/netrw.nvim',
 -- 'preservim/nerdtree',
 -- 'https://gitlab.com/madyanov/svart.nvim',
@@ -321,6 +341,7 @@ end
 
       local args = require('xbase.pickers.util').generate_entries(proj_root, 'Run')[1]
       local xbase = require("xbase.pickers.util")
+      require('xbase.logger').clear() -- clear scrollback
       xbase.run_command(args)
     end
 

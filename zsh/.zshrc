@@ -13,8 +13,12 @@ if [ "$TMUX" = "" ]; then
 fi
 
 
+eval "$(anyenv init -)"
+
 PROMPT_COMMAND='echo -ne "\033]0;$(basename ${PWD})\007"'
 precmd() { eval "$PROMPT_COMMAND" }
+
+source /usr/local/opt/asdf/libexec/asdf.sh
 
 bindkey -v
 HOMEBREW_NO_AUTO_UPDATE=1

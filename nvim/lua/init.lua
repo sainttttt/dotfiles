@@ -157,24 +157,24 @@ parser_config.nim = {
 }
 
 
-function _G.searchXForward()
-  local succ = pcall(
-  function()
-    vim.api.nvim_command("call searchx#start({ 'dir': 1 })")
-  end)
-  if not succ then
-    vim.api.nvim_feedkeys("/", 'n', false)
-  end
-end
+-- function _G.searchXForward()
+--   local succ = pcall(
+--   function()
+--     vim.api.nvim_command("call searchx#start({ 'dir': 1 })")
+--   end)
+--   if not succ then
+--     vim.api.nvim_feedkeys("/", 'n', false)
+--   end
+-- end
 
-function _G.searchXBackward()
-  local succ = pcall(function()
-    vim.api.nvim_command("call searchx#start({ 'dir': 0 })")
-  end)
-  if not succ then
-    vim.api.nvim_feedkeys("?", 'n', false)
-  end
-end
+-- function _G.searchXBackward()
+--   local succ = pcall(function()
+--     vim.api.nvim_command("call searchx#start({ 'dir': 0 })")
+--   end)
+--   if not succ then
+--     vim.api.nvim_feedkeys("?", 'n', false)
+--   end
+-- end
 
 
 require('mini.sessions').setup({

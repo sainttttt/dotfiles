@@ -41,26 +41,30 @@ return {
         -- confirmation = { completeopt = 'menuone,menu,noinsert' },
 
         completion = {
-          completeopt = 'menu'
+          completeopt = 'noselect,menu'
         },
-        preselect = cmp.PreselectMode.Item,
 
+        preselect = cmp.PreselectMode.None,
 
         mapping = {
           -- ... Your other mappings ...
 
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
+              print("visible")
               cmp.select_next_item()
             else
+              print("not visible")
               cmp.complete()
               local next = 1
-              cmp.event:on ("menu_opened", function(view)
-                if next == 1 then
-                  next = 0
-                  view.my:select_next_item({})
-                end
-              end)
+              -- cmp.event:on ("complete_done", function(view)
+              --   if next == 1 then
+              --     print('callback scroll')
+              --     next = 0
+              --     cmp.select_next_item()
+              --     -- view.my:select_next_item({})
+              --   end
+              -- end)
             end
             -- cmp.select_next_item()
             -- if cmp.visible() then
@@ -76,7 +80,7 @@ return {
 
             --   feedkey("<Tab>")
             -- end
-          end, { "i", "s" }),
+          end, { "i", "c", "s" }),
 
           --        ["<S-Tab>"] = cmp.mapping(function()
           --          if cmp.visible() then
@@ -89,43 +93,31 @@ return {
           -- ... Your other mappings ...
 
         },
-        completion = {
-          autocomplete = {
-            false
-          },
-        },
+        -- completion = {
+        --   autocomplete = {
+        --     false
+        --   },
+        -- },
 
 
         sources = cmp.config.sources(
 
         {
-          { name = 'buffer' },
-          -- { name = 'nvim_lsp' },
-          -- { name = 'vsnip' }, -- for vsnip users.
-        }
-        -- {
-        --   { name = 'buffer' },
-        --   { name = 'nvim_lsp' },
-        --   { name = 'vsnip' }, -- for vsnip users.
-        --   -- { name = 'luasnip' }, -- For luasnip users.
-        --   -- { name = 'ultisnips' }, -- For ultisnips users.
-        --   -- { name = 'snippy' }, -- For snippy users.
-        -- }
-        )
-      })
-
-      cmp.setup {
-        sources = {
           {
+            -- get text from all buffers
             name = 'buffer',
             option = {
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
               end
             }
-          }
+          },
+          { name = 'nvim_lsp' },
+          -- { name = 'vsnip' }, -- for vsnip users.
         }
-      }
+        )
+      })
+
     end
   }
 }
