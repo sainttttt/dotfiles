@@ -142,18 +142,18 @@ function _G.close_floating()
 end
 
 
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.nim = {
-  install_info = {
-    url = "~/code/tree-sitter-nim", -- local path or git repo
-    files = {"src/parser.c"}, -- note that some parsers also require src/scanner.c or src/scanner.cc
-    -- optional entries:
-    branch = "main", -- default branch in case of git repo if different from master
-    generate_requires_npm = false, -- if stand-alone parser without npm dependencies
-    requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
-  },
-  filetype = "nim", -- if filetype does not match the parser name
-}
+-- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+-- parser_config.nim = {
+--   install_info = {
+--     url = "~/code/tree-sitter-nim", -- local path or git repo
+--     files = {"src/parser.c"}, -- note that some parsers also require src/scanner.c or src/scanner.cc
+--     -- optional entries:
+--     branch = "main", -- default branch in case of git repo if different from master
+--     generate_requires_npm = false, -- if stand-alone parser without npm dependencies
+--     requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+--   },
+--   filetype = "nim", -- if filetype does not match the parser name
+-- }
 
 
 -- function _G.searchXForward()
@@ -184,7 +184,6 @@ require('mini.sessions').setup({
 
 -- require('mini.sessions').write('default')
 
-
 vim.keymap.set("n", "<c-P>", "<cmd>lua require('fzf-lua').live_grep()<CR>", { silent = true })
 
 require('telescope').load_extension('fzf')
@@ -214,8 +213,6 @@ vim.api.nvim_set_keymap("n", ",m", ':lua require"popui.marks-manager"()<CR>', { 
 vim.api.nvim_set_keymap("n", ",tr", ':lua require"popui.references-navigator"()<CR>', { noremap = true, silent = true })
 
 
-
-
 vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
 {silent = true, noremap = true}
 )
@@ -235,18 +232,24 @@ vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
 {silent = true, noremap = true}
 )
 
-function _G.runFile()
-
+--- 
+function _G.codeRun()
   vim.cmd ("up")
   local buf = vim.api.nvim_get_current_buf()
   local ft = vim.api.nvim_buf_get_option(buf, "filetype")
   if ft == "swift" then
     XbaseBuildDefault()
   else
-    vim.cmd ("RunFile")
+    local proj_cmd = require("code_runner.commands").get_project_command()
+    local file_cmd = require("code_runner.commands").get_filetype_command()
+    if proj_cmd == nil then
+      if file_cmd ~= nil then
+        vim.cmd("RunFile")
+      end
+    else
+        vim.cmd("RunProject")
+    end
   end
 end
 
-vim.keymap.set("n", "<leader>rr", "<cmd>lua runFile()<CR>", {silent = true, noremap = true})
-
-
+vim.keymap.set("n", "<leader>rr", "<cmd>lua codeRun()<CR>", {silent = true, noremap = true})

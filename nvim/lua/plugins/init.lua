@@ -21,41 +21,12 @@ return {
   'tpope/vim-commentary',
 
   { 'bkad/CamelCaseMotion' },
-  --{
-  --  "folke/flash.nvim",
-  --  event = "VeryLazy",
-  --  ---@type Flash.Config
-  --  opts = {},
-  --  -- stylua: ignore
-  --  keys = {
-  --    { "/", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-  --    -- { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-  --    -- { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-  --    -- { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-  --    -- { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-  --  },
-  --},
-
-  -- {
-  --   'dgagn/diagflow.nvim',
-  --   config = function()
-  --     require("diagflow").setup({
-
-  --       severity_colors = {  -- The highlight groups to use for each diagnostic severity level
-  --       error = "WarningMsg",
-  --       warning = "Function",
-  --       info = "Statement",
-  --       hint = "Operator",
-  --     },
-  --   })
-  -- end
--- },
 
 {
   "HampusHauffman/block.nvim",
   config = function()
     require("block").setup({
-      percent = 0.8,
+      percent = 0.95,
       depth = 4,
       colors = nil,
       automatic = false,
@@ -70,7 +41,22 @@ return {
 },
 
 {
-  "glepnir/lspsaga.nvim",
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  config = function () 
+    local configs = require("nvim-treesitter.configs")
+
+    configs.setup({
+      ensure_installed = { "c", "swift", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html" },
+      sync_install = false,
+      highlight = { enable = true },
+      indent = { enable = true },  
+    })
+  end
+},
+  
+  {
+    'nvimdev/lspsaga.nvim',
   event = "LspAttach",
   config = function()
     require("lspsaga").setup({
@@ -177,7 +163,6 @@ return {
 
 'hood/popui.nvim',
 "sindrets/diffview.nvim",
-'neovim/nvim-lspconfig', -- Configurations for Nvim LSP
 'zah/nim.vim',
 {'hrsh7th/vim-searchx',
 config = function()
@@ -186,6 +171,7 @@ config = function()
 end
 
 },
+
 'prichrd/netrw.nvim',
 -- 'preservim/nerdtree',
 -- 'https://gitlab.com/madyanov/svart.nvim',
@@ -200,6 +186,14 @@ config = function()
     start_in_insert = false,
 
     shading_factor = '0',
+
+    -- size =  function(term)
+    --   if term.direction == "horizontal" then
+    --     return 30
+    --   elseif term.direction == "vertical" then
+    --     return vim.o.columns *  0.4
+    --   end
+    -- end,
 
     -- highlights = {
     --   -- highlights which map to a highlight group name and a table of it's values
@@ -220,7 +214,7 @@ config = function()
 
   })
 
-  vim.keymap.set('n', '<leader>qq', ':ToggleTerm<CR>', { noremap = true, silent = false })
+  vim.keymap.set('n', '<Tab>', ':ToggleTerm<CR>', { noremap = true, silent = false })
 
 
 
@@ -241,27 +235,24 @@ vim.keymap.set('n', 'q', ':lua quitTerm()<CR>', {silent = true})
 end
 },
 
+ -- { 'CRAG666/betterTerm.nvim' ,
 
+ -- config = function()
 
+ --   require('betterTerm').setup {
+ --     prefix = "Term_",
+ --     startInserted = true,
+ --     position = "vert",
+ --     size = 18
+ --   }
 
---  { 'CRAG666/betterTerm.nvim' ,
+ --   vim.keymap.set("n", "<leader>rf", function()
+ --     require("betterTerm").send(require("code_runner.commands").get_filetype_command(), 1, { clean = true, interrupt = true })
+ --   end, { desc = "Excute File"})
 
---  config = function()
+ -- end
 
---    require('betterTerm').setup {
---      prefix = "Term_",
---      startInserted = true,
---      position = "bot",
---      size = 18
---    }
-
---    -- vim.keymap.set("n", "<leader>rf", function()
---    --   require("betterTerm").send(require("code_runner.commands").get_filetype_command(), 1, { clean = true, interrupt = true })
---    -- end, { desc = "Excute File"})
-
---  end
-
---  },
+ -- },
 
 'mfussenegger/nvim-lint',
 
@@ -423,7 +414,6 @@ end
 
   'keith/swift.vim',
 
-  'nvim-treesitter/nvim-treesitter',
   -- 'michaeljsmith/vim-indent-object',
 
   -- {'akinsho/bufferline.nvim', version = "v3.*", dependencies = 'nvim-tree/nvim-web-devicons'},

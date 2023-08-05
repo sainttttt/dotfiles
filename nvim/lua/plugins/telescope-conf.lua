@@ -31,7 +31,7 @@ return
 
 -- lua require("telescope.builtin").find_files({cwd = "~/.config/nvim/"})
       vim.api.nvim_set_keymap("n", "`", [[<cmd>Telescope find_files<cr>]], {})
-      vim.api.nvim_set_keymap("n", "<Tab>", [[<cmd>Telescope buffers<cr>]], {})
+      vim.api.nvim_set_keymap("n", "~", [[<cmd>Telescope buffers<cr>]], {})
 
       require('telescope').load_extension('fzf')
       local trouble = require("trouble.providers.telescope")

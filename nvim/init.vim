@@ -144,7 +144,8 @@ source ~/.local/share/nvim/yoke.vim
 
 " trigger `autoread` when files changes on disk
 set autoread
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if !bufexists("[Command Line]") | checktime | endif
+
 " notification after file change
 autocmd FileChangedShellPost *
   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
@@ -614,7 +615,7 @@ endfunction
 """ colorscheme 
 let g:hybrid_use_Xresources = 1
 set termguicolors
-colorscheme hybrid3
+colorscheme flesh-and-blood
 " colorscheme hybrid
 
 highlight Conceal ctermbg=237 guibg=NONE guifg=DarkGrey term=NONE

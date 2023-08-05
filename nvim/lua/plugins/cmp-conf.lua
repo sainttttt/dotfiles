@@ -4,7 +4,6 @@ return {
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
-  'hrsh7th/nvim-cmp',
   'hrsh7th/vim-vsnip',
 
   {
@@ -118,10 +117,30 @@ return {
         )
       })
 
+    cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = 'path' }
+      }, {
+        {
+          name = 'cmdline',
+          option = {
+            ignore_cmds = { 'Man', '!' }
+          }
+        }
+      })
+    })
+
+--   cmp.setup.cmdline({ '/', '?' }, {
+--     mapping = cmp.mapping.preset.cmdline(),
+--     sources = {
+--       { name = 'buffer' }
+--     }
+--   })
+
     end
   }
 }
-
 
 --   -- Set configuration for specific filetype.
 --   cmp.setup.filetype('gitcommit', {
@@ -133,23 +152,8 @@ return {
 --   })
 
 --   -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
---   cmp.setup.cmdline({ '/', '?' }, {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = {
---       { name = 'buffer' }
---     }
---   })
 
 --   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
---   cmp.setup.cmdline(':', {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = cmp.config.sources({
---       { name = 'path' }
---     }, {
---       { name = 'cmdline' }
---     })
---   })
-
 --   -- cmp.completion.autocomplete  = false
 
 --   -- -- Set up lspconfig.

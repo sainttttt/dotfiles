@@ -339,11 +339,8 @@ exe "hi! Special"         .s:fg_green       .s:bg_none        .s:fmt_none
 "   Debug"
 "
 exe "hi! Underlined"      .s:fg_blue        .s:bg_none        .s:fmt_none
-
 exe "hi! Ignore"          .s:fg_none        .s:bg_none        .s:fmt_none
-
 exe "hi! Error"           .s:fg_red         .s:bg_darkred     .s:fmt_undr
-
 exe "hi! Todo"            .s:fg_addfg       .s:bg_none        .s:fmt_none
 
 " Quickfix window highlighting
@@ -370,10 +367,6 @@ exe "hi! DiagnosticError"        .s:fg_red      .s:bg_none        .s:fmt_none
 exe "hi! DiagnosticWarn"        .s:fg_aqua      .s:bg_none        .s:fmt_none
 exe "hi! DiagnosticInfo"        .s:fg_blue      .s:bg_none        .s:fmt_none
 exe "hi! DiagnosticHint"        .s:fg_blue      .s:bg_none        .s:fmt_none
-
-
-
-
 
 
 "}}}
