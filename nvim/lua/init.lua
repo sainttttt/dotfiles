@@ -14,6 +14,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 
+function _G.zen()
+  require("zen-mode").toggle({
+    window = {
+      width = .5, -- width will be 85% of the editor width,
+      height = .5 -- width will be 85% of the editor width
+    }
+  })
+end
+
+
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = "," -- Make sure to set `mapleader` before lazy so your mappings are correct
 
@@ -33,13 +43,19 @@ end
 
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
-  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-  vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
   vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
   vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
   vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
   vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
 end
+
+vim.keymap.set("n",    "<leader>cc",
+    function()
+        local result = vim.treesitter.get_captures_at_cursor(0)
+        print(vim.inspect(result))
+    end,
+    { noremap = true, silent = false }
+)
 
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
@@ -70,11 +86,6 @@ end
 
 vim.keymap.set("n", "<leader>lq", "<cmd>lua LspSwap()<CR>", {noremap=true})
 vim.keymap.set("n", "<leader>lm", "<cmd>lua LspSwap()<CR>", {noremap=true})
-
--- require'lspconfig'.nimls.setup{
---     on_attach = on_attach,
--- }
-
 
 --require'lspconfig'.clangd.setup{}
 
@@ -184,28 +195,6 @@ require('mini.sessions').setup({
 
 -- require('mini.sessions').write('default')
 
-vim.keymap.set("n", "<c-P>", "<cmd>lua require('fzf-lua').live_grep()<CR>", { silent = true })
-
-require('telescope').load_extension('fzf')
-
-local on_attach =
-
-function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-end
-
-
 vim.ui.select = require"popui.ui-overrider"
 vim.ui.input = require"popui.input-overrider"
 vim.api.nvim_set_keymap("n", ",d", ':lua require"popui.diagnostics-navigator"()<CR>', { noremap = true, silent = true }) 
@@ -236,8 +225,9 @@ vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
 function _G.codeRun()
   vim.cmd ("up")
   local buf = vim.api.nvim_get_current_buf()
-  local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-  if ft == "swift" then
+  local ft = vim.api.nvim_get_option_value("filetype", {buf = buf})
+
+  if ft == "swift" or ft == "xclog" then
     XbaseBuildDefault()
   else
     local proj_cmd = require("code_runner.commands").get_project_command()

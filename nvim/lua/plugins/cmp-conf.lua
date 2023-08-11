@@ -50,10 +50,8 @@ return {
 
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
-              print("visible")
               cmp.select_next_item()
             else
-              print("not visible")
               cmp.complete()
               local next = 1
               -- cmp.event:on ("complete_done", function(view)

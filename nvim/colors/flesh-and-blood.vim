@@ -17,7 +17,7 @@ endif
 
 let colors_name = "hybrid"
 
-let s:gui = 1
+let s:gui = 0
 
 if s:gui
   set termguicolors
@@ -51,19 +51,42 @@ if s:gui
   let s:darkpurple = "#5f005f"
 
 
-  " let s:foreground = "#b2b2b2"   " White
-  let s:foreground = HexOrTermColor("#a9a9a9", 15)   " White
-  let s:selection  = "#373a40"    " DarkGrey
+
   let s:line       = HexOrTermColor("#181818", 0)    " Black
-  let s:comment    = HexOrTermColor("#5f666d", 7)    " LightGrey
-  let s:red        = HexOrTermColor("#c85a80", 9)    " LightRed
-  let s:darkred    = HexOrTermColor("#821e35", 1)    " Maroon ? 
-  let s:orange     = HexOrTermColor("#dd9767", 3)    " DarkYellow
+  let s:darkred    = HexOrTermColor("#821e35", 1)    " Red | Maroon  
+  let s:orange     = HexOrTermColor("#dd9767", 3)    " Yellow | DarkYellow
+  let s:comment    = HexOrTermColor("#5f666e", 7)    " White | LightGrey
+
+
+  let s:selection  = HexOrTermColor("#373a40", 8)    " White 
+  " let s:selection  = HexOrTermColor("#5f666d", 8)    " White 
+
+  " let s:red        = HexOrTermColor("#c85a80", 9)    " Bright Red | LightRed
+  let s:red        = HexOrTermColor("#aa5a75", 9)    " Bright Red | LightRed
+
+  let s:green      = HexOrTermColor("#91213b", 10)   " LightGreen
   let s:yellow     = HexOrTermColor("#967e7f", 11)   " LightYellow
-  let s:green      = HexOrTermColor("#9f416d", 10)   " LightGreen
-  let s:aqua       = HexOrTermColor("#b75f65", 14)   " LightCyan
-  let s:blue       = HexOrTermColor("#7181a0", 12)   " LightBlue
-  let s:purple     = HexOrTermColor("#c85a80", 13)   " LightMagenta
+
+  let s:blue       = HexOrTermColor("#7181a0", 12)   " Bright Blue | LightBlue
+  let s:aqua       = HexOrTermColor("#af718b", 13)   " Cyan Bright | LightCyan
+  let s:purple     = HexOrTermColor("#964964", 14)   " Magenta Bright | LightMagenta
+
+  let s:foreground = HexOrTermColor("a9a9a9", 15)   " White
+
+
+"   " let s:foreground = "#b2b2b2"   " White
+"   let s:foreground = HexOrTermColor("#b2b2b2", 15)   " White
+"   let s:selection  = "#373a40"    " DarkGrey
+"   let s:line       = HexOrTermColor("#181818", 0)    " Black
+"   let s:comment    = HexOrTermColor("#5f666d", 7)    " LightGrey
+"   let s:red        = HexOrTermColor("#aa5a75", 9)    " LightRed
+"   let s:darkred    = HexOrTermColor("#821e35", 1)    " Maroon ? 
+"   let s:orange     = HexOrTermColor("#dd9767", 3)    " DarkYellow
+"   let s:yellow     = HexOrTermColor("#967e7f", 11)   " LightYellow
+"   let s:green      = HexOrTermColor("#9f416d", 10)   " LightGreen
+"   let s:aqua       = HexOrTermColor("#b75f65", 14)   " LightCyan
+"   let s:blue       = HexOrTermColor("#7181a0", 12)   " LightBlue
+"   let s:purple     = HexOrTermColor("#b48297", 13)   " LightMagenta
 
 else
   let s:vmode      = "cterm"
@@ -81,18 +104,33 @@ else
   " if g:hybrid_use_Xresources == 1
   if 1
 
-    let s:foreground = "15"   " White
-    let s:selection  = "8"    " DarkGrey
-    let s:line       = "0"    " Black
-    let s:comment    = "7"    " LightGrey
-    let s:red        = "9"    " LightRed
-    let s:darkred    = "1"    " Maroon ? 
-    let s:orange     = "3"    " DarkYellow
-    let s:yellow     = "11"   " LightYellow
-    let s:green      = "10"   " LightGreen
-    let s:aqua       = "14"   " LightCyan
-    let s:blue       = "12"   " LightBlue
-    let s:purple     = "13"   " LightMagenta
+
+  let s:line       = HexOrTermColor("#181818", 0)    " Black
+  let s:darkred    = HexOrTermColor("#821e35", 1)    " Red | Maroon  
+  let s:orange     = HexOrTermColor("#dd9767", 3)    " Yellow | DarkYellow
+  let s:comment    = HexOrTermColor("#5f666d", 7)    " White | LightGrey
+
+
+  let s:selection  = HexOrTermColor("#373a40", 8)    " White 
+  " let s:selection  = HexOrTermColor("#5f666d", 8)    " White 
+
+  " let s:red        = HexOrTermColor("#c85a80", 9)    " Bright Red | LightRed
+  let s:red        = HexOrTermColor("#aa5a75", 9)    " Bright Red | LightRed
+
+  let s:green      = HexOrTermColor("#91213b", 10)   " LightGreen
+  let s:yellow     = HexOrTermColor("#967e7f", 11)   " LightYellow
+
+  let s:blue       = HexOrTermColor("#7181a0", 12)   " Bright Blue | LightBlue
+  let s:aqua       = HexOrTermColor("#af718b", 14)   " Cyan Bright | LightCyan
+  let s:purple     = HexOrTermColor("#964964", 13)   " Magenta Bright | LightMagenta
+
+  let s:magenta     = HexOrTermColor("#964964", 5)   " Magenta | LightMagenta
+
+  let s:foreground = HexOrTermColor("#b2b2b2", 15)   " White
+
+
+
+  " not used much
   else
     let s:foreground = "250"
     let s:selection  = "237"
@@ -137,6 +175,7 @@ exe "let s:bg_green      = ' ".s:vmode."bg=".s:green     ."'"
 exe "let s:bg_aqua       = ' ".s:vmode."bg=".s:aqua      ."'"
 exe "let s:bg_blue       = ' ".s:vmode."bg=".s:blue      ."'"
 exe "let s:bg_purple     = ' ".s:vmode."bg=".s:purple    ."'"
+exe "let s:bg_magenta     = ' ".s:vmode."bg=".s:magenta    ."'"
 exe "let s:bg_window     = ' ".s:vmode."bg=".s:window    ."'"
 exe "let s:bg_darkcolumn = ' ".s:vmode."bg=".s:darkcolumn."'"
 exe "let s:bg_addbg      = ' ".s:vmode."bg=".s:addbg     ."'"
@@ -260,12 +299,16 @@ exe "hi! ModeMsg"       .s:fg_green       .s:bg_none        .s:fmt_none
 exe "hi! MoreMsg"       .s:fg_green       .s:bg_none        .s:fmt_none
 exe "hi! NonText"       .s:fg_selection   .s:bg_none        .s:fmt_none
 exe "hi! Pmenu"         .s:fg_foreground  .s:bg_selection   .s:fmt_none
+
+exe "hi! ModifiedBuffer" .s:fg_yellow  .s:bg_magenta   .s:fmt_none
+
 exe "hi! PmenuSel"      .s:fg_foreground  .s:bg_selection   .s:fmt_revr
 "   PmenuSbar"
 "   PmenuThumb"
 "
 exe "hi! IncSearch" .s:fg_yellow .s:bg_darkred. s:fmt_none
 exe "hi! CurSearch" .s:fg_yellow .s:bg_darkred. s:fmt_none
+
 exe "hi! Question"      .s:fg_green       .s:bg_none        .s:fmt_none
 exe "hi! Search"        .s:fg_background  .s:bg_yellow      .s:fmt_none
 exe "hi! SpecialKey"    .s:fg_selection   .s:bg_none        .s:fmt_none
@@ -302,8 +345,8 @@ endif
 exe "hi! Comment"         .s:fg_comment     .s:bg_none        .s:fmt_none
 
 exe "hi! Constant"        .s:fg_red         .s:bg_none        .s:fmt_none
-exe "hi! String"          .s:fg_green       .s:bg_none        .s:fmt_none
-exe "hi! Number"          .s:fg_red       .s:bg_none        .s:fmt_none
+exe "hi! String"          .s:fg_darkred       .s:bg_none        .s:fmt_none
+exe "hi! Number"          .s:fg_purple       .s:bg_none        .s:fmt_none
 "   Character"
 "   Number"
 "   Boolean"
@@ -332,6 +375,7 @@ exe "hi! Structure"       .s:fg_orange        .s:bg_none        .s:fmt_none
 "   Typedef"
 
 exe "hi! Special"         .s:fg_green       .s:bg_none        .s:fmt_none
+exe "hi! Delimiter"         .s:fg_darkred       .s:bg_none        .s:fmt_none
 "   SpecialChar"
 "   Tag"
 "   Delimiter"
@@ -356,6 +400,7 @@ exe "hi! NoiceFormatTitle                     "        .s:fg_foreground      .s:
 exe "hi! Title"        .s:fg_darkred      .s:bg_none        .s:fmt_none
 exe "hi! DiagnosticSignInfo"        .s:fg_blue      .s:bg_none        .s:fmt_none
 exe "hi! NormalFloat"        .s:fg_blue      .s:bg_none        .s:fmt_none
+exe "hi! NormalFloat"        .s:fg_comment      .s:bg_none        .s:fmt_none
 
 exe "hi! NotifyINFOTitle"        .s:fg_blue      .s:bg_none        .s:fmt_none
 exe "hi! NotifyINFOBorder"        .s:fg_blue      .s:bg_none        .s:fmt_none

@@ -6,12 +6,12 @@ zle -N self-insert url-quote-magic
 
 if [ "$TMUX" = "" ]; then 
   if [ "$WINTYPE" = "dropdown" ]; then
+    echo "cat"
     tmux new-session -A -s dropdown
   else
-    tmux attach
+    tmux new-session -A -s main
   fi
 fi
-
 
 eval "$(anyenv init -)"
 
@@ -115,5 +115,16 @@ alias lazy="cd ~/.local/share/nvim/lazy"
 alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
 
 
+sdk_mv() {
+  sdk_num=$(($(ls -1 /Library/Developer/CommandLineTools/SDKs/  | wc -l )))
+  if [[ $sdk_num = 1 ]]; then
+    sudo mv /Library/Developer/CommandLineTools/SDKs/tmp/* /Library/Developer/CommandLineTools/SDKs/
+  else
+    sudo mv /Library/Developer/CommandLineTools/SDKs/Mac* /Library/Developer/CommandLineTools/SDKs/tmp/
+  fi
+}
+
+
 source /usr/local/opt/chruby/share/chruby/chruby.sh
 source /usr/local/opt/chruby/share/chruby/auto.sh
+

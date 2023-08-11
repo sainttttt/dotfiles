@@ -55,7 +55,7 @@ let g:SuperTabDefaultCompletionType = "context"
 " navigation ---------------------------------------
 
 " This is for debugging, shows the syntax type under cursor
-nnoremap <Leader>d :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+nnoremap <leader>m :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),1),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
@@ -614,7 +614,7 @@ endfunction
 
 """ colorscheme 
 let g:hybrid_use_Xresources = 1
-set termguicolors
+" set termguicolors
 colorscheme flesh-and-blood
 " colorscheme hybrid
 
