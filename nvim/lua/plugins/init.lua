@@ -11,6 +11,369 @@ return {
     filter = true,
   },
 
+  { 'echasnovski/mini.nvim', version = false,
+    config = function()
+      require('mini.trailspace').setup()
+      vim.keymap.set('n', '<leader>mt', MiniTrailspace.trim)
+      vim.keymap.set('n', '<leader>mll', MiniTrailspace.trim_last_lines)
+
+      require('mini.splitjoin').setup()
+      require('mini.align').setup()
+    end
+  },
+
+  { 'sainttttt/flesh-and-blood' },
+  { 'sainttttt/portion.vim',
+    config = function()
+      require('portion').setup({
+      ratio = 0.4
+  })
+    end
+  },
+
+  {  'sainttttt/yoke.vim',
+    config = function()
+      require('yoke').setup()
+    end
+  },
+
+  -- {'cohama/lexima.vim'},
+  -- {
+  --   'windwp/nvim-autopairs',
+  --   event = "InsertEnter",
+  --   opts = {} -- this is equalent to setup({}) function
+  -- },
+
+  {
+    'altermo/ultimate-autopair.nvim',
+    event={'InsertEnter','CmdlineEnter'},
+    branch='v0.6', --recomended as each new version will have breaking changes
+    opts={
+      --Config goes here
+    },
+  },
+  
+
+
+
+
+  {'ojroques/nvim-osc52',
+    config = function()
+      vim.keymap.set('n', '<c-y>', require('osc52').copy_operator, {expr = true})
+      vim.keymap.set('v', '<c-y>', require('osc52').copy_visual)
+
+      require('osc52').setup {
+        max_length = 0,           -- Maximum length of selection (0 for no limit)
+        silent = false,           -- Disable message on successful copy
+        trim = false,             -- Trim surrounding whitespaces before copy
+        tmux_passthrough = true, -- Use tmux passthrough (requires tmux: set -g allow-passthrough on)
+      }
+    end
+  },
+
+  {
+    "epwalsh/obsidian.nvim",
+    lazy = false,
+    -- event = {
+    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+    --   "BufReadPre " ..  vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
+    --   "BufNewFile " ..  vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
+    -- },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      vim.keymap.set('n', '<Leader>mm', ":ObsidianNew ")
+      require("obsidian").setup {
+        dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina",
+
+        note_id_func = function(title)
+          return title
+        end,
+
+        disable_frontmatter = true,
+
+        finder = "fzf-lua",
+
+      }
+    end
+  },
+
+
+
+  {
+    'Vonr/align.nvim',
+    config = function()
+      local NS = { noremap = true, silent = true }
+
+      vim.keymap.set('x', 'aa', function() require'align'.align_to_char(1, true)             end, NS) -- Aligns to 1 character, looking left
+      vim.keymap.set('x', 'as', function() require'align'.align_to_char(2, true, true)       end, NS) -- Aligns to 2 characters, looking left and with previews
+      vim.keymap.set('x', 'aw', function() require'align'.align_to_string(false, true, true) end, NS) -- Aligns to a string, looking left and with previews
+      vim.keymap.set('x', 'ar', function() require'align'.align_to_string(true, true, true)  end, NS) -- Aligns to a Lua pattern, looking left and with previews
+    end
+  },
+
+
+  {
+    'tzachar/highlight-undo.nvim',
+    config = function()
+      require('highlight-undo').setup({
+        duration = 300,
+        undo = {
+          hlgroup = 'HighlightUndo',
+          mode = 'n',
+          lhs = 'u',
+          map = 'undo',
+          opts = {}
+        },
+        redo = {
+          hlgroup = 'HighlightUndo',
+          mode = 'n',
+          lhs = '<C-r>',
+          map = 'redo',
+          opts = {}
+        },
+        highlight_for_count = true,
+      })
+    end
+  },
+
+  'tpope/vim-commentary',
+
+  -- 'kkharji/sqlite.lua',
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function ()
+      local function ts_disable(_, bufnr)
+        return vim.fn.wordcount()['chars'] > 50000
+      end
+      local configs = require("nvim-treesitter.configs")
+
+      configs.setup({
+        ensure_installed = { "swift", "nim", "c", "lua", "vim", "vimdoc", "query", "javascript", "html" },
+
+        sync_install = false,
+        matchup = {
+          enable = false,              -- mandatory, false will disable the whole extension
+          -- disable = { "swift" },  -- optional, list of language that will be disabled
+          -- [options]
+        },
+        highlight = {
+          enable = true ,
+          disable = function(lang, bufnr)
+            -- return lang == "cmake" or lang == "swift" or ts_disable(lang, bufnr)
+            return lang == "cmake"  or ts_disable(lang, bufnr)
+          end,
+          additional_vim_regex_highlighting = {"latex"},
+        },
+        indent = { enable = true },
+      })
+
+    end
+  },
+
+  {'kevinhwang91/nvim-ufo',
+    dependencies = {'kevinhwang91/promise-async','kkharji/sqlite.lua',},
+    config = function()
+      vim.o.foldcolumn = '0' -- '0' is not bad
+      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+
+      --
+      require('ufo').setup({
+        provider_selector = function(bufnr, filetype, buftype)
+          return {'treesitter', 'indent'}
+        end
+      })
+
+      -- require('ufo').setup({
+      --     provider_selector = function(bufnr, filetype, buftype)
+      --         return ''
+      --     end
+      -- })
+
+      -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- capabilities.textDocument.foldingRange = {
+      --   dynamicRegistration = false,
+      --   lineFoldingOnly = true
+      -- }
+      -- local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
+      -- for _, ls in ipairs(language_servers) do
+      --   require('lspconfig')[ls].setup({
+      --     capabilities = capabilities
+      --     -- you can add other fields for setting up lsp server in this table
+      --   })
+      -- end
+      -- require('ufo').setup()
+      -- vim.cmd("silent! loadview 1")
+
+      local function readAll(file)
+        local f = assert(io.open(file, "rb"))
+        local content = f:read("*all")
+        f:close()
+        return content
+      end
+
+      local function getFoldsSavePath()
+        local filepath = vim.fn.expand('%:p'):gsub("/", "_"):gsub("%.","_")
+        return vim.fn.expand('$HOME/.local/state/nvim/view/') ..  filepath
+      end
+
+      local function readFoldsStatus ()
+        local filename = getFoldsSavePath() .. "_status"
+
+        local foldStatusFile = io.open (filename, 'r')
+        if foldStatusFile == nil then
+          local foldStatusFile = io.open (filename, 'w')
+          if foldStatusFile ~= nil then
+            foldStatusFile:write(vim.json.encode({ current = 0, start = 0, last = 0 }))
+            foldStatusFile:close()
+          end
+        end
+
+        local foldStatusFile = io.open (filename, 'r')
+        return vim.json.decode(readAll(filename))
+      end
+
+
+      local function writeFoldsStatus(foldsStatus)
+        local filename = getFoldsSavePath() .. "_status"
+
+        local foldStatusFile = io.open (filename, 'w')
+        if foldStatusFile ~= nil then
+          foldStatusFile:write(vim.json.encode(foldsStatus))
+          foldStatusFile:close()
+        end
+      end
+
+
+      local function loadCurrentFoldsSave()
+        local foldsStatus = readFoldsStatus()
+        vim.cmd("silent! source " .. getFoldsSavePath().. foldsStatus.current)
+      end
+
+      local function undoFold()
+        local foldsStatus = readFoldsStatus()
+        if foldsStatus.current == foldsStatus.start then
+          print("cannot undo")
+          return
+        end
+
+        foldsStatus.current = foldsStatus.current - 1
+        writeFoldsStatus(foldsStatus)
+        loadCurrentFoldsSave()
+
+      end
+
+      local function redoFold()
+        local foldsStatus = readFoldsStatus()
+        if foldsStatus.current == foldsStatus.last then
+          print("cannot redo")
+          return
+        end
+
+        foldsStatus.current = foldsStatus.current + 1
+        writeFoldsStatus(foldsStatus)
+        loadCurrentFoldsSave()
+
+      end
+
+      vim.api.nvim_create_autocmd({"BufRead"}, {
+        group = "folds",
+        pattern = {"?*"},
+        callback = loadCurrentFoldsSave
+      })
+
+      local function incrementViewNumber()
+
+        -- if vim.g.VIEW_NUMBER == nil then
+        --   vim.g.VIEW_NUMBER = 0
+        -- end
+        -- vim.g.VIEW_NUMBER = (vim.g.VIEW_NUMBER + 1 ) % 10
+
+        local foldsStatus = readFoldsStatus()
+        local maxSteps = 10
+
+        foldsStatus.current =  (foldsStatus.current + 1) % maxSteps
+        foldsStatus.last = foldsStatus.current
+        if foldsStatus.last == foldsStatus.start then
+          foldsStatus.start =  (foldsStatus.start + 1) % maxSteps
+        end
+
+        writeFoldsStatus(foldsStatus)
+        vim.cmd("mkview! " .. getFoldsSavePath().. foldsStatus.current)
+
+      end
+
+      local function openAllFolds()
+        require('ufo').openAllFolds()
+        incrementViewNumber()
+      end
+
+      local function closeAllFolds()
+        require('ufo').closeAllFolds()
+        incrementViewNumber()
+      end
+
+      local function toggleFold()
+        vim.cmd("normal za")
+        incrementViewNumber()
+      end
+
+      vim.keymap.set('n', 'zz', toggleFold, { noremap = true, silent = true })
+      vim.keymap.set({'n', 'x'}, 'E', toggleFold, { noremap = true, silent = true })
+
+      vim.keymap.set('n', 'zu', undoFold, { noremap = true, silent = true })
+      vim.keymap.set('n', 'zU', redoFold, { noremap = true, silent = true })
+
+      vim.keymap.set('n', 'zr', openAllFolds, { noremap = true, silent = true })
+
+      vim.keymap.set('n', 'zm', closeAllFolds,{ noremap = true, silent = true })
+
+
+      -- vim.keymap.set('n', 'zr', require('ufo').openAllFolds, { noremap = true, silent = true })
+      vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { noremap = true, silent = true })
+      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds,{ noremap = true, silent = true })
+    end
+  },
+
+  -- {
+  --   'Vonr/foldcus.nvim',
+  --   dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  --   config = function()
+  --     local foldcus = require('foldcus')
+  --     local NS = { noremap = true, silent = true }
+
+  --     local numFolds = 3
+
+  --     -- Fold multiline comments longer than or equal to 4 lines
+  --     vim.keymap.set('n', 'z;', function() foldcus.fold(numFolds)   end, NS)
+
+  --     -- Fold multiline comments longer than or equal to the number of lines specified by args
+  --     -- e.g. Foldcus 4
+  --     vim.api.nvim_create_user_command('Foldcus', function(args) foldcus.fold(tonumber(args.args))   end, { nargs = '*' })
+
+  --     -- Delete folds of multiline comments longer than or equal to 4 lines
+  --     vim.keymap.set('n', 'z\'', function() foldcus.unfold(4) end, NS)
+
+  --     -- Delete folds of multiline comments longer than or equal to the number of lines specified by args
+  --     -- e.g. Unfoldcus 4
+  --     vim.api.nvim_create_user_command('Unfoldcus', function(args) foldcus.unfold(tonumber(args.args)) end, { nargs = '*' })
+  --   end
+  -- },
+
+  -- {
+  --   "chrisgrieser/nvim-origami",
+  --   event = "BufReadPost", -- later or on keypress would prevent saving folds
+  --   opts = true, -- needed even when using default config
+  --   config = function ()
+  --     require("origami").setup ({}) -- setup call needed
+  --   end,
+  -- },
+
   -- {
   --   'norcalli/nvim-colorizer.lua',
   --   config = function()
@@ -18,18 +381,90 @@ return {
   --   end
   -- },
 
-  { 'rktjmp/lush.nvim'},
-  {
-    "folke/zen-mode.nvim",
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
+
+  { "lukas-reineke/indent-blankline.nvim",
+    main = "ibl", opts = {
+       indent = { char = "│" },
     }
   },
-  'tpope/vim-commentary',
-  'tpope/vim-fugitive',
+  -- { "lukas-reineke/indent-blankline.nvim",
+  --   config = function()
+  --     vim.opt.list = true
+  --     -- vim.opt.listchars:append "⋅"
+  --     -- vim.opt.listchars:append "space:⋅"
+  --     -- vim.cmd [[highlight IndentBlanklineIndent1 guibg=#1f1f1f gui=nocombine]]
+  --     -- vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a gui=nocombine]]
+  --     -- -- vim.g.indent_blankline_show_current_context = true
 
+  --     vim.g.indentLine_char_list = {'│'}
+  --     require("indent_blankline").setup {
+  --       -- char = "",
+  --       -- char_highlight_list = {
+  --       --   "IndentBlanklineIndent1",
+  --       --   "IndentBlanklineIndent2",
+  --       -- },
+  --       -- space_char_highlight_list = {
+  --       --   "IndentBlanklineIndent1",
+  --       --   "IndentBlanklineIndent2",
+  --       -- },
+  --       show_trailing_blankline_indent = false,
+  --       -- show_end_of_line = true,
+  --       -- space_char_blankline = " ",
+  --     }
+  --   end
+  -- },
+
+  -- {'alaviss/nim.nvim'},
+  {"ericvw/vim-nim"},
+
+ {
+  'jakemason/ouroboros',
+  dependencies = { {'nvim-lua/plenary.nvim'} },
+    config = function()
+      vim.cmd("autocmd! Filetype c,cpp noremap<buffer> 3 :Ouroboros<CR>")
+    end
+  },
+
+  {
+    "folke/zen-mode.nvim",
+    config = function()
+      vim.keymap.set('n', '<Leader>z', "<cmd>ZenMode<CR>")
+      vim.keymap.set('n', 'vf', "<cmd>ZenMode<CR>")
+      require('zen-mode').setup {
+        window = {
+          backdrop = 1, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
+          -- height and width can be:
+          -- * an absolute number of cells when > 1
+          -- * a percentage of the width / height of the editor when <= 1
+          -- * a function that returns the width or the height
+          width = 120, -- width of the Zen window
+          height = 0.90, -- height of the Zen window
+          -- by default, no options are changed for the Zen window
+          -- uncomment any of the options below, or add other vim.wo options you want to apply
+          options = {
+            -- signcolumn = "no", -- disable signcolumn
+            -- number = false, -- disable number column
+            -- relativenumber = false, -- disable relative numbers
+            -- cursorline = false, -- disable cursorline
+            -- cursorcolumn = false, -- disable cursor column
+            -- foldcolumn = "0", -- disable fold column
+            -- list = false, -- disable whitespace characters
+          },
+        },
+        -- callback where you can add custom code when the Zen window opens
+        on_open = function(win)
+          vim.g.zen_opened = true
+          vim.cmd("setlocal winhl=Search:LocalSearch,IncSearch:LocalSearch")
+        end,
+        -- callback where you can add custom code when the Zen window closes
+        on_close = function()
+          vim.g.zen_opened = false
+        end,
+      }
+    end
+  },
+
+  'tpope/vim-fugitive',
   {
     'renerocksai/telekasten.nvim',
     dependencies = {'nvim-telescope/telescope.nvim'},
@@ -48,6 +483,9 @@ return {
           }
         },
       })
+
+      vim.keymap.set('n', '<Leader>tt', "<cmd>Telekasten goto_today<CR>")
+
     end
   },
 
@@ -70,7 +508,14 @@ return {
   --     })
   --   end
   -- },
-  { 'andymass/vim-matchup' },
+
+  { 'andymass/vim-matchup',
+    config = function()
+
+      -- vim.keymap.set('n', "q", vim.cmd("normal %"))
+    end
+  },
+
   { "nvim-treesitter/nvim-treesitter-textobjects",
     config = function()
       require'nvim-treesitter.configs'.setup {
@@ -158,20 +603,6 @@ return {
     end
   },
 
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function () 
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-        ensure_installed = { "c", "swift", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html" },
-        sync_install = false,
-        highlight = { enable = true },
-        indent = { enable = true },  
-      })
-    end
-  },
 
 
   'hood/popui.nvim',
@@ -197,8 +628,10 @@ return {
 
         direction = 'float',
         start_in_insert = false,
+        close_on_exit = false,
 
         on_open = function(term)
+          vim.keymap.set('n', 'q', '<cmd>q<CR>', {silent = true, buffer = true})
           -- local opts = {buffer = 0}
           -- vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
         end,
@@ -232,7 +665,6 @@ return {
 
       })
 
-
       function _G.TermToggle()
         local ft = vim.api.nvim_get_option_value("filetype", {buf = buf})
 
@@ -241,25 +673,11 @@ return {
           logger.toggle()
         else
           vim.cmd("ToggleTerm")
+          -- require("FTerm").toggle()
         end
       end
 
-
-      vim.keymap.set('n', '<Tab>', TermToggle, { noremap = true, silent = false })
-
-      function _G.quitTerm()
-        local feedkey = function(key, mode)
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-        end
-
-        if vim.bo.buftype == "terminal" then
-          vim.cmd("q")
-        else
-          feedkey("%", "n")
-        end
-      end
-
-      vim.keymap.set('n', 'q', ':lua quitTerm()<CR>', {silent = true})
+      vim.keymap.set('n', '<m-b>', TermToggle, { noremap = true, silent = false })
 
       local Terminal  = require('toggleterm.terminal').Terminal
       local gitui = Terminal:new({ cmd = "gitui",
@@ -276,35 +694,12 @@ return {
 
       vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _gitui_toggle()<CR>", {noremap = true, silent = true})
 
-
-
-
     end
   },
 
-  -- { 'CRAG666/betterTerm.nvim' ,
-
-  -- config = function()
-
-  --   require('betterTerm').setup {
-  --     prefix = "Term_",
-  --     startInserted = true,
-  --     position = "vert",
-  --     size = 18
-  --   }
-
-  --   vim.keymap.set("n", "<leader>rf", function()
-  --     require("betterTerm").send(require("code_runner.commands").get_filetype_command(), 1, { clean = true, interrupt = true })
-  --   end, { desc = "Excute File"})
-
-  -- end
-
-  -- },
-
   'mfussenegger/nvim-lint',
-
-  { 
-    'CRAG666/code_runner.nvim', 
+  {
+    'CRAG666/code_runner.nvim',
     dependencies = 'nvim-lua/plenary.nvim',
 
     config = function()
@@ -332,10 +727,7 @@ return {
   'tpope/vim-scriptease',
   -- { 'JellyApple102/easyread.nvim' },
 
-  { 'echasnovski/mini.nvim', version = false, },
-
   'neovim/nvim-lspconfig',
-
   {
     'xbase-lab/xbase',
     build = 'make install', -- or "make install && make free_space" (not recommended, longer build time)
@@ -365,7 +757,7 @@ return {
         },
         simctl = {
           iOS = {
-            "iPhone 14"
+            "iPhone 14 Pro"
           },
           watchOS = {}, -- all available devices
           tvOS = {}, -- all available devices
@@ -411,8 +803,10 @@ return {
   {'nvim-tree/nvim-tree.lua',
     config = function()
 
+      vim.keymap.set('n', '<C-a>', "<cmd>NvimTreeToggle<CR>")
+
       local HEIGHT_RATIO = 0.5 -- You can change this
-      local WIDTH_RATIO = 0.5  -- You can change this too
+      local WIDTH_RATIO = 0.2  -- You can change this too
       require("nvim-tree").setup({
         actions = {
           open_file = {
@@ -424,7 +818,7 @@ return {
         view = {
           relativenumber = true,
           float = {
-            enable = true,
+            enable = false,
             open_win_config = function()
               local screen_w = vim.opt.columns:get()
               local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
@@ -462,11 +856,13 @@ return {
   },
 
   'keith/swift.vim',
-
   -- 'michaeljsmith/vim-indent-object',
 
-  { "strash/everybody-wants-that-line.nvim",
+  { "sainttttt/everybody-wants-that-line.nvim",
+    branch = "saint",
     config = function()
+
+      vim.keymap.set('n', '<leader>nn', require("everybody-wants-that-line.components.filename").toggle_float)
       require("everybody-wants-that-line").setup {
         buffer = {
           enabled = true,
@@ -503,6 +899,9 @@ return {
     end
   },
 
+  { 'vim-crystal/vim-crystal'
+  },
+
   { "rcarriga/nvim-notify",
     opts = {
       background_colour = "NotifyBackground",
@@ -514,11 +913,12 @@ return {
         TRACE = "✎",
         WARN = ""
       },
-      level = 2,
-      minimum_width = 50,
-      render = "default",
-      stages = "static",
-      timeout = 5000,
+      level = 3,
+      minimum_width = 40,
+      max_width = 60,
+      render = "wrapped-compact",
+      stages = "fade",
+      timeout = 1500,
       top_down = true
 
     },
@@ -566,17 +966,13 @@ return {
           -- NOTE: If you enable messages, then the cmdline is enabled automatically.
           -- This is a current Neovim limitation.
           enabled = false, -- enables the Noice messages UI
-          view = "notify", -- default view for messages
-          view_error = "notify", -- view for errors
-          view_warn = "notify", -- view for warnings
+          view = "mini", -- default view for messages
+          view_error = "mini", -- view for errors
+          view_warn = "mini", -- view for warnings
           view_history = "messages", -- view for :messages
           view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
         },
       }
     end
   },
-
-
-  --'ervandew/supertab',
-  --{ "lukas-reineke/indent-blankline.nvim" },
 }

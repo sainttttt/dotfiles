@@ -1,6 +1,22 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+vim.o.foldlevelstart = -1
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
+
+function _G.dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -13,6 +29,30 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
+-- require('portion')
+-- portionSetup()
+
+vim.api.nvim_create_augroup('folds', {
+  clear = true
+})
+
+
+-- vim.api.nvim_create_autocmd({"BufWinLeave"}, {
+--   group = "folds",
+--   pattern = {"?*"},
+--   callback = function()
+--     vim.cmd("mkview " .. getViewNumber())
+--   end
+-- })
+
+-- vim.cmd([[
+-- augroup remember_folds
+--   autocmd!
+--   au BufWinLeave ?* mkview 1
+--   au BufWinEnter ?* silent! loadview 1
+-- augroup END
+-- ]])
+
 
 function _G.zen()
   require("zen-mode").toggle({
@@ -23,6 +63,7 @@ function _G.zen()
   })
 end
 
+vim.keymap.set('n', 'z;', function() foldcus.fold(4)   end, NS)
 
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = "," -- Make sure to set `mapleader` before lazy so your mappings are correct
@@ -43,10 +84,26 @@ end
 
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
-  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+
+  local map = vim.fn.maparg("<C-j>", "t")
+  if map == "" then
+    vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  end
+
+  map = vim.fn.maparg("<C-k>", "t")
+  if map == "" then
+    vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  end
+
+  -- vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  -- vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  -- vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  -- vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+  vim.keymap.set('t', '<C-]>', '<C-\\><C-n>', opts)
+  vim.keymap.set('t', '<leader>rr', '<C-c>', opts)
+  if require'toggleterm' then
+    vim.keymap.set('t', '<m-b>', TermToggle, opts)
+  end
 end
 
 vim.keymap.set("n",    "<leader>cc",
@@ -100,9 +157,12 @@ vim.keymap.set("n", "<leader>lm", "<cmd>lua LspSwap()<CR>", {noremap=true})
 -- end
 --
 function _G.luaReload(name)
-    require("plenary.reload").reload_module(name)
-    require(name)
+  name  = 'yoke'
+  require("plenary.reload").reload_module(name)
+  require(name)
 end
+
+vim.keymap.set("n", "<leader>qq", luaReload, {noremap=true})
 
 -- local bufopts = { noremap=true, silent=true }
 -- vim.keymap.set('n', '<leader>l', ':LspRestart<CR>', bufopts)
@@ -152,19 +212,16 @@ function _G.close_floating()
   end
 end
 
+local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
+parser_configs.nim = {
+  install_info = {
+    url = "~/code/tree-sitter-nim", -- or where ever you cloned the repo to
+    files = { "src/parser.c", "src/scanner.cc"}
+  },
+}
 
--- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
--- parser_config.nim = {
---   install_info = {
---     url = "~/code/tree-sitter-nim", -- local path or git repo
---     files = {"src/parser.c"}, -- note that some parsers also require src/scanner.c or src/scanner.cc
---     -- optional entries:
---     branch = "main", -- default branch in case of git repo if different from master
---     generate_requires_npm = false, -- if stand-alone parser without npm dependencies
---     requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
---   },
---   filetype = "nim", -- if filetype does not match the parser name
--- }
+-- vim.treesitter.language.add('nim', { path = "/Users/saint/code/tree-sitter-nim/scanner.so"})
+-- vim.treesitter.language.add('nim', { path = "/Users/saint/code/alaviss-tree-sitter-nim/parser.so"})
 
 
 -- function _G.searchXForward()
@@ -187,41 +244,43 @@ end
 -- end
 
 
-require('mini.sessions').setup({
-  autoread = false,
-  autowrite = true,
-  directory = "~/.local/share/nvim/sessions",
-})
+-- require('mini.sessions').setup({
+--   autoread = false,
+--   autowrite = true,
+--   directory = "~/.local/share/nvim/sessions",
+-- })
 
 -- require('mini.sessions').write('default')
 
-vim.ui.select = require"popui.ui-overrider"
-vim.ui.input = require"popui.input-overrider"
-vim.api.nvim_set_keymap("n", ",d", ':lua require"popui.diagnostics-navigator"()<CR>', { noremap = true, silent = true }) 
-vim.api.nvim_set_keymap("n", ",m", ':lua require"popui.marks-manager"()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", ",tr", ':lua require"popui.references-navigator"()<CR>', { noremap = true, silent = true })
-
-
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-{silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
-{silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
-{silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
-{silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
-{silent = true, noremap = true}
-)
-vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
-{silent = true, noremap = true}
-)
+-- vim.ui.select = require"popui.ui-overrider"
+-- vim.ui.input = require"popui.input-overrider"
+-- vim.api.nvim_set_keymap("n", ",d", ':lua require"popui.diagnostics-navigator"()<CR>', { noremap = true, silent = true }) 
+-- vim.api.nvim_set_keymap("n", ",m", ':lua require"popui.marks-manager"()<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", ",tr", ':lua require"popui.references-navigator"()<CR>', { noremap = true, silent = true })
+-- 
+-- 
+-- vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+-- {silent = true, noremap = true}
+-- )
+-- vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+-- {silent = true, noremap = true}
+-- )
+-- vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
+-- {silent = true, noremap = true}
+-- )
+-- vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
+-- {silent = true, noremap = true}
+-- )
+-- vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+-- {silent = true, noremap = true}
+-- )
+-- vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
+-- {silent = true, noremap = true}
+-- )
 
 --- 
+--
+Last_coderun = ""
 function _G.codeRun()
   vim.cmd ("up")
   local buf = vim.api.nvim_get_current_buf()
@@ -232,14 +291,30 @@ function _G.codeRun()
   else
     local proj_cmd = require("code_runner.commands").get_project_command()
     local file_cmd = require("code_runner.commands").get_filetype_command()
-    if proj_cmd == nil then
-      if file_cmd ~= nil then
-        vim.cmd("RunFile")
-      end
-    else
-        vim.cmd("RunProject")
+    local command_to_run = ""
+
+    if Last_coderun ~= "" then
+      -- print("here")
+      vim.cmd('TermExec cmd=""')
     end
+    if proj_cmd ~= nil then
+      -- vim.cmd("RunProject")
+      command_to_run = proj_cmd["command"]
+    elseif file_cmd ~= "" then
+      command_to_run = file_cmd
+    elseif Last_coderun ~= "" then
+      -- print(Last_coderun)
+      command_to_run = Last_coderun
+    else
+      return
+    end
+    Last_coderun = command_to_run
+    -- print(command_to_run)
+    vim.cmd(string.format('TermExec cmd="%s"', command_to_run))
+
   end
 end
 
 vim.keymap.set("n", "<leader>rr", "<cmd>lua codeRun()<CR>", {silent = true, noremap = true})
+
+vim.cmd [[colorscheme flesh-and-blood]]

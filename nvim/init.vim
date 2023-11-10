@@ -1,63 +1,120 @@
 nnoremap <M-J> ]m
 nnoremap <M-K> [m
 
+set clipboard+=unnamedplus
 
+cnoremap <d-v> <d-r>+
+" system clipboard
+nmap <d-c> "+y
+vmap <d-c> "+y
+nmap <d-v> "+p
+inoremap <d-v> <c-r>+
+cnoremap <d-v> <c-r>+
+" use <c-r> to insert original character without triggering things like auto-pairs
+inoremap <d-r> <c-v>
+nnoremap <D-v> "+p
+
+
+set guicursor=n-v-c-i:block
+vnoremap <Space> =
 set nocompatible
 set hidden
 set autoread
 filetype on
 filetype plugin on
-set nofoldenable
+" set nofoldenable
 set ignorecase
 set smartcase
 set backspace=2
 let mapleader = ","
+nmap ' ,
+nmap ` <esc>
 let maplocalleader = ",,"
 let g:netrw_silent = 1
+set ph=9
+nnoremap 8 :
+nmap t `
+nmap gf <leader>fg
+nmap ge <leader>ff
+nmap <C-u> <leader>fw
+nmap <leader>t <leader>mt
+nnoremap Q: q:
+
+
+imap <M-t> †
+
+vnoremap < <gv
+vnoremap > >gv
+
+map gb i*<esc>f<space>i*<esc>
+map gv i_<esc>f<space>i_<esc>
+
+set foldopen-=hor
+set noshowmode
+
+autocmd CursorHold * echon ''
 
 
 map <silent> e <Plug>CamelCaseMotion_w
 
+
+set fdo-=search
+
+nnoremap <c-p> <c-i>
+
+"nnoremap <leader>z z
+
 map 4 $
+
+" augroup remember_folds
+"   autocmd!
+"   au BufWinLeave ?* mkview 1
+"   au BufRead ?* silent! loadview 1
+" augroup END
+
+nnoremap 2 `
+" noremap ;; ``
+" nnoremap zz za
+nnoremap B za
+
+" nnoremap q %
+" vnoremap q %
+map q %
 
 map <silent> <M-r> :call feedkeys(,rr<CR>)<CR>
 " nnoremap <silent> <Leader>w :w<CR>:Runtime<CR>
 nnoremap <silent> <Leader>ww :up<CR>:Runtime<CR>
 nnoremap <silent> <Leader>bd :Bdelete hidden<CR>
+
+" map <silent> W Vaio
+
 nnoremap <silent> <Leader>e :Messages<CR>
 " nnoremap <silent> <Leader>ss :lua MiniSessions.read()<CR>
 nnoremap <silent> <Leader>s :up<CR>
-nnoremap <silent> WW :close!<CR>
-nnoremap <silent> <M-w> :close!<CR> 
+" nnoremap <silent> WW :close!<CR>
+nnoremap <silent> <M-w> :close!<CR>
 nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 nnoremap <silent> S :up<CR>
-nnoremap <silent> s <esc>
-nnoremap <silent> ss :up<CR>
+" nnoremap <silent> s <esc>
+nnoremap <silent> s :up<CR>
 nnoremap <silent> <M-s> :up<CR>
 inoremap <silent> <M-s> <esc>:w<CR>
-nnoremap <silent> WQ :up<CR>:close!<CR>
-nnoremap <silent> AQ :qa!<CR>
-nnoremap <silent><C-w><C-w> :q!<CR>
-
-
-" autocmd CursorMoved * :lua echo_diagnostic()
+" nnoremap <silent> WQ :up<CR>:close!<CR>
+nnoremap <silent> QA :qa!<CR>
 
 
 autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 
 nnoremap <C-f> :NvimTreeFindFile<CR>
 
-
-let g:SuperTabDefaultCompletionType = "context"
-
 " --------------------------------------------------
 " navigation ---------------------------------------
 
 " This is for debugging, shows the syntax type under cursor
-nnoremap <leader>m :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),1),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" nnoremap <leader>mm :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+" \ . synIDattr(synID(line("."),col("."),1),"name") . "> lo<"
+" \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 function! SynStack()
   if !exists("*synstack")
@@ -66,43 +123,47 @@ function! SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
-function! CharAtIdx(str, idx) abort                                       
-  " Get char at idx from str. Note that this is based on character index  
-  " instead of the byte index.                                            
-  return strcharpart(a:str, a:idx, 1)                                     
+function! CharAtIdx(str, idx) abort
+  " Get char at idx from str. Note that this is based on character index
+  " instead of the byte index.
+  return strcharpart(a:str, a:idx, 1)
 endfunction
 
 
-function! CursorCharIdx() abort                                           
-  " A more concise way to get character index under cursor.               
-  let cursor_byte_idx = col('.')                                          
-  if cursor_byte_idx == 1                        
-    return 0                      
-  endif                                                                   
+function! CursorCharIdx() abort
+  " A more concise way to get character index under cursor.
+  let cursor_byte_idx = col('.')
+  if cursor_byte_idx == 1
+    return 0
+  endif
 
-  let pre_cursor_text = getline('.')[:col('.')-2]                         
-  return strchars(pre_cursor_text)                                        
-endfunction     
+  let pre_cursor_text = getline('.')[:col('.')-2]
+  return strchars(pre_cursor_text)
+endfunction
 
 " --------------------------------------------------
 
 
-vnoremap J }
-vnoremap K {
+" vnoremap J }
+" vnoremap K {
 
 nnoremap J 15j
 nnoremap K 15k
 
-nnoremap <silent>L :call MoveCursor('', '')<cr>
-xnoremap <silent>L :<C-u>call VMoveCursor('')<cr>
-nnoremap <silent>H :call MoveCursor('b', '')<cr>
-xnoremap <silent>H :<C-u>call VMoveCursor('b')<cr>
+nnoremap <silent>L :MoveCursor<cr>
+" xnoremap <silent>L :<C-u>call VMoveCursor('')<cr>
+xnoremap <silent>L :<C-u> VMoveCursor<cr>
+xnoremap <silent>J :<C-u> VMoveCursor<cr>
+nnoremap <silent>H : MoveCursor b<cr>
+" xnoremap <silent>H :<C-u> VMoveCursor('b')<cr>
+xnoremap <silent>H :<C-u> VMoveCursor b<cr>
+xnoremap <silent>K :<C-u> VMoveCursor b<cr>
 
 
 noremap <C-n> J
 
 " this needs to be map and no noremap for macros/matchit.vim to work
-map q %
+" nnoremap q %
 
 " splits
 map <C-J> <C-w>j
@@ -114,6 +175,12 @@ nnoremap <C-H> <C-w>h
 nnoremap <C-L> <C-w>l
 inoremap <C-h> <Esc><C-w>h
 inoremap <C-l> <Esc><C-w>l
+
+" Can't figure out how to map M-hjkl in iTerm for some reason
+nnoremap <M-.> <C-w>L
+nnoremap <M-,> <C-w>K
+nnoremap <M-m> <C-w>J
+nnoremap <M-n> <C-w>H
 
 " --------------------------------------------------
 " delete and yank ----------------------------------
@@ -135,20 +202,24 @@ nnoremap D Ydd
 nnoremap Y yy
 vnoremap Y yy
 
+nnoremap <M-y> "pyy
+nnoremap <M-p> "pp
+
+
 " --------------------------------------------------
 " --------------------------------------------------
 
 set updatetime=750
 
-source ~/.local/share/nvim/yoke.vim
+"source ~/.local/share/nvim/yoke.vim
 
 " trigger `autoread` when files changes on disk
 set autoread
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if !bufexists("[Command Line]") | checktime | endif
+" autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if !bufexists("[Command Line]") | silent! checktime | endif
 
 " notification after file change
-autocmd FileChangedShellPost *
-  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+" autocmd FileChangedShellPost *
+"   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 
 
@@ -244,6 +315,7 @@ iab cl console.log
 iab pr print
 
 
+
 " autocmd BufRead * DetectIndent
 
 " reload vimrc on save
@@ -256,7 +328,7 @@ nnoremap <Leader>h 0f<a/<esc>f<Space>C><esc>
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(ale_go_to_definition)
-nmap <silent> gr <Plug>(ale_find_references) 
+nmap <silent> gr <Plug>(ale_find_references)
 " nmap <silent> C-] <Plug>(coc-definition)
 " nmap <silent> gy <Plug>(coc-type-definition)
 " nmap <silent> gi <Plug>(coc-implementation)
@@ -387,18 +459,11 @@ set guioptions-=l
 set guioptions-=r
 set guioptions-=b
 " set guifont=Ac437_ACM_VGA_8x16:h29
-set guifont=Ac437_ToshibaSat_9x14:h28
-set guifont=Ac437_ToshibaSat_9x14:h28
+set guifont=Ac437_ToshibaSat_9x14:h38
 set background=dark
-
-
 set wildmode=longest,list,full
 set wildmenu
-
-nnoremap <silent> <C-a> :NvimTreeToggle<CR>
-
 let g:NERDTreeMinimalMenu=1
-
 set gcr=n:blinkon0
 
 " gvim specific stuff
@@ -407,6 +472,7 @@ set novisualbell
 
 "" edit vimrc
 noremap <Leader>vv :vsp ~/.config/nvim/init.vim<CR>
+noremap <Leader>va :vsp ~/.config/nvim/lua/init.lua<CR>
 " noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
 noremap <Leader>vz :vsp ~/.config/nvim/lua/plugins/init.lua<CR>
 " noremap <Leader>vx :vsp ~/.config/nvim/lua/<CR>
@@ -426,8 +492,8 @@ inoremap ({<CR>  ({<CR>});<Esc>O
 set hlsearch
 
 
-map <silent> <Space> :nohlsearch<CR>
-set clipboard=unnamed
+nmap <silent> <Space> :nohlsearch<CR>
+" set clipboard=unnamed
 
 """""""""""""""""""
 " syntax
@@ -436,8 +502,8 @@ syntax on
 let g:jsx_ext_required = 0
 au BufRead,BufNewFile *.py set filetype=python
 
-nnoremap <C-u> u
-nnoremap Q q
+" nnoremap <C-u> u
+nnoremap <C-q> q
 
 " defaults
 set tabstop=2
@@ -467,18 +533,12 @@ function! TexSetup()
   map <Leader>lC <plug>(vimtex-clean)
 endfunction
 
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-
 
 autocmd FileType python noremap <Leader>p oimport pdb; pdb.set_trace()<Esc>
-autocmd FileType python noremap <Leader>z ggi#!/usr/bin/env python<Esc><C-o>
+" autocmd FileType python noremap <Leader>z ggi#!/usr/bin/env python<Esc><C-o>
 
-noremap <Leader>z ggO#!/usr/bin/env python<Esc><C-o>:w<CR>
+" noremap <Leader>z ggO#!/usr/bin/env python<Esc><C-o>:w<CR>
 
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-au FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd Filetype tex call TexSetup()
 
 autocmd FileType python set ts=4|set shiftwidth=4
@@ -507,7 +567,7 @@ autocmd FileType c,cpp,java,javascript,php autocmd BufWritePre <buffer> :retab
 " select brace
 " map W 0Vf{%
 " select func call
-map E 0v/(<CR>%
+"map E 0v/(<CR>%
 
 map! <Nul> <C-c>
 vmap <Nul> <C-c>
@@ -518,11 +578,7 @@ noremap T y$
 " noremap 4 $
 " noremap q %
 
-noremap z `
-noremap zz ``
-
 " let loaded_matchparen = 1
-" inoremap <C-P> <C-O>p
 
 " noremap c) f(F(lct)
 
@@ -612,11 +668,9 @@ function! CallMacro()
 endfunction
 
 
-""" colorscheme 
-let g:hybrid_use_Xresources = 1
-" set termguicolors
-colorscheme flesh-and-blood
-" colorscheme hybrid
+""" colorscheme
+
+autocmd BufEnter,BufWinEnter,WinEnter * setlocal winhl=Search:LocalSearch,IncSearch:LocalSearch
 
 highlight Conceal ctermbg=237 guibg=NONE guifg=DarkGrey term=NONE
 " hi IncSearch cterm=NONE ctermfg=yellow ctermbg=red
@@ -625,8 +679,9 @@ highlight Conceal ctermbg=237 guibg=NONE guifg=DarkGrey term=NONE
 set fillchars=stl:─,stlnc:─
 " set statusline=%#Search#%m%#LineNr#%F%=%3l:%-2c%=
 
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-let g:indentLine_color_term = 234
+" let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+" let g:indent_blankline_space_char_blankline = '⋅'
+" let g:indentLine_color_term = 234
 
 function! MessageWindow()
   new
@@ -636,6 +691,23 @@ function! MessageWindow()
   silent put=messages_output
 endfunction
 
+let g:vindent_motion_OO_prev   = '[=' " jump to prev block of same indent.
+let g:vindent_motion_OO_next   = ']=' " jump to next block of same indent.
+let g:vindent_motion_more_prev = '[+' " jump to prev line with more indent.
+let g:vindent_motion_more_next = ']+' " jump to next line with more indent.
+let g:vindent_motion_less_prev = '[-' " jump to prev line with less indent.
+let g:vindent_motion_less_next = ']-' " jump to next line with less indent.
+let g:vindent_motion_diff_prev = '[;' " jump to prev line with different indent.
+let g:vindent_motion_diff_next = '];' " jump to next line with different indent.
+let g:vindent_motion_XX_ss     = '[p' " jump to start of the current block scope.
+let g:vindent_motion_XX_se     = ']p' " jump to end   of the current block scope.
+let g:vindent_object_XX_ii     = 'ii' " select current block.
+let g:vindent_object_XX_ai     = 'ai' " select current block + one extra line  at beginning.
+let g:vindent_object_XX_aI     = 'aI' " select current block + two extra lines at beginning and end.
+let g:vindent_jumps            = 1    " make vindent motion count as a |jump-motion| (works with |jumplist|).
 
 
+set termguicolors
 lua require('init')
+let g:hybrid_use_Xresources = 1
+colorscheme flesh-and-blood

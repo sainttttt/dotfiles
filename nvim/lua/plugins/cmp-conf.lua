@@ -5,6 +5,8 @@ return {
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
   'hrsh7th/vim-vsnip',
+  'onsails/lspkind.nvim',
+  'lukas-reineke/cmp-under-comparator',
 
   {
     'hrsh7th/cmp-nvim-lsp',
@@ -17,6 +19,8 @@ return {
       end
 
       local feedkey = function(key, mode)
+        print("here")
+        print(key)
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
       end
 
@@ -43,6 +47,11 @@ return {
           completeopt = 'noselect,menu'
         },
 
+        performance = {
+          debounce = 300,
+          timeout = 2,
+        },
+
         preselect = cmp.PreselectMode.None,
 
         mapping = {
@@ -51,9 +60,11 @@ return {
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            else
+            elseif has_words_before() then
               cmp.complete()
               local next = 1
+            else
+              fallback()
               -- cmp.event:on ("complete_done", function(view)
               --   if next == 1 then
               --     print('callback scroll')
@@ -77,15 +88,15 @@ return {
 
             --   feedkey("<Tab>")
             -- end
-          end, { "i", "c", "s" }),
+          end, { "i", "s" }),
 
-          --        ["<S-Tab>"] = cmp.mapping(function()
-          --          if cmp.visible() then
-          --            cmp.select_prev_item()
-          --          elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-          --            feedkey("<Plug>(vsnip-jump-prev)", "")
-          --          end
-          --        end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function()
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+              feedkey("<Plug>(vsnip-jump-prev)", "")
+            end
+          end, { "i", "s" }),
 
           -- ... Your other mappings ...
 
@@ -98,43 +109,92 @@ return {
 
 
         sources = cmp.config.sources(
-
-        {
           {
-            -- get text from all buffers
-            name = 'buffer',
+            {
+              name = 'buffer', max_item_count = 15,
+              -- get text from visible buffers
+              option = {
+                get_bufnrs = function()
+                  local bufs = {}
+                  for _, win in ipairs(vim.api.nvim_list_wins()) do
+                    bufs[vim.api.nvim_win_get_buf(win)] = true
+                  end
+                  return vim.tbl_keys(bufs)
+                end
+              }
+              -- get text from all buffers
+              -- option = {
+              --   get_bufnrs = function()
+              --     return vim.api.nvim_list_bufs()
+              --   end
+              -- }
+            },
+            { name = 'nvim_lsp', max_item_count = 15 },
+            -- { name = 'vsnip' }, -- for vsnip users.
+          }
+        ),
+
+        formatting = {
+          fields = { 'abbr', 'kind', 'menu' },
+          format = require('lspkind').cmp_format({
+            mode = 'symbol',             -- show only symbol annotations
+            maxwidth = 30,               -- prevent the popup from showing more than provided characters
+            ellipsis_char = '...',       -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
+            symbol_map = {
+              Value = "󰌋",
+              Interface = "",
+              Method = "󰊕",
+              Class = "",
+              Text = "",
+              Snippet = "󰕣"
+            }
+          })
+        },
+        sorting = {
+          comparators = {
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.offset,
+            cmp.config.compare.kind,
+            -- cmp.config.compare.exact,
+            -- require("cmp-under-comparator").under,
+          },
+        },
+      })
+
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          {
+            name = 'cmdline',
             option = {
-              get_bufnrs = function()
-                return vim.api.nvim_list_bufs()
-              end
+              ignore_cmds = { 'Man', '!' }
             }
           },
-          { name = 'nvim_lsp' },
-          -- { name = 'vsnip' }, -- for vsnip users.
-        }
-        )
+          { name = 'path' },
+          { name = 'buffer' }
+        }),
+
+        sorting = {
+          comparators = {
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.offset,
+            cmp.config.compare.kind,
+            -- cmp.config.compare.exact,
+            -- require("cmp-under-comparator").under,
+          },
+        },
       })
 
-    cmp.setup.cmdline(':', {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = cmp.config.sources({
-        { name = 'path' }
-      }, {
-        {
-          name = 'cmdline',
-          option = {
-            ignore_cmds = { 'Man', '!' }
-          }
-        }
-      })
-    })
-
---   cmp.setup.cmdline({ '/', '?' }, {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = {
---       { name = 'buffer' }
---     }
---   })
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
 
     end
   }
