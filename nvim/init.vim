@@ -14,6 +14,26 @@ cnoremap <d-v> <c-r>+
 inoremap <d-r> <c-v>
 nnoremap <D-v> "+p
 
+if exists('g:neovide')
+    exec 'cd ~/code"'
+endif
+
+
+map <silent> <D-t> :tabnew<CR>
+map <silent> <D-w> :close<CR>
+
+map <silent> <D-[> :tabprevious<CR>
+map <silent> <D-]> :tabnext<CR>
+
+" nvim-surround stuff
+map v' ysiw'
+map v" ysiw"
+map va ysa
+map v( ysiw(
+map v) ysiw)
+map v[ ysiw[
+map v* ysiw*
+map v8 ysiw*
 
 set guicursor=n-v-c-i:block
 vnoremap <Space> =
@@ -147,8 +167,8 @@ endfunction
 " vnoremap J }
 " vnoremap K {
 
-nnoremap J 15j
-nnoremap K 15k
+nnoremap J m`15jm`
+nnoremap K m`15km`
 
 nnoremap <silent>L :MoveCursor<cr>
 " xnoremap <silent>L :<C-u>call VMoveCursor('')<cr>

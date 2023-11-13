@@ -43,11 +43,11 @@ return
 
       -- Set menu
       dashboard.section.buttons.val = {
-        dashboard.button( "i", "  > New file" , ":ene <BAR> startinsert <CR>"),
-        dashboard.button( "f", "  > Find file", ":cd $PWD | lua require'fzf-lua'.files()<CR>"),
+        dashboard.button( "n", "  > New file" , ":ene <BAR> startinsert <CR>"),
+        dashboard.button( "t", "  > Find file", ":lua require'fzf-lua'.files()<CR>"),
         -- dashboard.button( "r", "  > Recent"   , ":Telescope oldfiles<CR>"),
         -- dashboard.button( "s", "  > Settings" , ":e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
-        dashboard.button( "q", "  > Quit", ":qa<CR>"),
+        dashboard.button( "q", "  > Quit", ":close<CR>"),
       }
 
       -- Set footer
