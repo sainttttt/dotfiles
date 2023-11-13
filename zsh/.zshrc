@@ -131,6 +131,9 @@ alias lazy="cd ~/.local/share/nvim/lazy"
 alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
 alias v='vim'
 alias gt='gitui'
+alias vrc='vim ~/.zshrc'
+alias ghc='gh repo create --source .'
+alias ghd='gh repo delete'
 
 t() { cd /Volumes/SSD3/Streams; yt-dlp --cookies-from-browser brave "$@" }
 
