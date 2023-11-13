@@ -41,11 +41,11 @@ matches:
     replace: "SwiftUI"
     propagate_case: true
 
-  - trigger: ";;hug2"
+  - trigger: "@@hug2"
     replace: "https://cdn.discordapp.com/emojis/765313892783751249.gif?size=240&quality=lossless"
     propagate_case: true
 
-  - trigger: ";;mon"
+  - trigger: "@@mon"
     replace: "https://streamable.com/8a6i19"
     propagate_case: true
 
