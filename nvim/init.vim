@@ -15,7 +15,7 @@ inoremap <d-r> <c-v>
 nnoremap <D-v> "+p
 
 if exists('g:neovide')
-    exec 'cd ~/code"'
+    exec 'cd ~/code/tmp"'
 endif
 
 
