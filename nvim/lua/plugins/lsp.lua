@@ -48,7 +48,10 @@ return {
           },
         }
       })
-      require("mason-lspconfig").setup()
+      require("mason-lspconfig").setup {
+        ensure_installed = { "lua_ls", "nimls", "html", "crystalline", "tsserver", "pyright" },
+        automatic_installation = true,
+      }
     end,
   },
 
@@ -143,8 +146,6 @@ return {
       require("ccls").setup { lsp = { lspconfig = server_config } }
 
     end
-
-
   },
 
 
