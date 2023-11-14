@@ -134,7 +134,7 @@ return
               i = {
                 -- ["<c-e>"] = trouble.open_with_trouble,
                 ["<C-j>"] = actions.move_selection_next,
-                ["<C-x>"] = actions.exclude,
+                -- ["<C-x>"] = actions.exclude,
                 ["<C-k>"] = actions.move_selection_previous,
                 ["`"] = actions.close,
                 ["1"] = actions.close,
