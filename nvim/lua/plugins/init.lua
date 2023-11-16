@@ -62,7 +62,7 @@ return {
       --Config goes here
     },
   },
-  
+
 
 
 
@@ -162,7 +162,7 @@ return {
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-        ensure_installed = { "swift", "css", "nim", "c", "lua", "vim", "vimdoc", "query", "javascript", "html" },
+        ensure_installed = { "php", "swift", "css", "nim", "c", "lua", "vim", "vimdoc", "query", "javascript", "html" },
 
         sync_install = false,
         matchup = {
@@ -434,6 +434,15 @@ return {
       vim.cmd("autocmd! Filetype c,cpp noremap<buffer> 3 :Ouroboros<CR>")
     end
   },
+
+  -- {
+  --   "folke/twilight.nvim",
+  --   opts = {
+  --     -- your configuration comes here
+  --     -- or leave it empty to use the default settings
+  --     -- refer to the configuration section below
+  --   }
+  -- },
 
   {
     "folke/zen-mode.nvim",
@@ -821,6 +830,13 @@ return {
   },
 
   'AndrewRadev/undoquit.vim',
+
+  {'windwp/nvim-ts-autotag',
+    config = function()
+      require('nvim-ts-autotag').setup()
+    end
+  },
+
   {'nvim-tree/nvim-tree.lua',
     config = function()
 
