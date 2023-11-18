@@ -687,11 +687,11 @@ return {
       function _G.TermToggle()
         local ft = vim.api.nvim_get_option_value("filetype", {buf = buf})
 
-        -- if ft == "swift" or ft == "xclog" then
-        --   local logger = require "xbase.logger"
-        --   logger.toggle()
-        -- else
-        if true then
+        if ft == "swift" or ft == "xclog" then
+          local logger = require "xbase.logger"
+          logger.toggle()
+        else
+        -- if true then
           vim.cmd("ToggleTerm")
           -- require("FTerm").toggle()
         end
@@ -749,85 +749,94 @@ return {
   -- { 'JellyApple102/easyread.nvim' },
 
   'neovim/nvim-lspconfig',
-  -- {
-  --   'xbase-lab/xbase',
-  --   build = 'make install', -- or "make install && make free_space" (not recommended, longer build time)
-  --   dependencies = {
-  --     "neovim/nvim-lspconfig",
-  --     "nvim-telescope/telescope.nvim", -- optional
-  --     "nvim-lua/plenary.nvim", -- optional/requirement of telescope.nvim
-  --     -- "stevearc/dressing.nvim", -- optional (in case you don't use telescope but something else)
-  --   },
-  --   config = function()
-  --     require'xbase'.setup({
-  --       sourcekit = {
-  --         on_attach = function(client, bufnr)
-  --           -- Enable completion triggered by <c-x><c-o>
-  --           vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  --           -- Mappings.
-  --           -- See `:help vim.lsp.*` for documentation on any of the below functions
-  --           local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  --           vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  --           vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  --           -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  --           vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  --           -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  --           vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  --         end
-  --       },
-  --       simctl = {
-  --         iOS = {
-  --           "iPhone 14 Pro"
-  --         },
-  --         watchOS = {}, -- all available devices
-  --         tvOS = {}, -- all available devices
-  --       },
-  --       mappings = {
-  --         --- Whether xbase mapping should be disabled.
-  --         enable = true,
-  --         --- Open build picker. showing targets and configuration.
-  --         build_picker = "<leader>rt", --- set to 0 to disable
-  --         --- Open run picker. showing targets, devices and configuration
-  --         run_picker = "<leader>rf", --- set to 0 to disable
-  --         --- Open watch picker. showing run or build, targets, devices and configuration
-  --         watch_picker = "<leader>ry", --- set to 0 to disable
-  --         --- A list of all the previous pickers
-  --         all_picker = "<leader>re", --- set to 0 to disable
-  --         --- horizontal toggle log buffer
-  --         toggle_split_log_buffer = "<leader>ll",
-  --         --- vertical toggle log buffer
-  --         toggle_vsplit_log_buffer = "<leader>lp",
-  --       },
-  --     })
-
-
-  --     function _G.XbaseBuildDefault()
-  --       local xbase_proj = require("xbase.state").project_info
-  --       local next = pairs(xbase_proj)
-  --       local proj_root = next(xbase_proj)
-  --       local logger = require "xbase.logger"
-
-  --       local args = require('xbase.pickers.util').generate_entries(proj_root, 'Run')[1]
-  --       local xbase = require("xbase.pickers.util")
-  --       require('xbase.logger').clear() -- clear scrollback
-  --       logger.open()
-  --       xbase.run_command(args)
-  --     end
-
-  --     vim.api.nvim_set_keymap("n", "<M-r>", [[<cmd>lua XbaseBuildDefault()<cr>]], {})
-
-  --   end
-  -- },
   {
-    "wojciech-kulik/xcodebuild.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim" },
+    'xbase-lab/xbase',
+    build = 'make install', -- or "make install && make free_space" (not recommended, longer build time)
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "nvim-telescope/telescope.nvim", -- optional
+      "nvim-lua/plenary.nvim", -- optional/requirement of telescope.nvim
+      -- "stevearc/dressing.nvim", -- optional (in case you don't use telescope but something else)
+    },
     config = function()
-      require("xcodebuild").setup({
-        -- put some options here or leave it empty to use default settings
+      require'xbase'.setup({
+        sourcekit = {
+          on_attach = function(client, bufnr)
+            -- Enable completion triggered by <c-x><c-o>
+            vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+            -- Mappings.
+            -- See `:help vim.lsp.*` for documentation on any of the below functions
+            local bufopts = { noremap=true, silent=true, buffer=bufnr }
+            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+            -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+            -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+          end
+        },
+        -- simctl = {
+        --   iOS = {
+        --     "iPhone 14"
+        --   },
+        --   watchOS = {}, -- all available devices
+        --   tvOS = {}, -- all available devices
+        -- },
+        mappings = {
+          --- Whether xbase mapping should be disabled.
+          enable = true,
+          --- Open build picker. showing targets and configuration.
+          build_picker = "<leader>rt", --- set to 0 to disable
+          --- Open run picker. showing targets, devices and configuration
+          run_picker = "<leader>rf", --- set to 0 to disable
+          --- Open watch picker. showing run or build, targets, devices and configuration
+          watch_picker = "<leader>ry", --- set to 0 to disable
+          --- A list of all the previous pickers
+          all_picker = "<leader>re", --- set to 0 to disable
+          --- horizontal toggle log buffer
+          toggle_split_log_buffer = "<leader>ll",
+          --- vertical toggle log buffer
+          toggle_vsplit_log_buffer = "<leader>lp",
+        },
       })
-    end,
+
+
+      function _G.XbaseBuildDefault()
+        local xbase_proj = require("xbase.state").project_info
+        local next = pairs(xbase_proj)
+        local proj_root = next(xbase_proj)
+        local logger = require "xbase.logger"
+
+        local args = require('xbase.pickers.util').generate_entries(proj_root, 'Run')[1]
+        local xbase = require("xbase.pickers.util")
+        require('xbase.logger').clear() -- clear scrollback
+        logger.open()
+        xbase.run_command(args)
+      end
+
+      vim.api.nvim_set_keymap("n", "<M-r>", [[<cmd>lua XbaseBuildDefault()<cr>]], {})
+
+    end
   },
+  
+  -- {
+  --   "wojciech-kulik/xcodebuild.nvim",
+  --   dependencies = { "nvim-telescope/telescope.nvim" },
+  --   config = function()
+  --     require("xcodebuild").setup()
+
+  --     vim.keymap.set("n", "<leader>xl", "<cmd>XcodebuildToggleLogs<cr>", { desc = "Toggle Xcodebuild Logs" })
+  --     vim.keymap.set("n", "<leader>xb", "<cmd>XcodebuildBuild<cr>", { desc = "Build Project" })
+  --     vim.keymap.set("n", "<leader>xr", "<cmd>XcodebuildBuildRun<cr>", { desc = "Build & Run Project" })
+  --     vim.keymap.set("n", "<leader>xt", "<cmd>XcodebuildTest<cr>", { desc = "Run Tests" })
+  --     vim.keymap.set("n", "<leader>xT", "<cmd>XcodebuildTestClass<cr>", { desc = "Run This Test Class" })
+  --     vim.keymap.set("n", "<leader>X", "<cmd>XcodebuildPicker<cr>", { desc = "Show All Xcodebuild Actions" })
+  --     vim.keymap.set("n", "<leader>xd", "<cmd>XcodebuildSelectDevice<cr>", { desc = "Select Device" })
+  --     vim.keymap.set("n", "<leader>xp", "<cmd>XcodebuildSelectTestPlan<cr>", { desc = "Select Test Plan" })
+  --     vim.keymap.set("n", "<leader>xq", "<cmd>Telescope quickfix<cr>", { desc = "Show QuickFix List" })
+  --   end,
+  -- },
 
   'AndrewRadev/undoquit.vim',
 

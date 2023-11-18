@@ -75,7 +75,7 @@ return
     },
 
 
-    {'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+    -- {'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
     {
       "folke/trouble.nvim",
       dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -119,7 +119,7 @@ return
         -- vim.api.nvim_set_keymap("n", "`", [[<cmd>Telescope find_files<cr>]], {})
         -- vim.api.nvim_set_keymap("n", "1", [[<cmd>Telescope buffers<cr>]], {})
 
-        require('telescope').load_extension('fzf')
+        -- require('telescope').load_extension('fzf')
         local trouble = require("trouble.providers.telescope")
         local actions = require('telescope.actions')
 
