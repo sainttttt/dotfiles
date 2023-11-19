@@ -14,6 +14,8 @@ cnoremap <d-v> <c-r>+
 inoremap <d-r> <c-v>
 nnoremap <D-v> "+p
 
+
+map <Tab> <esc>
 if exists('g:neovide')
     exec 'cd ~/code/tmp"'
 endif
@@ -93,6 +95,15 @@ map 4 $
 " augroup END
 
 nnoremap 2 `
+
+map mn mN
+map mb mB
+map mv mV
+
+map 2n 2N
+map 2b 2B
+map 2v 2V
+
 " noremap ;; ``
 " nnoremap zz za
 nnoremap B za
