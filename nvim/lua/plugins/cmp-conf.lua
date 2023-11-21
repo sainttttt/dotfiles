@@ -47,21 +47,30 @@ return {
           completeopt = 'noselect,menu'
         },
 
-        performance = {
-          debounce = 300,
-          timeout = 2,
-        },
+        -- performance = {
+        --   debounce = 600,
+        --   timeout = 2,
+        -- },
 
         preselect = cmp.PreselectMode.None,
 
         mapping = {
           -- ... Your other mappings ...
+          --
+          ['`'] = cmp.mapping.complete({
+            config = {
+              sources = {
+                { name = 'nvim_lsp', max_item_count = 15 },
+              }
+            }
+          }),
 
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
             elseif has_words_before() then
               cmp.complete()
+              cmp.select_next_item()
               local next = 1
             else
               fallback()
@@ -110,9 +119,11 @@ return {
 
         sources = cmp.config.sources(
           {
+            { name = 'nvim_lsp', max_item_count = 15 },
             {
               name = 'buffer', max_item_count = 15,
               -- get text from visible buffers
+              --
               option = {
                 get_bufnrs = function()
                   local bufs = {}
@@ -129,7 +140,7 @@ return {
               --   end
               -- }
             },
-            { name = 'nvim_lsp', max_item_count = 15 },
+            -- { name = 'buffer', max_item_count = 15 },
             -- { name = 'vsnip' }, -- for vsnip users.
           }
         ),

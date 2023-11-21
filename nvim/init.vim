@@ -37,6 +37,9 @@ map v[ ysiw[
 map v* ysiw*
 map v8 ysiw*
 
+
+vnoremap / <esc>/\%V
+
 set guicursor=n-v-c-i:block
 vnoremap <Space> =
 set nocompatible
@@ -55,7 +58,7 @@ let maplocalleader = ",,"
 let g:netrw_silent = 1
 set ph=9
 nnoremap 8 :
-nmap t `
+nmap af <Tab>
 nmap gf <leader>fg
 nmap ge <leader>ff
 nmap <C-u> <leader>fw
@@ -96,10 +99,12 @@ map 4 $
 
 nnoremap 2 `
 
+map mm mM
 map mn mN
 map mb mB
 map mv mV
 
+map 2m 2M
 map 2n 2N
 map 2b 2B
 map 2v 2V
@@ -137,7 +142,7 @@ nnoremap <silent> QA :qa!<CR>
 
 autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 
-nnoremap <C-f> :NvimTreeFindFile<CR>
+nnoremap <C-a> :NvimTreeFindFile<CR>
 
 " --------------------------------------------------
 " navigation ---------------------------------------
@@ -178,8 +183,8 @@ endfunction
 " vnoremap J }
 " vnoremap K {
 
-nnoremap J m`15jm`
-nnoremap K m`15km`
+nnoremap J 15j
+nnoremap K 15k
 
 nnoremap <silent>L :MoveCursor<cr>
 " xnoremap <silent>L :<C-u>call VMoveCursor('')<cr>
@@ -742,3 +747,14 @@ set termguicolors
 lua require('init')
 let g:hybrid_use_Xresources = 1
 colorscheme flesh-and-blood
+
+
+augroup autocom
+    autocmd!
+    "executes the command on quit
+     autocmd VimLeave *.swift !killall xbase xbase-sourcekit-helper
+
+    ""execute the command on write
+    "autocmd BufWritePost,FileWritePost *.cpp !your_commad
+augroup END
+

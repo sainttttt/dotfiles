@@ -83,6 +83,13 @@ return {
       -- }
 
       lspconfig.crystalline.setup{
+        on_attach = function(client, bufnr)
+          client.server_capabilities.completionProvider = false
+          on_attach(client, bufnr)
+        end
+      }
+
+      lspconfig.tsserver.setup{
         on_attach = on_attach,
       }
 
@@ -215,7 +222,7 @@ return {
       -- You can pass argument ++unfocus to
       -- unfocus the show_line_diagnostics floating window
       -- keymap("n", "<leader>ls", "<cmd>Lspsaga show_line_diagnostics ++unfocus<CR>")
-      keymap("n", "<tab>", "<cmd> nohlsearch | Lspsaga show_line_diagnostics ++unfocus<CR>")
+      keymap("n", "<space>", "<cmd> nohlsearch | Lspsaga show_line_diagnostics ++unfocus<CR>")
 
       -- Show buffer diagnostics
       keymap("n", "<leader>bs", "<cmd>Lspsaga show_buf_diagnostics<CR>")

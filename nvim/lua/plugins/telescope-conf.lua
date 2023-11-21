@@ -61,12 +61,13 @@ return
 
         })
         local fzf_lua = require'fzf-lua'
-        vim.keymap.set("n", "t", function() fzf_lua.files() end)
+        vim.keymap.set("n", "<Tab>", function() fzf_lua.files() end)
         vim.keymap.set("n", "<leader>vc", function() fzf_lua.live_grep({cwd="~/.config/nvim" }) end)
         vim.keymap.set("n", "<leader>vx", function() fzf_lua.files({cwd="~/.config/nvim" }) end)
         vim.keymap.set("n", "<leader>fg", function() fzf_lua.live_grep() end)
         vim.keymap.set("n", "<leader>fw", function() fzf_lua.grep_cword() end)
-        vim.keymap.set("n", "<leader>ff", function() fzf_lua.resume() end)
+        vim.keymap.set("n", "gt", function() fzf_lua.resume() end)
+        vim.keymap.set("n", "<c-g>", function() fzf_lua.resume() end)
         vim.keymap.set("n", "gr", function() fzf_lua.lsp_references() end)
         vim.keymap.set("n", "1", function() fzf_lua.buffers() end)
 

@@ -750,7 +750,7 @@ return {
   'neovim/nvim-lspconfig',
 
   {
-    'kkharji/xbase',
+    'sainttttt/xbase',
     build = 'make install', -- or "make install && make free_space" (not recommended, longer build time)
     dependencies = {
       "neovim/nvim-lspconfig",
@@ -819,7 +819,31 @@ return {
 
     end
   },
-  
+{
+  'stevearc/aerial.nvim',
+  opts = {},
+  -- Optional dependencies
+  dependencies = {
+     "nvim-treesitter/nvim-treesitter",
+     "nvim-tree/nvim-web-devicons"
+  },
+
+    config = function()
+      require("aerial").setup({
+        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+        on_attach = function(bufnr)
+          -- Jump forwards/backwards with '{' and '}'
+          vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+          vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+        end,
+      })
+      -- You probably also want to set a keymap to toggle aerial
+      vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+    end
+},
+
+
+
   {
     "wojciech-kulik/xcodebuild.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
@@ -848,8 +872,14 @@ return {
 
   {'nvim-tree/nvim-tree.lua',
     config = function()
-
-      vim.keymap.set('n', '<C-a>', "<cmd>NvimTreeToggle<CR>")
+      vim.keymap.set('n', '<C-a>', function()
+        local nvimtree = require'nvim-tree.view'
+        if not nvimtree.is_visible() then
+          vim.cmd("NvimTreeFindFile")
+        else
+          vim.cmd("NvimTreeClose")
+        end
+      end)
 
       local HEIGHT_RATIO = 0.5 -- You can change this
       local WIDTH_RATIO = 0.2  -- You can change this too
