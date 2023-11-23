@@ -57,13 +57,13 @@ return {
         mapping = {
           -- ... Your other mappings ...
           --
-          ['`'] = cmp.mapping.complete({
-            config = {
-              sources = {
-                { name = 'nvim_lsp', max_item_count = 15 },
-              }
-            }
-          }),
+          -- ['`'] = cmp.mapping.complete({
+          --   config = {
+          --     sources = {
+          --       { name = 'nvim_lsp', max_item_count = 15 },
+          --     }
+          --   }
+          -- }),
 
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then

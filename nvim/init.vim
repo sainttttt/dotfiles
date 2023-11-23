@@ -20,7 +20,6 @@ if exists('g:neovide')
     exec 'cd ~/code/tmp"'
 endif
 
-
 map <silent> <D-t> :tabnew<CR>
 map <silent> <D-w> :close<CR>
 
@@ -37,7 +36,6 @@ map v[ ysiw[
 map v* ysiw*
 map v8 ysiw*
 
-
 vnoremap / <esc>/\%V
 
 set guicursor=n-v-c-i:block
@@ -53,12 +51,15 @@ set smartcase
 set backspace=2
 let mapleader = ","
 nmap ' ,
-nmap ` <esc>
+nnoremap ` <esc>
 let maplocalleader = ",,"
 let g:netrw_silent = 1
 set ph=9
 nnoremap 8 :
+
+nnoremap aa a
 nmap af <Tab>
+
 nmap gf <leader>fg
 nmap ge <leader>ff
 nmap <C-u> <leader>fw
