@@ -47,10 +47,10 @@ return {
           completeopt = 'noselect,menu'
         },
 
-        -- performance = {
-        --   debounce = 600,
-        --   timeout = 2,
-        -- },
+        performance = {
+          debounce = 300,
+          timeout = 2,
+        },
 
         preselect = cmp.PreselectMode.None,
 

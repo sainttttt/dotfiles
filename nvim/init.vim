@@ -59,6 +59,8 @@ nnoremap 8 :
 
 nnoremap aa a
 nmap af <Tab>
+nmap ad 1
+nmap at <leader>mt
 
 nmap gf <leader>fg
 nmap ge <leader>ff
