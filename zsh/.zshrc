@@ -1,10 +1,10 @@
-# Disable globbing for URLs 
+# Disable globbing for URLs
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
-if [ "$TMUX" = "" ]; then 
+if [ "$TMUX" = "" ]; then
   if [ "$WINTYPE" = "dropdown" ]; then
     echo "cat"
     tmux new-session -A -s dropdown
@@ -89,6 +89,10 @@ export CPPFLAGS="-I/usr/local/opt/curl/include"
 export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig"
 export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib"
 
+
+# --download-sections "*93-111" to download the part between 93 seconds and 111 seconds.
+# For more accurate cutting, you can also use --force-keyframes-at-cuts
+
 alias ydl='y(){ cd /Volumes/SSD3/Streams; yt-dlp --no-playlist "$@" }; y'
 alias adl='aydl(){ cd /Volumes/SSD3/Streams; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
 alias y='ydl'
@@ -120,6 +124,14 @@ cs() { cd "$1"; ll }
 
 cgif() {  convert $1 "$(echo "$1"  | sed -e "s/\..*/\.gif/")" }
 cpng() {  convert $1 "$(echo "$1"  | sed -e "s/\..*/\.png/")" }
+cjpg() {  convert $1 -resize 1000x1000 -quality 95 "$(echo "$1"  | sed -e "s/\..*/\.jpg/")" }
+bcjpg() {
+  for f in $@
+  do
+    cjpg $f
+  done
+}
+
 c() { clear; tmux clear-history }
 
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
@@ -129,6 +141,8 @@ alias src="vim ~/.zshrc"
 alias code="cd ~/code"
 alias lazy="cd ~/.local/share/nvim/lazy"
 alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
+
+rg2() { rg  --no-heading --line-number  "$@" | cut -d':' -f1-2 }
 alias v='vim'
 alias gt='gitui'
 alias vrc='vim ~/.zshrc'
@@ -163,7 +177,7 @@ zstyle ':completion:*:*:vim:*:*files' ignored-patterns '*.o'
 alias gcc="gcc-13"
 alias g++="g++-13"
 
-export QTDIR=/usr/local/qt/5.15.2/clang_64 
+export QTDIR=/usr/local/qt/5.15.2/clang_64
 export PATH=$QTDIR:$QTDIR/bin:$PATH
 export PATH=$PATH:~/bin/gobin/
 export PATH=$PATH:~/.cargo/bin/

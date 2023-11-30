@@ -36,6 +36,13 @@ map v[ ysiw[
 map v* ysiw*
 map v8 ysiw*
 
+
+imap [<esc> <c-v>[<esc>
+imap {<esc> <c-v>{<esc>
+imap (<esc> <c-v>(<esc>
+imap '<esc> <c-v>'<esc>
+imap "<esc> <c-v>"<esc>
+
 vnoremap / <esc>/\%V
 
 set guicursor=n-v-c-i:block

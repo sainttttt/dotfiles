@@ -4,15 +4,6 @@ end
 
 return
   {
-    -- { "junegunn/fzf", build = ":call fzf#install()" },
-    -- {
-    --     "linrongbin16/fzfx.nvim",
-    --     dependencies = { "junegunn/fzf" },
-    --     config = function()
-    --         require("fzfx").setup()
-    --     end
-    -- },
-
     {
       "ibhagwan/fzf-lua",
       -- optional for icon support
@@ -35,6 +26,45 @@ return
               vim.keymap.set("t", "<Tab>", "<C-c>", { silent = true, buffer = true })
               vim.keymap.set("t", "<esc>", "<C-c>", { silent = true, buffer = true })
             end,
+
+          preview = {
+            -- default     = 'bat',           -- override the default previewer?
+            -- default uses the 'builtin' previewer
+            border         = 'border',        -- border|noborder, applies only to
+            -- native fzf previewers (bat/cat/git/etc)
+            wrap           = 'nowrap',        -- wrap|nowrap
+            hidden         = 'nohidden',      -- hidden|nohidden
+            vertical       = 'down:45%',      -- up|down:size
+            horizontal     = 'right:70%',     -- right|left:size
+            layout         = 'flex',          -- horizontal|vertical|flex
+            flip_columns   = 120,             -- #cols to switch to horizontal on flex
+            -- Only used with the builtin previewer:
+            title          = true,            -- preview border title (file/buf)?
+            title_align    = "left",          -- left|center|right, title alignment
+            scrollbar      = 'float',         -- `false` or string:'float|border'
+            -- float:  in-window floating border
+            -- border: in-border chars (see below)
+            scrolloff      = '-2',            -- float scrollbar offset from right
+            -- applies only when scrollbar = 'float'
+            scrollchars    = {'█', '' },      -- scrollbar chars ({ <full>, <empty> }
+            -- applies only when scrollbar = 'border'
+            delay          = 100,             -- delay(ms) displaying the preview
+            -- prevents lag on fast scrolling
+            winopts = {                       -- builtin previewer window options
+              number            = true,
+              relativenumber    = false,
+              cursorline        = true,
+              cursorlineopt     = 'both',
+              cursorcolumn      = false,
+              signcolumn        = 'no',
+              list              = false,
+              foldenable        = false,
+              foldmethod        = 'manual',
+            },
+          },
+
+
+
           },
 
           fzf_opts = {
@@ -46,6 +76,7 @@ return
             ['--info']        = 'inline',
             ['--height']      = '100%',
             ['--layout']      = 'default',
+            -- ['--keep-right']  = '',
             ['--border']      = 'none',
             ['--bind']      = 'change:top',
             ["--prompt"]      = '† >'
@@ -59,12 +90,51 @@ return
             },
           },
 
+          grep = {
+            prompt            = 'Rg❯ ',
+            input_prompt      = 'Grep For❯ ',
+            multiprocess      = true,           -- run command in a separate process
+            git_icons         = true,           -- show git icons?
+            file_icons        = true,           -- show file icons?
+            color_icons       = true,           -- colorize file|git icons
+            -- executed command priority is 'cmd' (if exists)
+            -- otherwise auto-detect prioritizes `rg` over `grep`
+            -- default options are controlled by 'rg|grep_opts'
+            -- cmd            = "rg --vimgrep",
+            grep_opts         = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp -e",
+            -- rg_opts           = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e | cut -d':' -f1-2 ",
+            -- set to 'true' to always parse globs in both 'grep' and 'live_grep'
+            -- search strings will be split using the 'glob_separator' and translated
+            -- to '--iglob=' arguments, requires 'rg'
+            -- can still be used when 'false' by calling 'live_grep_glob' directly
+            rg_glob           = false,        -- default to glob parsing?
+            glob_flag         = "--iglob",    -- for case sensitive globs use '--glob'
+            glob_separator    = "%s%-%-",     -- query separator pattern (lua): ' --'
+            -- advanced usage: for custom argument parsing define
+            -- 'rg_glob_fn' to return a pair:
+            --   first returned argument is the new search query
+            --   second returned argument are addtional rg flags
+            -- rg_glob_fn = function(query, opts)
+            --   ...
+            --   return new_query, flags
+            -- end,
+            actions = {
+              -- actions inherit from 'actions.files' and merge
+              -- this action toggles between 'grep' and 'live_grep'
+              ["ctrl-g"]      = { actions.grep_lgrep }
+            },
+            no_header             = false,    -- hide grep|cwd header?
+            no_header_i           = false,    -- hide interactive header?
+          },
+
+
         })
         local fzf_lua = require'fzf-lua'
         vim.keymap.set("n", "<Tab>", function() fzf_lua.files() end)
         vim.keymap.set("n", "<leader>vc", function() fzf_lua.live_grep({cwd="~/.config/nvim" }) end)
         vim.keymap.set("n", "<leader>vx", function() fzf_lua.files({cwd="~/.config/nvim" }) end)
-        vim.keymap.set("n", "<leader>fg", function() fzf_lua.live_grep() end)
+        vim.keymap.set("n", "<leader>fg", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
+        -- vim.keymap.set("n", "<leader>dg", function() fzf_lua.live_grep() end)
         vim.keymap.set("n", "<leader>fw", function() fzf_lua.grep_cword() end)
         vim.keymap.set("n", "gt", function() fzf_lua.resume() end)
         vim.keymap.set("n", "<c-g>", function() fzf_lua.resume() end)
@@ -76,7 +146,9 @@ return
     },
 
 
-    -- {'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+    {'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+
+    {'nvim-telescope/telescope-fzy-native.nvim'},
     {
       "folke/trouble.nvim",
       dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -103,7 +175,9 @@ return
 
         -- end, {})
 
-        vim.api.nvim_set_keymap("n", "<leader>og", [[<cmd>Telescope live_grep<cr>]], {})
+        -- vim.api.nvim_set_keymap("n", "<leader>fg", [[<cmd>Telescope live_grep<cr>]], {})
+        vim.api.nvim_set_keymap("n", "<leader>dg", [[<cmd>Telescope live_grep previewer=false<cr>]], {})
+        vim.api.nvim_set_keymap("n", "<leader>df", [[<cmd>Telescope live_grep<cr>]], {})
         -- vim.api.nvim_set_keymap("n", "<leader>ff", [[<cmd>Telescope resume<cr>]], {})
         vim.api.nvim_set_keymap("n", "<leader>of", [[<cmd>Telescope find_files<cr>]], {})
 
@@ -120,7 +194,6 @@ return
         -- vim.api.nvim_set_keymap("n", "`", [[<cmd>Telescope find_files<cr>]], {})
         -- vim.api.nvim_set_keymap("n", "1", [[<cmd>Telescope buffers<cr>]], {})
 
-        -- require('telescope').load_extension('fzf')
         local trouble = require("trouble.providers.telescope")
         local actions = require('telescope.actions')
 
@@ -153,6 +226,8 @@ return
             },
           },
         }
+        require('telescope').load_extension('fzy_native')
+        -- require('telescope').load_extension('fzf')
       end
     },
   }

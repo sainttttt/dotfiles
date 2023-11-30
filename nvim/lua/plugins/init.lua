@@ -54,14 +54,14 @@ return {
   --   opts = {} -- this is equalent to setup({}) function
   -- },
 
-  --{
-  --  'altermo/ultimate-autopair.nvim',
-  --  event={'InsertEnter','CmdlineEnter'},
-  --  branch='v0.6', --recomended as each new version will have breaking changes
-  --  opts={
-  --    --Config goes here
-  --  },
-  --},
+  {
+    'altermo/ultimate-autopair.nvim',
+    event={'InsertEnter','CmdlineEnter'},
+    branch='v0.6', --recomended as each new version will have breaking changes
+    opts={
+      --Config goes here
+    },
+  },
 
 
   {'ojroques/nvim-osc52',
@@ -624,17 +624,26 @@ return {
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
   'zah/nim.vim',
-  {'hrsh7th/vim-searchx',
-    config = function()
-      vim.keymap.set("n", "?", "<cmd>call searchx#start({ 'dir': 0 })<CR>")
-      vim.keymap.set("n", "/", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
-    end
+  -- {'hrsh7th/vim-searchx',
+  --   config = function()
+  --     vim.keymap.set("n", "?", "<cmd>call searchx#start({ 'dir': 0 })<CR>")
+  --     vim.keymap.set("n", "/", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+  --   end
 
-  },
+  -- },
 
   'prichrd/netrw.nvim',
   -- 'preservim/nerdtree',
-  -- 'https://gitlab.com/madyanov/svart.nvim',
+  --
+  --
+  { 'https://gitlab.com/madyanov/svart.nvim',
+
+    config = function()
+      vim.keymap.set({ "n", "x", "o" }, "'", "<Cmd>Svart<CR>")        -- begin exact search
+      vim.keymap.set({ "n", "x", "o" }, "\"", "<Cmd>SvartRegex<CR>")   -- begin regex search
+      vim.keymap.set({ "n", "x", "o" }, "g'", "<Cmd>SvartRepeat<CR>") -- repeat with last accepted query
+    end
+  },
 
   {'akinsho/toggleterm.nvim',
     config = function()
@@ -816,6 +825,17 @@ return {
 
   --   end
   -- },
+
+{
+  'stevearc/oil.nvim',
+  opts = {},
+  -- Optional dependencies
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("oil").setup()
+    end
+},
+
 {
   'stevearc/aerial.nvim',
   opts = {},
@@ -824,6 +844,7 @@ return {
      "nvim-treesitter/nvim-treesitter",
      "nvim-tree/nvim-web-devicons"
   },
+
 
     config = function()
       require("aerial").setup({
