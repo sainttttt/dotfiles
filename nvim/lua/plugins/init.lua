@@ -54,14 +54,14 @@ return {
   --   opts = {} -- this is equalent to setup({}) function
   -- },
 
-  {
-    'altermo/ultimate-autopair.nvim',
-    event={'InsertEnter','CmdlineEnter'},
-    branch='v0.6', --recomended as each new version will have breaking changes
-    opts={
-      --Config goes here
-    },
-  },
+  --{
+  --  'altermo/ultimate-autopair.nvim',
+  --  event={'InsertEnter','CmdlineEnter'},
+  --  branch='v0.6', --recomended as each new version will have breaking changes
+  --  opts={
+  --    --Config goes here
+  --  },
+  --},
 
 
   {'ojroques/nvim-osc52',
@@ -827,6 +827,22 @@ return {
   -- },
 
 {
+    "RomanoZumbe/yanki.nvim",
+    config = function()
+        require("yanki").setup()
+    end,
+    lazy = false
+},
+
+{
+  'piersolenski/telescope-import.nvim',
+  dependencies = 'nvim-telescope/telescope.nvim',
+  config = function()
+    require("telescope").load_extension("import")
+  end
+},
+
+{
   'stevearc/oil.nvim',
   opts = {},
   -- Optional dependencies
@@ -835,6 +851,7 @@ return {
       require("oil").setup()
     end
 },
+  { 'metakirby5/codi.vim' },
 
 {
   'stevearc/aerial.nvim',

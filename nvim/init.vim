@@ -63,6 +63,7 @@ let maplocalleader = ",,"
 let g:netrw_silent = 1
 set ph=9
 nnoremap 8 :
+nnoremap 9 :
 
 nnoremap aa a
 nmap af <Tab>
@@ -357,9 +358,9 @@ endfunction
 
 set rnu
 
-iab cl console.log
-iab pr print
 
+iab cl console.log
+iab p print
 
 
 " autocmd BufRead * DetectIndent

@@ -181,4 +181,5 @@ export QTDIR=/usr/local/qt/5.15.2/clang_64
 export PATH=$QTDIR:$QTDIR/bin:$PATH
 export PATH=$PATH:~/bin/gobin/
 export PATH=$PATH:~/.cargo/bin/
+export PATH=$PATH:~/.nimble/bin/
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
