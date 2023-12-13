@@ -47,7 +47,7 @@ return {
     end
   },
 
-  -- {'cohama/lexima.vim'},
+  {'cohama/lexima.vim'},
   -- {
   --   'windwp/nvim-autopairs',
   --   event = "InsertEnter",
@@ -525,11 +525,23 @@ return {
   --   end
   -- },
 
-  { 'andymass/vim-matchup',
-    config = function()
+  -- { 'andymass/vim-matchup',
+  --   config = function()
 
-      -- vim.keymap.set('n', "q", vim.cmd("normal %"))
-    end
+  --     -- vim.keymap.set('n', "q", vim.cmd("normal %"))
+  --   end
+  -- },
+  {
+    "utilyre/sentiment.nvim",
+    version = "*",
+    event = "VeryLazy", -- keep for lazy loading
+    opts = {
+      -- config
+    },
+    init = function()
+      -- `matchparen.vim` needs to be disabled manually in case of lazy loading
+      vim.g.loaded_matchparen = 1
+    end,
   },
 
   { "nvim-treesitter/nvim-treesitter-textobjects",

@@ -26,6 +26,8 @@ map <silent> <D-w> :close<CR>
 map <silent> <D-[> :tabprevious<CR>
 map <silent> <D-]> :tabnext<CR>
 
+nnoremap a; A;<Esc>o
+
 " nvim-surround stuff
 map v' ysiw'
 map v" ysiw"
