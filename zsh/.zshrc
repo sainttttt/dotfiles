@@ -15,6 +15,7 @@ fi
 
 source /usr/local/opt/asdf/libexec/asdf.sh
 eval "$(anyenv init -)"
+export EDITOR=nvim
 
 PROMPT_COMMAND='echo -ne "\033]0;$(basename ${PWD})\007"'
 precmd() { eval "$PROMPT_COMMAND" }
@@ -109,6 +110,7 @@ alias cxlast='chmod +x $(ls -t1 | head -1)'
 # fi
 
 alias vim="nvim"
+alias vi="vim"
 
 alias jk="jobs -p | grep -o -E '\s\d+\s'  | xargs kill -9"
 alias ll="ls -ltrh"

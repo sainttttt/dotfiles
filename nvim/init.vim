@@ -14,8 +14,6 @@ cnoremap <d-v> <c-r>+
 inoremap <d-r> <c-v>
 nnoremap <D-v> "+p
 
-
-map <Tab> <esc>
 if exists('g:neovide')
     exec 'cd ~/code/tmp"'
 endif
@@ -59,7 +57,7 @@ set ignorecase
 set smartcase
 set backspace=2
 let mapleader = ","
-nmap ' ,
+nmap ; ,
 nnoremap ` <esc>
 let maplocalleader = ",,"
 let g:netrw_silent = 1
@@ -68,7 +66,6 @@ nnoremap 8 :
 nnoremap 9 :
 
 nnoremap aa a
-nmap af <Tab>
 nmap ad 1
 nmap at <leader>mt
 
@@ -363,6 +360,7 @@ set rnu
 
 iab cl console.log
 iab p print
+iab pr print
 
 
 " autocmd BufRead * DetectIndent

@@ -11,43 +11,43 @@ matches:
 
   - trigger: ";;rn"
     replace: "site:reddit.com/r/ after:2023-01-01"
-    propagate_case: true
+    propagate_case: false
 
   - trigger: ";;rb"
     replace: "site:reddit.com/r/ after:2022-01-01"
-    propagate_case: true
+    propagate_case: false
 
   - trigger: ";;rs"
     replace: "site:reddit.com/r/"
-    propagate_case: true
+    propagate_case: false
 
   - trigger: ";;sn"
     replace: "site:reddit.com/r/ScientificNutrition"
-    propagate_case: true
+    propagate_case: false
 
   - trigger: ";;hf"
     replace: "site:head-fi.org"
-    propagate_case: true
+    propagate_case: false
 
   - trigger: ";;an"
     replace: "after:2023-01-01"
-    propagate_case: true
+    propagate_case: false
 
   - trigger: ";;ab"
     replace: "after:2022-01-01"
-    propagate_case: true
+    propagate_case: false
 
   - trigger: ";;sw"
     replace: "SwiftUI"
-    propagate_case: true
+    propagate_case: false
 
   - trigger: "@@hug2"
     replace: "https://cdn.discordapp.com/emojis/765313892783751249.gif?size=240&quality=lossless"
-    propagate_case: true
+    propagate_case: false
 
   - trigger: "@@mon"
     replace: "https://streamable.com/8a6i19"
-    propagate_case: true
+    propagate_case: false
 
   # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
 
