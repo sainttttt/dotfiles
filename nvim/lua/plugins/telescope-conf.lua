@@ -139,7 +139,7 @@ return
         vim.keymap.set("n", "gt", function() fzf_lua.resume() end)
         vim.keymap.set("n", "<c-g>", function() fzf_lua.resume() end)
         vim.keymap.set("n", "gr", function() fzf_lua.lsp_references() end)
-        vim.keymap.set("n", "1", function() fzf_lua.buffers() end)
+        vim.keymap.set("n", "1", function() fzf_lua.buffers(({fzf_opts={["--delimiter"]="' '",["--with-nth"]="-1.."}})) end)
 
                 -- :lua require'fzf-lua'.files({ prompt="LS> ", cmd = "ls", cwd="~/<folder>" })
       end
