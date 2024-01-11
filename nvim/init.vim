@@ -25,6 +25,7 @@ map <silent> <D-[> :tabprevious<CR>
 map <silent> <D-]> :tabnext<CR>
 
 nnoremap a; A;<Esc>o
+set maxmempattern=5000
 
 " nvim-surround stuff
 map v' ysiw'
@@ -42,6 +43,7 @@ imap {<esc> <c-v>{<esc>
 imap (<esc> <c-v>(<esc>
 imap '<esc> <c-v>'<esc>
 imap "<esc> <c-v>"<esc>
+imap "" <c-v>"<c-v>"
 
 vnoremap / <esc>/\%V
 

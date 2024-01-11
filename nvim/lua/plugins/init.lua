@@ -657,13 +657,13 @@ return {
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
   'zah/nim.vim',
-  -- {'hrsh7th/vim-searchx',
-  --   config = function()
-  --     vim.keymap.set("n", "?", "<cmd>call searchx#start({ 'dir': 0 })<CR>")
-  --     vim.keymap.set("n", "/", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
-  --   end
+  {'hrsh7th/vim-searchx',
+    config = function()
+      vim.keymap.set("n", "?", "<cmd>call searchx#start({ 'dir': 0 })<CR>")
+      vim.keymap.set("n", "/", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+    end
 
-  -- },
+  },
 
   'prichrd/netrw.nvim',
   -- 'preservim/nerdtree',
