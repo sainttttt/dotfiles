@@ -184,7 +184,7 @@ return {
 
         sync_install = false,
         matchup = {
-          enable = false,              -- mandatory, false will disable the whole extension
+          enable = true,              -- mandatory, false will disable the whole extension
           -- disable = { "swift" },  -- optional, list of language that will be disabled
           -- [options]
         },
