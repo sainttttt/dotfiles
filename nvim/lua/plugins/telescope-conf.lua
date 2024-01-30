@@ -2,6 +2,7 @@ local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+
 return
   {
     {
@@ -91,7 +92,7 @@ return
           },
 
           grep = {
-            prompt            = 'Rg❯ ',
+            prompt            = 'rg† ',
             input_prompt      = 'Grep For❯ ',
             multiprocess      = true,           -- run command in a separate process
             git_icons         = true,           -- show git icons?
@@ -101,8 +102,10 @@ return
             -- otherwise auto-detect prioritizes `rg` over `grep`
             -- default options are controlled by 'rg|grep_opts'
             -- cmd            = "rg --vimgrep",
-            grep_opts         = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp -e",
-            -- rg_opts           = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e | cut -d':' -f1-2 ",
+            -- grep_opts         = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp -e",
+            rg_opts           = function()
+                                  return "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e"
+                                end,
             -- set to 'true' to always parse globs in both 'grep' and 'live_grep'
             -- search strings will be split using the 'glob_separator' and translated
             -- to '--iglob=' arguments, requires 'rg'
@@ -172,6 +175,7 @@ return
         vim.keymap.set("n", "<leader>vc", function() fzf_lua.live_grep({cwd="~/.config/nvim" }) end)
         vim.keymap.set("n", "<leader>vx", function() fzf_lua.files({cwd="~/.config/nvim" }) end)
         vim.keymap.set("n", "<leader>fg", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
+        vim.keymap.set("n", "gF", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --no-ignore --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
         -- vim.keymap.set("n", "<leader>dg", function() fzf_lua.live_grep() end)
         vim.keymap.set("n", "<leader>fw", function() fzf_lua.grep_cword() end)
         vim.keymap.set("n", "gt", function() fzf_lua.resume() end)

@@ -357,8 +357,6 @@ endfunction
 " " for syntax highlighting on large files
 " set redrawtime=10000
 
-set rnu
-
 
 iab cl console.log
 iab p print
@@ -567,6 +565,7 @@ set cindent
 set ruler
 set laststatus=2
 set number
+" set rnu
 
 
 function! TexSetup()

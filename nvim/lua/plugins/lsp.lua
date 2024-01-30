@@ -12,7 +12,8 @@ local on_attach = function(client, bufnr)
   -- vim.keymap.set('n', 'gf', [[<cmd>vsplit |  exe "normal \<c-w>l" | lua vim.lsp.buf.definition()<CR>]], bufopts)
 
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
+
+  -- vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
 
   -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
