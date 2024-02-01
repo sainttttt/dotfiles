@@ -109,17 +109,18 @@ map 4 $
 "   au BufRead ?* silent! loadview 1
 " augroup END
 
-nnoremap 2 `
+nnoremap 2 z
+nnoremap z `
 
 map mm mM
 map mn mN
 map mb mB
 map mv mV
 
-map 2m 2M
-map 2n 2N
-map 2b 2B
-map 2v 2V
+map zm zM
+map zn zN
+map zb zB
+map zv zV
 
 " noremap ;; ``
 " nnoremap zz za
@@ -151,8 +152,8 @@ inoremap <silent> <M-s> <esc>:w<CR>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
 nnoremap <silent> QA :qa!<CR>
 
-
 autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
+autocmd Filetype qf map <buffer> <Space> <CR>
 
 nnoremap <C-a> :NvimTreeFindFile<CR>
 
@@ -565,7 +566,7 @@ set cindent
 set ruler
 set laststatus=2
 set number
-" set rnu
+set rnu
 
 
 function! TexSetup()

@@ -169,6 +169,9 @@ return {
         lightbulb = {
           enable = false,
         },
+        symbol_in_winbar = {
+          enable = false,
+        },
         finder = {
           max_height = 0.6,
           keys = {

@@ -36,11 +36,12 @@ return {
         -- Separator between context and content. Should be a single character string, like '-'.
         -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
         -- separator = '-',
-        zindex = 20, -- The Z-index of the context window
+        zindex = 500, -- The Z-index of the context window
         on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
       }
     end
   },
+
 {
   "folke/which-key.nvim",
   event = "VeryLazy",
@@ -193,7 +194,7 @@ return {
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-        ensure_installed = { "php", "swift", "css", "nim", "c", "lua", "vim", "vimdoc", "query", "javascript", "html" },
+        ensure_installed = { "php", "swift", "python", "css", "nim", "c", "lua", "vim", "vimdoc", "query", "javascript", "html" },
 
         sync_install = false,
         matchup = {
@@ -360,24 +361,24 @@ return {
       end
 
       local function toggleFold()
-        vim.cmd("normal za")
+        vim.cmd("normal 2a")
         incrementViewNumber()
       end
 
-      vim.keymap.set('n', 'zz', toggleFold, { noremap = true, silent = true })
+      vim.keymap.set('n', '22', toggleFold, { noremap = true, silent = true })
       vim.keymap.set({'n', 'x'}, 'E', toggleFold, { noremap = true, silent = true })
 
-      vim.keymap.set('n', 'zu', undoFold, { noremap = true, silent = true })
-      vim.keymap.set('n', 'zU', redoFold, { noremap = true, silent = true })
+      vim.keymap.set('n', '2u', undoFold, { noremap = true, silent = true })
+      vim.keymap.set('n', '2U', redoFold, { noremap = true, silent = true })
 
-      vim.keymap.set('n', 'zr', openAllFolds, { noremap = true, silent = true })
+      vim.keymap.set('n', '2r', openAllFolds, { noremap = true, silent = true })
 
-      vim.keymap.set('n', 'zm', closeAllFolds,{ noremap = true, silent = true })
+      vim.keymap.set('n', '2m', closeAllFolds,{ noremap = true, silent = true })
 
 
       -- vim.keymap.set('n', 'zr', require('ufo').openAllFolds, { noremap = true, silent = true })
-      vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { noremap = true, silent = true })
-      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds,{ noremap = true, silent = true })
+      vim.keymap.set('n', '2R', require('ufo').openAllFolds, { noremap = true, silent = true })
+      vim.keymap.set('n', '2M', require('ufo').closeAllFolds,{ noremap = true, silent = true })
     end
   },
 

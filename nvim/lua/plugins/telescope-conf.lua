@@ -101,7 +101,7 @@ return
             -- executed command priority is 'cmd' (if exists)
             -- otherwise auto-detect prioritizes `rg` over `grep`
             -- default options are controlled by 'rg|grep_opts'
-            -- cmd            = "rg --vimgrep",
+            cmd            = "rg --vimgrep",
             -- grep_opts         = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp -e",
             rg_opts           = function()
                                   return "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e"
@@ -172,7 +172,7 @@ return
         })
         local fzf_lua = require'fzf-lua'
         vim.keymap.set("n", "af", function() fzf_lua.files() end)
-        vim.keymap.set("n", "<leader>vc", function() fzf_lua.live_grep({cwd="~/.config/nvim" }) end)
+        vim.keymap.set("n", "<leader>vc", function() fzf_lua.live_grep({cwd="~/.config/nvim/" }) end)
         vim.keymap.set("n", "<leader>vx", function() fzf_lua.files({cwd="~/.config/nvim" }) end)
         vim.keymap.set("n", "<leader>fg", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
         vim.keymap.set("n", "gF", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --no-ignore --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
