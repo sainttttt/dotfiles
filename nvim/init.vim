@@ -293,6 +293,11 @@ set autoread
 
 let g:searchx = {}
 
+let g:context_enabled = 0
+let g:context_border_char = ''
+let g:context_highlight_normal = 'Context'
+let g:context_highlight_tag = '<hide>'
+
 " Auto jump if the recent input matches to any marker.
 let g:searchx.auto_accept = v:true
 
