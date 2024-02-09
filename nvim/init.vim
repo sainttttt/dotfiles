@@ -3,6 +3,9 @@ nnoremap <M-K> [m
 
 set clipboard+=unnamedplus
 
+nnoremap <CR> :
+vnoremap <CR> :
+
 cnoremap <d-v> <d-r>+
 " system clipboard
 nmap <d-c> "+y
@@ -112,6 +115,19 @@ map 4 $
 nnoremap 2 z
 nnoremap z `
 
+call mkdir('.vim', 'p')
+autocmd VimEnter *
+  \ if filereadable('.vim/Session.vim')
+  \ | source .vim/Session.vim
+  \ | endif
+autocmd VimLeavePre,BufEnter * mksession! .vim/session.vim
+if has('nvim')
+  set shadafile=.vim/main.shada
+else
+  set viminfofile=.vim/.viminfo
+endif
+
+" marks
 map mm mM
 map mn mN
 map mb mB
