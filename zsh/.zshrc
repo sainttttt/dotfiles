@@ -179,6 +179,9 @@ zstyle ':completion:*:*:vim:*:*files' ignored-patterns '*.o'
 alias gcc="gcc-13"
 alias g++="g++-13"
 
+alias gf="nvim -c \"let g:startcmd='gf'\""
+alias af="nvim -c \"let g:startcmd='af'\""
+
 export QTDIR=/usr/local/qt/5.15.2/clang_64
 export PATH=$QTDIR:$QTDIR/bin:$PATH
 export PATH=$PATH:~/bin/gobin/

@@ -1,6 +1,3 @@
-nnoremap <M-J> ]m
-nnoremap <M-K> [m
-
 set clipboard+=unnamedplus
 
 nnoremap <CR> :
@@ -287,9 +284,6 @@ set autoread
 "   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 
-
-
-
 " Overwrite / and ?.
 " nnoremap ? <Cmd>lua searchXBackward()<CR>
 " nnoremap / <Cmd>lua searchXForward()<CR>
@@ -363,27 +357,9 @@ endfunction
     \ })
  endif
 
-" function! s:check_back_space() abort
-"     let col = col('.') - 1
-"     return !col || getline('.')[col - 1]  =~ '\s'
-" endfunction
-
-" inoremap <silent><expr> <TAB>
-"   \ pumvisible() ? "\<C-n>" :
-"   \ <SID>check_back_space() ? "\<TAB>" :
-"   \ asyncomplete#force_refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-
-
-" " for syntax highlighting on large files
-" set redrawtime=10000
-
-
 iab cl console.log
 iab p print
 iab pr print
-
 
 " autocmd BufRead * DetectIndent
 
@@ -420,26 +396,12 @@ let g:vim_vue_plugin_config = {
 nnoremap <silent> ) :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> ( :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 
-nnoremap <silent> <Leader>g :GoldenRatioToggle<CR>
-
 let g:AutoPairs = {'(':')', '[':']', '{':'}'}
 
 " snake to camel case
 " :s#_\(\l\)#\u\1#g
 "
-
-let g:python_highlight_all = 1
-let g:python_highlight_operators = 0
-let g:python_highlight_file_headers_as_comments = 1
-
-let g:golden_ratio_exclude_nonmodifiable = 1
-let g:golden_ratio_wrap_ignored = 0
-let g:golden_ratio#disabled_filetypes = ['fzf', 'qf']
-
-
 let g:go_doc_keywordprg_enabled = 0
-
-set gfn=Monaco:h19
 
 set cursorline
 
@@ -451,7 +413,6 @@ let g:vimtex_view_method = 'skim'
 let g:vimtex_compiler_latexmk = {'callback' : 0}
 
 com! FormatJSON %!python -m json.tool
-
 
 " Damian Conway's Die Blinkënmatchen: highlight matches
 nnoremap <silent> n n:call HLNext(0.1)<cr>
@@ -527,7 +488,6 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 set guioptions-=l
 set guioptions-=r
 set guioptions-=b
-" set guifont=Ac437_ACM_VGA_8x16:h29
 set guifont=Ac437_ToshibaSat_9x14:h38
 set background=dark
 set wildmode=longest,list,full
@@ -625,9 +585,6 @@ autocmd FileType python set ts=4|set shiftwidth=4
 """"""""""""""""""""""""""""""""""""""""""
 
 filetype indent on
-
-" cursorline (makes it slow sometimes)
-" set nocursorline
 
 autocmd FileType c,cpp,java,javascript,php autocmd BufWritePre <buffer> :retab
 
@@ -792,3 +749,12 @@ augroup autocom
     "autocmd BufWritePost,FileWritePost *.cpp !your_commad
 augroup END
 
+
+
+function! StartCmd()
+  if exists("g:startcmd")
+    exec "normal ". g:startcmd
+  endif
+endfunction
+
+autocmd VimEnter * call StartCmd()

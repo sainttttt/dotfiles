@@ -28,44 +28,41 @@ return
               vim.keymap.set("t", "<esc>", "<C-c>", { silent = true, buffer = true })
             end,
 
-          preview = {
-            -- default     = 'bat',           -- override the default previewer?
-            -- default uses the 'builtin' previewer
-            border         = 'border',        -- border|noborder, applies only to
-            -- native fzf previewers (bat/cat/git/etc)
-            wrap           = 'nowrap',        -- wrap|nowrap
-            hidden         = 'nohidden',      -- hidden|nohidden
-            vertical       = 'down:45%',      -- up|down:size
-            horizontal     = 'right:70%',     -- right|left:size
-            layout         = 'flex',          -- horizontal|vertical|flex
-            flip_columns   = 120,             -- #cols to switch to horizontal on flex
-            -- Only used with the builtin previewer:
-            title          = true,            -- preview border title (file/buf)?
-            title_align    = "left",          -- left|center|right, title alignment
-            scrollbar      = 'float',         -- `false` or string:'float|border'
-            -- float:  in-window floating border
-            -- border: in-border chars (see below)
-            scrolloff      = '-2',            -- float scrollbar offset from right
-            -- applies only when scrollbar = 'float'
-            scrollchars    = {'█', '' },      -- scrollbar chars ({ <full>, <empty> }
-            -- applies only when scrollbar = 'border'
-            delay          = 100,             -- delay(ms) displaying the preview
-            -- prevents lag on fast scrolling
-            winopts = {                       -- builtin previewer window options
-              number            = true,
-              relativenumber    = false,
-              cursorline        = true,
-              cursorlineopt     = 'both',
-              cursorcolumn      = false,
-              signcolumn        = 'no',
-              list              = false,
-              foldenable        = false,
-              foldmethod        = 'manual',
+            preview = {
+              -- default     = 'bat',           -- override the default previewer?
+              -- default uses the 'builtin' previewer
+              border         = 'border',        -- border|noborder, applies only to
+              -- native fzf previewers (bat/cat/git/etc)
+              wrap           = 'nowrap',        -- wrap|nowrap
+              hidden         = 'nohidden',      -- hidden|nohidden
+              vertical       = 'down:45%',      -- up|down:size
+              horizontal     = 'right:70%',     -- right|left:size
+              layout         = 'flex',          -- horizontal|vertical|flex
+              flip_columns   = 120,             -- #cols to switch to horizontal on flex
+              -- Only used with the builtin previewer:
+              title          = true,            -- preview border title (file/buf)?
+              title_align    = "center",          -- left|center|right, title alignment
+              scrollbar      = 'float',         -- `false` or string:'float|border'
+              -- float:  in-window floating border
+              -- border: in-border chars (see below)
+              scrolloff      = '-2',            -- float scrollbar offset from right
+              -- applies only when scrollbar = 'float'
+              scrollchars    = {'█', '' },      -- scrollbar chars ({ <full>, <empty> }
+              -- applies only when scrollbar = 'border'
+              delay          = 100,             -- delay(ms) displaying the preview
+              -- prevents lag on fast scrolling
+              winopts = {                       -- builtin previewer window options
+                number            = true,
+                relativenumber    = false,
+                cursorline        = true,
+                cursorlineopt     = 'both',
+                cursorcolumn      = false,
+                signcolumn        = 'no',
+                list              = false,
+                foldenable        = false,
+                foldmethod        = 'manual',
+              },
             },
-          },
-
-
-
           },
 
           fzf_opts = {
@@ -174,8 +171,9 @@ return
         vim.keymap.set("n", "af", function() fzf_lua.files() end)
         vim.keymap.set("n", "<leader>vc", function() fzf_lua.live_grep({cwd="~/.config/nvim/" }) end)
         vim.keymap.set("n", "<leader>vx", function() fzf_lua.files({cwd="~/.config/nvim" }) end)
-        vim.keymap.set("n", "<leader>fg", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
-        vim.keymap.set("n", "gF", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --no-ignore --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
+        -- vim.keymap.set("n", "gf", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2 | rev | cut -d'/' -f1 | rev; }; rg2" }) end)
+        vim.keymap.set("n", "gf", function() fzf_lua.live_grep({ cmd = "rg2() { export LANG=en_US.UTF-8; rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
+        vim.keymap.set("n", "gF", function() fzf_lua.live_grep({ cmd = "rg2() { export LANG=en_US.UTF-8; rg  --column --no-ignore --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
         -- vim.keymap.set("n", "<leader>dg", function() fzf_lua.live_grep() end)
         vim.keymap.set("n", "<leader>fw", function() fzf_lua.grep_cword() end)
         vim.keymap.set("n", "gt", function() fzf_lua.resume() end)
