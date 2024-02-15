@@ -11,18 +11,24 @@ return {
     filter = true,
   },
 
-  { 'echasnovski/mini.nvim', version = false,
-    config = function()
-      require('mini.trailspace').setup()
-      vim.keymap.set('n', '<leader>mt', MiniTrailspace.trim)
-      vim.keymap.set('n', '<leader>mll', MiniTrailspace.trim_last_lines)
+    { 'echasnovski/mini.nvim', version = false,
+        config = function()
+            require('mini.trailspace').setup()
+            vim.keymap.set('n', '<leader>mt', MiniTrailspace.trim)
+            vim.keymap.set('n', '<leader>mll', MiniTrailspace.trim_last_lines)
 
-      require('mini.splitjoin').setup()
-      require('mini.align').setup()
-    end
-  },
+            require('mini.splitjoin').setup()
+            require('mini.align').setup()
+        end
+    },
 
-  'wellle/context.vim',
+    {
+        "ariel-frischer/bmessages.nvim",
+        event = "CmdlineEnter",
+        opts = {}
+    },
+
+  -- 'wellle/context.vim',
 
   {'nvim-treesitter/nvim-treesitter-context',
     config = function()
@@ -48,27 +54,27 @@ return {
     end
   },
 
-{
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  init = function()
-    vim.o.timeout = true
-    vim.o.timeoutlen = 300
-  end,
-  opts = {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-  }
-},
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  },
 
 
   { 'sainttttt/flesh-and-blood' },
   { 'sainttttt/portion.vim',
     config = function()
       require('portion').setup({
-      ratio = 0.4
-  })
+        ratio = 0.4
+      })
     end
   },
 
@@ -432,7 +438,7 @@ return {
 
   { "lukas-reineke/indent-blankline.nvim",
     main = "ibl", opts = {
-       indent = { char = "│" },
+      indent = { char = "│" },
     }
   },
   -- { "lukas-reineke/indent-blankline.nvim",
@@ -465,9 +471,9 @@ return {
   -- {'alaviss/nim.nvim'},
   {"ericvw/vim-nim"},
 
- {
-  'jakemason/ouroboros',
-  dependencies = { {'nvim-lua/plenary.nvim'} },
+  {
+    'jakemason/ouroboros',
+    dependencies = { {'nvim-lua/plenary.nvim'} },
     config = function()
       vim.cmd("autocmd! Filetype c,cpp noremap<buffer> 3 :Ouroboros<CR>")
     end
@@ -532,11 +538,11 @@ return {
         vaults = {
           cath = {
             -- configuration for personal vault. E.g.:
-        home = vim.fn.expand("~/zettelkasten/cath"), -- Put the name of your notes directory here
+            home = vim.fn.expand("~/zettelkasten/cath"), -- Put the name of your notes directory here
           },
           prog = {
             -- configuration for personal vault. E.g.:
-        home = vim.fn.expand("~/zettelkasten/prog"), -- Put the name of your notes directory here
+            home = vim.fn.expand("~/zettelkasten/prog"), -- Put the name of your notes directory here
           }
         },
       })
@@ -750,7 +756,7 @@ return {
           local logger = require "xbase.logger"
           logger.toggle()
         else
-        -- if true then
+          -- if true then
           vim.cmd("ToggleTerm")
           -- require("FTerm").toggle()
         end
@@ -803,7 +809,7 @@ return {
     end
   },
 
-  'tpope/vim-scriptease',
+  -- 'tpope/vim-scriptease',
   -- { 'JellyApple102/easyread.nvim' },
   'neovim/nvim-lspconfig',
 
@@ -878,64 +884,64 @@ return {
   --   end
   -- },
 
-{
+  {
     "RomanoZumbe/yanki.nvim",
     config = function()
-        require("yanki").setup()
+      require("yanki").setup()
     end,
     lazy = false
-},
+  },
 
-    -- {
-    --     'phux/vim-marker'
-    --     },
+  -- {
+  --     'phux/vim-marker'
+  --     },
 
--- {
---     'BartSte/nvim-project-marks',
---     lazy = false,
---     config = function()
---       require('projectmarks').setup({
---         -- If set to a string, the path to the shada file is set to the given value.
---         -- If set to a boolean, the global shada file of neovim is used.
---         shadafile = 'nvim.shada',
+  -- {
+  --     'BartSte/nvim-project-marks',
+  --     lazy = false,
+  --     config = function()
+  --       require('projectmarks').setup({
+  --         -- If set to a string, the path to the shada file is set to the given value.
+  --         -- If set to a boolean, the global shada file of neovim is used.
+  --         shadafile = 'nvim.shada',
 
---         -- If set to true, the "'" and "`" mappings are are appended by the
---         -- `last_position`, and `last_column_position` functions, respectively.
---         mappings = true,
+  --         -- If set to true, the "'" and "`" mappings are are appended by the
+  --         -- `last_position`, and `last_column_position` functions, respectively.
+  --         mappings = true,
 
---         -- Message to be displayed when jumping to a mark.
---         message = 'Waiting for mark...'
---       })
---     end
--- },
+  --         -- Message to be displayed when jumping to a mark.
+  --         message = 'Waiting for mark...'
+  --       })
+  --     end
+  -- },
 
-{
-  'piersolenski/telescope-import.nvim',
-  dependencies = 'nvim-telescope/telescope.nvim',
-  config = function()
-    require("telescope").load_extension("import")
-  end
-},
+  {
+    'piersolenski/telescope-import.nvim',
+    dependencies = 'nvim-telescope/telescope.nvim',
+    config = function()
+      require("telescope").load_extension("import")
+    end
+  },
 
-{
-  'stevearc/oil.nvim',
-  opts = {},
-  -- Optional dependencies
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("oil").setup()
     end
-},
+  },
   { 'metakirby5/codi.vim' },
 
-{
-  'stevearc/aerial.nvim',
-  opts = {},
-  -- Optional dependencies
-  dependencies = {
-     "nvim-treesitter/nvim-treesitter",
-     "nvim-tree/nvim-web-devicons"
-  },
+  {
+    'stevearc/aerial.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    },
 
 
     config = function()
@@ -950,7 +956,7 @@ return {
       -- You probably also want to set a keymap to toggle aerial
       vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
     end
-},
+  },
 
 
 
@@ -994,6 +1000,16 @@ return {
       local HEIGHT_RATIO = 0.5 -- You can change this
       local WIDTH_RATIO = 0.2  -- You can change this too
       require("nvim-tree").setup({
+        on_attach = function(bufnr)
+
+          local api = require('nvim-tree.api')
+          vim.keymap.set('n', 's', api.node.open.vertical)
+          vim.keymap.set('n', '<C-v>', api.node.open.vertical)
+          vim.keymap.set('n', '<C-v>', api.node.open.vertical)
+          vim.keymap.set('n', '<CR>', api.node.open.edit)
+          vim.keymap.set('n', 'l', api.node.open.edit)
+          vim.keymap.set('n', 'h', api.node.navigate.parent_close)
+        end,
         actions = {
           open_file = {
             window_picker = {
@@ -1117,48 +1133,105 @@ return {
   },
     -- enabled = false,
     config = function()
-      require("noice").setup {
+            require("noice").setup {
+                views = {
+                    mini = {
+                        backend = "mini",
+                        relative = "editor",
+                        align = "text-left",
+                        timeout = 1000,
+                        reverse = true,
+                        focusable = false,
+                        position = {
+                            row = -1,
+                            col = "100%",
+                            -- col = 0,
+                        },
+                        size = "auto",
+                        border = {
+                            style = "none",
+                        },
+                        zindex = 360,
+                        win_options = {
+                            winbar = "",
+                            foldenable = false,
+                            winblend = 30,
+                            winhighlight = {
+                                Normal = "NoiceMini",
+                                IncSearch = "",
+                                CurSearch = "",
+                                Search = "",
+                            },
+                        },
+                    },
+                    confirm = {
+                        backend = "popup",
+                        relative = "editor",
+                        focusable = false,
+                        align = "center",
+                        enter = false,
+                        zindex = 210,
+                        format = { "{confirm}" },
+                        position = {
+                            row = "50%",
+                            col = "50%",
+                        },
+                        size = "auto",
+                        border = {
+                            style = "rounded",
+                            padding = { 0, 1 },
+                            text = {
+                                top = " Confirm ",
+                            },
+                        },
+                    },
+                    -- cmdline_popup = {
+                    --   border = {
+                    --     style = "none",
+                    --     padding = { 2, 3 },
+                    --   },
+                    --   filter_options = {},
+                    --   win_options = {
+                    --     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+                    --   },
+                    -- },
+                },
+                routes = {
+                    filter = {
+                        event = 'msg_show',
+                        kind = '',
+                        find = 'more line',
+                    },
+                    opts = { skip = true },
+                },
+                lsp = {
+                    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+                    override = {
+                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                        ["vim.lsp.util.stylize_markdown"] = true,
+                        ["cmp.entry.get_documentation"] = true,
+                    },
+                },
+                -- you can enable a preset for easier configuration
+                presets = {
+                    bottom_search = true, -- use a classic bottom cmdline for search
+                    -- command_palette = true, -- position the cmdline and popupmenu together
+                    long_message_to_split = false, -- long messages will be sent to a split
+                    inc_rename = false, -- enables an input dialog for inc-rename.nvim
+                    lsp_doc_border = false, -- add a border to hover docs and signature help
+                },
 
-        -- views = {
-        --   cmdline_popup = {
-        --     border = {
-        --       style = "none",
-        --       padding = { 2, 3 },
-        --     },
-        --     filter_options = {},
-        --     win_options = {
-        --       winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-        --     },
-        --   },
-        -- },
-        lsp = {
-          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-          override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = true,
-          },
-        },
-        -- you can enable a preset for easier configuration
-        presets = {
-          bottom_search = true, -- use a classic bottom cmdline for search
-          -- command_palette = true, -- position the cmdline and popupmenu together
-          long_message_to_split = true, -- long messages will be sent to a split
-          inc_rename = false, -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = false, -- add a border to hover docs and signature help
-        },
-
-        messages = {
-          -- NOTE: If you enable messages, then the cmdline is enabled automatically.
-          -- This is a current Neovim limitation.
-          enabled = false, -- enables the Noice messages UI
-          view = "mini", -- default view for messages
-          view_error = "mini", -- view for errors
-          view_warn = "mini", -- view for warnings
-          view_history = "messages", -- view for :messages
-          view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
-        },
-      }
+                messages = {
+                    -- NOTE: If you enable messages, then the cmdline is enabled automatically.
+                    -- This is a current Neovim limitation.
+                    enabled = false, -- enables the Noice messages UI
+                    view = "mini", -- default view for messages
+                    view_error = "mini", -- view for errors
+                    view_warn = "mini", -- view for warnings
+                    view_history = "messages", -- view for :messages
+                    view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+                },
+            }
     end
   },
 }

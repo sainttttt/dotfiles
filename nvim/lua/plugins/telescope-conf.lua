@@ -74,7 +74,7 @@ return
             ['--info']        = 'inline',
             ['--height']      = '100%',
             ['--layout']      = 'default',
-            -- ['--keep-right']  = '',
+            ['--keep-right']  = '',
             ['--border']      = 'none',
             ['--bind']      = 'change:top',
             ["--prompt"]      = '† >'
@@ -126,6 +126,15 @@ return
             no_header             = false,    -- hide grep|cwd header?
             no_header_i           = false,    -- hide interactive header?
           },
+
+          previewers = {
+            builtin = {
+              title_fnamemodify = function(s) return s end,
+            }
+          },
+
+
+
           files = {
             -- previewer      = "bat",          -- uncomment to override previewer
             -- (name from 'previewers' table)
@@ -169,8 +178,9 @@ return
         })
         local fzf_lua = require'fzf-lua'
         vim.keymap.set("n", "af", function() fzf_lua.files() end)
-        vim.keymap.set("n", "<leader>vc", function() fzf_lua.live_grep({cwd="~/.config/nvim/" }) end)
+        vim.keymap.set("n", "<leader>vc", function() fzf_lua.live_grep({ cmd = "rg2() { export LANG=en_US.UTF-8; rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2", cwd="~/.config/nvim"  }) end)
         vim.keymap.set("n", "<leader>vx", function() fzf_lua.files({cwd="~/.config/nvim" }) end)
+
         -- vim.keymap.set("n", "gf", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2 | rev | cut -d'/' -f1 | rev; }; rg2" }) end)
         vim.keymap.set("n", "gf", function() fzf_lua.live_grep({ cmd = "rg2() { export LANG=en_US.UTF-8; rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
         vim.keymap.set("n", "gF", function() fzf_lua.live_grep({ cmd = "rg2() { export LANG=en_US.UTF-8; rg  --column --no-ignore --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)

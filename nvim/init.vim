@@ -91,9 +91,7 @@ set noshowmode
 
 autocmd CursorHold * echon ''
 
-
 map <silent> e <Plug>CamelCaseMotion_w
-
 
 set fdo-=search
 
@@ -125,6 +123,7 @@ else
 endif
 
 " marks
+
 map mm mM
 map mn mN
 map mb mB
@@ -212,13 +211,21 @@ endfunction
 nnoremap J 15j
 nnoremap K 15k
 
-nnoremap <silent>L :MoveCursor<cr>
 " xnoremap <silent>L :<C-u>call VMoveCursor('')<cr>
-xnoremap <silent>L :<C-u> VMoveCursor<cr>
-xnoremap <silent>J :<C-u> VMoveCursor<cr>
-nnoremap <silent>H : MoveCursor b<cr>
 " xnoremap <silent>H :<C-u> VMoveCursor('b')<cr>
+"
+nnoremap <silent>L :MoveCursor<cr>
+nnoremap <silent><down> :MoveCursor<cr>
+nnoremap <silent><s-down> :MoveCursor<cr>
+
+xnoremap <silent>L :<C-u> VMoveCursor<cr>
+
+nnoremap <silent>H : MoveCursor b<cr>
+nnoremap <silent><up> : MoveCursor b<cr>
+nnoremap <silent><s-up> : MoveCursor b<cr>
 xnoremap <silent>H :<C-u> VMoveCursor b<cr>
+
+xnoremap <silent>J :<C-u> VMoveCursor<cr>
 xnoremap <silent>K :<C-u> VMoveCursor b<cr>
 
 
