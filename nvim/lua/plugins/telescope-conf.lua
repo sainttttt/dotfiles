@@ -181,6 +181,7 @@ return
         vim.keymap.set("n", "<leader>vc", function() fzf_lua.live_grep({ cmd = "rg2() { export LANG=en_US.UTF-8; rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2", cwd="~/.config/nvim"  }) end)
         vim.keymap.set("n", "<leader>vx", function() fzf_lua.files({cwd="~/.config/nvim" }) end)
 
+
         -- vim.keymap.set("n", "gf", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2 | rev | cut -d'/' -f1 | rev; }; rg2" }) end)
         vim.keymap.set("n", "gf", function() fzf_lua.live_grep({ cmd = "rg2() { export LANG=en_US.UTF-8; rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)
         vim.keymap.set("n", "gF", function() fzf_lua.live_grep({ cmd = "rg2() { export LANG=en_US.UTF-8; rg  --column --no-ignore --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2; }; rg2" }) end)

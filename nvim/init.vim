@@ -68,7 +68,7 @@ nnoremap 8 :
 nnoremap 9 :
 
 nnoremap aa a
-nmap ad 1
+" nmap ad 1
 nmap at <leader>mt
 
 nmap gf <leader>fg

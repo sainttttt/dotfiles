@@ -43,8 +43,9 @@ return {
         -- Separator between context and content. Should be a single character string, like '-'.
         -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
         -- separator = '-',
-        zindex = 500, -- The Z-index of the context window
+        zindex = 41,
         on_attach = function()
+          -- print("new attach")
           if vim.bo.filetype == "swift" then
             -- vim.cmd("ContextEnable")
             return false
@@ -492,7 +493,7 @@ return {
     "folke/zen-mode.nvim",
     config = function()
       vim.keymap.set('n', '<Leader>z', "<cmd>ZenMode<CR>")
-      vim.keymap.set('n', 'vf', "<cmd>ZenMode<CR>")
+      vim.keymap.set('n', 'vf', "<cmd>TSContextDisable<CR><cmd>TSContextEnable<CR><cmd>ZenMode<CR>")
       require('zen-mode').setup {
         window = {
           backdrop = 1, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
@@ -1003,12 +1004,13 @@ return {
         on_attach = function(bufnr)
 
           local api = require('nvim-tree.api')
-          vim.keymap.set('n', 's', api.node.open.vertical)
-          vim.keymap.set('n', '<C-v>', api.node.open.vertical)
-          vim.keymap.set('n', '<C-v>', api.node.open.vertical)
-          vim.keymap.set('n', '<CR>', api.node.open.edit)
-          vim.keymap.set('n', 'l', api.node.open.edit)
-          vim.keymap.set('n', 'h', api.node.navigate.parent_close)
+          vim.keymap.set('n', 's', api.node.open.vertical, {buffer = bufnr})
+          vim.keymap.set('n', '<C-v>', api.node.open.vertical, {buffer = bufnr})
+          vim.keymap.set('n', '<C-v>', api.node.open.vertical, {buffer = bufnr})
+          vim.keymap.set('n', '<CR>', api.node.open.edit, {buffer = bufnr})
+          vim.keymap.set('n', 'l', api.node.open.edit, {buffer = bufnr})
+          vim.keymap.set('n', 'h', api.node.navigate.parent_close, {buffer = bufnr})
+          vim.keymap.set('n', 'o',   api.tree.change_root_to_node, {buffer = bufnr})
         end,
         actions = {
           open_file = {
