@@ -60,7 +60,7 @@ return {
     event = "VeryLazy",
     init = function()
       vim.o.timeout = true
-      vim.o.timeoutlen = 300
+      vim.o.timeoutlen = 1500
     end,
     opts = {
       -- your configuration comes here
@@ -490,10 +490,20 @@ return {
   -- },
 
   {
-    "folke/zen-mode.nvim",
+    -- "folke/zen-mode.nvim",
+    "sainttttt/zen-mode.nvim",
     config = function()
       vim.keymap.set('n', '<Leader>z', "<cmd>ZenMode<CR>")
-      vim.keymap.set('n', 'vf', "<cmd>TSContextDisable<CR><cmd>TSContextEnable<CR><cmd>ZenMode<CR>")
+    vim.keymap.set('n', 'vf', function()
+        vim.cmd("ZenMode")
+        -- vim.cmd("TSContextDisable")
+        -- vim.cmd("TSContextEnable")
+        -- vim.cmd("redraw")
+        -- vim.cmd("exec 'normal l'")
+        -- vim.cmd("redraw")
+    end)
+
+
       require('zen-mode').setup {
         window = {
           backdrop = 1, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
@@ -884,6 +894,16 @@ return {
 
   --   end
   -- },
+
+{"miversen33/sunglasses.nvim", 
+    config = {
+      filter_type = "SHADE",
+      filter_percent = .10,
+  },
+
+
+    event = "UIEnter"
+  },
 
   {
     "RomanoZumbe/yanki.nvim",
