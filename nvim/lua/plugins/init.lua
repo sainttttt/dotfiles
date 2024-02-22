@@ -29,31 +29,72 @@ return {
     },
 
   -- 'wellle/context.vim',
-
-  {'nvim-treesitter/nvim-treesitter-context',
+   
+  {'RRethy/vim-illuminate',
     config = function()
-      require'treesitter-context'.setup {
-        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        max_lines = 6, -- How many lines the window should span. Values <= 0 mean no limit.
-        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-        line_numbers = true,
-        multiline_threshold = 20, -- Maximum number of lines to show for a single context
-        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
-        -- Separator between context and content. Should be a single character string, like '-'.
-        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-        -- separator = '-',
-        zindex = 41,
-        on_attach = function()
-          -- print("new attach")
-          if vim.bo.filetype == "swift" then
-            -- vim.cmd("ContextEnable")
-            return false
-          end
-        end, -- (fun(buf: integer): boolean) return false to disable attaching
-      }
+      require('illuminate').configure({})
     end
   },
+
+  {
+    "luckasRanarison/nvim-devdocs",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      dir_path = vim.fn.stdpath("data") .. "/devdocs", -- installation directory
+      telescope = {}, -- passed to the telescope picker
+      filetypes = {
+        -- extends the filetype to docs mappings used by the `DevdocsOpenCurrent` command, the version doesn't have to be specified
+        -- scss = "sass",
+        -- javascript = { "node", "javascript" }
+      },
+      float_win = { -- passed to nvim_open_win(), see :h api-floatwin
+        relative = "editor",
+        height = 40,
+        width = 100,
+        border = "rounded",
+      },
+      wrap = false, -- text wrap, only applies to floating window
+      previewer_cmd = "glow",
+      cmd_args = {"-s", "dark", "-w", "80" },
+      picker_cmd_args = { "-p"},
+      cmd_args = {}, -- example using glow: { "-s", "dark", "-w", "80" }
+      cmd_ignore = {}, -- ignore cmd rendering for the listed docs
+      mappings = { -- keymaps for the doc buffer
+        open_in_browser = ""
+      },
+      ensure_installed = {}, -- get automatically installed
+      after_open = function(bufnr) end, -- callback that runs after the Devdocs window is opened. Devdocs buffer ID will be passed in
+    }
+  },
+
+  -- {'nvim-treesitter/nvim-treesitter-context',
+  --   config = function()
+  --     require'treesitter-context'.setup {
+  --       enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+  --       max_lines = 6, -- How many lines the window should span. Values <= 0 mean no limit.
+  --       min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+  --       line_numbers = true,
+  --       multiline_threshold = 20, -- Maximum number of lines to show for a single context
+  --       trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+  --       mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+  --       -- Separator between context and content. Should be a single character string, like '-'.
+  --       -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+  --       -- separator = '-',
+  --       zindex = 41,
+  --       on_attach = function()
+  --         -- print("new attach")
+  --         if vim.bo.filetype == "swift" or vim.bo.filetype == "nim" then
+  --           -- vim.cmd("ContextEnable")
+  --           return false
+  --         end
+  --       end, -- (fun(buf: integer): boolean) return false to disable attaching
+  --     }
+  --   end
+  -- },
 
   {
     "folke/which-key.nvim",
@@ -207,7 +248,18 @@ return {
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-        ensure_installed = { "php", "swift", "python", "css", "nim", "c", "lua", "vim", "vimdoc", "query", "javascript", "html" },
+        ensure_installed = { "php",
+          "swift",
+          "python",
+          "css",
+          "c",
+          "lua",
+          "vim",
+          "vimdoc",
+          "query",
+          "javascript",
+          "html"},
+
 
         sync_install = false,
         matchup = {
@@ -469,9 +521,8 @@ return {
   --   end
   -- },
 
-  -- {'alaviss/nim.nvim'},
+  {'alaviss/nim.nvim'},
   {"ericvw/vim-nim"},
-
   {
     'jakemason/ouroboros',
     dependencies = { {'nvim-lua/plenary.nvim'} },
@@ -693,27 +744,23 @@ return {
 
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
-  'zah/nim.vim',
   {'hrsh7th/vim-searchx',
     config = function()
-      vim.keymap.set("n", "?", "<cmd>call searchx#start({ 'dir': 0 })<CR>")
-      vim.keymap.set("n", "/", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+      vim.keymap.set("n", ";", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
     end
 
   },
 
   'prichrd/netrw.nvim',
-  -- 'preservim/nerdtree',
-  --
-  --
-  { 'https://gitlab.com/madyanov/svart.nvim',
 
-    config = function()
-      vim.keymap.set({ "n", "x", "o" }, "'", "<Cmd>Svart<CR>")        -- begin exact search
-      vim.keymap.set({ "n", "x", "o" }, "\"", "<Cmd>SvartRegex<CR>")   -- begin regex search
-      vim.keymap.set({ "n", "x", "o" }, "g'", "<Cmd>SvartRepeat<CR>") -- repeat with last accepted query
-    end
-  },
+  -- { 'https://gitlab.com/madyanov/svart.nvim',
+
+  --   config = function()
+  --     vim.keymap.set({ "n", "x", "o" }, "'", "<Cmd>Svart<CR>")        -- begin exact search
+  --     vim.keymap.set({ "n", "x", "o" }, "\"", "<Cmd>SvartRegex<CR>")   -- begin regex search
+  --     vim.keymap.set({ "n", "x", "o" }, "g'", "<Cmd>SvartRepeat<CR>") -- repeat with last accepted query
+  --   end
+  -- },
 
   {'akinsho/toggleterm.nvim',
     config = function()

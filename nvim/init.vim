@@ -1,4 +1,5 @@
 set clipboard+=unnamedplus
+let mapleader = ","
 
 nnoremap <CR> :
 vnoremap <CR> :
@@ -24,8 +25,13 @@ map <silent> <D-w> :close<CR>
 map <silent> <D-[> :tabprevious<CR>
 map <silent> <D-]> :tabnext<CR>
 
+
 nnoremap a; A;<Esc>o
 set maxmempattern=5000
+
+map U L
+map I H
+
 
 " nvim-surround stuff
 map v' ysiw'
@@ -58,10 +64,11 @@ filetype plugin on
 set ignorecase
 set smartcase
 set backspace=2
-let mapleader = ","
-nmap ; ,
+nnoremap ; /
+nmap / <esc>
+
 nnoremap ` <esc>
-let maplocalleader = ",,"
+
 let g:netrw_silent = 1
 set ph=9
 nnoremap 8 :
@@ -237,7 +244,7 @@ noremap <C-n> J
 " splits
 map <C-J> <C-w>j
 map <C-K> <C-w>k
-map <C-h> <C-w>h
+map <C-h> <C-w>ikh
 nnoremap <M-H> <C-w>h
 nnoremap <M-L> <C-w>l
 nnoremap <C-H> <C-w>h
@@ -249,7 +256,6 @@ inoremap <C-l> <Esc><C-w>l
 nnoremap <M-.> <C-w>L
 nnoremap <M-,> <C-w>K
 nnoremap <M-m> <C-w>J
-nnoremap <M-n> <C-w>H
 
 " --------------------------------------------------
 " delete and yank ----------------------------------
@@ -583,10 +589,12 @@ autocmd FileType python set ts=4|set shiftwidth=4
 """""""""""""""""""""""""""""""""""""""""""
 " COMMENTING
 """"""""""""""""""""""""""""""""""""""""""
- nmap \ gcc
- vmap \ gc
- nmap \| gcc
- vmap \| gc
+nmap av gcc
+vmap av gc
+vmap F gc
+
+nmap tt Yp
+nmap tr YVgc<esc>p
 
 """""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""
@@ -765,3 +773,6 @@ function! StartCmd()
 endfunction
 
 autocmd VimEnter * call StartCmd()
+
+map <M-n> Tab
+map <M-N> <S-Tab>

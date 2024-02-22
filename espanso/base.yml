@@ -41,12 +41,28 @@ matches:
     replace: "SwiftUI"
     propagate_case: false
 
-  - trigger: "@@hug2"
+  - trigger: ";;hug2"
     replace: "https://cdn.discordapp.com/emojis/765313892783751249.gif?size=240&quality=lossless"
     propagate_case: false
 
-  - trigger: "@@mon"
+  - trigger: ";;mon"
     replace: "https://streamable.com/8a6i19"
+    propagate_case: false
+
+  - trigger: ";;gasp"
+    replace: "https://cdn.discordapp.com/emojis/812440825014648842.gif?size=160&quality=lossless"
+    propagate_case: false
+
+  - trigger: ";;hype"
+    replace: "https://media.discordapp.net/attachments/713760162460074034/912395888779985006/FrenWiggleDance.gif "
+    propagate_case: false
+
+  - trigger: ";;gig"
+    replace: "https://cdn.discordapp.com/attachments/713760162460074034/906235599231533056/giggle-emote.png "
+    propagate_case: false
+
+  - trigger: ";;think"
+    replace: "https://cdn.discordapp.com/attachments/713760162460074034/901164682860183562/Thinkingfren2.png "
     propagate_case: false
 
   # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
