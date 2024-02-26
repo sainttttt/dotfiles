@@ -65,6 +65,50 @@ matches:
     replace: "https://cdn.discordapp.com/attachments/713760162460074034/901164682860183562/Thinkingfren2.png "
     propagate_case: false
 
+  - trigger: ";;yay"
+    replace: "https://cdn.discordapp.com/attachments/991450167041605662/1067994340787503125/YayFren.gif "
+    propagate_case: false
+
+  - trigger: ";;hab"
+    replace: "https://cdn.discordapp.com/emojis/839902262607478804.webp?size=240&quality=lossless"
+    propagate_case: false
+
+  - trigger: ";;read"
+    replace: "https://i.imgur.com/gHratu7.gif "
+    propagate_case: false
+
+  - trigger: ";;note"
+    replace: "https://cdn.discordapp.com/attachments/1117213342554144839/1117215325088391238/FrenReviewingNotes.gif"
+    propagate_case: false
+
+  - trigger: ";;lub"
+    replace: "https://cdn.discordapp.com/attachments/679399659843616831/974773143182929940/lubyoufren.gif "
+    propagate_case: false
+
+  - trigger: ";;hug"
+    replace: "https://cdn.discordapp.com/attachments/1117213342554144839/1117215020300910602/HugFrens.gif "
+    propagate_case: false
+
+  - trigger: ";;hug2"
+    replace: "https://cdn.discordapp.com/emojis/765313892783751249.gif?size=240&quality=lossless "
+    propagate_case: false
+
+  - trigger: ";;hug3"
+    replace: "https://i.imgur.com/2o2p0HQ.gif "
+    propagate_case: false
+
+  - trigger: ";;sal"
+    replace: "https://cdn.discordapp.com/attachments/1117213342554144839/1117214336528683099/SaluteFren.gif "
+    propagate_case: false
+
+  - trigger: ";;yes"
+    replace: "https://files.catbox.moe/e6zlm6.gif"
+    propagate_case: false
+
+  - trigger: ";;pls"
+    replace: "https://cdn.discordapp.com/emojis/704005650350604288.webp?size=240&quality=lossless "
+    propagate_case: false
+
   # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
 
   # But matches can also be dynamic:

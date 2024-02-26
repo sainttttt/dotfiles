@@ -1,12 +1,14 @@
 set clipboard+=unnamedplus
 let mapleader = ","
 
-nnoremap <CR> :
-vnoremap <CR> :
+nnoremap <CR> n
+nnoremap <C-L> n
+vnoremap <CR> n
 
 cnoremap <d-v> <d-r>+
 " system clipboard
 nmap <d-c> "+y
+
 vmap <d-c> "+y
 nmap <d-v> "+p
 inoremap <d-v> <c-r>+
@@ -25,12 +27,11 @@ map <silent> <D-w> :close<CR>
 map <silent> <D-[> :tabprevious<CR>
 map <silent> <D-]> :tabnext<CR>
 
+nnoremap <Tab> n
+nnoremap <S-Tab> N
 
 nnoremap a; A;<Esc>o
 set maxmempattern=5000
-
-map U L
-map I H
 
 
 " nvim-surround stuff
@@ -242,7 +243,12 @@ noremap <C-n> J
 " nnoremap q %
 
 " splits
-map <C-J> <C-w>j
+nnoremap <C-J> <C-w>j
+nnoremap <C-J> <esc><C-w>j
+
+nnoremap <C-T> <C-w>l
+inoremap <C-T> <esc><C-w>l
+
 map <C-K> <C-w>k
 map <C-h> <C-w>ikh
 nnoremap <M-H> <C-w>h

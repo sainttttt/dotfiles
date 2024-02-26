@@ -68,7 +68,11 @@ vim.keymap.set('n', 'z;', function() foldcus.fold(4)   end, NS)
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = "," -- Make sure to set `mapleader` before lazy so your mappings are correct
 
-require("lazy").setup("plugins")
+require("lazy").setup("plugins", {
+	change_detection = {
+		notify = false,
+	},
+})
 
 
 vim.g.loaded_netrw = 1

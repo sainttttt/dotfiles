@@ -182,6 +182,32 @@ alias g++="g++-13"
 alias gf="nvim -c \"let g:startcmd='gf'\""
 alias af="nvim -c \"let g:startcmd='af'\""
 
+alias fa="fg"
+
+setopt auto_pushd
+
+
+vi-ls() { zle vi-insert; l; zle kill-whole-line; zle accept-line }
+zle -N vi-ls
+bindkey -M vicmd "^A" vi-ls
+bindkey -M viins "^A" vi-ls
+
+vi-fg() { zle vi-insert; fg }
+zle -N vi-fg
+bindkey -M vicmd "^[v" vi-fg
+bindkey -M viins "^[v" vi-fg
+
+vi-back() { zle vi-insert; cd .. }
+zle -N vi-back
+bindkey -M vicmd "^N" vi-back
+bindkey -M viins "^N" vi-back
+
+vi-pop() { zle vi-insert; popd }
+zle -N vi-pop
+bindkey -M vicmd "^[w" vi-pop
+bindkey -M viins "^[w" vi-pop
+
+
 export QTDIR=/usr/local/qt/5.15.2/clang_64
 export PATH=$QTDIR:$QTDIR/bin:$PATH
 export PATH=$PATH:~/bin/gobin/

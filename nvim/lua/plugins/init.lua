@@ -187,11 +187,9 @@ return {
         note_id_func = function(title)
           return title
         end,
-
         disable_frontmatter = true,
 
         finder = "fzf-lua",
-
       }
     end
   },
@@ -250,6 +248,7 @@ return {
       configs.setup({
         ensure_installed = { "php",
           "swift",
+          "nim",
           "python",
           "css",
           "c",
@@ -744,11 +743,11 @@ return {
 
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
-  {'hrsh7th/vim-searchx',
+  { "sainttttt/vim-searchx",
+    branch = "mod",
     config = function()
       vim.keymap.set("n", ";", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
     end
-
   },
 
   'prichrd/netrw.nvim',
@@ -769,7 +768,7 @@ return {
         auto_scroll = true, -- automatically scroll to the bottom on terminal output
 
         direction = 'float',
-        start_in_insert = false,
+        start_in_insert = true,
         close_on_exit = false,
 
         on_open = function(term)
@@ -1274,6 +1273,10 @@ return {
                     opts = { skip = true },
                 },
                 lsp = {
+                  message = {
+                    -- Messages shown by lsp servers
+                    enabled = false,
+                  },
                     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
                     override = {
                         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
