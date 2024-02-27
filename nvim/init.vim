@@ -33,7 +33,6 @@ nnoremap <S-Tab> N
 nnoremap a; A;<Esc>o
 set maxmempattern=5000
 
-
 " nvim-surround stuff
 map v' ysiw'
 map v" ysiw"
@@ -43,7 +42,6 @@ map v) ysiw)
 map v[ ysiw[
 map v* ysiw*
 map v8 ysiw*
-
 
 imap [<esc> <c-v>[<esc>
 imap {<esc> <c-v>{<esc>
@@ -65,8 +63,6 @@ filetype plugin on
 set ignorecase
 set smartcase
 set backspace=2
-nnoremap ; /
-nmap / <esc>
 
 nnoremap ` <esc>
 
@@ -78,6 +74,8 @@ nnoremap 9 :
 nnoremap aa a
 " nmap ad 1
 nmap at <leader>mt
+
+nmap ar <leader>rr
 
 nmap gf <leader>fg
 nmap ge <leader>ff

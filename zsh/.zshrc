@@ -99,6 +99,8 @@ alias adl='aydl(){ cd /Volumes/SSD3/Streams; yt-dlp -f 140 --no-playlist  "$@" }
 alias y='ydl'
 alias a='adl'
 
+function ns { ffmpeg -i "$1" -c copy -an "${1%.*}-nosound.${1#*.}" }
+
 alias sf='singlef(){ cd ~/Screenshots/;  single-file --browser-executable-path /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "$1"}; singlef'
 
 

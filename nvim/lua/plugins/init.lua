@@ -11,25 +11,36 @@ return {
     filter = true,
   },
 
-    { 'echasnovski/mini.nvim', version = false,
-        config = function()
-            require('mini.trailspace').setup()
-            vim.keymap.set('n', '<leader>mt', MiniTrailspace.trim)
-            vim.keymap.set('n', '<leader>mll', MiniTrailspace.trim_last_lines)
+  install = {
+    -- install missing plugins on startup. This doesn't increase startup time.
+    missing = true,
+    -- try to load one of these colorschemes when starting an installation during startup
+    colorscheme = { "flesh-and-blood" },
+  },
+  {
+    'nmac427/guess-indent.nvim',
+    config = function() require('guess-indent').setup {} end,
+  },
 
-            require('mini.splitjoin').setup()
-            require('mini.align').setup()
-        end
-    },
+  { 'echasnovski/mini.nvim', version = false,
+    config = function()
+      require('mini.trailspace').setup()
+      vim.keymap.set('n', '<leader>mt', MiniTrailspace.trim)
+      vim.keymap.set('n', '<leader>mll', MiniTrailspace.trim_last_lines)
 
-    {
-        "ariel-frischer/bmessages.nvim",
-        event = "CmdlineEnter",
-        opts = {}
-    },
+      require('mini.splitjoin').setup()
+      require('mini.align').setup()
+    end
+  },
+
+  {
+    "ariel-frischer/bmessages.nvim",
+    event = "CmdlineEnter",
+    opts = {}
+  },
 
   -- 'wellle/context.vim',
-   
+
   {'RRethy/vim-illuminate',
     config = function()
       require('illuminate').configure({})
@@ -110,8 +121,16 @@ return {
     }
   },
 
+  {'wsdjeg/vim-fetch'},
 
-  { 'sainttttt/flesh-and-blood' },
+  { 'sainttttt/flesh-and-blood',
+    lazy=false,
+    priority=1000 ,
+    config = function()
+      vim.cmd([[colorscheme flesh-and-blood]])
+    end
+  },
+
   { 'sainttttt/portion.vim',
     config = function()
       require('portion').setup({
@@ -544,14 +563,14 @@ return {
     "sainttttt/zen-mode.nvim",
     config = function()
       vim.keymap.set('n', '<Leader>z', "<cmd>ZenMode<CR>")
-    vim.keymap.set('n', 'vf', function()
+      vim.keymap.set('n', 'vf', function()
         vim.cmd("ZenMode")
         -- vim.cmd("TSContextDisable")
         -- vim.cmd("TSContextEnable")
         -- vim.cmd("redraw")
         -- vim.cmd("exec 'normal l'")
         -- vim.cmd("redraw")
-    end)
+      end)
 
 
       require('zen-mode').setup {
@@ -747,6 +766,8 @@ return {
     branch = "mod",
     config = function()
       vim.keymap.set("n", ";", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+      vim.keymap.set("n", "/", "<Esc>")
+
     end
   },
 
@@ -836,6 +857,18 @@ return {
 
       vim.api.nvim_set_keymap("n", "gi", "<cmd>lua _gitui_toggle()<CR>", {noremap = true, silent = true})
 
+    end
+  },
+
+  { 'haya14busa/vim-asterisk',
+    config = function()
+      vim.keymap.set('n', '*', '<Plug>(asterisk-z*)', { noremap = true, silent = false })
+    end
+  },
+
+  {'airblade/vim-rooter'},
+  {'azabiong/vim-highlighter',
+    config = function()
     end
   },
 
@@ -941,11 +974,11 @@ return {
   --   end
   -- },
 
-{"miversen33/sunglasses.nvim", 
+  {"miversen33/sunglasses.nvim",
     config = {
       filter_type = "SHADE",
       filter_percent = .10,
-  },
+    },
 
 
     event = "UIEnter"
@@ -990,11 +1023,13 @@ return {
     end
   },
 
+  {'airblade/vim-matchquote'},
+
   {
     'stevearc/oil.nvim',
     opts = {},
     -- Optional dependencies
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("oil").setup()
     end
@@ -1201,109 +1236,109 @@ return {
   },
     -- enabled = false,
     config = function()
-            require("noice").setup {
-                views = {
-                    mini = {
-                        backend = "mini",
-                        relative = "editor",
-                        align = "text-left",
-                        timeout = 1000,
-                        reverse = true,
-                        focusable = false,
-                        position = {
-                            row = -1,
-                            col = "100%",
-                            -- col = 0,
-                        },
-                        size = "auto",
-                        border = {
-                            style = "none",
-                        },
-                        zindex = 360,
-                        win_options = {
-                            winbar = "",
-                            foldenable = false,
-                            winblend = 30,
-                            winhighlight = {
-                                Normal = "NoiceMini",
-                                IncSearch = "",
-                                CurSearch = "",
-                                Search = "",
-                            },
-                        },
-                    },
-                    confirm = {
-                        backend = "popup",
-                        relative = "editor",
-                        focusable = false,
-                        align = "center",
-                        enter = false,
-                        zindex = 210,
-                        format = { "{confirm}" },
-                        position = {
-                            row = "50%",
-                            col = "50%",
-                        },
-                        size = "auto",
-                        border = {
-                            style = "rounded",
-                            padding = { 0, 1 },
-                            text = {
-                                top = " Confirm ",
-                            },
-                        },
-                    },
-                    -- cmdline_popup = {
-                    --   border = {
-                    --     style = "none",
-                    --     padding = { 2, 3 },
-                    --   },
-                    --   filter_options = {},
-                    --   win_options = {
-                    --     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-                    --   },
-                    -- },
-                },
-                routes = {
-                    filter = {
-                        event = 'msg_show',
-                        kind = '',
-                        find = 'more line',
-                    },
-                    opts = { skip = true },
-                },
-                lsp = {
-                  message = {
-                    -- Messages shown by lsp servers
-                    enabled = false,
-                  },
-                    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-                    override = {
-                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                        ["vim.lsp.util.stylize_markdown"] = true,
-                        ["cmp.entry.get_documentation"] = true,
-                    },
-                },
-                -- you can enable a preset for easier configuration
-                presets = {
-                    bottom_search = true, -- use a classic bottom cmdline for search
-                    -- command_palette = true, -- position the cmdline and popupmenu together
-                    long_message_to_split = false, -- long messages will be sent to a split
-                    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                    lsp_doc_border = false, -- add a border to hover docs and signature help
-                },
+      require("noice").setup {
+        views = {
+          mini = {
+            backend = "mini",
+            relative = "editor",
+            align = "text-left",
+            timeout = 1000,
+            reverse = true,
+            focusable = false,
+            position = {
+              row = -1,
+              col = "100%",
+              -- col = 0,
+            },
+            size = "auto",
+            border = {
+              style = "none",
+            },
+            zindex = 360,
+            win_options = {
+              winbar = "",
+              foldenable = false,
+              winblend = 30,
+              winhighlight = {
+                Normal = "NoiceMini",
+                IncSearch = "",
+                CurSearch = "",
+                Search = "",
+              },
+            },
+          },
+          confirm = {
+            backend = "popup",
+            relative = "editor",
+            focusable = false,
+            align = "center",
+            enter = false,
+            zindex = 210,
+            format = { "{confirm}" },
+            position = {
+              row = "50%",
+              col = "50%",
+            },
+            size = "auto",
+            border = {
+              style = "rounded",
+              padding = { 0, 1 },
+              text = {
+                top = " Confirm ",
+              },
+            },
+          },
+          -- cmdline_popup = {
+          --   border = {
+          --     style = "none",
+          --     padding = { 2, 3 },
+          --   },
+          --   filter_options = {},
+          --   win_options = {
+          --     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+          --   },
+          -- },
+        },
+        routes = {
+          filter = {
+            event = 'msg_show',
+            kind = '',
+            find = 'more line',
+          },
+          opts = { skip = true },
+        },
+        lsp = {
+          message = {
+            -- Messages shown by lsp servers
+            enabled = false,
+          },
+          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+        },
+        -- you can enable a preset for easier configuration
+        presets = {
+          bottom_search = true, -- use a classic bottom cmdline for search
+          -- command_palette = true, -- position the cmdline and popupmenu together
+          long_message_to_split = false, -- long messages will be sent to a split
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false, -- add a border to hover docs and signature help
+        },
 
-                messages = {
-                    -- NOTE: If you enable messages, then the cmdline is enabled automatically.
-                    -- This is a current Neovim limitation.
-                    enabled = false, -- enables the Noice messages UI
-                    view = "mini", -- default view for messages
-                    view_error = "mini", -- view for errors
-                    view_warn = "mini", -- view for warnings
-                    view_history = "messages", -- view for :messages
-                    view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
-                },
-            }
+        messages = {
+          -- NOTE: If you enable messages, then the cmdline is enabled automatically.
+          -- This is a current Neovim limitation.
+          enabled = false, -- enables the Noice messages UI
+          view = "mini", -- default view for messages
+          view_error = "mini", -- view for errors
+          view_warn = "mini", -- view for warnings
+          view_history = "messages", -- view for :messages
+          view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+        },
+      }
     end
   },
 }
