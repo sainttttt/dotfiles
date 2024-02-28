@@ -22,6 +22,8 @@ return {
     config = function() require('guess-indent').setup {} end,
   },
 
+  -- {'rhysd/clever-f.vim'},
+
   { 'echasnovski/mini.nvim', version = false,
     config = function()
       require('mini.trailspace').setup()
@@ -863,14 +865,33 @@ return {
   { 'haya14busa/vim-asterisk',
     config = function()
       vim.keymap.set('n', '*', '<Plug>(asterisk-z*)', { noremap = true, silent = false })
+      vim.keymap.set('n', '#', '<Plug>(asterisk-z#)', { noremap = true, silent = false })
+
+      vim.keymap.set('n', 'g*', '<Plug>(asterisk-gz*)', { noremap = true, silent = false })
+      vim.keymap.set('n', 'g#', '<Plug>(asterisk-gz#)', { noremap = true, silent = false })
+      vim.g["asterisk#keeppos"] = 1
     end
   },
 
   {'airblade/vim-rooter'},
   {'azabiong/vim-highlighter',
     config = function()
-    end
-  },
+
+      vim.cmd([[
+        unmap f<CR>
+        exe 'xnoremap <silent> ff :<C-U>if highlighter#Command("+x") \| noh \| endif \| silent! Hi save <CR> '
+
+        exe 'nnoremap <silent> f<CR> :<C-U>if highlighter#Command("clear") \| noh \| endif \| silent! Hi save <CR> '
+      nmap f~ f<C-L> \| <cmd>silent! Hi save<CR>
+
+      autocmd BufRead * silent! Hi load
+      " autocmd BufUnload * silent! Hi save
+  ]])
+
+      -- vim.keymap.set('v', 'ff', 'f<CR>', { noremap = false, silent = true })
+      -- vim.keymap.set('n', 'f~', 'f<C-L>', { noremap = true, silent = true })
+      end
+      },
 
   'mfussenegger/nvim-lint',
   {
