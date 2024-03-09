@@ -94,10 +94,28 @@ export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacO
 # --download-sections "*93-111" to download the part between 93 seconds and 111 seconds.
 # For more accurate cutting, you can also use --force-keyframes-at-cuts
 
-alias ydl='y(){ cd /Volumes/SSD3/Streams; yt-dlp --no-playlist "$@" }; y'
 alias adl='aydl(){ cd /Volumes/SSD3/Streams; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
-alias y='ydl'
 alias a='adl'
+
+timeToSecs() {
+  echo $1 | sed 's/:/ /g;' | awk '{print $4" "$3" "$2" "$1}' | awk '{print $1+$2*60+$3*3600+$4*86400}'
+}
+test() {
+  echo $1
+}
+
+
+yt() {
+  cd /Volumes/SSD3/Streams
+  yt-dlp --no-playlist "$@"
+}
+
+y() {
+  startTime=$(timeToSecs $2)
+  endTime=$(timeToSecs $3)
+  cd /Volumes/SSD3/Streams
+  yt-dlp --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
+}
 
 function ns { ffmpeg -i "$1" -c copy -an "${1%.*}-nosound.${1#*.}" }
 
@@ -194,20 +212,25 @@ zle -N vi-ls
 bindkey -M vicmd "^A" vi-ls
 bindkey -M viins "^A" vi-ls
 
-vi-fg() { zle vi-insert; fg }
+vi-fg() { zle vi-insert; zle kill-whole-line; fg; zle accept-line }
 zle -N vi-fg
 bindkey -M vicmd "^[v" vi-fg
 bindkey -M viins "^[v" vi-fg
 
-vi-back() { zle vi-insert; cd .. }
+vi-back() { zle vi-insert; zle kill-whole-line; cd .. ; zle accept-line }
 zle -N vi-back
 bindkey -M vicmd "^N" vi-back
 bindkey -M viins "^N" vi-back
 
-vi-pop() { zle vi-insert; popd }
+vi-pop() { zle vi-insert; zle kill-whole-line; popd; zle accept-line }
 zle -N vi-pop
 bindkey -M vicmd "^[w" vi-pop
 bindkey -M viins "^[w" vi-pop
+
+vi-nvim() { zle kill-whole-line; nvim; zle accept-line }
+zle -N vi-nvim
+bindkey -M vicmd "^[g" vi-nvim
+bindkey -M viins "^[g" vi-nvim
 
 
 export QTDIR=/usr/local/qt/5.15.2/clang_64
