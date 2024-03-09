@@ -12,8 +12,8 @@ return
       config = function()
         local actions = require('fzf-lua.actions')
         -- calling `setup` is optional for customization
-        require("fzf-lua").setup({
-
+        require("fzf-lua").setup({ "telescope",
+ 
           winopts = {
 
             on_create = function()
@@ -90,6 +90,17 @@ return
               ["ctrl-n"] = "accept",
             },
           },
+          actions = {
+            files = {
+              ["alt-v"]      = actions.file_vsplit,
+              ["ctrl-v"]      = false,
+            },
+
+            buffers = {
+              ["alt-v"]      = actions.file_vsplit,
+            },
+          },
+
 
           grep = {
             prompt            = 'rg† ',

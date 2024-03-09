@@ -17,6 +17,7 @@ cnoremap <d-v> <c-r>+
 inoremap <d-r> <c-v>
 nnoremap <D-v> "+p
 
+nnoremap <C-p> <C-i>
 if exists('g:neovide')
     exec 'cd ~/code/tmp"'
 endif
@@ -41,14 +42,32 @@ map v( ysiw(
 map v) ysiw)
 map v[ ysiw[
 map v* ysiw*
-map v8 ysiw*
 
-imap [<esc> <c-v>[<esc>
-imap {<esc> <c-v>{<esc>
-imap (<esc> <c-v>(<esc>
-imap '<esc> <c-v>'<esc>
-imap "<esc> <c-v>"<esc>
-imap "" <c-v>"<c-v>"
+nmap <Leader><Leader> <Plug>BookmarkToggle
+
+" " auto pair fix stuff
+" imap [<esc> <c-v>[<esc>
+" imap ['<esc> <c-v>[<c-v>'<esc>
+" imap ["<esc> <c-v>[<c-v>"<esc>
+" imap ']<esc> <c-v>'<c-v>]<esc>
+" imap "]<esc> <c-v>"<c-v>]<esc>
+
+" imap {<esc> <c-v>{<esc>
+" imap {'<esc> <c-v>{<c-v>'<esc>
+" imap {"<esc> <c-v>{<c-v>"<esc>
+" imap '}<esc> <c-v>'<c-v>}<esc>
+" imap "}<esc> <c-v>"<c-v>}<esc>
+
+" imap (<esc> <c-v>(<esc>
+" imap ('<esc> <c-v>(<c-v>'<esc>
+" imap ("<esc> <c-v>(<c-v>"<esc>
+" imap ')<esc> <c-v>'<c-v>)<esc>
+" imap ")<esc> <c-v>"<c-v>)<esc>
+
+" imap '<esc> <c-v>'<esc>
+" imap "<esc> <c-v>"<esc>
+
+" imap "" <c-v>"<c-v>"
 
 vnoremap / <esc>/\%V
 
@@ -116,24 +135,30 @@ map 4 $
 nnoremap 2 z
 nnoremap z `
 
-call mkdir('.vim', 'p')
-autocmd VimEnter *
-  \ if filereadable('.vim/Session.vim')
-  \ | source .vim/Session.vim
-  \ | endif
-autocmd VimLeavePre,BufEnter * mksession! .vim/session.vim
-if has('nvim')
-  set shadafile=.vim/main.shada
-else
-  set viminfofile=.vim/.viminfo
-endif
+" call mkdir('.vim', 'p')
+" autocmd VimEnter *
+"   \ if filereadable('.vim/Session.vim')
+"   \ | source .vim/Session.vim
+"   \ | endif
+" autocmd VimLeavePre,BufEnter * exec "mksession! " . ProjectRootGuess()  .vim/session.vim
+" let g:mksess_string = "mksession! " .  ProjectRootGuess() . "/.vim/session.vim"
+" echom g:mksess_string
+" echom ProjectRootGuess()
+
+" autocmd VimLeavePre,BufEnter * exec "mksession! " .  ProjectRootGuess() 
+
+" if has('nvim')
+"   let shadafile=ProjectRootGuess() . "/.vim/main.shada"
+" else
+"   set viminfofile=.vim/.viminfo
+" endif
 
 " marks
 
-map mm mM
-map mn mN
-map mb mB
-map mv mV
+nnoremap <leader>m mM
+nnoremap <leader>n mN
+nnoremap <leader>b mB
+nnoremap <leader>v mV
 
 map zm zM
 map zn zN
@@ -221,13 +246,12 @@ nnoremap K 15k
 " xnoremap <silent>H :<C-u> VMoveCursor('b')<cr>
 "
 nnoremap <silent>L :MoveCursor<cr>
-nnoremap <silent><down> :MoveCursor<cr>
+
 nnoremap <silent><s-down> :MoveCursor<cr>
 
 xnoremap <silent>L :<C-u> VMoveCursor<cr>
 
 nnoremap <silent>H : MoveCursor b<cr>
-nnoremap <silent><up> : MoveCursor b<cr>
 nnoremap <silent><s-up> : MoveCursor b<cr>
 xnoremap <silent>H :<C-u> VMoveCursor b<cr>
 
@@ -532,7 +556,8 @@ set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 
 "autocomplete brace
 inoremap {<CR>  {<CR>}<Esc>O
-inoremap ({<CR>  ({<CR>});<Esc>O
+
+" inoremap ({<CR>  ({<CR>});<Esc>O
 
 " vimrc
 set hlsearch
@@ -752,12 +777,12 @@ let g:vindent_object_XX_ai     = 'ai' " select current block + one extra line  a
 let g:vindent_object_XX_aI     = 'aI' " select current block + two extra lines at beginning and end.
 let g:vindent_jumps            = 1    " make vindent motion count as a |jump-motion| (works with |jumplist|).
 
+let g:bookmark_no_default_key_mappings = 1
 
 set termguicolors
 lua require('init')
 let g:hybrid_use_Xresources = 1
 colorscheme flesh-and-blood
-
 
 augroup autocom
     autocmd!
@@ -767,8 +792,6 @@ augroup autocom
     ""execute the command on write
     "autocmd BufWritePost,FileWritePost *.cpp !your_commad
 augroup END
-
-
 
 function! StartCmd()
   if exists("g:startcmd")
@@ -780,3 +803,4 @@ autocmd VimEnter * call StartCmd()
 
 map <M-n> Tab
 map <M-N> <S-Tab>
+nmap <leader>re <cmd>Lazy reload plugin lucy.nvim<CR>

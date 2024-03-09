@@ -29,6 +29,7 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
+
 -- require('portion')
 -- portionSetup()
 
@@ -63,7 +64,6 @@ function _G.zen()
   })
 end
 
-vim.keymap.set('n', 'z;', function() foldcus.fold(4)   end, NS)
 
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = "," -- Make sure to set `mapleader` before lazy so your mappings are correct
@@ -78,13 +78,6 @@ require("lazy").setup("plugins", {
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-function map(mode, lhs, rhs, opts)
-    local options = { noremap = true }
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
 
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
@@ -190,7 +183,7 @@ vim.diagnostic.config({
 
 -- -- Show all diagnostics on current line in floating window
 -- vim.api.nvim_set_keymap(
---   'n', '<Leader>d', ':lua vim.diagnostic.open_float()<CR>', 
+--   'n', '<Leader>d', ':lua vim.diagnostic.open_float()<CR>',
 --   { noremap = true, silent = true }
 -- )
 -- -- Go to next diagnostic (if there are multiple on the same line, only shows
@@ -216,53 +209,16 @@ function _G.close_floating()
   end
 end
 
-local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
-parser_configs.nim = {
-  install_info = {
-    url = "~/code/tree-sitter-nim", -- or where ever you cloned the repo to
-    files = { "src/parser.c", "src/scanner.cc"}
-  },
-}
-
--- vim.treesitter.language.add('nim', { path = "/Users/saint/code/tree-sitter-nim/scanner.so"})
--- vim.treesitter.language.add('nim', { path = "/Users/saint/code/alaviss-tree-sitter-nim/parser.so"})
-
-
--- function _G.searchXForward()
---   local succ = pcall(
---   function()
---     vim.api.nvim_command("call searchx#start({ 'dir': 1 })")
---   end)
---   if not succ then
---     vim.api.nvim_feedkeys("/", 'n', false)
---   end
--- end
-
--- function _G.searchXBackward()
---   local succ = pcall(function()
---     vim.api.nvim_command("call searchx#start({ 'dir': 0 })")
---   end)
---   if not succ then
---     vim.api.nvim_feedkeys("?", 'n', false)
---   end
--- end
-
-
--- require('mini.sessions').setup({
---   autoread = false,
---   autowrite = true,
---   directory = "~/.local/share/nvim/sessions",
--- })
 
 -- require('mini.sessions').write('default')
 
 -- vim.ui.select = require"popui.ui-overrider"
 -- vim.ui.input = require"popui.input-overrider"
--- vim.api.nvim_set_keymap("n", ",d", ':lua require"popui.diagnostics-navigator"()<CR>', { noremap = true, silent = true }) 
+-- vim.api.nvim_set_keymap("n", ",d", ':lua require"popui.diagnostics-navigator"()<CR>', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap("n", ",m", ':lua require"popui.marks-manager"()<CR>', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap("n", ",tr", ':lua require"popui.references-navigator"()<CR>', { noremap = true, silent = true })
--- 
--- 
+--
+--
 -- vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
 -- {silent = true, noremap = true}
 -- )
@@ -282,7 +238,7 @@ parser_configs.nim = {
 -- {silent = true, noremap = true}
 -- )
 
---- 
+---
 --
 Last_coderun = ""
 function _G.codeRun()
@@ -322,3 +278,46 @@ end
 vim.keymap.set("n", "<leader>rr", "<cmd>lua codeRun()<CR>", {silent = true, noremap = true})
 
 vim.cmd [[colorscheme flesh-and-blood]]
+
+-- Array of file names indicating root directory. Modify to your liking.
+local root_names = { '.git',
+                     'project.toml',
+                     ".clang-format",
+                     "pyproject.toml",
+                     "setup.py",
+                     "LICENSE",
+                     "README.md",
+                     'Makefile' }
+
+-- Cache to use for speed up (at cost of possibly outdated results)
+local root_cache = {}
+
+local set_root = function()
+  -- Get directory path to start search from
+  local path = vim.api.nvim_buf_get_name(0)
+  if path == '' then
+    path = vim.loop.cwd()
+  else
+    path = vim.fs.dirname(path)
+  end
+
+  -- Try cache and resort to searching upward for root directory
+  local root = root_cache[path]
+  if root == nil then
+    local root_file = vim.fs.find(root_names, { path = path, upward = true })[1]
+    if root_file == nil then
+      root = vim.loop.cwd()
+    else
+      root = vim.fs.dirname(root_file)
+      root_cache[path] = root
+    end
+  end
+
+  -- Set current directory
+  vim.fn.chdir(root)
+  vim.o.shadafile = root .. '/.vim/main.shada'
+end
+
+local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
+vim.api.nvim_create_autocmd({'BufEnter', "VimEnter"} , { group = root_augroup, callback = set_root })
+

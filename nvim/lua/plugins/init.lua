@@ -24,6 +24,16 @@ return {
 
   -- {'rhysd/clever-f.vim'},
 
+  {
+    'BartSte/nvim-project-marks',
+    lazy = false,
+    config = function()
+      require('projectmarks').setup({
+        shadafile = '.vim/main.shada',
+      })
+    end
+  },
+
   { 'echasnovski/mini.nvim', version = false,
     config = function()
       require('mini.trailspace').setup()
@@ -32,13 +42,21 @@ return {
 
       require('mini.splitjoin').setup()
       require('mini.align').setup()
+
+      require('mini.sessions').setup({
+        autoread = false,
+        autowrite = true,
+        directory = "~/.local/share/nvim/sessions",
+      })
     end
   },
 
   {
     "ariel-frischer/bmessages.nvim",
-    event = "CmdlineEnter",
-    opts = {}
+    config = function()
+      require("bmessages").setup{}
+      vim.keymap.set('n', '<leader>z', "<cmd>Bmessagesvs<CR>")
+    end
   },
 
   -- 'wellle/context.vim',
@@ -49,40 +67,39 @@ return {
     end
   },
 
-  {
-    "luckasRanarison/nvim-devdocs",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {
-      dir_path = vim.fn.stdpath("data") .. "/devdocs", -- installation directory
-      telescope = {}, -- passed to the telescope picker
-      filetypes = {
-        -- extends the filetype to docs mappings used by the `DevdocsOpenCurrent` command, the version doesn't have to be specified
-        -- scss = "sass",
-        -- javascript = { "node", "javascript" }
-      },
-      float_win = { -- passed to nvim_open_win(), see :h api-floatwin
-        relative = "editor",
-        height = 40,
-        width = 100,
-        border = "rounded",
-      },
-      wrap = false, -- text wrap, only applies to floating window
-      previewer_cmd = "glow",
-      cmd_args = {"-s", "dark", "-w", "80" },
-      picker_cmd_args = { "-p"},
-      cmd_args = {}, -- example using glow: { "-s", "dark", "-w", "80" }
-      cmd_ignore = {}, -- ignore cmd rendering for the listed docs
-      mappings = { -- keymaps for the doc buffer
-        open_in_browser = ""
-      },
-      ensure_installed = {}, -- get automatically installed
-      after_open = function(bufnr) end, -- callback that runs after the Devdocs window is opened. Devdocs buffer ID will be passed in
-    }
-  },
+  -- { "luckasRanarison/nvim-devdocs",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-telescope/telescope.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --   },
+  --   opts = {
+  --     dir_path = vim.fn.stdpath("data") .. "/devdocs", -- installation directory
+  --     telescope = {}, -- passed to the telescope picker
+  --     filetypes = {
+  --       -- extends the filetype to docs mappings used by the `DevdocsOpenCurrent` command, the version doesn't have to be specified
+  --       -- scss = "sass",
+  --       -- javascript = { "node", "javascript" }
+  --     },
+  --     float_win = { -- passed to nvim_open_win(), see :h api-floatwin
+  --       relative = "editor",
+  --       height = 40,
+  --       width = 100,
+  --       border = "rounded",
+  --     },
+  --     wrap = false, -- text wrap, only applies to floating window
+  --     previewer_cmd = "glow",
+  --     cmd_args = {"-s", "dark", "-w", "80" },
+  --     picker_cmd_args = { "-p"},
+  --     cmd_args = {}, -- example using glow: { "-s", "dark", "-w", "80" }
+  --     cmd_ignore = {}, -- ignore cmd rendering for the listed docs
+  --     mappings = { -- keymaps for the doc buffer
+  --       open_in_browser = ""
+  --     },
+  --     ensure_installed = {}, -- get automatically installed
+  --     after_open = function(bufnr) end, -- callback that runs after the Devdocs window is opened. Devdocs buffer ID will be passed in
+  --   }
+  -- },
 
   -- {'nvim-treesitter/nvim-treesitter-context',
   --   config = function()
@@ -100,7 +117,11 @@ return {
   --       zindex = 41,
   --       on_attach = function()
   --         -- print("new attach")
-  --         if vim.bo.filetype == "swift" or vim.bo.filetype == "nim" then
+
+  --         if vim.bo.filetype == "swift"
+  --           or vim.bo.filetype == "nim"
+  --           or vim.bo.filetype == "vim"
+  --           or vim.fn.bufname("%") == "[Command Line]" then
   --           -- vim.cmd("ContextEnable")
   --           return false
   --         end
@@ -109,20 +130,21 @@ return {
   --   end
   -- },
 
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 1500
-    end,
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    }
-  },
+  -- {
+  --   "folke/which-key.nvim",
+  --   event = "VeryLazy",
+  --   init = function()
+  --     vim.o.timeout = true
+  --     vim.o.timeoutlen = 1500
+  --   end,
+  --   opts = {
+  --     -- your configuration comes here
+  --     -- or leave it empty to use the default settings
+  --     -- refer to the configuration section below
+  --   }
+  -- },
 
+  -- allows you to open nvim from cmdline with line number
   {'wsdjeg/vim-fetch'},
 
   { 'sainttttt/flesh-and-blood',
@@ -133,13 +155,21 @@ return {
     end
   },
 
-  { 'sainttttt/portion.vim',
+  { dir = "~/code/portion.vim",
     config = function()
       require('portion').setup({
         ratio = 0.4
       })
     end
-  },
+    },
+
+  -- { 'sainttttt/portion.vim',
+  --   config = function()
+  --     require('portion').setup({
+  --       ratio = 0.4
+  --     })
+  --   end
+  -- },
 
   {  'sainttttt/yoke.vim',
     config = function()
@@ -157,21 +187,59 @@ return {
     end
   },
 
-  {'cohama/lexima.vim'},
+  -- {'cohama/lexima.vim'},
+  --
   -- {
   --   'windwp/nvim-autopairs',
   --   event = "InsertEnter",
   --   opts = {} -- this is equalent to setup({}) function
   -- },
 
-  --{
-  --  'altermo/ultimate-autopair.nvim',
-  --  event={'InsertEnter','CmdlineEnter'},
-  --  branch='v0.6', --recomended as each new version will have breaking changes
-  --  opts={
-  --    --Config goes here
-  --  },
-  --},
+  {
+    'altermo/ultimate-autopair.nvim',
+    event={'InsertEnter','CmdlineEnter'},
+    branch='v0.6', --recomended as each new version will have breaking changes
+    config = function()
+      require'nvim-treesitter.configs'.setup{}
+      require('ultimate-autopair').setup{}
+      local pair=[[([{"']]
+      local end_pair=[[)]}"']]..'\29'
+      local pair_insert
+      local save={}
+      local group=vim.api.nvim_create_augroup('test',{})
+      vim.api.nvim_create_autocmd('InsertCharPre',{callback=function ()
+        pair_insert=false
+        for c in pair:gmatch'.' do
+          if vim.v.char==c then
+            local action=require'ultimate-autopair.core'.run(c)
+            if action=='\aU\x80kr'--[[this is dont-new-undo + <right>]] then
+              vim.api.nvim_feedkeys(action,'n',false)
+              vim.v.char=''
+              save={}
+              return
+            elseif #action>2 then
+              table.insert(save,action:sub(3))
+              pair_insert=true
+              return
+            end
+          end
+        end
+        if not save[1] then return end
+        local nsave=save
+        save={}
+        if end_pair:find(vim.v.char,1,true) then return end
+        vim.api.nvim_feedkeys(table.concat(nsave),'n',false)
+      end,group=group})
+      vim.api.nvim_create_autocmd('CursorMovedI',{callback=function ()
+        if pair_insert then return end
+        save={}
+      end,group=group})
+      vim.api.nvim_create_autocmd('ModeChanged',{callback=function () save={} end,group=group})
+      for c in pair:gmatch'.' do
+        vim.keymap.del('i',c)
+      end
+    end
+  },
 
 
   {'ojroques/nvim-osc52',
@@ -257,8 +325,7 @@ return {
   'tpope/vim-commentary',
 
   -- 'kkharji/sqlite.lua',
-  {
-    "nvim-treesitter/nvim-treesitter",
+  { "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function ()
       local function ts_disable(_, bufnr)
@@ -301,174 +368,173 @@ return {
     end
   },
 
-  {'kevinhwang91/nvim-ufo',
-    dependencies = {'kevinhwang91/promise-async','kkharji/sqlite.lua',},
-    config = function()
-      vim.o.foldcolumn = '0' -- '0' is not bad
-      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-      vim.o.foldlevelstart = 99
-      vim.o.foldenable = true
+  --{'kevinhwang91/nvim-ufo',
+  --  dependencies = {'kevinhwang91/promise-async','kkharji/sqlite.lua',},
+  --  config = function()
+  --    vim.o.foldcolumn = '0' -- '0' is not bad
+  --    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+  --    vim.o.foldlevelstart = 99
+  --    vim.o.foldenable = true
 
-      --
-      require('ufo').setup({
-        provider_selector = function(bufnr, filetype, buftype)
-          return {'treesitter', 'indent'}
-        end
-      })
+  --    --
+  --    require('ufo').setup({
+  --      provider_selector = function(bufnr, filetype, buftype)
+  --        return {'treesitter', 'indent'}
+  --      end
+  --    })
 
-      -- require('ufo').setup({
-      --     provider_selector = function(bufnr, filetype, buftype)
-      --         return ''
-      --     end
-      -- })
+  --    -- require('ufo').setup({
+  --    --     provider_selector = function(bufnr, filetype, buftype)
+  --    --         return ''
+  --    --     end
+  --    -- })
 
-      -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-      -- capabilities.textDocument.foldingRange = {
-      --   dynamicRegistration = false,
-      --   lineFoldingOnly = true
-      -- }
-      -- local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
-      -- for _, ls in ipairs(language_servers) do
-      --   require('lspconfig')[ls].setup({
-      --     capabilities = capabilities
-      --     -- you can add other fields for setting up lsp server in this table
-      --   })
-      -- end
-      -- require('ufo').setup()
-      -- vim.cmd("silent! loadview 1")
+  --    -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+  --    -- capabilities.textDocument.foldingRange = {
+  --    --   dynamicRegistration = false,
+  --    --   lineFoldingOnly = true
+  --    -- }
+  --    -- local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
+  --    -- for _, ls in ipairs(language_servers) do
+  --    --   require('lspconfig')[ls].setup({
+  --    --     capabilities = capabilities
+  --    --     -- you can add other fields for setting up lsp server in this table
+  --    --   })
+  --    -- end
+  --    -- require('ufo').setup()
+  --    -- vim.cmd("silent! loadview 1")
 
-      local function readAll(file)
-        local f = assert(io.open(file, "rb"))
-        local content = f:read("*all")
-        f:close()
-        return content
-      end
+  --    local function readAll(file)
+  --      local f = assert(io.open(file, "rb"))
+  --      local content = f:read("*all")
+  --      f:close()
+  --      return content
+  --    end
 
-      local function getFoldsSavePath()
-        local filepath = vim.fn.expand('%:p'):gsub("/", "_"):gsub("%.","_")
-        return vim.fn.expand('$HOME/.local/state/nvim/view/') ..  filepath
-      end
+  --    local function getFoldsSavePath()
+  --      local filepath = vim.fn.expand('%:p'):gsub("/", "_"):gsub("%.","_")
+  --      return vim.fn.expand('$HOME/.local/state/nvim/view/') ..  filepath
+  --    end
 
-      local function readFoldsStatus ()
-        local filename = getFoldsSavePath() .. "_status"
+  --    local function readFoldsStatus ()
+  --      local filename = getFoldsSavePath() .. "_status"
 
-        local foldStatusFile = io.open (filename, 'r')
-        if foldStatusFile == nil then
-          local foldStatusFile = io.open (filename, 'w')
-          if foldStatusFile ~= nil then
-            foldStatusFile:write(vim.json.encode({ current = 0, start = 0, last = 0 }))
-            foldStatusFile:close()
-          end
-        end
+  --      local foldStatusFile = io.open (filename, 'r')
+  --      if foldStatusFile == nil then
+  --        local foldStatusFile = io.open (filename, 'w')
+  --        if foldStatusFile ~= nil then
+  --          foldStatusFile:write(vim.json.encode({ current = 0, start = 0, last = 0 }))
+  --          foldStatusFile:close()
+  --        end
+  --      end
 
-        local foldStatusFile = io.open (filename, 'r')
-        return vim.json.decode(readAll(filename))
-      end
-
-
-      local function writeFoldsStatus(foldsStatus)
-        local filename = getFoldsSavePath() .. "_status"
-
-        local foldStatusFile = io.open (filename, 'w')
-        if foldStatusFile ~= nil then
-          foldStatusFile:write(vim.json.encode(foldsStatus))
-          foldStatusFile:close()
-        end
-      end
+  --      local foldStatusFile = io.open (filename, 'r')
+  --      return vim.json.decode(readAll(filename))
+  --    end
 
 
-      local function loadCurrentFoldsSave()
-        local foldsStatus = readFoldsStatus()
-        vim.cmd("silent! source " .. getFoldsSavePath().. foldsStatus.current)
-      end
+  --    local function writeFoldsStatus(foldsStatus)
+  --      local filename = getFoldsSavePath() .. "_status"
 
-      local function undoFold()
-        local foldsStatus = readFoldsStatus()
-        if foldsStatus.current == foldsStatus.start then
-          print("cannot undo")
-          return
-        end
-
-        foldsStatus.current = foldsStatus.current - 1
-        writeFoldsStatus(foldsStatus)
-        loadCurrentFoldsSave()
-
-      end
-
-      local function redoFold()
-        local foldsStatus = readFoldsStatus()
-        if foldsStatus.current == foldsStatus.last then
-          print("cannot redo")
-          return
-        end
-
-        foldsStatus.current = foldsStatus.current + 1
-        writeFoldsStatus(foldsStatus)
-        loadCurrentFoldsSave()
-
-      end
-
-      vim.api.nvim_create_autocmd({"BufRead"}, {
-        group = "folds",
-        pattern = {"?*"},
-        callback = loadCurrentFoldsSave
-      })
-
-      local function incrementViewNumber()
-
-        -- if vim.g.VIEW_NUMBER == nil then
-        --   vim.g.VIEW_NUMBER = 0
-        -- end
-        -- vim.g.VIEW_NUMBER = (vim.g.VIEW_NUMBER + 1 ) % 10
-
-        local foldsStatus = readFoldsStatus()
-        local maxSteps = 10
-
-        foldsStatus.current =  (foldsStatus.current + 1) % maxSteps
-        foldsStatus.last = foldsStatus.current
-        if foldsStatus.last == foldsStatus.start then
-          foldsStatus.start =  (foldsStatus.start + 1) % maxSteps
-        end
-
-        writeFoldsStatus(foldsStatus)
-        vim.cmd("mkview! " .. getFoldsSavePath().. foldsStatus.current)
-
-      end
-
-      local function openAllFolds()
-        require('ufo').openAllFolds()
-        incrementViewNumber()
-      end
-
-      local function closeAllFolds()
-        require('ufo').closeAllFolds()
-        incrementViewNumber()
-      end
-
-      local function toggleFold()
-        vim.cmd("normal 2a")
-        incrementViewNumber()
-      end
-
-      vim.keymap.set('n', '22', toggleFold, { noremap = true, silent = true })
-      vim.keymap.set({'n', 'x'}, 'E', toggleFold, { noremap = true, silent = true })
-
-      vim.keymap.set('n', '2u', undoFold, { noremap = true, silent = true })
-      vim.keymap.set('n', '2U', redoFold, { noremap = true, silent = true })
-
-      vim.keymap.set('n', '2r', openAllFolds, { noremap = true, silent = true })
-
-      vim.keymap.set('n', '2m', closeAllFolds,{ noremap = true, silent = true })
+  --      local foldStatusFile = io.open (filename, 'w')
+  --      if foldStatusFile ~= nil then
+  --        foldStatusFile:write(vim.json.encode(foldsStatus))
+  --        foldStatusFile:close()
+  --      end
+  --    end
 
 
-      -- vim.keymap.set('n', 'zr', require('ufo').openAllFolds, { noremap = true, silent = true })
-      vim.keymap.set('n', '2R', require('ufo').openAllFolds, { noremap = true, silent = true })
-      vim.keymap.set('n', '2M', require('ufo').closeAllFolds,{ noremap = true, silent = true })
-    end
-  },
+  --    local function loadCurrentFoldsSave()
+  --      local foldsStatus = readFoldsStatus()
+  --      vim.cmd("silent! source " .. getFoldsSavePath().. foldsStatus.current)
+  --    end
 
-  -- {
-  --   'Vonr/foldcus.nvim',
+  --    local function undoFold()
+  --      local foldsStatus = readFoldsStatus()
+  --      if foldsStatus.current == foldsStatus.start then
+  --        print("cannot undo")
+  --        return
+  --      end
+
+  --      foldsStatus.current = foldsStatus.current - 1
+  --      writeFoldsStatus(foldsStatus)
+  --      loadCurrentFoldsSave()
+
+  --    end
+
+  --    local function redoFold()
+  --      local foldsStatus = readFoldsStatus()
+  --      if foldsStatus.current == foldsStatus.last then
+  --        print("cannot redo")
+  --        return
+  --      end
+
+  --      foldsStatus.current = foldsStatus.current + 1
+  --      writeFoldsStatus(foldsStatus)
+  --      loadCurrentFoldsSave()
+
+  --    end
+
+  --    vim.api.nvim_create_autocmd({"BufRead"}, {
+  --      group = "folds",
+  --      pattern = {"?*"},
+  --      callback = loadCurrentFoldsSave
+  --    })
+
+  --    local function incrementViewNumber()
+
+  --      -- if vim.g.VIEW_NUMBER == nil then
+  --      --   vim.g.VIEW_NUMBER = 0
+  --      -- end
+  --      -- vim.g.VIEW_NUMBER = (vim.g.VIEW_NUMBER + 1 ) % 10
+
+  --      local foldsStatus = readFoldsStatus()
+  --      local maxSteps = 10
+
+  --      foldsStatus.current =  (foldsStatus.current + 1) % maxSteps
+  --      foldsStatus.last = foldsStatus.current
+  --      if foldsStatus.last == foldsStatus.start then
+  --        foldsStatus.start =  (foldsStatus.start + 1) % maxSteps
+  --      end
+
+  --      writeFoldsStatus(foldsStatus)
+  --      vim.cmd("mkview! " .. getFoldsSavePath().. foldsStatus.current)
+
+  --    end
+
+  --    local function openAllFolds()
+  --      require('ufo').openAllFolds()
+  --      incrementViewNumber()
+  --    end
+
+  --    local function closeAllFolds()
+  --      require('ufo').closeAllFolds()
+  --      incrementViewNumber()
+  --    end
+
+  --    local function toggleFold()
+  --      vim.cmd("normal 2a")
+  --      incrementViewNumber()
+  --    end
+
+  --    vim.keymap.set('n', '22', toggleFold, { noremap = true, silent = true })
+  --    vim.keymap.set({'n', 'x'}, 'E', toggleFold, { noremap = true, silent = true })
+
+  --    vim.keymap.set('n', '2u', undoFold, { noremap = true, silent = true })
+  --    vim.keymap.set('n', '2U', redoFold, { noremap = true, silent = true })
+
+  --    vim.keymap.set('n', '2r', openAllFolds, { noremap = true, silent = true })
+
+  --    vim.keymap.set('n', '2m', closeAllFolds,{ noremap = true, silent = true })
+
+
+  --    -- vim.keymap.set('n', 'zr', require('ufo').openAllFolds, { noremap = true, silent = true })
+  --    vim.keymap.set('n', '2R', require('ufo').openAllFolds, { noremap = true, silent = true })
+  --    vim.keymap.set('n', '2M', require('ufo').closeAllFolds,{ noremap = true, silent = true })
+  --  end
+  --},
+
+  -- { 'Vonr/foldcus.nvim',
   --   dependencies = { 'nvim-treesitter/nvim-treesitter' },
   --   config = function()
   --     local foldcus = require('foldcus')
@@ -492,8 +558,7 @@ return {
   --   end
   -- },
 
-  -- {
-  --   "chrisgrieser/nvim-origami",
+  -- { "chrisgrieser/nvim-origami",
   --   event = "BufReadPost", -- later or on keypress would prevent saving folds
   --   opts = true, -- needed even when using default config
   --   config = function ()
@@ -512,59 +577,22 @@ return {
   { "lukas-reineke/indent-blankline.nvim",
     main = "ibl", opts = {
       indent = { char = "│" },
+      scope = {enabled = false},
     }
   },
-  -- { "lukas-reineke/indent-blankline.nvim",
-  --   config = function()
-  --     vim.opt.list = true
-  --     -- vim.opt.listchars:append "⋅"
-  --     -- vim.opt.listchars:append "space:⋅"
-  --     -- vim.cmd [[highlight IndentBlanklineIndent1 guibg=#1f1f1f gui=nocombine]]
-  --     -- vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a gui=nocombine]]
-  --     -- -- vim.g.indent_blankline_show_current_context = true
-
-  --     vim.g.indentLine_char_list = {'│'}
-  --     require("indent_blankline").setup {
-  --       -- char = "",
-  --       -- char_highlight_list = {
-  --       --   "IndentBlanklineIndent1",
-  --       --   "IndentBlanklineIndent2",
-  --       -- },
-  --       -- space_char_highlight_list = {
-  --       --   "IndentBlanklineIndent1",
-  --       --   "IndentBlanklineIndent2",
-  --       -- },
-  --       show_trailing_blankline_indent = false,
-  --       -- show_end_of_line = true,
-  --       -- space_char_blankline = " ",
-  --     }
-  --   end
-  -- },
 
   {'alaviss/nim.nvim'},
   {"ericvw/vim-nim"},
-  {
-    'jakemason/ouroboros',
+  { 'jakemason/ouroboros',
     dependencies = { {'nvim-lua/plenary.nvim'} },
     config = function()
       vim.cmd("autocmd! Filetype c,cpp noremap<buffer> 3 :Ouroboros<CR>")
     end
   },
 
-  -- {
-  --   "folke/twilight.nvim",
-  --   opts = {
-  --     -- your configuration comes here
-  --     -- or leave it empty to use the default settings
-  --     -- refer to the configuration section below
-  --   }
-  -- },
-
-  {
+  { "sainttttt/zen-mode.nvim",
     -- "folke/zen-mode.nvim",
-    "sainttttt/zen-mode.nvim",
     config = function()
-      vim.keymap.set('n', '<Leader>z', "<cmd>ZenMode<CR>")
       vim.keymap.set('n', 'vf', function()
         vim.cmd("ZenMode")
         -- vim.cmd("TSContextDisable")
@@ -610,8 +638,8 @@ return {
   },
 
   'tpope/vim-fugitive',
-  {
-    'renerocksai/telekasten.nvim',
+
+  { 'renerocksai/telekasten.nvim',
     dependencies = {'nvim-telescope/telescope.nvim'},
     config = function()
       require('telekasten').setup({
@@ -636,8 +664,7 @@ return {
 
   { 'bkad/CamelCaseMotion' },
 
-  -- {
-  --   "HampusHauffman/block.nvim",
+  -- { "HampusHauffman/block.nvim",
   --   config = function()
   --     require("block").setup({
   --       percent = 0.95,
@@ -656,12 +683,11 @@ return {
 
   -- { 'andymass/vim-matchup',
   --   config = function()
-
   --     -- vim.keymap.set('n', "q", vim.cmd("normal %"))
   --   end
   -- },
-  {
-    "utilyre/sentiment.nvim",
+
+  { "utilyre/sentiment.nvim",
     version = "*",
     event = "VeryLazy", -- keep for lazy loading
     opts = {
@@ -673,101 +699,102 @@ return {
     end,
   },
 
-  { "nvim-treesitter/nvim-treesitter-textobjects",
-    config = function()
-      require'nvim-treesitter.configs'.setup {
-        textobjects = {
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              ["]]"] = { query = "@class.outer", desc = "Next class start" },
-              --
-              -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
-              ["]o"] = "@loop.*",
-              -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
-              --
-              -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
-              -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-              ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-              ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-            },
-            goto_next_end = {
-              ["]M"] = "@function.outer",
-              ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[m"] = "@function.outer",
-              ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[M"] = "@function.outer",
-              ["[]"] = "@class.outer",
-            },
-            -- Below will go to either the start or the end, whichever is closer.
-            -- Use if you want more granular movements
-            -- Make it even more gradual by adding multiple queries and regex.
-            goto_next = {
-              ["]d"] = "@conditional.outer",
-            },
-            goto_previous = {
-              ["[d"] = "@conditional.outer",
-            }
-          },
-          select = {
-            enable = true,
+  --{ "nvim-treesitter/nvim-treesitter-textobjects",
+  --  config = function()
+  --    require'nvim-treesitter.configs'.setup {
+  --      textobjects = {
+  --        move = {
+  --          enable = true,
+  --          set_jumps = true, -- whether to set jumps in the jumplist
+  --          goto_next_start = {
+  --            ["]m"] = "@function.outer",
+  --            ["]]"] = { query = "@class.outer", desc = "Next class start" },
+  --            --
+  --            -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
+  --            ["]o"] = "@loop.*",
+  --            -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
+  --            --
+  --            -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+  --            -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+  --            ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+  --            ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+  --          },
+  --          goto_next_end = {
+  --            ["]M"] = "@function.outer",
+  --            ["]["] = "@class.outer",
+  --          },
+  --          goto_previous_start = {
+  --            ["[m"] = "@function.outer",
+  --            ["[["] = "@class.outer",
+  --          },
+  --          goto_previous_end = {
+  --            ["[M"] = "@function.outer",
+  --            ["[]"] = "@class.outer",
+  --          },
+  --          -- Below will go to either the start or the end, whichever is closer.
+  --          -- Use if you want more granular movements
+  --          -- Make it even more gradual by adding multiple queries and regex.
+  --          goto_next = {
+  --            ["]d"] = "@conditional.outer",
+  --          },
+  --          goto_previous = {
+  --            ["[d"] = "@conditional.outer",
+  --          }
+  --        },
+  --        select = {
+  --          enable = true,
 
-            -- Automatically jump forward to textobj, similar to targets.vim
-            lookahead = true,
+  --          -- Automatically jump forward to textobj, similar to targets.vim
+  --          lookahead = true,
 
-            keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              -- You can optionally set descriptions to the mappings (used in the desc parameter of
-              -- nvim_buf_set_keymap) which plugins like which-key display
-              ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-              -- You can also use captures from other query groups like `locals.scm`
-              ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-            },
-            -- You can choose the select mode (default is charwise 'v')
-            --
-            -- Can also be a function which gets passed a table with the keys
-            -- * query_string: eg '@function.inner'
-            -- * method: eg 'v' or 'o'
-            -- and should return the mode ('v', 'V', or '<c-v>') or a table
-            -- mapping query_strings to modes.
-            selection_modes = {
-              ['@parameter.outer'] = 'v', -- charwise
-              ['@function.outer'] = 'V', -- linewise
-              ['@class.outer'] = '<c-v>', -- blockwise
-            },
-            -- If you set this to `true` (default is `false`) then any textobject is
-            -- extended to include preceding or succeeding whitespace. Succeeding
-            -- whitespace has priority in order to act similarly to eg the built-in
-            -- `ap`.
-            --
-            -- Can also be a function which gets passed a table with the keys
-            -- * query_string: eg '@function.inner'
-            -- * selection_mode: eg 'v'
-            -- and should return true of false
-            include_surrounding_whitespace = true,
-          },
-        },
-      }
-    end
-  },
+  --          keymaps = {
+  --            -- You can use the capture groups defined in textobjects.scm
+  --            ["af"] = "@function.outer",
+  --            ["if"] = "@function.inner",
+  --            ["ac"] = "@class.outer",
+  --            -- You can optionally set descriptions to the mappings (used in the desc parameter of
+  --            -- nvim_buf_set_keymap) which plugins like which-key display
+  --            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+  --            -- You can also use captures from other query groups like `locals.scm`
+  --            ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+  --          },
+  --          -- You can choose the select mode (default is charwise 'v')
+  --          --
+  --          -- Can also be a function which gets passed a table with the keys
+  --          -- * query_string: eg '@function.inner'
+  --          -- * method: eg 'v' or 'o'
+  --          -- and should return the mode ('v', 'V', or '<c-v>') or a table
+  --          -- mapping query_strings to modes.
+  --          selection_modes = {
+  --            ['@parameter.outer'] = 'v', -- charwise
+  --            ['@function.outer'] = 'V', -- linewise
+  --            ['@class.outer'] = '<c-v>', -- blockwise
+  --          },
+  --          -- If you set this to `true` (default is `false`) then any textobject is
+  --          -- extended to include preceding or succeeding whitespace. Succeeding
+  --          -- whitespace has priority in order to act similarly to eg the built-in
+  --          -- `ap`.
+  --          --
+  --          -- Can also be a function which gets passed a table with the keys
+  --          -- * query_string: eg '@function.inner'
+  --          -- * selection_mode: eg 'v'
+  --          -- and should return true of false
+  --          include_surrounding_whitespace = true,
+  --        },
+  --      },
+  --    }
+  --  end
+  --},
 
 
 
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
+
   { "sainttttt/vim-searchx",
     branch = "mod",
     config = function()
-      vim.keymap.set("n", ";", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+      vim.keymap.set("n", "m", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       vim.keymap.set("n", "/", "<Esc>")
 
     end
@@ -873,29 +900,29 @@ return {
     end
   },
 
-  {'airblade/vim-rooter'},
-  {'azabiong/vim-highlighter',
-    config = function()
+  -- {'airblade/vim-rooter'},
+  -- {'azabiong/vim-highlighter',
+  --   config = function()
 
-      vim.cmd([[
-        unmap f<CR>
-        exe 'xnoremap <silent> ff :<C-U>if highlighter#Command("+x") \| noh \| endif \| silent! Hi save <CR> '
+  --     vim.cmd([[
+  --       unmap f<CR>
+  --       exe 'xnoremap <silent> ff :<C-U>if highlighter#Command("+x") \| noh \| endif \| silent! Hi save <CR> '
 
-        exe 'nnoremap <silent> f<CR> :<C-U>if highlighter#Command("clear") \| noh \| endif \| silent! Hi save <CR> '
-      nmap f~ f<C-L> \| <cmd>silent! Hi save<CR>
+  --       exe 'nnoremap <silent> f<CR> :<C-U>if highlighter#Command("clear") \| noh \| endif \| silent! Hi save <CR> '
+  --     nmap f~ f<C-L> \| <cmd>silent! Hi save<CR>
 
-      autocmd BufRead * silent! Hi load
-      " autocmd BufUnload * silent! Hi save
-  ]])
+  --     autocmd BufRead * silent! Hi load
+  --     " autocmd BufUnload * silent! Hi save
+  -- ]])
 
-      -- vim.keymap.set('v', 'ff', 'f<CR>', { noremap = false, silent = true })
-      -- vim.keymap.set('n', 'f~', 'f<C-L>', { noremap = true, silent = true })
-      end
-      },
+  --     -- vim.keymap.set('v', 'ff', 'f<CR>', { noremap = false, silent = true })
+  --     -- vim.keymap.set('n', 'f~', 'f<C-L>', { noremap = true, silent = true })
+  --     end
+  --     },
 
   'mfussenegger/nvim-lint',
-  {
-    'CRAG666/code_runner.nvim',
+
+  { 'CRAG666/code_runner.nvim',
     dependencies = 'nvim-lua/plenary.nvim',
 
     config = function()
@@ -924,8 +951,7 @@ return {
   -- { 'JellyApple102/easyread.nvim' },
   'neovim/nvim-lspconfig',
 
-  -- {
-  --   'sainttttt/xbase',
+  -- { 'sainttttt/xbase',
   --   build = 'make install', -- or "make install && make free_space" (not recommended, longer build time)
   --   dependencies = {
   --     "neovim/nvim-lspconfig",
@@ -1005,20 +1031,32 @@ return {
     event = "UIEnter"
   },
 
-  {
-    "RomanoZumbe/yanki.nvim",
+  { "RomanoZumbe/yanki.nvim",
     config = function()
       require("yanki").setup()
     end,
     lazy = false
   },
 
-  -- {
-  --     'phux/vim-marker'
-  --     },
 
-  -- {
-  --     'BartSte/nvim-project-marks',
+  { dir = "~/code/lucy.nvim",
+    config = function()
+      require("lucy").setup()
+    end
+  },
+
+  -- { 'phux/vim-marker' },
+
+  -- {'MattesGroeger/vim-bookmarks',
+  --   config = function()
+  --     vim.g.bookmark_sign = ''
+  --     vim.g.bookmark_save_per_working_dir = 1
+  --     vim.g.bookmark_highlight_lines = 1
+  --     vim.g.bookmark_no_default_key_mappings = 1
+  --   end
+  -- },
+
+  -- { 'BartSte/nvim-project-marks',
   --     lazy = false,
   --     config = function()
   --       require('projectmarks').setup({
@@ -1036,18 +1074,16 @@ return {
   --     end
   -- },
 
-  {
-    'piersolenski/telescope-import.nvim',
+  { 'piersolenski/telescope-import.nvim',
     dependencies = 'nvim-telescope/telescope.nvim',
     config = function()
       require("telescope").load_extension("import")
     end
   },
 
-  {'airblade/vim-matchquote'},
+  -- {'airblade/vim-matchquote'},
 
-  {
-    'stevearc/oil.nvim',
+  { 'stevearc/oil.nvim',
     opts = {},
     -- Optional dependencies
     -- dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -1055,36 +1091,35 @@ return {
       require("oil").setup()
     end
   },
+
   { 'metakirby5/codi.vim' },
 
-  {
-    'stevearc/aerial.nvim',
-    opts = {},
-    -- Optional dependencies
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons"
-    },
+  -- { 'stevearc/aerial.nvim',
+  --   opts = {},
+  --   -- Optional dependencies
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "nvim-tree/nvim-web-devicons"
+  --   },
 
 
-    config = function()
-      require("aerial").setup({
-        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
-        on_attach = function(bufnr)
-          -- Jump forwards/backwards with '{' and '}'
-          vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
-          vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
-        end,
-      })
-      -- You probably also want to set a keymap to toggle aerial
-      vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
-    end
-  },
+  --   config = function()
+  --     require("aerial").setup({
+  --       -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+  --       on_attach = function(bufnr)
+  --         -- Jump forwards/backwards with '{' and '}'
+  --         vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+  --         vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+  --       end,
+  --     })
+  --     -- You probably also want to set a keymap to toggle aerial
+  --     vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+  --   end
+  -- },
 
 
 
-  {
-    "wojciech-kulik/xcodebuild.nvim",
+  { "wojciech-kulik/xcodebuild.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
     config = function()
       require("xcodebuild").setup()
@@ -1133,6 +1168,7 @@ return {
           vim.keymap.set('n', 'l', api.node.open.edit, {buffer = bufnr})
           vim.keymap.set('n', 'h', api.node.navigate.parent_close, {buffer = bufnr})
           vim.keymap.set('n', 'o',   api.tree.change_root_to_node, {buffer = bufnr})
+          vim.keymap.set('n', 'D',   api.fs.trash, {buffer = bufnr})
         end,
         actions = {
           open_file = {
@@ -1140,6 +1176,9 @@ return {
               enable = false
             }
           }
+        },
+        filters = {
+          dotfiles = true,
         },
         view = {
           relativenumber = true,
@@ -1225,8 +1264,7 @@ return {
     end
   },
 
-  { 'vim-crystal/vim-crystal'
-  },
+  { 'vim-crystal/vim-crystal' },
 
   { "rcarriga/nvim-notify",
     opts = {
@@ -1251,10 +1289,11 @@ return {
 
   },
 
-  {'folke/noice.nvim', dependencies = {
-    "MunifTanjim/nui.nvim",
-    "rcarriga/nvim-notify",
-  },
+  {'folke/noice.nvim',
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
     -- enabled = false,
     config = function()
       require("noice").setup {
@@ -1326,6 +1365,10 @@ return {
             kind = '',
             find = 'more line',
           },
+          opts = { skip = true },
+        },
+        {
+          filter = { event = "msg_show", find = "nvim_win_close" },
           opts = { skip = true },
         },
         lsp = {

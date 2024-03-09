@@ -44,15 +44,22 @@ return {
         -- confirmation = { completeopt = 'menuone,menu,noinsert' },
 
         completion = {
-          completeopt = 'noselect,menu'
+          completeopt = 'noselect,menu',
         },
 
+
         performance = {
-          debounce = 300,
+          debounce = 50,
           timeout = 2,
         },
 
         preselect = cmp.PreselectMode.None,
+
+        view = {
+          docs = {
+            auto_open = false,
+          },
+        },
 
         mapping = {
           -- ... Your other mappings ...
@@ -164,9 +171,9 @@ return {
         sorting = {
           comparators = {
             cmp.config.compare.score,
+            cmp.config.compare.offset,
             cmp.config.compare.recently_used,
             cmp.config.compare.locality,
-            cmp.config.compare.offset,
             cmp.config.compare.kind,
             -- cmp.config.compare.exact,
             -- require("cmp-under-comparator").under,
