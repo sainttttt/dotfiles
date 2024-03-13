@@ -21,8 +21,9 @@ local on_attach = function(client, bufnr)
   --
   local fzf_lua = require'fzf-lua'
   if fzf_lua then
-    vim.keymap.set("n", "gr", function() fzf_lua.lsp_references() end)
-    vim.keymap.set("n", "<leader>fd", function() fzf_lua.lsp_workspace_symbols() end)
+    vim.keymap.set("n", "gr", function() fzf_lua.lsp_references() end, bufopts)
+    vim.keymap.set("n", "<leader>fd", function() fzf_lua.lsp_workspace_symbols() end, bufopts)
+    -- vim.keymap.set('n', 'gd', function() fzf_lua.lsp_definitions() end, bufopts)
 
     -- vim.keymap.set('n', 'gr', function() require('telescope.builtin').lsp_references() end, { noremap = true, silent = true })
   else
@@ -42,7 +43,7 @@ return {
     config = function()
       require("mason").setup({
         ui = {
-          icons = {
+         icons = {
             package_installed = "",
             package_pending = "",
             package_uninstalled = "",
@@ -104,6 +105,12 @@ return {
 
       lspconfig.lua_ls.setup {
         on_attach = on_attach,
+        handlers = {
+          ['textDocument/definition'] = function(err, result, ctx, config)
+            if type(result) == 'table' then result = { result[1] } end
+            vim.lsp.handlers['textDocument/definition'](err, result, ctx, config)
+          end,
+        },
         settings = {
           Lua = {
             runtime = {

@@ -5,6 +5,9 @@ nnoremap <CR> n
 nnoremap <C-L> n
 vnoremap <CR> n
 
+nnoremap m :
+xnoremap m :
+
 cnoremap <d-v> <d-r>+
 " system clipboard
 nmap <d-c> "+y
@@ -29,6 +32,9 @@ map <silent> <D-[> :tabprevious<CR>
 map <silent> <D-]> :tabnext<CR>
 
 nnoremap <Tab> n
+nnoremap M ?
+
+cnoremap <Tab> <CR>
 nnoremap <S-Tab> N
 
 nnoremap a; A;<Esc>o
@@ -91,7 +97,6 @@ nnoremap 8 :
 nnoremap 9 :
 
 nnoremap aa a
-" nmap ad 1
 nmap at <leader>mt
 
 nmap ar <leader>rr
@@ -101,7 +106,6 @@ nmap ge <leader>ff
 nmap <C-u> <leader>fw
 nmap <leader>t <leader>mt
 nnoremap Q: q:
-
 
 imap <M-t> †
 
@@ -122,7 +126,6 @@ set fdo-=search
 
 nnoremap <c-p> <c-i>
 
-"nnoremap <leader>z z
 
 map 4 $
 
@@ -155,6 +158,7 @@ nnoremap z `
 
 " marks
 
+" nmap <leader>m m
 nnoremap <leader>m mM
 nnoremap <leader>n mN
 nnoremap <leader>b mB
@@ -175,19 +179,16 @@ map q %
 
 map <silent> <M-r> :call feedkeys(,rr<CR>)<CR>
 " nnoremap <silent> <Leader>w :w<CR>:Runtime<CR>
-nnoremap <silent> <Leader>ww :up<CR>:Runtime<CR>
 nnoremap <silent> <Leader>bd :Bdelete hidden<CR>
 
 " map <silent> W Vaio
 
 nnoremap <silent> <Leader>e :Messages<CR>
 " nnoremap <silent> <Leader>ss :lua MiniSessions.read()<CR>
-nnoremap <silent> <Leader>s :up<CR>
 " nnoremap <silent> WW :close!<CR>
 nnoremap <silent> <M-w> :close!<CR>
 nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
-nnoremap <silent> S :up<CR>
 " nnoremap <silent> s <esc>
 nnoremap <silent> s :up<CR>
 nnoremap <silent> <M-s> :up<CR>
@@ -298,6 +299,7 @@ vnoremap X x
 
 nnoremap c "_c
 nnoremap cc "_cc
+
 nnoremap C "_C
 nnoremap D Ydd
 
@@ -456,8 +458,8 @@ let g:vimtex_compiler_latexmk = {'callback' : 0}
 com! FormatJSON %!python -m json.tool
 
 " Damian Conway's Die Blinkënmatchen: highlight matches
-nnoremap <silent> n n:call HLNext(0.1)<cr>
-nnoremap <silent> N N:call HLNext(0.1)<cr>
+nnoremap <silent> m n:call HLNext(0.1)<cr>
+nnoremap <silent> M N:call HLNext(0.1)<cr>
 
 function! HLNext (blinktime)
   let target_pat = '\c\%#'.@/
@@ -804,3 +806,5 @@ autocmd VimEnter * call StartCmd()
 map <M-n> Tab
 map <M-N> <S-Tab>
 nmap <leader>re <cmd>Lazy reload plugin lucy.nvim<CR>
+
+hi Normal guibg=None

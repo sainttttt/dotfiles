@@ -23,8 +23,9 @@ return {
   },
 
   -- {'rhysd/clever-f.vim'},
-
+  {'romainl/vim-cool'},
   {
+
     'BartSte/nvim-project-marks',
     lazy = false,
     config = function()
@@ -37,8 +38,13 @@ return {
   { 'echasnovski/mini.nvim', version = false,
     config = function()
       require('mini.trailspace').setup()
-      vim.keymap.set('n', '<leader>mt', MiniTrailspace.trim)
-      vim.keymap.set('n', '<leader>mll', MiniTrailspace.trim_last_lines)
+      vim.keymap.set('n', 'at', function()
+        require('mini.trailspace').trim()
+        vim.cmd('up')
+      end
+      )
+
+      -- vim.keymap.set('n', '<leader>mll', MiniTrailspace.trim_last_lines)
 
       require('mini.splitjoin').setup()
       require('mini.align').setup()
@@ -269,7 +275,7 @@ return {
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      vim.keymap.set('n', '<Leader>mm', ":ObsidianNew ")
+      vim.keymap.set('n', '<Leader>.', ":ObsidianNew ")
       require("obsidian").setup {
         dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina",
 
@@ -291,7 +297,7 @@ return {
       local NS = { noremap = true, silent = true }
 
       vim.keymap.set('x', 'aa', function() require'align'.align_to_char(1, true)             end, NS) -- Aligns to 1 character, looking left
-      vim.keymap.set('x', 'as', function() require'align'.align_to_char(2, true, true)       end, NS) -- Aligns to 2 characters, looking left and with previews
+      -- vim.keymap.set('x', 'as', function() require'align'.align_to_char(2, true, true)       end, NS) -- Aligns to 2 characters, looking left and with previews
       vim.keymap.set('x', 'aw', function() require'align'.align_to_string(false, true, true) end, NS) -- Aligns to a string, looking left and with previews
       vim.keymap.set('x', 'ar', function() require'align'.align_to_string(true, true, true)  end, NS) -- Aligns to a Lua pattern, looking left and with previews
     end
@@ -794,7 +800,9 @@ return {
   { "sainttttt/vim-searchx",
     branch = "mod",
     config = function()
+      vim.keymap.set("n", "as", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       vim.keymap.set("n", "m", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+      -- vim.keymap.set("n", "<leader>m", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       vim.keymap.set("n", "/", "<Esc>")
 
     end
