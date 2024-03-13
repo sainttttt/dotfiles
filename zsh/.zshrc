@@ -117,6 +117,12 @@ y() {
   yt-dlp --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
 }
 
+cb() {
+  cd ~/code/containers/saint-blog/_posts
+  new_post=$(./create_post.sh "$@")
+  $EDITOR $new_post
+}
+
 function ns { ffmpeg -i "$1" -c copy -an "${1%.*}-nosound.${1#*.}" }
 
 alias sf='singlef(){ cd ~/Screenshots/;  single-file --browser-executable-path /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "$1"}; singlef'
@@ -219,13 +225,13 @@ bindkey -M viins "^[v" vi-fg
 
 vi-back() { zle vi-insert; zle kill-whole-line; cd .. ; zle accept-line }
 zle -N vi-back
-bindkey -M vicmd "^N" vi-back
-bindkey -M viins "^N" vi-back
+bindkey -M vicmd "^[w" vi-back
+bindkey -M viins "^[w" vi-back
 
 vi-pop() { zle vi-insert; zle kill-whole-line; popd; zle accept-line }
 zle -N vi-pop
-bindkey -M vicmd "^[w" vi-pop
-bindkey -M viins "^[w" vi-pop
+bindkey -M vicmd "^N" vi-pop
+bindkey -M viins "^N" vi-pop
 
 vi-nvim() { zle kill-whole-line; nvim; zle accept-line }
 zle -N vi-nvim
