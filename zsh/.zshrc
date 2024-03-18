@@ -42,12 +42,6 @@ zstyle ':completion:*:*:(vim|v):*' file-sort modification
 export PATH=$PATH:/Users/saint/code/emsdk:/Users/saint/code/emsdk/upstream/emscripten
 export PATH=$PATH:~/bin/
 
-# export PATH=/Users/saint/.meteor:$PATH
-
-# export NVM_DIR="$HOME/.nvm"
-#   [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-#   [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
 ##### VIM STUFF
 bindkey '\e' vi-cmd-mode
 # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
@@ -91,9 +85,7 @@ export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig"
 export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib"
 
 
-# --download-sections "*93-111" to download the part between 93 seconds and 111 seconds.
-# For more accurate cutting, you can also use --force-keyframes-at-cuts
-
+## youtube stuff
 alias adl='aydl(){ cd /Volumes/SSD3/Streams; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
 alias a='adl'
 
@@ -103,7 +95,6 @@ timeToSecs() {
 test() {
   echo $1
 }
-
 
 yt() {
   cd /Volumes/SSD3/Streams
@@ -117,15 +108,25 @@ y() {
   yt-dlp --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
 }
 
-cb() {
-  cd ~/code/containers/saint-blog/_posts
-  new_post=$(./create_post.sh "$@")
-  $EDITOR $new_post
-}
-
 function ns { ffmpeg -i "$1" -c copy -an "${1%.*}-nosound.${1#*.}" }
 
 alias sf='singlef(){ cd ~/Screenshots/;  single-file --browser-executable-path /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "$1"}; singlef'
+
+
+######### blog stuff ####################################################################
+cb() {
+  cd ~/code/containers/saint-blog/_posts
+  new_post=$(./create_post.sh "$@")
+  if [ "$?" -eq 2 ]; then
+    echo $new_post
+  else
+    $EDITOR $new_post
+  fi
+}
+
+alias bb='cd ~/code/containers/saint-blog'
+
+##########################################################################################
 
 
 alias cxlast='chmod +x $(ls -t1 | head -1)'
@@ -212,6 +213,10 @@ alias fa="fg"
 
 setopt auto_pushd
 
+nop () {}
+zle -N nop
+bindkey -M vicmd "^H" nop
+bindkey -M viins "^H" nop
 
 vi-ls() { zle vi-insert; l; zle kill-whole-line; zle accept-line }
 zle -N vi-ls
@@ -238,6 +243,10 @@ zle -N vi-nvim
 bindkey -M vicmd "^[g" vi-nvim
 bindkey -M viins "^[g" vi-nvim
 
+vi-open() { zle kill-whole-line; open .; zle accept-line }
+zle -N vi-open
+bindkey -M vicmd "^O" vi-open
+bindkey -M viins "^O" vi-open
 
 export QTDIR=/usr/local/qt/5.15.2/clang_64
 export PATH=$QTDIR:$QTDIR/bin:$PATH
@@ -245,3 +254,4 @@ export PATH=$PATH:~/bin/gobin/
 export PATH=$PATH:~/.cargo/bin/
 export PATH=$PATH:~/.nimble/bin/
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+alias el="cd /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Debug"
