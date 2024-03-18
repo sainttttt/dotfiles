@@ -8,9 +8,12 @@ vnoremap <CR> n
 nnoremap m :
 xnoremap m :
 
+
 cnoremap <d-v> <d-r>+
 " system clipboard
 nmap <d-c> "+y
+
+set conceallevel=0
 
 vmap <d-c> "+y
 nmap <d-v> "+p
@@ -21,9 +24,6 @@ inoremap <d-r> <c-v>
 nnoremap <D-v> "+p
 
 nnoremap <C-p> <C-i>
-if exists('g:neovide')
-    exec 'cd ~/code/tmp"'
-endif
 
 map <silent> <D-t> :tabnew<CR>
 map <silent> <D-w> :close<CR>
@@ -37,7 +37,6 @@ nnoremap M ?
 cnoremap <Tab> <CR>
 nnoremap <S-Tab> N
 
-nnoremap a; A;<Esc>o
 set maxmempattern=5000
 
 " nvim-surround stuff
@@ -48,32 +47,6 @@ map v( ysiw(
 map v) ysiw)
 map v[ ysiw[
 map v* ysiw*
-
-nmap <Leader><Leader> <Plug>BookmarkToggle
-
-" " auto pair fix stuff
-" imap [<esc> <c-v>[<esc>
-" imap ['<esc> <c-v>[<c-v>'<esc>
-" imap ["<esc> <c-v>[<c-v>"<esc>
-" imap ']<esc> <c-v>'<c-v>]<esc>
-" imap "]<esc> <c-v>"<c-v>]<esc>
-
-" imap {<esc> <c-v>{<esc>
-" imap {'<esc> <c-v>{<c-v>'<esc>
-" imap {"<esc> <c-v>{<c-v>"<esc>
-" imap '}<esc> <c-v>'<c-v>}<esc>
-" imap "}<esc> <c-v>"<c-v>}<esc>
-
-" imap (<esc> <c-v>(<esc>
-" imap ('<esc> <c-v>(<c-v>'<esc>
-" imap ("<esc> <c-v>(<c-v>"<esc>
-" imap ')<esc> <c-v>'<c-v>)<esc>
-" imap ")<esc> <c-v>"<c-v>)<esc>
-
-" imap '<esc> <c-v>'<esc>
-" imap "<esc> <c-v>"<esc>
-
-" imap "" <c-v>"<c-v>"
 
 vnoremap / <esc>/\%V
 
@@ -97,14 +70,17 @@ nnoremap 8 :
 nnoremap 9 :
 
 nnoremap aa a
+
+""""""""""""""""""""""
+" todo: clean this up ""
 nmap at <leader>mt
 
 nmap ar <leader>rr
 
 nmap gf <leader>fg
 nmap ge <leader>ff
-nmap <C-u> <leader>fw
-nmap <leader>t <leader>mt
+""""""""""""""""""""""
+
 nnoremap Q: q:
 
 imap <M-t> †
@@ -148,7 +124,7 @@ nnoremap z `
 " echom g:mksess_string
 " echom ProjectRootGuess()
 
-" autocmd VimLeavePre,BufEnter * exec "mksession! " .  ProjectRootGuess() 
+" autocmd VimLeavePre,BufEnter * exec "mksession! " .  ProjectRootGuess()
 
 " if has('nvim')
 "   let shadafile=ProjectRootGuess() . "/.vim/main.shada"
@@ -202,40 +178,6 @@ autocmd Filetype qf map <buffer> <Space> <CR>
 nnoremap <C-a> :NvimTreeFindFile<CR>
 
 " --------------------------------------------------
-" navigation ---------------------------------------
-
-" This is for debugging, shows the syntax type under cursor
-" nnoremap <leader>mm :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-" \ . synIDattr(synID(line("."),col("."),1),"name") . "> lo<"
-" \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-function! SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
-function! CharAtIdx(str, idx) abort
-  " Get char at idx from str. Note that this is based on character index
-  " instead of the byte index.
-  return strcharpart(a:str, a:idx, 1)
-endfunction
-
-
-function! CursorCharIdx() abort
-  " A more concise way to get character index under cursor.
-  let cursor_byte_idx = col('.')
-  if cursor_byte_idx == 1
-    return 0
-  endif
-
-  let pre_cursor_text = getline('.')[:col('.')-2]
-  return strchars(pre_cursor_text)
-endfunction
-
-" --------------------------------------------------
-
 
 " vnoremap J }
 " vnoremap K {
@@ -246,13 +188,16 @@ nnoremap K 15k
 " xnoremap <silent>L :<C-u>call VMoveCursor('')<cr>
 " xnoremap <silent>H :<C-u> VMoveCursor('b')<cr>
 "
-nnoremap <silent>L :MoveCursor<cr>
+nnoremap <silent>L <C-w>l
+nnoremap <silent>H <C-w>h
+
+nnoremap <silent><Down> :MoveCursor<cr>
+nnoremap <silent><Up> :MoveCursor b<cr>
 
 nnoremap <silent><s-down> :MoveCursor<cr>
 
 xnoremap <silent>L :<C-u> VMoveCursor<cr>
 
-nnoremap <silent>H : MoveCursor b<cr>
 nnoremap <silent><s-up> : MoveCursor b<cr>
 xnoremap <silent>H :<C-u> VMoveCursor b<cr>
 
@@ -260,7 +205,8 @@ xnoremap <silent>J :<C-u> VMoveCursor<cr>
 xnoremap <silent>K :<C-u> VMoveCursor b<cr>
 
 
-noremap <C-n> J
+noremap <M-m> J
+noremap <C-n> <nop>
 
 " this needs to be map and no noremap for macros/matchit.vim to work
 " nnoremap q %
@@ -273,18 +219,22 @@ nnoremap <C-T> <C-w>l
 inoremap <C-T> <esc><C-w>l
 
 map <C-K> <C-w>k
-map <C-h> <C-w>ikh
+
 nnoremap <M-H> <C-w>h
 nnoremap <M-L> <C-w>l
+
 nnoremap <C-H> <C-w>h
 nnoremap <C-L> <C-w>l
+
+nnoremap <D-h> <C-w>h
+nnoremap <D-l> <C-w>l
+
 inoremap <C-h> <Esc><C-w>h
 inoremap <C-l> <Esc><C-w>l
 
-" Can't figure out how to map M-hjkl in iTerm for some reason
 nnoremap <M-.> <C-w>L
 nnoremap <M-,> <C-w>K
-nnoremap <M-m> <C-w>J
+" nnoremap <M-m> <C-w>J
 
 " --------------------------------------------------
 " delete and yank ----------------------------------
@@ -315,8 +265,6 @@ nnoremap <M-p> "pp
 " --------------------------------------------------
 
 set updatetime=750
-
-"source ~/.local/share/nvim/yoke.vim
 
 " trigger `autoread` when files changes on disk
 set autoread
@@ -378,30 +326,8 @@ endfunction
 
 " general settings ---------------------------------
 "
- let s:nimlspexecutable = "/Users/saint/.nimble/bin/nimlsp"
- let g:lsp_log_verbose = 1
- let g:lsp_log_file = expand('/tmp/vim-lsp.log')
- " for asyncomplete.vim log
- let g:asyncomplete_log_file = expand('/tmp/asyncomplete.log')
-
- let g:asyncomplete_auto_popup = 0
-
- if has('win32')
-    let s:nimlspexecutable = "nimlsp.cmd"
-    " Windows has no /tmp directory, but has $TEMP environment variable
-    let g:lsp_log_file = expand('$TEMP/vim-lsp.log')
-    let g:asyncomplete_log_file = expand('$TEMP/asyncomplete.log')
- endif
- if executable(s:nimlspexecutable)
-    au User lsp_setup call lsp#register_server({
-    \ 'name': 'nimlsp',
-    \ 'cmd': {server_info->[s:nimlspexecutable]},
-    \ 'whitelist': ['nim'],
-    \ })
- endif
 
 iab cl console.log
-iab p print
 iab pr print
 
 " autocmd BufRead * DetectIndent
@@ -409,41 +335,10 @@ iab pr print
 " reload vimrc on save
 autocmd! bufwritepost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
 
-" trying out some html thing (experiment)
-nnoremap <Leader>h 0f<a/<esc>f<Space>C><esc>
-
-" nnoremap <Leader>s :filetype detect<Esc>
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(ale_go_to_definition)
-nmap <silent> gr <Plug>(ale_find_references)
-" nmap <silent> C-] <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-
-let g:vim_vue_plugin_config = {
-      \'syntax': {
-      \   'template': ['html'],
-      \   'script': ['javascript'],
-      \   'style': ['css'],
-      \},
-      \'full_syntax': [],
-      \'initial_indent': [],
-      \'attribute': 0,
-      \'keyword': 0,
-      \'foldexpr': 0,
-      \'debug': 0,
-      \}
-
 
 nnoremap <silent> ) :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> ( :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 
-let g:AutoPairs = {'(':')', '[':']', '{':'}'}
-
-" snake to camel case
-" :s#_\(\l\)#\u\1#g
-"
 let g:go_doc_keywordprg_enabled = 0
 
 set cursorline
@@ -456,19 +351,6 @@ let g:vimtex_view_method = 'skim'
 let g:vimtex_compiler_latexmk = {'callback' : 0}
 
 com! FormatJSON %!python -m json.tool
-
-" Damian Conway's Die Blinkënmatchen: highlight matches
-nnoremap <silent> m n:call HLNext(0.1)<cr>
-nnoremap <silent> M N:call HLNext(0.1)<cr>
-
-function! HLNext (blinktime)
-  let target_pat = '\c\%#'.@/
-  let ring = matchadd('ErrorMsg', target_pat, 101)
-  redraw
-  exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
-  call matchdelete(ring)
-  redraw
-endfunction
 
 " noremap <silent> <Leader>w :call ToggleWrap()<CR>
 function! ToggleWrap()
@@ -531,7 +413,7 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 set guioptions-=l
 set guioptions-=r
 set guioptions-=b
-set guifont=Ac437_ToshibaSat_9x14:h38
+set guifont=Ac437_ToshibaSat_9x14:h33
 set background=dark
 set wildmode=longest,list,full
 set wildmenu
@@ -542,11 +424,14 @@ set gcr=n:blinkon0
 set guioptions-=T
 set novisualbell
 
+noremap tt :vsp<CR>
+
 "" edit vimrc
+"" todo: open in dedicated split for config stuff
 noremap <Leader>vv :vsp ~/.config/nvim/init.vim<CR>
 noremap <Leader>va :vsp ~/.config/nvim/lua/init.lua<CR>
-" noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
 noremap <Leader>vz :vsp ~/.config/nvim/lua/plugins/init.lua<CR>
+" noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
 " noremap <Leader>vx :vsp ~/.config/nvim/lua/<CR>
 
 noremap <Leader>xr :!chmod +x % <CR><CR>
@@ -621,11 +506,8 @@ autocmd FileType python set ts=4|set shiftwidth=4
 " COMMENTING
 """"""""""""""""""""""""""""""""""""""""""
 nmap av gcc
-vmap av gc
+vmap av gcc
 vmap F gc
-
-nmap tt Yp
-nmap tr YVgc<esc>p
 
 """""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""
@@ -805,6 +687,14 @@ autocmd VimEnter * call StartCmd()
 
 map <M-n> Tab
 map <M-N> <S-Tab>
-nmap <leader>re <cmd>Lazy reload plugin lucy.nvim<CR>
+nmap <leader>re <cmd>Lazy reload plugin yoke.vim<CR>
 
-hi Normal guibg=None
+
+if !exists('g:neovide')
+  hi Normal guibg=None
+endif
+
+if exists('g:neovide')
+    exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Katarina'
+    edit GEN\ TODO.md
+endif

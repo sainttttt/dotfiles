@@ -321,3 +321,66 @@ end
 local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
 vim.api.nvim_create_autocmd({'BufEnter', "VimEnter"} , { group = root_augroup, callback = set_root })
 
+function _G.duplicate(comment)
+  local vstart = vim.fn.getpos('v')[2]
+  local vend = vim.fn.getpos('.')[2]
+
+  if vend == vstart then
+    if comment then
+      vim.cmd("normal YVgcp")
+    else
+      vim.cmd("normal! Yp")
+    end
+    return
+  end
+
+  if vend < vstart then
+    vend, vstart = vstart, vend -- swap
+  end
+
+  vim.cmd("normal! y ")
+  if comment then
+    vim.cmd("normal! " .. vstart .. "G")
+    vim.cmd("normal! V")
+    vim.cmd("normal! " .. vend .. "G")
+    vim.cmd("normal gc")
+  end
+
+
+  vim.cmd("normal! " .. vend .. "G")
+  vim.cmd("normal! j")
+  vim.cmd("normal! O")
+  vim.cmd("normal! p")
+end
+
+vim.keymap.set({"n", "x"}, "vs", "<cmd>lua duplicate()<CR>", {silent = true, noremap = true})
+vim.keymap.set({"n", "x"}, "vd", "<cmd>lua duplicate(true)<CR>", {silent = true, noremap = true})
+
+
+
+-- TODO: open config files in a dedicated split
+-- -- Variable to store the name of the shared split buffer
+-- local shared_split_buffer = ""
+
+-- -- Function to open a file in the shared split if open, or open the shared split if it's not open
+-- function _G.openInSharedSplit(filename)
+--     -- If the shared split buffer is not empty and the buffer is open, open the file in that split
+--     if shared_split_buffer ~= "" and vim.fn.bufwinnr(shared_split_buffer) ~= -1 then
+--         vim.cmd('buffer ' .. filename)
+--     else
+--         -- If the shared split buffer is empty or not open, open a new shared split
+--         shared_split_buffer = filename
+
+--         vim.cmd('vsp ' .. filename)
+--         -- vim.cmd('buffer ' .. filename)
+--     end
+-- end
+
+
+-- vim.keymap.set('n', "<leader>vv", function() openInSharedSplit(vim.fn.expand '~/.config/nvim/init.vim' ) end)
+-- vim.keymap.set('n', "<leader>vz", function() openInSharedSplit(vim.fn.expand '~/.config/nvim/lua/plugins/init.lua') end)
+-- noremap <Leader>vv :vsp ~/.config/nvim/init.vim<CR>
+-- noremap <Leader>va :vsp ~/.config/nvim/lua/init.lua<CR>
+-- " noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
+-- noremap <Leader>vz :vsp ~/.config/nvim/lua/plugins/init.lua<CR>
+-- " noremap <Leader>vx :vsp ~/.config/nvim/lua/<CR>

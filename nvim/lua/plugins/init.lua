@@ -23,10 +23,10 @@ return {
   },
 
   -- {'rhysd/clever-f.vim'},
+ 
   {'romainl/vim-cool'},
-  {
 
-    'BartSte/nvim-project-marks',
+  { 'BartSte/nvim-project-marks',
     lazy = false,
     config = function()
       require('projectmarks').setup({
@@ -161,13 +161,13 @@ return {
     end
   },
 
-  { dir = "~/code/portion.vim",
-    config = function()
-      require('portion').setup({
-        ratio = 0.4
-      })
-    end
-    },
+  -- { dir = "~/code/portion.vim",
+  --   config = function()
+  --     require('portion').setup({
+  --       ratio = 0.4
+  --     })
+  --   end
+  --   },
 
   -- { 'sainttttt/portion.vim',
   --   config = function()
@@ -177,11 +177,13 @@ return {
   --   end
   -- },
 
-  {  'sainttttt/yoke.vim',
+  { dir = "~/code/yoke.vim",
+    'sainttttt/yoke.vim',
     config = function()
       require('yoke').setup()
     end
   },
+
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -265,27 +267,46 @@ return {
   {
     "epwalsh/obsidian.nvim",
     lazy = false,
-    -- event = {
-    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-    --   "BufReadPre " ..  vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
-    --   "BufNewFile " ..  vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
-    -- },
+    event = {
+      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+      "BufReadPre " ..  vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
+      "BufNewFile " ..  vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
     config = function()
+      local path = vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/"
       vim.keymap.set('n', '<Leader>.', ":ObsidianNew ")
       require("obsidian").setup {
-        dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina",
+        dir = path,
 
         note_id_func = function(title)
           return title
         end,
         disable_frontmatter = true,
 
+        ui = {
+          enable = false,
+        },
         finder = "fzf-lua",
+        mappings = {
+          ["gd"] = {
+            action = function()
+              return require("obsidian").util.gf_passthrough()
+            end,
+            opts = { noremap = false, expr = true, buffer = true },
+          },
+        },
       }
+      vim.keymap.set("n", "gd", function()
+        if require("obsidian").util.cursor_on_markdown_link() then
+          return "<cmd>ObsidianFollowLink<CR>"
+        else
+          return "gd"
+        end
+      end, { noremap = false, expr = true })
     end
   },
 
@@ -348,6 +369,8 @@ return {
           "c",
           "lua",
           "vim",
+          "markdown",
+          "markdown_inline",
           "vimdoc",
           "query",
           "javascript",
@@ -1326,7 +1349,7 @@ return {
             win_options = {
               winbar = "",
               foldenable = false,
-              winblend = 30,
+              winblend = 0,
               winhighlight = {
                 Normal = "NoiceMini",
                 IncSearch = "",
