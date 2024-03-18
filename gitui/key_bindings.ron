@@ -19,7 +19,7 @@
     commit: Some(( code: BackTab, modifiers: "SHIFT")),
 
     force_push: Some(( code: Char('p'), modifiers: "CONTROL")),
-    force_push: Some(( code: Char('P'), modifiers: "SHIFT")),
+    push: Some(( code: Char('P'), modifiers: "SHIFT")),
 
     move_left: Some(( code: Char('h'), modifiers: "")),
     move_right: Some(( code: Char('l'), modifiers: "")),
