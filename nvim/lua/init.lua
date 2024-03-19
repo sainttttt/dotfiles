@@ -99,7 +99,7 @@ function _G.set_terminal_keymaps()
   vim.keymap.set('t', '<C-]>', '<C-\\><C-n>', opts)
   vim.keymap.set('t', '<leader>rr', '<C-c>', opts)
   if require'toggleterm' then
-    vim.keymap.set('t', '<m-b>', TermToggle, opts)
+    vim.keymap.set('t', '<m-c>', TermToggle, opts)
   end
 end
 

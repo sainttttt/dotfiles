@@ -189,6 +189,8 @@ return {
 
       vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
       vim.keymap.set("n", "ga", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
+      vim.keymap.set("n", "tr", "<cmd>Lspsaga rename<CR>", {noremap=true})
+
 
 
       local keymap = vim.keymap.set

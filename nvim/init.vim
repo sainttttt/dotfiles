@@ -188,8 +188,8 @@ nnoremap K 15k
 " xnoremap <silent>L :<C-u>call VMoveCursor('')<cr>
 " xnoremap <silent>H :<C-u> VMoveCursor('b')<cr>
 "
-nnoremap <silent>L <C-w>l
-nnoremap <silent>H <C-w>h
+nnoremap <silent>L :MoveCursor<cr>
+nnoremap <silent>H :MoveCursor b<cr>
 
 nnoremap <silent><Down> :MoveCursor<cr>
 nnoremap <silent><Up> :MoveCursor b<cr>
@@ -687,6 +687,7 @@ autocmd VimEnter * call StartCmd()
 
 map <M-n> Tab
 map <M-N> <S-Tab>
+
 nmap <leader>re <cmd>Lazy reload plugin yoke.vim<CR>
 
 

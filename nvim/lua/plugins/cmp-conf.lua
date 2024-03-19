@@ -4,9 +4,13 @@ return {
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
-  'hrsh7th/vim-vsnip',
+
+  'dcampos/nvim-snippy',
+  'honza/vim-snippets',
+
   'onsails/lspkind.nvim',
   'lukas-reineke/cmp-under-comparator',
+  'dcampos/cmp-snippy',
 
   {
     'hrsh7th/cmp-nvim-lsp',
@@ -18,13 +22,17 @@ return {
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
       end
 
-      local feedkey = function(key, mode)
-        print("here")
-        print(key)
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-      end
-
+      local snippy = require("snippy")
       local cmp = require('cmp')
+
+      require('snippy').setup({
+        mappings = {
+          is = {
+            ['<M-b>'] = 'expand_or_advance',
+            ['<M-B>'] = 'previous',
+          },
+        },
+      })
 
       cmp.setup({
         --      snippet = {
@@ -43,10 +51,15 @@ return {
 
         -- confirmation = { completeopt = 'menuone,menu,noinsert' },
 
+        snippet = {
+          expand = function(args)
+            require 'snippy'.expand_snippet(args.body)
+          end
+        },
+
         completion = {
           completeopt = 'noselect,menu',
         },
-
 
         performance = {
           debounce = 50,
@@ -77,42 +90,61 @@ return {
               cmp.select_next_item()
             elseif has_words_before() then
               cmp.complete()
-              cmp.select_next_item()
-              local next = 1
+              -- cmp.select_next_item()
             else
               fallback()
-              -- cmp.event:on ("complete_done", function(view)
-              --   if next == 1 then
-              --     print('callback scroll')
-              --     next = 0
-              --     cmp.select_next_item()
-              --     -- view.my:select_next_item({})
-              --   end
-              -- end)
             end
-            -- cmp.select_next_item()
-            -- if cmp.visible() then
-            --   cmp.select_next_item()
-            -- elseif vim.fn["vsnip#available"](1) == 1 then
-            --   feedkey("<Plug>(vsnip-expand-or-jump)", "")
-            -- elseif has_words_before() then
-            --   print('hs words before')
-            --   cmp.complete()
-            --   cmp.select_next_item()
-            -- else
-            --   -- fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
-
-            --   feedkey("<Tab>")
-            -- end
           end, { "i", "s" }),
 
-          ["<S-Tab>"] = cmp.mapping(function()
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-              feedkey("<Plug>(vsnip-jump-prev)", "")
+            else
+              fallback()
             end
           end, { "i", "s" }),
+
+          -- ["<Tab>"] = cmp.mapping(function(fallback)
+          --   if cmp.visible() then
+          --     cmp.select_next_item()
+          --   elseif has_words_before() then
+          --     cmp.complete()
+          --     cmp.select_next_item()
+          --     local next = 1
+          --   else
+          --     fallback()
+          --     -- cmp.event:on ("complete_done", function(view)
+          --     --   if next == 1 then
+          --     --     print('callback scroll')
+          --     --     next = 0
+          --     --     cmp.select_next_item()
+          --     --     -- view.my:select_next_item({})
+          --     --   end
+          --     -- end)
+          --   end
+          --   -- cmp.select_next_item()
+          --   -- if cmp.visible() then
+          --   --   cmp.select_next_item()
+          --   -- elseif vim.fn["vsnip#available"](1) == 1 then
+          --   --   feedkey("<Plug>(vsnip-expand-or-jump)", "")
+          --   -- elseif has_words_before() then
+          --   --   print('hs words before')
+          --   --   cmp.complete()
+          --   --   cmp.select_next_item()
+          --   -- else
+          --   --   -- fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+
+          --   --   feedkey("<Tab>")
+          --   -- end
+          -- end, { "i", "s" }),
+
+          -- ["<S-Tab>"] = cmp.mapping(function()
+          --   if cmp.visible() then
+          --     cmp.select_prev_item()
+          --   elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+          --     feedkey("<Plug>(vsnip-jump-prev)", "")
+          --   end
+          -- end, { "i", "s" }),
 
           -- ... Your other mappings ...
 
@@ -126,9 +158,10 @@ return {
 
         sources = cmp.config.sources(
           {
+
             { name = 'nvim_lsp', max_item_count = 15 },
-            {
-              name = 'buffer', max_item_count = 15,
+            { name = 'buffer', max_item_count = 15,
+            { name = 'snippy', max_item_count = 3 },
               -- get text from visible buffers
               --
               option = {

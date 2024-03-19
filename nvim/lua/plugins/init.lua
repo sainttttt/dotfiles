@@ -17,13 +17,17 @@ return {
     -- try to load one of these colorschemes when starting an installation during startup
     colorscheme = { "flesh-and-blood" },
   },
-  {
-    'nmac427/guess-indent.nvim',
+
+
+  -- † plugins † ----------------------------------------------
+
+  { 'nmac427/guess-indent.nvim',
     config = function() require('guess-indent').setup {} end,
   },
 
   -- {'rhysd/clever-f.vim'},
- 
+
+  -- disables search highlight when cursor moves
   {'romainl/vim-cool'},
 
   { 'BartSte/nvim-project-marks',
@@ -151,7 +155,7 @@ return {
   -- },
 
   -- allows you to open nvim from cmdline with line number
-  {'wsdjeg/vim-fetch'},
+  -- {'wsdjeg/vim-fetch'},
 
   { 'sainttttt/flesh-and-blood',
     lazy=false,
@@ -900,7 +904,9 @@ return {
         end
       end
 
-      vim.keymap.set('n', '<m-b>', TermToggle, { noremap = true, silent = false })
+      -- note: have to check init.lua for another mapping if you want to change
+      -- the termtoggle mapping key
+      vim.keymap.set('n', '<m-c>', TermToggle, { noremap = true, silent = false })
 
       local Terminal  = require('toggleterm.terminal').Terminal
       local gitui = Terminal:new({ cmd = "gitui",
