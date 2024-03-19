@@ -254,4 +254,5 @@ export PATH=$PATH:~/bin/gobin/
 export PATH=$PATH:~/.cargo/bin/
 export PATH=$PATH:~/.nimble/bin/
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
-alias el="cd /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Debug"
+alias el="cd /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Release"
+alias dd="cd /Users/saint/Library/Developer/Xcode/DerivedData/"
