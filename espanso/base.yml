@@ -25,6 +25,11 @@ matches:
     replace: "site:reddit.com/r/ScientificNutrition"
     propagate_case: false
 
+  - trigger: ";;nb"
+    replace: "site:reddit.com/r/naturalbodybuilding/"
+    propagate_case: false
+
+
   - trigger: ";;hf"
     replace: "site:head-fi.org"
     propagate_case: false
@@ -32,6 +37,12 @@ matches:
   - trigger: ";;an"
     replace: "after:2023-01-01"
     propagate_case: false
+    word: true
+
+  - trigger: ";;ang"
+    replace: "https://media.discordapp.net/attachments/679399659843616831/957582470214217758/AngelFren.gif "
+    propagate_case: false
+    word: true
 
   - trigger: ";;ab"
     replace: "after:2022-01-01"
@@ -39,10 +50,6 @@ matches:
 
   - trigger: ";;sw"
     replace: "SwiftUI"
-    propagate_case: false
-
-  - trigger: ";;hug2"
-    replace: "https://cdn.discordapp.com/emojis/765313892783751249.gif?size=240&quality=lossless"
     propagate_case: false
 
   - trigger: ";;mon"
@@ -88,6 +95,7 @@ matches:
   - trigger: ";;hug"
     replace: "https://cdn.discordapp.com/attachments/1117213342554144839/1117215020300910602/HugFrens.gif "
     propagate_case: false
+    word: true
 
   - trigger: ";;hug2"
     replace: "https://cdn.discordapp.com/emojis/765313892783751249.gif?size=240&quality=lossless "
@@ -107,6 +115,18 @@ matches:
 
   - trigger: ";;pls"
     replace: "https://cdn.discordapp.com/emojis/704005650350604288.webp?size=240&quality=lossless "
+    propagate_case: false
+
+  - trigger: ";;pray"
+    replace: "https://cdn.discordapp.com/attachments/679399659843616831/976182021846102107/FrenPray.gif"
+    propagate_case: false
+
+  - trigger: ";;box"
+    replace: "https://cdn.discordapp.com/attachments/872129487310057492/1095804426599534733/boxingfren.gif "
+    propagate_case: false
+
+  - trigger: ";;cry"
+    replace: "https://cdn.discordapp.com/attachments/872129487310057492/955872900131487765/FrenScared.gif "
     propagate_case: false
 
   # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
