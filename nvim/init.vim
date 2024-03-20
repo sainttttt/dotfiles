@@ -28,6 +28,7 @@ nnoremap <C-p> <C-i>
 map <silent> <D-t> :tabnew<CR>
 map <silent> <D-w> :close<CR>
 
+nmap <M-b> <Esc>
 map <silent> <D-[> :tabprevious<CR>
 map <silent> <D-]> :tabnext<CR>
 

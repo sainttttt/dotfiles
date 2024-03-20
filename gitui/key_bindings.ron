@@ -18,8 +18,8 @@
     exit: Some(( code: Char('Q'), modifiers: "SHIFT")),
     commit: Some(( code: BackTab, modifiers: "SHIFT")),
 
-    force_push: Some(( code: Char('p'), modifiers: "CONTROL")),
-    push: Some(( code: Char('P'), modifiers: "SHIFT")),
+    force_push: Some(( code: Char('P'), modifiers: "CONTROL")),
+    push: Some(( code: Char('p'), modifiers: "CONTROL")),
 
     move_left: Some(( code: Char('h'), modifiers: "")),
     move_right: Some(( code: Char('l'), modifiers: "")),

@@ -1,16 +1,42 @@
 return {
 
+{ 'saadparwaiz1/cmp_luasnip' },
+
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
 
   'dcampos/nvim-snippy',
-  'honza/vim-snippets',
 
   'onsails/lspkind.nvim',
   'lukas-reineke/cmp-under-comparator',
   'dcampos/cmp-snippy',
+  {
+    "L3MON4D3/LuaSnip",
+    -- follow latest release.
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp",
+    dependencies = { "rafamadriz/friendly-snippets" },
+    config = function()
+
+      vim.cmd([[
+      imap <silent><expr> <M-b> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Esc>'
+      " -1 for jumping backwards.
+      inoremap <silent> <M-B> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+      snoremap <silent> <M-b> <cmd>lua require('luasnip').jump(1)<Cr>
+      snoremap <silent> <M-B> <cmd>lua require('luasnip').jump(-1)<Cr>
+      ]])
+
+      -- require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip.loaders.from_snipmate").lazy_load()
+      require("luasnip.loaders.from_snipmate").lazy_load({paths = "./snippets"})
+    end
+
+
+  },
 
   {
     'hrsh7th/cmp-nvim-lsp',
@@ -22,17 +48,18 @@ return {
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
       end
 
-      local snippy = require("snippy")
+      -- local snippy = require("snippy")
       local cmp = require('cmp')
+      local luasnip = require("luasnip")
 
-      require('snippy').setup({
-        mappings = {
-          is = {
-            ['<M-b>'] = 'expand_or_advance',
-            ['<M-B>'] = 'previous',
-          },
-        },
-      })
+      -- require('snippy').setup({
+      --   mappings = {
+      --     is = {
+      --       ['<M-b>'] = 'expand_or_advance',
+      --       ['<M-B>'] = 'previous',
+      --     },
+      --   },
+      -- })
 
       cmp.setup({
         --      snippet = {
@@ -51,18 +78,22 @@ return {
 
         -- confirmation = { completeopt = 'menuone,menu,noinsert' },
 
-        snippet = {
-          expand = function(args)
-            require 'snippy'.expand_snippet(args.body)
-          end
-        },
+        -- snippet = {
+        --   expand = function(args)
+        --     require 'snippy'.expand_snippet(args.body)
+        --   end
+        -- },
 
+   snippet = {
+      expand = function(args)
+        require'luasnip'.lsp_expand(args.body)
+      end
+    },
         completion = {
           completeopt = 'noselect,menu',
         },
 
         performance = {
-          debounce = 50,
           timeout = 2,
         },
 
@@ -85,24 +116,26 @@ return {
           --   }
           -- }),
 
-          ["<Tab>"] = cmp.mapping(function(fallback)
+
+   ["<Tab>"] = cmp.mapping(function(fallback)
+      -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
+      -- that way you will only jump inside the snippet region
             if cmp.visible() then
               cmp.select_next_item()
             elseif has_words_before() then
               cmp.complete()
-              -- cmp.select_next_item()
             else
               fallback()
             end
-          end, { "i", "s" }),
+    end, { "i", "s" }),
 
-          ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
 
           -- ["<Tab>"] = cmp.mapping(function(fallback)
           --   if cmp.visible() then
@@ -161,7 +194,8 @@ return {
 
             { name = 'nvim_lsp', max_item_count = 15 },
             { name = 'buffer', max_item_count = 15,
-            { name = 'snippy', max_item_count = 3 },
+              { name = 'luasnip' },
+            -- { name = 'snippy', max_item_count = 3 },
               -- get text from visible buffers
               --
               option = {
