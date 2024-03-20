@@ -7,7 +7,7 @@ local on_attach = function(client, bufnr)
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
   -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   -- vim.keymap.set('n', 'gf', [[<cmd>vsplit |  exe "normal \<c-w>l" | lua vim.lsp.buf.definition()<CR>]], bufopts)
 
@@ -19,7 +19,7 @@ local on_attach = function(client, bufnr)
   -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   --
-  local fzf_lua = require'fzf-lua'
+  local fzf_lua = require 'fzf-lua'
   if fzf_lua then
     vim.keymap.set("n", "gr", function() fzf_lua.lsp_references() end, bufopts)
     vim.keymap.set("n", "<leader>fd", function() fzf_lua.lsp_workspace_symbols() end, bufopts)
@@ -30,7 +30,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   end
 end
- 
+
 return {
 
   {
@@ -43,7 +43,7 @@ return {
     config = function()
       require("mason").setup({
         ui = {
-         icons = {
+          icons = {
             package_installed = "",
             package_pending = "",
             package_uninstalled = "",
@@ -60,7 +60,6 @@ return {
   {
     'neovim/nvim-lspconfig',
     config = function()
-
       -- Use an on_attach function to only map the following keys
       -- after the language server attaches to the current buffer
 
@@ -69,7 +68,7 @@ return {
       -- }
       --
 
-      local lspconfig = require'lspconfig'
+      local lspconfig = require 'lspconfig'
 
       -- lspconfig.ccls.setup {
       --   on_attach = on_attach,
@@ -84,22 +83,22 @@ return {
       --   }
       -- }
 
-      lspconfig.crystalline.setup{
+      lspconfig.crystalline.setup {
         on_attach = function(client, bufnr)
           client.server_capabilities.completionProvider = false
           on_attach(client, bufnr)
         end
       }
 
-      lspconfig.tsserver.setup{
+      lspconfig.tsserver.setup {
         on_attach = on_attach,
       }
 
-      lspconfig.nimls.setup{
+      lspconfig.nimls.setup {
         on_attach = on_attach,
       }
 
-      lspconfig.pyright.setup{
+      lspconfig.pyright.setup {
         on_attach = on_attach,
       }
 
@@ -119,7 +118,7 @@ return {
             },
             diagnostics = {
               -- Get the language server to recognize the `vim` global
-              globals = {'vim'},
+              globals = { 'vim' },
               disable = { "redefined-local", "missing-parameter", "redundant-parameter" },
             },
             workspace = {
@@ -143,27 +142,28 @@ return {
         filetypes = { "swift", "objective-c", "objective-cpp" },
         -- root_dir = lsp_config.util.root_pattern("Package.swift", ".git", "*.xcodeproj")
       }
-
     end
   },
-  { 'ranjithshegde/ccls.nvim',
+  {
+    'ranjithshegde/ccls.nvim',
     config = function()
       local util = require "lspconfig.util"
       local server_config = {
         filetypes = { "c", "cpp", "objc", "objcpp", "opencl" },
         root_dir = function(fname)
           return util.root_pattern("compile_commands.json", "compile_flags.txt", ".git")(fname)
-            or util.find_git_ancestor(fname)
+              or util.find_git_ancestor(fname)
         end,
-        init_options = { cache = {
-          directory = vim.fs.normalize "~/.cache/ccls" 
-          -- or vim.fs.normalize "~/.cache/ccls" -- if on nvim 0.8 or higher
-        } },
+        init_options = {
+          cache = {
+            directory = vim.fs.normalize "~/.cache/ccls"
+            -- or vim.fs.normalize "~/.cache/ccls" -- if on nvim 0.8 or higher
+          }
+        },
         on_attach = on_attach,
         capabilities = completion_capabilities,
       }
       require("ccls").setup { lsp = { lspconfig = server_config } }
-
     end
   },
 
@@ -187,9 +187,9 @@ return {
         }
       })
 
-      vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
-      vim.keymap.set("n", "ga", "<cmd>Lspsaga peek_definition<CR>", {noremap=true})
-      vim.keymap.set("n", "tr", "<cmd>Lspsaga rename<CR>", {noremap=true})
+      vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", { noremap = true })
+      vim.keymap.set("n", "ga", "<cmd>Lspsaga peek_definition<CR>", { noremap = true })
+      vim.keymap.set("n", "tr", "<cmd>Lspsaga rename<CR>", { noremap = true })
 
 
 
@@ -202,7 +202,7 @@ return {
       -- keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>")
 
       -- Code action
-      keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
+      keymap({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
 
       -- -- Rename all occurrences of the hovered word for the entire file
       -- keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
@@ -218,7 +218,7 @@ return {
       keymap("n", "gp", "<cmd>Lspsaga peek_definition<CR>")
 
       -- Go to definition
-      keymap("n","gd", "<cmd>Lspsaga goto_definition<CR>")
+      keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>")
 
       -- Peek type definition
       -- You can edit the file containing the type definition in the floating window
@@ -260,7 +260,7 @@ return {
       end)
 
       -- Toggle outline
-      keymap("n","<leader>o", "<cmd>Lspsaga outline<CR>")
+      keymap("n", "<leader>o", "<cmd>Lspsaga outline<CR>")
 
 
       -- Call hierarchy
@@ -268,14 +268,38 @@ return {
       keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 
       -- Floating terminal
-      keymap({"n", "t"}, "<A-d>", "<cmd>Lspsaga term_toggle<CR>")
-
+      keymap({ "n", "t" }, "<A-d>", "<cmd>Lspsaga term_toggle<CR>")
     end,
 
     dependencies = {
-      {"nvim-tree/nvim-web-devicons"},
+      { "nvim-tree/nvim-web-devicons" },
       --Please make sure you install markdown and markdown_inline parser
-      {"nvim-treesitter/nvim-treesitter"}
+      { "nvim-treesitter/nvim-treesitter" }
     }
   },
+
+  -- {
+  --   'stevearc/conform.nvim',
+  --   config = function()
+  --     local conform = require("conform")
+
+  --     conform.setup({
+  --       formatters_by_ft = {
+  --         swift = { "swiftformat" },
+  --       },
+  --       format_on_save = function(bufnr)
+  --         return { timeout_ms = 500, lsp_fallback = true }
+  --       end,
+  --       log_level = vim.log.levels.ERROR,
+  --     })
+
+  --     vim.keymap.set({ "n", "v" }, "<Space>", function()
+  --       conform.format({
+  --         lsp_fallback = true,
+  --         async = false,
+  --         timeout_ms = 500,
+  --       })
+  --     end, { desc = "Format file or range (in visual mode)" })
+  --   end
+  -- },
 }

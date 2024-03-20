@@ -28,7 +28,7 @@ nnoremap <C-p> <C-i>
 map <silent> <D-t> :tabnew<CR>
 map <silent> <D-w> :close<CR>
 
-nmap <M-b> <Esc>
+nmap <M-b> <Nop>
 map <silent> <D-[> :tabprevious<CR>
 map <silent> <D-]> :tabnext<CR>
 
@@ -234,7 +234,7 @@ inoremap <C-h> <Esc><C-w>h
 inoremap <C-l> <Esc><C-w>l
 
 nnoremap <M-.> <C-w>L
-nnoremap <M-,> <C-w>K
+nnoremap <M-,> <C-w>H
 " nnoremap <M-m> <C-w>J
 
 " --------------------------------------------------
