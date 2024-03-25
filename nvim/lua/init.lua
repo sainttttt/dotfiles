@@ -301,6 +301,8 @@ local set_root = function()
     path = vim.fs.dirname(path)
   end
 
+  print('meow: ' ..  path)
+
   -- Try cache and resort to searching upward for root directory
   local root = root_cache[path]
   if root == nil then
@@ -320,6 +322,15 @@ end
 
 local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
 vim.api.nvim_create_autocmd({'BufEnter', "VimEnter"} , { group = root_augroup, callback = set_root })
+
+
+local pre_write = function()
+  require('mini.trailspace').trim()
+end
+
+local bufwrite_augroup = vim.api.nvim_create_augroup('', {})
+vim.api.nvim_create_autocmd({'BufWrite'} , { group = bufwrite_augroup, callback = pre_write })
+
 
 function _G.duplicate(comment)
   local vstart = vim.fn.getpos('v')[2]
@@ -357,6 +368,7 @@ vim.keymap.set({"n", "x"}, "vs", "<cmd>lua duplicate()<CR>", {silent = true, nor
 vim.keymap.set({"n", "x"}, "vd", "<cmd>lua duplicate(true)<CR>", {silent = true, noremap = true})
 
 
+------------------------------------
 
 -- TODO: open config files in a dedicated split
 -- -- Variable to store the name of the shared split buffer

@@ -13,7 +13,7 @@ return
         local actions = require('fzf-lua.actions')
         -- calling `setup` is optional for customization
         require("fzf-lua").setup({ "telescope",
- 
+
           winopts = {
 
             on_create = function()

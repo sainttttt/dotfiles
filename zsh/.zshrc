@@ -167,8 +167,15 @@ export PATH="/usr/local/opt/openjdk/bin:$PATH"
 alias sq="sqlite3"
 alias tra="trash"
 alias src="vim ~/.zshrc"
+
+# common paths
 alias code="cd ~/code"
 alias lazy="cd ~/.local/share/nvim/lazy"
+alias el="cd /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Release"
+alias dd="cd /Users/saint/Library/Developer/Xcode/DerivedData/"
+alias cs="v /Users/saint/.local/share/nvim/lazy/flesh-and-blood/colors/flesh-and-blood.vim"
+
+
 alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
 
 rg2() { rg  --no-heading --line-number  "$@" | cut -d':' -f1-2 }
@@ -254,5 +261,4 @@ export PATH=$PATH:~/bin/gobin/
 export PATH=$PATH:~/.cargo/bin/
 export PATH=$PATH:~/.nimble/bin/
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
-alias el="cd /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Release"
-alias dd="cd /Users/saint/Library/Developer/Xcode/DerivedData/"
+

@@ -25,6 +25,10 @@ return {
     config = function() require('guess-indent').setup {} end,
   },
 
+  { 'ixru/nvim-markdown',
+    config = function() end,
+  },
+
   -- {'rhysd/clever-f.vim'},
 
   -- disables search highlight when cursor moves
@@ -111,34 +115,34 @@ return {
   --   }
   -- },
 
-  -- {'nvim-treesitter/nvim-treesitter-context',
-  --   config = function()
-  --     require'treesitter-context'.setup {
-  --       enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-  --       max_lines = 6, -- How many lines the window should span. Values <= 0 mean no limit.
-  --       min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-  --       line_numbers = true,
-  --       multiline_threshold = 20, -- Maximum number of lines to show for a single context
-  --       trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-  --       mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
-  --       -- Separator between context and content. Should be a single character string, like '-'.
-  --       -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-  --       -- separator = '-',
-  --       zindex = 41,
-  --       on_attach = function()
-  --         -- print("new attach")
+  {'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require'treesitter-context'.setup {
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        max_lines = 6, -- How many lines the window should span. Values <= 0 mean no limit.
+        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+        line_numbers = true,
+        multiline_threshold = 20, -- Maximum number of lines to show for a single context
+        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+        -- Separator between context and content. Should be a single character string, like '-'.
+        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+        -- separator = '-',
+        zindex = 41,
+        on_attach = function()
+          -- print("new attach")
 
-  --         if vim.bo.filetype == "swift"
-  --           or vim.bo.filetype == "nim"
-  --           or vim.bo.filetype == "vim"
-  --           or vim.fn.bufname("%") == "[Command Line]" then
-  --           -- vim.cmd("ContextEnable")
-  --           return false
-  --         end
-  --       end, -- (fun(buf: integer): boolean) return false to disable attaching
-  --     }
-  --   end
-  -- },
+          if vim.bo.filetype == "swift"
+            or vim.bo.filetype == "nim"
+            or vim.bo.filetype == "vim"
+            or vim.fn.bufname("%") == "[Command Line]" then
+            -- vim.cmd("ContextEnable")
+            return false
+          end
+        end, -- (fun(buf: integer): boolean) return false to disable attaching
+      }
+    end
+  },
 
   -- {
   --   "folke/which-key.nvim",
@@ -1183,14 +1187,17 @@ return {
 
   {'nvim-tree/nvim-tree.lua',
     config = function()
-      vim.keymap.set('n', '<C-a>', function()
+      local show_tree = function()
         local nvimtree = require'nvim-tree.view'
         if not nvimtree.is_visible() then
           vim.cmd("NvimTreeFindFile")
         else
           vim.cmd("NvimTreeClose")
         end
-      end)
+      end
+
+      vim.keymap.set('n', '<C-a>', show_tree)
+      vim.keymap.set('n', '<D-a>', show_tree)
 
       local HEIGHT_RATIO = 0.5 -- You can change this
       local WIDTH_RATIO = 0.2  -- You can change this too

@@ -1,9 +1,8 @@
 set clipboard+=unnamedplus
 let mapleader = ","
 
-nnoremap <CR> n
-nnoremap <C-L> n
-vnoremap <CR> n
+nnoremap <CR> :
+vnoremap <CR> :
 
 nnoremap m :
 xnoremap m :
@@ -15,6 +14,7 @@ nmap <d-c> "+y
 
 set conceallevel=0
 
+" neovide
 vmap <d-c> "+y
 nmap <d-v> "+p
 inoremap <d-v> <c-r>+
@@ -22,8 +22,13 @@ cnoremap <d-v> <c-r>+
 " use <c-r> to insert original character without triggering things like auto-pairs
 inoremap <d-r> <c-v>
 nnoremap <D-v> "+p
+nnoremap <D-o> <C-o>
+nnoremap <D-p> <C-i>
+
+nnoremap <D-a> <C-a>
 
 nnoremap <C-p> <C-i>
+
 
 map <silent> <D-t> :tabnew<CR>
 map <silent> <D-w> :close<CR>
@@ -89,13 +94,28 @@ imap <M-t> †
 vnoremap < <gv
 vnoremap > >gv
 
+nnoremap <C-u> <<
+xnoremap <M-i> <gv
+nnoremap <M-i> >>
+xnoremap <M-i> >gv
+
+nnoremap <D-u> <<
+nn <D-U> <<
+
+xnoremap <D-u> <gv
+xnoremap <D-U> <gv
+nnoremap <D-i> >>
+xnoremap <D-i> >gv
+nn <D-I> >>
+xnoremap <D-I> >gv
+
 map gb i*<esc>f<space>i*<esc>
 map gv i_<esc>f<space>i_<esc>
 
 set foldopen-=hor
 set noshowmode
 
-autocmd CursorHold * echon ''
+  autocmd CursorHold * echon ''
 
 map <silent> e <Plug>CamelCaseMotion_w
 
@@ -175,8 +195,6 @@ nnoremap <silent> QA :qa!<CR>
 
 autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 autocmd Filetype qf map <buffer> <Space> <CR>
-
-nnoremap <C-a> :NvimTreeFindFile<CR>
 
 " --------------------------------------------------
 
@@ -508,6 +526,7 @@ autocmd FileType python set ts=4|set shiftwidth=4
 """"""""""""""""""""""""""""""""""""""""""
 nmap av gcc
 vmap av gcc
+vmap f gc
 vmap F gc
 
 """""""""""""""""""""""""""""""""""""""""""
@@ -573,10 +592,6 @@ endfun
 
 call SetupCommandAlias("W","w")
 call SetupCommandAlias("Q","q")
-" call SetupCommandAlias("q","close")
-" call SetupCommandAlias("qq","q")
-" call SetupCommandAlias("Qq","q")
-" call SetupCommandAlias("QQ","q")
 call SetupCommandAlias("Wq","wq")
 call SetupCommandAlias("Qa","qa")
 call SetupCommandAlias("ack","Ack")
@@ -624,8 +639,6 @@ function! CallMacro()
 endfunction
 
 
-""" colorscheme
-
 autocmd BufEnter,BufWinEnter,WinEnter * setlocal winhl=Search:LocalSearch,IncSearch:LocalSearch
 
 highlight Conceal ctermbg=237 guibg=NONE guifg=DarkGrey term=NONE
@@ -633,19 +646,7 @@ highlight Conceal ctermbg=237 guibg=NONE guifg=DarkGrey term=NONE
 " hi CurSearch cterm=NONE ctermfg=yellow ctermbg=red
 
 set fillchars=stl:─,stlnc:─
-" set statusline=%#Search#%m%#LineNr#%F%=%3l:%-2c%=
 
-" let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-" let g:indent_blankline_space_char_blankline = '⋅'
-" let g:indentLine_color_term = 234
-
-function! MessageWindow()
-  new
-  redir => messages_output
-  silent messages
-  redir END
-  silent put=messages_output
-endfunction
 
 let g:vindent_motion_OO_prev   = '[=' " jump to prev block of same indent.
 let g:vindent_motion_OO_next   = ']=' " jump to next block of same indent.
