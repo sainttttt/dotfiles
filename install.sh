@@ -11,3 +11,5 @@ ln -s -f $(greadlink -f rgignore/.rgignore) ~/
 
 mkdir -p ~/.config/git
 ln -s -f $(greadlink -f git/config) ~/.config/git/
+
+ln -s -f $(greadlink -f alacritty) ~/.config/

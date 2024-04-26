@@ -6,8 +6,9 @@ zle -N self-insert url-quote-magic
 
 if [ "$TMUX" = "" ]; then
   if [ "$WINTYPE" = "dropdown" ]; then
-    echo "cat"
     tmux new-session -A -s dropdown
+  elif [ "$TERM" = "alacritty" ]; then
+    tmux new-session -A -s alacritty
   else
     tmux new-session -A -s main
   fi
@@ -146,10 +147,9 @@ alias reload="source ~/.zshrc"
 alias lf="ls -tr1 | tail -n 1"
 alias dush="du -sh * | gsort -h"
 alias sudush="sudo du -sh * | gsort -h"
-alias esp="vim ~/Library/Application\ Support/espanso/match/base.yml"
-alias kara="vim ~/.config/karabiner/karabiner.json"
+alias esp="nvim ~/Library/Application\ Support/espanso/match/base.yml"
+alias kara="nvim ~/code/karamake/base.json"
 
-cs() { cd "$1"; ll }
 
 cgif() {  convert $1 "$(echo "$1"  | sed -e "s/\..*/\.gif/")" }
 cpng() {  convert $1 "$(echo "$1"  | sed -e "s/\..*/\.png/")" }
@@ -186,6 +186,9 @@ alias ghc='gh repo create --source .'
 alias ghd='gh repo delete'
 
 t() { cd /Volumes/SSD3/Streams; yt-dlp --cookies-from-browser brave "$@" }
+
+# path copy
+pc() { greadlink -f "$1" | pbcopy }
 
 sdk_mv() {
   sdk_num=$(($(ls -1 /Library/Developer/CommandLineTools/SDKs/  | wc -l )))

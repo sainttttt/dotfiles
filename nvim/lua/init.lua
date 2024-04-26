@@ -4,6 +4,8 @@ vim.g.loaded_netrwPlugin = 1
 vim.o.foldlevelstart = -1
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 
+vim.g.neovide_input_macos_alt_is_meta = true
+
 function _G.dump(o)
    if type(o) == 'table' then
       local s = '{ '
@@ -279,6 +281,7 @@ vim.keymap.set("n", "<leader>rr", "<cmd>lua codeRun()<CR>", {silent = true, nore
 
 vim.cmd [[colorscheme flesh-and-blood]]
 
+
 -- Array of file names indicating root directory. Modify to your liking.
 local root_names = { '.git',
                      'project.toml',
@@ -292,6 +295,10 @@ local root_names = { '.git',
 -- Cache to use for speed up (at cost of possibly outdated results)
 local root_cache = {}
 
+function string.starts(String,Start)
+   return string.sub(String,1,string.len(Start))==Start
+end
+
 local set_root = function()
   -- Get directory path to start search from
   local path = vim.api.nvim_buf_get_name(0)
@@ -301,17 +308,21 @@ local set_root = function()
     path = vim.fs.dirname(path)
   end
 
-  print('meow: ' ..  path)
-
   -- Try cache and resort to searching upward for root directory
   local root = root_cache[path]
+
+  local obsidian_root =  vim.fn.expand "~/Library/Mobile Documents/iCloud~md~obsidian/"
   if root == nil then
-    local root_file = vim.fs.find(root_names, { path = path, upward = true })[1]
-    if root_file == nil then
-      root = vim.loop.cwd()
+    if string.starts(path, obsidian_root) then
+      root = obsidian_root
     else
-      root = vim.fs.dirname(root_file)
-      root_cache[path] = root
+      local root_file = vim.fs.find(root_names, { path = path, upward = true })[1]
+      if root_file == nil then
+        root = vim.loop.cwd()
+      else
+        root = vim.fs.dirname(root_file)
+        root_cache[path] = root
+      end
     end
   end
 
@@ -396,3 +407,52 @@ vim.keymap.set({"n", "x"}, "vd", "<cmd>lua duplicate(true)<CR>", {silent = true,
 -- " noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
 -- noremap <Leader>vz :vsp ~/.config/nvim/lua/plugins/init.lua<CR>
 -- " noremap <Leader>vx :vsp ~/.config/nvim/lua/<CR>
+--
+-- get contents of visual selection
+-- handle unpack deprecation
+table.unpack = table.unpack or unpack
+function get_visual()
+  local _, ls, cs = table.unpack(vim.fn.getpos('v'))
+  local _, le, ce = table.unpack(vim.fn.getpos('.'))
+  return vim.api.nvim_buf_get_text(0, ls-1, cs-1, le-1, ce, {})
+end
+
+vim.keymap.set("v", "<leader>tr", function()
+  local pattern = table.concat(get_visual())
+  -- escape regex and line endings
+  pattern = vim.fn.substitute(vim.fn.escape(pattern, "^$.*\\/~[]"),'\n', '\\n', 'g')
+  -- send parsed substitution command to command line
+  vim.api.nvim_input("<Esc>:%s/" .. pattern .. "//<Left>")
+end)
+
+
+function split_multiline_string(str)
+    local lines = {}
+    for line in str:gmatch("[^\r\n]+") do
+        table.insert(lines, line)
+    end
+    return lines
+end
+
+local lazy_format = function()
+  local current_line = vim.api.nvim_get_current_line()
+
+  local repo_name = current_line:match(".*/(.*/.*)$")  -- Extract repository name from URL
+  local lua_string = string.format([[
+{ '%s',
+    config = function()
+        -- Configuration for %s
+    end
+},
+]], repo_name, repo_name)
+  lua_string = split_multiline_string(lua_string)
+
+  -- add extra line to end to string because split removes
+  -- all trailing new lines
+  table.insert(lua_string, "")
+  local current_line = vim.api.nvim_win_get_cursor(0)[1]
+  local current_buffer = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_lines(current_buffer, current_line - 1, current_line, false, lua_string)
+end
+
+vim.keymap.set({"x", "n"}, "<leader>qq", lazy_format)

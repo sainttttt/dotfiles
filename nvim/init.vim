@@ -8,13 +8,10 @@ nnoremap m :
 xnoremap m :
 
 
-cnoremap <d-v> <d-r>+
-" system clipboard
-nmap <d-c> "+y
-
 set conceallevel=0
 
 " neovide
+cnoremap <d-v> <d-r>+
 vmap <d-c> "+y
 nmap <d-v> "+p
 inoremap <d-v> <c-r>+
@@ -24,19 +21,18 @@ inoremap <d-r> <c-v>
 nnoremap <D-v> "+p
 nnoremap <D-o> <C-o>
 nnoremap <D-p> <C-i>
-
 nnoremap <D-a> <C-a>
+map <silent> <D-t> :tabnew<CR>
+map <silent> <D-w> :close<CR>
+map <silent> <D-{> :tabprevious<CR>
+map <silent> <D-}> :tabnext<CR>
+
+xn Q %
+
 
 nnoremap <C-p> <C-i>
 
-
-map <silent> <D-t> :tabnew<CR>
-map <silent> <D-w> :close<CR>
-
 nmap <M-b> <Nop>
-map <silent> <D-[> :tabprevious<CR>
-map <silent> <D-]> :tabnext<CR>
-
 nnoremap <Tab> n
 nnoremap M ?
 
@@ -94,20 +90,12 @@ imap <M-t> †
 vnoremap < <gv
 vnoremap > >gv
 
-nnoremap <C-u> <<
+nn <C-u> <<
+xn <C-u> <gv
 xnoremap <M-i> <gv
 nnoremap <M-i> >>
 xnoremap <M-i> >gv
 
-nnoremap <D-u> <<
-nn <D-U> <<
-
-xnoremap <D-u> <gv
-xnoremap <D-U> <gv
-nnoremap <D-i> >>
-xnoremap <D-i> >gv
-nn <D-I> >>
-xnoremap <D-I> >gv
 
 map gb i*<esc>f<space>i*<esc>
 map gv i_<esc>f<space>i_<esc>
@@ -294,22 +282,6 @@ set autoread
 "   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 
-" Overwrite / and ?.
-" nnoremap ? <Cmd>lua searchXBackward()<CR>
-" nnoremap / <Cmd>lua searchXForward()<CR>
-
-" xnoremap ? <Cmd>lua searchXBackward()<CR>
-" xnoremap / <Cmd>lua searchXForward()<CR>
-" cnoremap ; <Cmd>call searchx#select()<CR>
-
-" " Move to next/prev match.
-" nnoremap N <Cmd>call searchx#prev_dir()<CR>
-" nnoremap n <Cmd>call searchx#next_dir()<CR>
-" xnoremap N <Cmd>call searchx#prev_dir()<CR>
-" xnoremap n <Cmd>call searchx#next_dir()<CR>
-
-" Clear highlights
-" nnoremap <C-l> <Cmd>call searchx#clear()<CR>
 
 let g:searchx = {}
 
@@ -553,36 +525,12 @@ noremap T y$
 " noremap 4 $
 " noremap q %
 
-" let loaded_matchparen = 1
-
-" noremap c) f(F(lct)
-
-" map d' di'hxx
-" map c' ci ysiw'
-" nnoremap " ysiw"
-
-" noremap [ i[<esc>wwhi]<esc>
 
 set mouse=a
 set nobackup
 set nowritebackup
 set noswapfile
 
-set wildignore+=*/node_modules/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|json)$'
-
-" javascript syntax
-let g:jsx_ext_required = 0
-
-fun! TrimWhitespace()
-    let l:save_cursor = getpos('.')
-    %s/\s\+$//e
-    call setpos('.', l:save_cursor)
-endfun
-
-if executable('ag')
-    let g:ackprg = 'ag --vimgrep'
-endif
 
 fun! SetupCommandAlias(from, to)
   exec 'cnoreabbrev <expr> '.a:from
@@ -638,7 +586,6 @@ function! CallMacro()
 
 endfunction
 
-
 autocmd BufEnter,BufWinEnter,WinEnter * setlocal winhl=Search:LocalSearch,IncSearch:LocalSearch
 
 highlight Conceal ctermbg=237 guibg=NONE guifg=DarkGrey term=NONE
@@ -646,24 +593,6 @@ highlight Conceal ctermbg=237 guibg=NONE guifg=DarkGrey term=NONE
 " hi CurSearch cterm=NONE ctermfg=yellow ctermbg=red
 
 set fillchars=stl:─,stlnc:─
-
-
-let g:vindent_motion_OO_prev   = '[=' " jump to prev block of same indent.
-let g:vindent_motion_OO_next   = ']=' " jump to next block of same indent.
-let g:vindent_motion_more_prev = '[+' " jump to prev line with more indent.
-let g:vindent_motion_more_next = ']+' " jump to next line with more indent.
-let g:vindent_motion_less_prev = '[-' " jump to prev line with less indent.
-let g:vindent_motion_less_next = ']-' " jump to next line with less indent.
-let g:vindent_motion_diff_prev = '[;' " jump to prev line with different indent.
-let g:vindent_motion_diff_next = '];' " jump to next line with different indent.
-let g:vindent_motion_XX_ss     = '[p' " jump to start of the current block scope.
-let g:vindent_motion_XX_se     = ']p' " jump to end   of the current block scope.
-let g:vindent_object_XX_ii     = 'ii' " select current block.
-let g:vindent_object_XX_ai     = 'ai' " select current block + one extra line  at beginning.
-let g:vindent_object_XX_aI     = 'aI' " select current block + two extra lines at beginning and end.
-let g:vindent_jumps            = 1    " make vindent motion count as a |jump-motion| (works with |jumplist|).
-
-let g:bookmark_no_default_key_mappings = 1
 
 set termguicolors
 lua require('init')
@@ -692,12 +621,11 @@ map <M-N> <S-Tab>
 
 nmap <leader>re <cmd>Lazy reload plugin yoke.vim<CR>
 
-
 if !exists('g:neovide')
   hi Normal guibg=None
 endif
 
 if exists('g:neovide')
-    exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Katarina'
-    edit GEN\ TODO.md
+  exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Katarina'
+  edit GEN\ TODO.md
 endif

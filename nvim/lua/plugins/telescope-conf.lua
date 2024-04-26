@@ -22,8 +22,6 @@ return
               vim.keymap.set("t", "<C-j>", "<Down>", { silent = true, buffer = true })
               vim.keymap.set("t", "<C-k>", "<Up>", { silent = true, buffer = true })
               vim.keymap.set("n", "<esc>", "<C-w>h", { silent = true, buffer = true })
-              vim.keymap.set("t", "`", "<C-c>", { silent = true, buffer = true })
-              vim.keymap.set("t", "1", "<C-c>", { silent = true, buffer = true })
               vim.keymap.set("t", "<Tab>", "<C-c>", { silent = true, buffer = true })
               vim.keymap.set("t", "<esc>", "<C-c>", { silent = true, buffer = true })
             end,
@@ -93,11 +91,13 @@ return
           actions = {
             files = {
               ["alt-v"]      = actions.file_vsplit,
+              ["alt-s"]      = actions.file_vsplit,
               ["ctrl-v"]      = false,
             },
 
             buffers = {
               ["alt-v"]      = actions.file_vsplit,
+              ["alt-s"]      = actions.file_vsplit,
             },
           },
 
