@@ -4,6 +4,8 @@ zle -N bracketed-paste bracketed-paste-magic
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 if [ "$TMUX" = "" ]; then
   if [ "$WINTYPE" = "dropdown" ]; then
     tmux new-session -A -s dropdown
@@ -110,6 +112,8 @@ y() {
 }
 
 function ns { ffmpeg -i "$1" -c copy -an "${1%.*}-nosound.${1#*.}" }
+
+mp4() { ffmpeg -i $1 -c:a aac -c:v libx264 -crf 22 "$(echo "$1"  | sed -e "s/\..*/\.mp4/")" }
 
 alias sf='singlef(){ cd ~/Screenshots/;  single-file --browser-executable-path /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "$1"}; singlef'
 
