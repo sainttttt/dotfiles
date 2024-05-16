@@ -1,4 +1,5 @@
 [alias]
+	d = diff
 	co = checkout
 	cl = clone
 	cob = checkout -b

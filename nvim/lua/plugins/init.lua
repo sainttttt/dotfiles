@@ -1,5 +1,4 @@
-return {
-  git = {
+return {  git = {
     -- defaults for the `Lazy log` command
     -- log = { "-10" }, -- show the last 10 commits
     log = { "--since=3 days ago" }, -- show commits from the last 3 days
@@ -21,9 +20,23 @@ return {
 
   -- † plugins † ----------------------------------------------
 
+
   { 'bloznelis/before.nvim',
     config = function()
       -- Configuration for bloznelis/before.nvim
+    local before = require('before')
+    before.setup()
+      --
+    vim.keymap.set('n', '<M-U>', function()
+          before.jump_to_last_edit()
+          vim.cmd("normal! zz")
+        end, {})
+
+    -- Jump to next entry in the edit history
+    vim.keymap.set('n', '<M-I>', function()
+          before.jump_to_next_edit()
+          vim.cmd("normal! zz")
+        end, {})
     end
   },
 
@@ -73,6 +86,7 @@ return {
       vim.cmd[[
         map <Plug> <Plug>Markdown_FollowLink
         map <Plug> <Plug>Markdown_Fold
+        let g:vim_markdown_conceal = 0
       ]]
     end,
   },
@@ -80,7 +94,7 @@ return {
   -- {'rhysd/clever-f.vim'},
 
   -- disables search highlight when cursor moves
-  {'romainl/vim-cool'},
+  -- {'romainl/vim-cool'},
 
   { 'BartSte/nvim-project-marks',
     lazy = false,
@@ -105,7 +119,7 @@ return {
 
       require('mini.splitjoin').setup()
       require('mini.align').setup()
-      require('mini.comment').setup()
+      -- require('mini.comment').setup()
 
       require('mini.sessions').setup({
         autoread = false,
@@ -114,6 +128,8 @@ return {
       })
     end
   },
+
+  'tpope/vim-commentary',
 
   { "ariel-frischer/bmessages.nvim",
     config = function()
@@ -124,13 +140,13 @@ return {
 
   -- 'wellle/context.vim',
 
-  {'RRethy/vim-illuminate',
-    config = function()
-      require('illuminate').configure({
-        modes_denylist = {'v'},
-      })
-    end
-  },
+  -- {'RRethy/vim-illuminate',
+  --   config = function()
+  --     require('illuminate').configure({
+  --       modes_denylist = {'v'},
+  --     })
+  --   end
+  -- },
 
   -- { "luckasRanarison/nvim-devdocs",
   --   dependencies = {
@@ -166,34 +182,6 @@ return {
   --   }
   -- },
 
-  {'nvim-treesitter/nvim-treesitter-context',
-    config = function()
-      require'treesitter-context'.setup {
-        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        max_lines = 6, -- How many lines the window should span. Values <= 0 mean no limit.
-        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-        line_numbers = true,
-        multiline_threshold = 20, -- Maximum number of lines to show for a single context
-        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
-        -- Separator between context and content. Should be a single character string, like '-'.
-        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-        -- separator = '-',
-        zindex = 41,
-        on_attach = function()
-          -- print("new attach")
-
-          if vim.bo.filetype == "swift"
-            or vim.bo.filetype == "nim"
-            or vim.bo.filetype == "vim"
-            or vim.fn.bufname("%") == "[Command Line]" then
-            -- vim.cmd("ContextEnable")
-            return false
-          end
-        end, -- (fun(buf: integer): boolean) return false to disable attaching
-      }
-    end
-  },
 
   -- {
   --   "folke/which-key.nvim",
@@ -396,53 +384,8 @@ return {
     end
   },
 
-  -- 'tpope/vim-commentary',
 
   -- 'kkharji/sqlite.lua',
-  { "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function ()
-      local function ts_disable(_, bufnr)
-        return vim.fn.wordcount()['chars'] > 50000
-      end
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-        ensure_installed = { "php",
-          "swift",
-          "nim",
-          "python",
-          "css",
-          "c",
-          "lua",
-          "vim",
-          "markdown",
-          "markdown_inline",
-          "vimdoc",
-          "query",
-          "javascript",
-          "html"},
-
-
-        sync_install = false,
-        matchup = {
-          enable = true,              -- mandatory, false will disable the whole extension
-          -- disable = { "swift" },  -- optional, list of language that will be disabled
-          -- [options]
-        },
-        highlight = {
-          enable = true ,
-          disable = function(lang, bufnr)
-            -- return lang == "cmake" or lang == "swift" or ts_disable(lang, bufnr)
-            return lang == "cmake"  or ts_disable(lang, bufnr)
-          end,
-          additional_vim_regex_highlighting = {"latex"},
-        },
-        indent = { enable = true },
-      })
-
-    end
-  },
 
   { 'norcalli/nvim-colorizer.lua',
     config = function()
@@ -579,92 +522,6 @@ return {
     end,
   },
 
-  --{ "nvim-treesitter/nvim-treesitter-textobjects",
-  --  config = function()
-  --    require'nvim-treesitter.configs'.setup {
-  --      textobjects = {
-  --        move = {
-  --          enable = true,
-  --          set_jumps = true, -- whether to set jumps in the jumplist
-  --          goto_next_start = {
-  --            ["]m"] = "@function.outer",
-  --            ["]]"] = { query = "@class.outer", desc = "Next class start" },
-  --            --
-  --            -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
-  --            ["]o"] = "@loop.*",
-  --            -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
-  --            --
-  --            -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
-  --            -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-  --            ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-  --            ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-  --          },
-  --          goto_next_end = {
-  --            ["]M"] = "@function.outer",
-  --            ["]["] = "@class.outer",
-  --          },
-  --          goto_previous_start = {
-  --            ["[m"] = "@function.outer",
-  --            ["[["] = "@class.outer",
-  --          },
-  --          goto_previous_end = {
-  --            ["[M"] = "@function.outer",
-  --            ["[]"] = "@class.outer",
-  --          },
-  --          -- Below will go to either the start or the end, whichever is closer.
-  --          -- Use if you want more granular movements
-  --          -- Make it even more gradual by adding multiple queries and regex.
-  --          goto_next = {
-  --            ["]d"] = "@conditional.outer",
-  --          },
-  --          goto_previous = {
-  --            ["[d"] = "@conditional.outer",
-  --          }
-  --        },
-  --        select = {
-  --          enable = true,
-
-  --          -- Automatically jump forward to textobj, similar to targets.vim
-  --          lookahead = true,
-
-  --          keymaps = {
-  --            -- You can use the capture groups defined in textobjects.scm
-  --            ["af"] = "@function.outer",
-  --            ["if"] = "@function.inner",
-  --            ["ac"] = "@class.outer",
-  --            -- You can optionally set descriptions to the mappings (used in the desc parameter of
-  --            -- nvim_buf_set_keymap) which plugins like which-key display
-  --            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-  --            -- You can also use captures from other query groups like `locals.scm`
-  --            ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-  --          },
-  --          -- You can choose the select mode (default is charwise 'v')
-  --          --
-  --          -- Can also be a function which gets passed a table with the keys
-  --          -- * query_string: eg '@function.inner'
-  --          -- * method: eg 'v' or 'o'
-  --          -- and should return the mode ('v', 'V', or '<c-v>') or a table
-  --          -- mapping query_strings to modes.
-  --          selection_modes = {
-  --            ['@parameter.outer'] = 'v', -- charwise
-  --            ['@function.outer'] = 'V', -- linewise
-  --            ['@class.outer'] = '<c-v>', -- blockwise
-  --          },
-  --          -- If you set this to `true` (default is `false`) then any textobject is
-  --          -- extended to include preceding or succeeding whitespace. Succeeding
-  --          -- whitespace has priority in order to act similarly to eg the built-in
-  --          -- `ap`.
-  --          --
-  --          -- Can also be a function which gets passed a table with the keys
-  --          -- * query_string: eg '@function.inner'
-  --          -- * selection_mode: eg 'v'
-  --          -- and should return true of false
-  --          include_surrounding_whitespace = true,
-  --        },
-  --      },
-  --    }
-  --  end
-  --},
 
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
@@ -1109,7 +966,6 @@ return {
   },
 
   'keith/swift.vim',
-  -- 'michaeljsmith/vim-indent-object',
 
   { "sainttttt/everybody-wants-that-line.nvim",
     branch = "saint",

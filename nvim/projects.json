@@ -8,5 +8,11 @@
     "name": "gloss",
     "description": "gloss",
     "command": "xcodebuild -configuration Debug -target gloss -sdk iphonesimulator16.2 && open -a simulator && xcrun simctl install booted build/Debug-iphonesimulator/gloss.app && xcrun simctl launch booted com.emily.gloss"
+  },
+
+  "~/code/cecilia": {
+    "name": "cecilia",
+    "description": "cecilia",
+    "command": "python3 -u /Users/saint/code/cecilia/playloop.py"
   }
 }

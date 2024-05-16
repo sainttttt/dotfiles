@@ -332,7 +332,7 @@ local set_root = function()
 end
 
 local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
-vim.api.nvim_create_autocmd({'BufEnter', "VimEnter"} , { group = root_augroup, callback = set_root })
+vim.api.nvim_create_autocmd({'BufReadPost', "BufEnter", "VimEnter"} , { group = root_augroup, callback = set_root })
 
 
 local pre_write = function()
@@ -455,4 +455,4 @@ local lazy_format = function()
   vim.api.nvim_buf_set_lines(current_buffer, current_line - 1, current_line, false, lua_string)
 end
 
-vim.keymap.set({"x", "n"}, "<leader>qq", lazy_format)
+-- vim.keymap.set({"x", "n"}, "<leader>qq", lazy_format)

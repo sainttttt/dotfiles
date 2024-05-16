@@ -5,12 +5,13 @@ autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 
 if [ "$TMUX" = "" ]; then
   if [ "$WINTYPE" = "dropdown" ]; then
     tmux new-session -A -s dropdown
   elif [ "$TERM" = "alacritty" ]; then
-    tmux new-session -A -s alacritty
+    aerc
   else
     tmux new-session -A -s main
   fi
@@ -91,6 +92,7 @@ export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacO
 ## youtube stuff
 alias adl='aydl(){ cd /Volumes/SSD3/Streams; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
 alias a='adl'
+alias g="git"
 
 timeToSecs() {
   echo $1 | sed 's/:/ /g;' | awk '{print $4" "$3" "$2" "$1}' | awk '{print $1+$2*60+$3*3600+$4*86400}'
@@ -152,7 +154,7 @@ alias lf="ls -tr1 | tail -n 1"
 alias dush="du -sh * | gsort -h"
 alias sudush="sudo du -sh * | gsort -h"
 alias esp="nvim ~/Library/Application\ Support/espanso/match/base.yml"
-alias kara="nvim ~/code/karamake/base.json"
+alias kara="cd ~/code/karamake/; nvim ~/code/karamake/base.json"
 
 
 cgif() {  convert $1 "$(echo "$1"  | sed -e "s/\..*/\.gif/")" }
@@ -175,7 +177,7 @@ alias src="vim ~/.zshrc"
 # common paths
 alias code="cd ~/code"
 alias lazy="cd ~/.local/share/nvim/lazy"
-alias el="cd /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Release"
+alias el="open /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Release/eligius.app"
 alias dd="cd /Users/saint/Library/Developer/Xcode/DerivedData/"
 alias cs="v /Users/saint/.local/share/nvim/lazy/flesh-and-blood/colors/flesh-and-blood.vim"
 

@@ -27,7 +27,14 @@ map <silent> <D-w> :close<CR>
 map <silent> <D-{> :tabprevious<CR>
 map <silent> <D-}> :tabnext<CR>
 
+nnoremap 22 zz
+map R yy
+
 xn Q %
+
+" visual search replace
+xn s :s$
+xm S s
 
 
 nnoremap <C-p> <C-i>
@@ -42,13 +49,13 @@ nnoremap <S-Tab> N
 set maxmempattern=5000
 
 " nvim-surround stuff
-map v' ysiw'
-map v" ysiw"
-map va ysa
-map v( ysiw(
-map v) ysiw)
-map v[ ysiw[
-map v* ysiw*
+" map v' ysiw'
+" map v" ysiw"
+" map va ysa
+" map v( ysiw(
+" map v) ysiw)
+" map v[ ysiw[
+" map v* ysiw*
 
 vnoremap / <esc>/\%V
 
@@ -87,14 +94,21 @@ nnoremap Q: q:
 
 imap <M-t> †
 
+" indenting -------------------------
 vnoremap < <gv
 vnoremap > >gv
 
-nn <C-u> <<
-xn <C-u> <gv
-xnoremap <M-i> <gv
-nnoremap <M-i> >>
-xnoremap <M-i> >gv
+nn <M-&> <<
+xn <M-&> <gv
+ino <M-&> <Esc><<i
+
+nn <M-o> <nop>
+
+nn <M-*> >>
+xn <M-*> >gv
+ino <M-*> <Esc>>>i
+
+" -------------------------------------
 
 
 map gb i*<esc>f<space>i*<esc>
@@ -198,8 +212,8 @@ nnoremap K 15k
 nnoremap <silent>L :MoveCursor<cr>
 nnoremap <silent>H :MoveCursor b<cr>
 
-nnoremap <silent><Down> :MoveCursor<cr>
-nnoremap <silent><Up> :MoveCursor b<cr>
+nnoremap <silent><Down> <nop>
+nm <silent><Up> <C-u>
 
 nnoremap <silent><s-down> :MoveCursor<cr>
 
@@ -267,6 +281,9 @@ vnoremap Y yy
 nnoremap <M-y> "pyy
 nnoremap <M-p> "pp
 
+" Don't touch unnamed register when pasting over visual selection
+xnoremap <expr> p 'pgv"' . v:register . 'y'
+
 
 " --------------------------------------------------
 " --------------------------------------------------
@@ -275,13 +292,6 @@ set updatetime=750
 
 " trigger `autoread` when files changes on disk
 set autoread
-" autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if !bufexists("[Command Line]") | silent! checktime | endif
-
-" notification after file change
-" autocmd FileChangedShellPost *
-"   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
-
-
 
 let g:searchx = {}
 
@@ -400,20 +410,12 @@ nnoremap <silent> <F2> :call ToggleQuickFix()<cr>
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-" no scrollbars in gvim
-set guioptions-=l
-set guioptions-=r
-set guioptions-=b
 set guifont=Ac437_ToshibaSat_9x14:h33
+
 set background=dark
 set wildmode=longest,list,full
 set wildmenu
-let g:NERDTreeMinimalMenu=1
 set gcr=n:blinkon0
-
-" gvim specific stuff
-set guioptions-=T
-set novisualbell
 
 noremap tt :vsp<CR>
 
