@@ -4,9 +4,8 @@ let mapleader = ","
 nnoremap <CR> :
 vnoremap <CR> :
 
-nnoremap m :
+nnoremap m J
 xnoremap m :
-
 
 set conceallevel=0
 
@@ -28,7 +27,42 @@ map <silent> <D-{> :tabprevious<CR>
 map <silent> <D-}> :tabnext<CR>
 
 nnoremap 22 zz
-map R yy
+
+
+""""""""""""""""""""""""""""
+" motion
+""""""""""""""""""""""""""""
+" nn u <Nop>
+nn <C-u> u
+nn U <Nop>
+nn <C-n> <nop>
+
+nn e b
+nn E y$
+nn W Y
+
+" nn w <Nop>
+" nn b <Nop>
+" nn dw dw
+" nn cw cw
+
+" nn <Left> 0w
+" nn <Right> $
+nn <M-H> 0w
+nn <M-L> $
+
+nn H b
+nn L w
+
+nn 4 $
+map 3 #
+
+
+nm cx c<Plug>CamelCaseMotion_w
+map ds d<Plug>CamelCaseMotion_w
+nm <m-w> <Plug>CamelCaseMotion_w
+nm <m-e> <Plug>CamelCaseMotion_b
+" map b <Nop>
 
 xn Q %
 
@@ -49,8 +83,8 @@ nnoremap <S-Tab> N
 set maxmempattern=5000
 
 " nvim-surround stuff
-" map v' ysiw'
-" map v" ysiw"
+map a' ysiw'
+map a" ysiw"
 " map va ysa
 " map v( ysiw(
 " map v) ysiw)
@@ -75,8 +109,12 @@ nnoremap ` <esc>
 
 let g:netrw_silent = 1
 set ph=9
+
 nnoremap 8 :
-nnoremap 9 :
+nnoremap 9 0
+
+
+
 
 nnoremap aa a
 
@@ -108,6 +146,7 @@ nn <M-*> >>
 xn <M-*> >gv
 ino <M-*> <Esc>>>i
 
+
 " -------------------------------------
 
 
@@ -117,16 +156,19 @@ map gv i_<esc>f<space>i_<esc>
 set foldopen-=hor
 set noshowmode
 
-  autocmd CursorHold * echon ''
+autocmd CursorHold * echon ''
 
-map <silent> e <Plug>CamelCaseMotion_w
+
+
+" nm e Y
+" xm e y
+" nm E y$
+
 
 set fdo-=search
 
 nnoremap <c-p> <c-i>
 
-
-map 4 $
 
 " augroup remember_folds
 "   autocmd!
@@ -137,26 +179,8 @@ map 4 $
 nnoremap 2 z
 nnoremap z `
 
-" call mkdir('.vim', 'p')
-" autocmd VimEnter *
-"   \ if filereadable('.vim/Session.vim')
-"   \ | source .vim/Session.vim
-"   \ | endif
-" autocmd VimLeavePre,BufEnter * exec "mksession! " . ProjectRootGuess()  .vim/session.vim
-" let g:mksess_string = "mksession! " .  ProjectRootGuess() . "/.vim/session.vim"
-" echom g:mksess_string
-" echom ProjectRootGuess()
-
-" autocmd VimLeavePre,BufEnter * exec "mksession! " .  ProjectRootGuess()
-
-" if has('nvim')
-"   let shadafile=ProjectRootGuess() . "/.vim/main.shada"
-" else
-"   set viminfofile=.vim/.viminfo
-" endif
-
 " marks
-
+"
 " nmap <leader>m m
 nnoremap <leader>m mM
 nnoremap <leader>n mN
@@ -170,7 +194,7 @@ map zv zV
 
 " noremap ;; ``
 " nnoremap zz za
-nnoremap B za
+" nnoremap B za
 
 " nnoremap q %
 " vnoremap q %
@@ -185,7 +209,9 @@ nnoremap <silent> <Leader>bd :Bdelete hidden<CR>
 nnoremap <silent> <Leader>e :Messages<CR>
 " nnoremap <silent> <Leader>ss :lua MiniSessions.read()<CR>
 " nnoremap <silent> WW :close!<CR>
-nnoremap <silent> <M-w> :close!<CR>
+" nnoremap <silent> <M-W> :close!<CR>
+
+nnoremap <silent> <M-W> :call undoquit#SaveWindowQuitHistory()<cr>:close!<CR>
 nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 " nnoremap <silent> s <esc>
@@ -200,34 +226,26 @@ autocmd Filetype qf map <buffer> <Space> <CR>
 
 " --------------------------------------------------
 
-" vnoremap J }
-" vnoremap K {
-
 nnoremap J 15j
 nnoremap K 15k
 
-" xnoremap <silent>L :<C-u>call VMoveCursor('')<cr>
-" xnoremap <silent>H :<C-u> VMoveCursor('b')<cr>
-"
-nnoremap <silent>L :MoveCursor<cr>
-nnoremap <silent>H :MoveCursor b<cr>
+" nnoremap <silent>L :MoveCursor<cr>
+" nnoremap <silent>H :MoveCursor b<cr>
 
-nnoremap <silent><Down> <nop>
-nm <silent><Up> <C-u>
+" grep search
+nm <silent><M-i> <C-u>
+nm <M-u> <Nop>
 
-nnoremap <silent><s-down> :MoveCursor<cr>
+nnoremap <silent><M-down> :MoveCursor<cr>
+nnoremap <silent><M-up> : MoveCursor b<cr>
 
 xnoremap <silent>L :<C-u> VMoveCursor<cr>
 
-nnoremap <silent><s-up> : MoveCursor b<cr>
 xnoremap <silent>H :<C-u> VMoveCursor b<cr>
 
 xnoremap <silent>J :<C-u> VMoveCursor<cr>
 xnoremap <silent>K :<C-u> VMoveCursor b<cr>
 
-
-noremap <M-m> J
-noremap <C-n> <nop>
 
 " this needs to be map and no noremap for macros/matchit.vim to work
 " nnoremap q %
@@ -240,9 +258,6 @@ nnoremap <C-T> <C-w>l
 inoremap <C-T> <esc><C-w>l
 
 map <C-K> <C-w>k
-
-nnoremap <M-H> <C-w>h
-nnoremap <M-L> <C-w>l
 
 nnoremap <C-H> <C-w>h
 nnoremap <C-L> <C-w>l
@@ -314,7 +329,7 @@ let g:searchx.nohlsearch = {}
 let g:searchx.nohlsearch.jump = v:true
 
 " Marker characters.
-let g:searchx.markers = split('ABCDEFGHIJKLMNOPQRSTUVWXYZ', '.\zs')
+let g:searchx.markers = split('FDSREWVCXAQZUIOPHJKLBNMTYGVB', '.\zs')
 
 " Convert search pattern.
 function g:searchx.convert(input) abort
@@ -523,10 +538,6 @@ vmap <Nul> <C-c>
 smap <Nul> <C-c>
 cnoremap <Nul> <C-c>
 noremap T y$
-
-" noremap 4 $
-" noremap q %
-
 
 set mouse=a
 set nobackup

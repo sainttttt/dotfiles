@@ -1,8 +1,9 @@
-return {  git = {
+return {
+  git = {
     -- defaults for the `Lazy log` command
     -- log = { "-10" }, -- show the last 10 commits
     log = { "--since=3 days ago" }, -- show commits from the last 3 days
-    timeout = 10000, -- kill processes that take more than 2 minutes
+    timeout = 10000,                -- kill processes that take more than 2 minutes
     url_format = "https://github.com/%s.git",
     -- lazy.nvim requires git >=2.19.0. If you really want to use lazy with an older version,
     -- then set the below to false. This should work, but is NOT supported and will
@@ -21,34 +22,37 @@ return {  git = {
   -- † plugins † ----------------------------------------------
 
 
-  { 'bloznelis/before.nvim',
+  {
+    'bloznelis/before.nvim',
     config = function()
       -- Configuration for bloznelis/before.nvim
-    local before = require('before')
-    before.setup()
+      local before = require('before')
+      before.setup()
       --
-    vim.keymap.set('n', '<M-U>', function()
-          before.jump_to_last_edit()
-          vim.cmd("normal! zz")
-        end, {})
+      vim.keymap.set('n', '<M-U>', function()
+        before.jump_to_last_edit()
+        vim.cmd("normal! zz")
+      end, {})
 
-    -- Jump to next entry in the edit history
-    vim.keymap.set('n', '<M-I>', function()
-          before.jump_to_next_edit()
-          vim.cmd("normal! zz")
-        end, {})
+      -- Jump to next entry in the edit history
+      vim.keymap.set('n', '<M-I>', function()
+        before.jump_to_next_edit()
+        vim.cmd("normal! zz")
+      end, {})
     end
   },
 
-  { 'rktjmp/lush.nvim',
+  {
+    'rktjmp/lush.nvim',
     config = function()
       -- Configuration for rktjmp/lush.nvim
     end
   },
 
-  { 'andymass/vim-matchup',
+  {
+    'andymass/vim-matchup',
     config = function()
-        -- Configuration for andymass/vim-matchup
+      -- Configuration for andymass/vim-matchup
     end
   },
 
@@ -57,7 +61,8 @@ return {  git = {
   --   end
   -- },
 
-  { 'nmac427/guess-indent.nvim',
+  {
+    'nmac427/guess-indent.nvim',
     config = function() require('guess-indent').setup {} end,
   },
 
@@ -81,9 +86,10 @@ return {  git = {
   --   end,
   -- },
 
-  { 'ixru/nvim-markdown',
+  {
+    'ixru/nvim-markdown',
     config = function()
-      vim.cmd[[
+      vim.cmd [[
         map <Plug> <Plug>Markdown_FollowLink
         map <Plug> <Plug>Markdown_Fold
         let g:vim_markdown_conceal = 0
@@ -96,7 +102,8 @@ return {  git = {
   -- disables search highlight when cursor moves
   -- {'romainl/vim-cool'},
 
-  { 'BartSte/nvim-project-marks',
+  {
+    'BartSte/nvim-project-marks',
     lazy = false,
     config = function()
       require('projectmarks').setup({
@@ -105,7 +112,9 @@ return {  git = {
     end
   },
 
-  { 'echasnovski/mini.nvim', version = false,
+  {
+    'echasnovski/mini.nvim',
+    version = false,
     config = function()
       require('mini.trailspace').setup()
       vim.keymap.set('n', 'at', function()
@@ -131,9 +140,10 @@ return {  git = {
 
   'tpope/vim-commentary',
 
-  { "ariel-frischer/bmessages.nvim",
+  {
+    "ariel-frischer/bmessages.nvim",
     config = function()
-      require("bmessages").setup{}
+      require("bmessages").setup {}
       vim.keymap.set('n', '<leader>z', "<cmd>Bmessagesvs<CR>")
     end
   },
@@ -203,8 +213,8 @@ return {  git = {
   {
     'sainttttt/flesh-and-blood',
     -- dir = "~/code/flesh-and-blood",
-    lazy=false,
-    priority=1000 ,
+    lazy = false,
+    priority = 1000,
     config = function()
       vim.cmd([[colorscheme flesh-and-blood]])
     end
@@ -226,7 +236,8 @@ return {  git = {
   --   end
   -- },
 
-  { dir = "~/code/yoke.vim",
+  {
+    dir = "~/code/yoke.vim",
     'sainttttt/yoke.vim',
     config = function()
       require('yoke').setup()
@@ -239,6 +250,19 @@ return {  git = {
     event = "VeryLazy",
     config = function()
       require("nvim-surround").setup({
+    keymaps = {
+        insert = "<C-g>s",
+        insert_line = "<C-g>S",
+        normal = "ys",
+        normal_cur = "yss",
+        normal_line = "yS",
+        normal_cur_line = "ySS",
+        visual = "S",
+        visual_line = "gS",
+        delete = "dos",
+        change = "cs",
+        change_line = "cS",
+    },
         -- Configuration here, or leave empty to use defaults
       })
     end
@@ -246,72 +270,81 @@ return {  git = {
 
   -- {'cohama/lexima.vim'},
 
-  { 'altermo/ultimate-autopair.nvim',
-    event={'InsertEnter','CmdlineEnter'},
-    branch='v0.6', --recomended as each new version will have breaking changes
+  {
+    'altermo/ultimate-autopair.nvim',
+    event = { 'InsertEnter', 'CmdlineEnter' },
+    branch = 'v0.6', --recomended as each new version will have breaking changes
     config = function()
-      require'nvim-treesitter.configs'.setup{}
-      require('ultimate-autopair').setup{}
-      local pair=[[([{"']]
-      local end_pair=[[)]}"']]..'\29'
+      require 'nvim-treesitter.configs'.setup {}
+      require('ultimate-autopair').setup {}
+      local pair = [[([{"']]
+      local end_pair = [[)]}"']] .. '\29'
       local pair_insert
-      local save={}
-      local group=vim.api.nvim_create_augroup('test',{})
-      vim.api.nvim_create_autocmd('InsertCharPre',{callback=function ()
-        pair_insert=false
-        for c in pair:gmatch'.' do
-          if vim.v.char==c then
-            local action=require'ultimate-autopair.core'.run(c)
-            if action=='\aU\x80kr'--[[this is dont-new-undo + <right>]] then
-              vim.api.nvim_feedkeys(action,'n',false)
-              vim.v.char=''
-              save={}
-              return
-            elseif #action>2 then
-              table.insert(save,action:sub(3))
-              pair_insert=true
-              return
+      local save = {}
+      local group = vim.api.nvim_create_augroup('test', {})
+      vim.api.nvim_create_autocmd('InsertCharPre', {
+        callback = function()
+          pair_insert = false
+          for c in pair:gmatch '.' do
+            if vim.v.char == c then
+              local action = require 'ultimate-autopair.core'.run(c)
+              if action == '\aU\x80kr' --[[this is dont-new-undo + <right>]] then
+                vim.api.nvim_feedkeys(action, 'n', false)
+                vim.v.char = ''
+                save = {}
+                return
+              elseif #action > 2 then
+                table.insert(save, action:sub(3))
+                pair_insert = true
+                return
+              end
             end
           end
-        end
-        if not save[1] then return end
-        local nsave=save
-        save={}
-        if end_pair:find(vim.v.char,1,true) then return end
-        vim.api.nvim_feedkeys(table.concat(nsave),'n',false)
-      end,group=group})
-      vim.api.nvim_create_autocmd('CursorMovedI',{callback=function ()
-        if pair_insert then return end
-        save={}
-      end,group=group})
-      vim.api.nvim_create_autocmd('ModeChanged',{callback=function () save={} end,group=group})
-      for c in pair:gmatch'.' do
-        vim.keymap.del('i',c)
+          if not save[1] then return end
+          local nsave = save
+          save = {}
+          if end_pair:find(vim.v.char, 1, true) then return end
+          vim.api.nvim_feedkeys(table.concat(nsave), 'n', false)
+        end,
+        group = group
+      })
+      vim.api.nvim_create_autocmd('CursorMovedI', {
+        callback = function()
+          if pair_insert then return end
+          save = {}
+        end,
+        group = group
+      })
+      vim.api.nvim_create_autocmd('ModeChanged', { callback = function() save = {} end, group = group })
+      for c in pair:gmatch '.' do
+        vim.keymap.del('i', c)
       end
     end
   },
 
-  {'ojroques/nvim-osc52',
+  {
+    'ojroques/nvim-osc52',
     config = function()
-      vim.keymap.set('n', '<c-y>', require('osc52').copy_operator, {expr = true})
+      vim.keymap.set('n', '<c-y>', require('osc52').copy_operator, { expr = true })
       vim.keymap.set('v', '<c-y>', require('osc52').copy_visual)
 
       require('osc52').setup {
-        max_length = 0,           -- Maximum length of selection (0 for no limit)
-        silent = false,           -- Disable message on successful copy
-        trim = false,             -- Trim surrounding whitespaces before copy
+        max_length = 0,          -- Maximum length of selection (0 for no limit)
+        silent = false,          -- Disable message on successful copy
+        trim = false,            -- Trim surrounding whitespaces before copy
         tmux_passthrough = true, -- Use tmux passthrough (requires tmux: set -g allow-passthrough on)
       }
     end
   },
 
-  { "epwalsh/obsidian.nvim",
+  {
+    "epwalsh/obsidian.nvim",
     lazy = false,
     event = {
       -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
       -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-      "BufReadPre " ..  vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
-      "BufNewFile " ..  vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
+      "BufReadPre " .. vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
+      "BufNewFile " .. vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -350,69 +383,76 @@ return {  git = {
     end
   },
 
-  { 'Vonr/align.nvim',
+  {
+    'Vonr/align.nvim',
     config = function()
       local NS = { noremap = true, silent = true }
 
-      vim.keymap.set('x', 'aa', function() require'align'.align_to_char(1, true)             end, NS) -- Aligns to 1 character, looking left
+      vim.keymap.set('x', 'aa', function() require 'align'.align_to_char(1, true) end, NS)             -- Aligns to 1 character, looking left
       -- vim.keymap.set('x', 'as', function() require'align'.align_to_char(2, true, true)       end, NS) -- Aligns to 2 characters, looking left and with previews
-      vim.keymap.set('x', 'aw', function() require'align'.align_to_string(false, true, true) end, NS) -- Aligns to a string, looking left and with previews
-      vim.keymap.set('x', 'ar', function() require'align'.align_to_string(true, true, true)  end, NS) -- Aligns to a Lua pattern, looking left and with previews
+      vim.keymap.set('x', 'aw', function() require 'align'.align_to_string(false, true, true) end, NS) -- Aligns to a string, looking left and with previews
+      vim.keymap.set('x', 'ar', function() require 'align'.align_to_string(true, true, true) end, NS)  -- Aligns to a Lua pattern, looking left and with previews
     end
   },
 
-  { 'tzachar/highlight-undo.nvim',
-    config = function()
-      require('highlight-undo').setup({
-        duration = 300,
-        undo = {
-          hlgroup = 'HighlightUndo',
-          mode = 'n',
-          lhs = 'u',
-          map = 'undo',
-          opts = {}
-        },
-        redo = {
-          hlgroup = 'HighlightUndo',
-          mode = 'n',
-          lhs = '<C-r>',
-          map = 'redo',
-          opts = {}
-        },
-        highlight_for_count = true,
-      })
-    end
-  },
+  -- {
+  --   'tzachar/highlight-undo.nvim',
+  --   config = function()
+  --     require('highlight-undo').setup({
+  --       duration = 300,
+  --       undo = {
+  --         hlgroup = 'HighlightUndo',
+  --         mode = 'n',
+  --         lhs = 'u',
+  --         map = 'undo',
+  --         opts = {}
+  --       },
+  --       redo = {
+  --         hlgroup = 'HighlightUndo',
+  --         mode = 'n',
+  --         lhs = '<C-r>',
+  --         map = 'redo',
+  --         opts = {}
+  --       },
+  --       highlight_for_count = true,
+  --     })
+  --   end
+  -- },
 
 
   -- 'kkharji/sqlite.lua',
 
-  { 'norcalli/nvim-colorizer.lua',
+  {
+    'norcalli/nvim-colorizer.lua',
     config = function()
-      require'colorizer'.setup()
+      require 'colorizer'.setup()
     end
   },
 
-  { "lukas-reineke/indent-blankline.nvim",
-    main = "ibl", opts = {
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {
       indent = { char = "│" },
-      scope = {enabled = false},
+      scope = { enabled = false },
     }
   },
 
   -- need this for nim comments apparently
-  {'alaviss/nim.nvim'},
+  { 'alaviss/nim.nvim' },
 
   -- {"ericvw/vim-nim"},
 
-  { 'jakemason/ouroboros',
-    dependencies = { {'nvim-lua/plenary.nvim'} },
+  {
+    'jakemason/ouroboros',
+    dependencies = { { 'nvim-lua/plenary.nvim' } },
     config = function()
       vim.cmd("autocmd! Filetype c,cpp noremap<buffer> 3 :Ouroboros<CR>")
     end
   },
 
-  { "sainttttt/zen-mode.nvim",
+  {
+    "sainttttt/zen-mode.nvim",
     -- "folke/zen-mode.nvim",
     config = function()
       vim.keymap.set('n', 'vf', function()
@@ -432,7 +472,7 @@ return {  git = {
           -- * an absolute number of cells when > 1
           -- * a percentage of the width / height of the editor when <= 1
           -- * a function that returns the width or the height
-          width = 120, -- width of the Zen window
+          width = 120,   -- width of the Zen window
           height = 0.90, -- height of the Zen window
           -- by default, no options are changed for the Zen window
           -- uncomment any of the options below, or add other vim.wo options you want to apply
@@ -462,8 +502,9 @@ return {  git = {
 
   'tpope/vim-fugitive',
 
-  { 'renerocksai/telekasten.nvim',
-    dependencies = {'nvim-telescope/telescope.nvim'},
+  {
+    'renerocksai/telekasten.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
     config = function()
       require('telekasten').setup({
         home = vim.fn.expand("~/zettelkasten"), -- Put the name of your notes directory here
@@ -481,7 +522,6 @@ return {  git = {
       })
 
       vim.keymap.set('n', '<Leader>tt', "<cmd>Telekasten goto_today<CR>")
-
     end
   },
 
@@ -510,7 +550,8 @@ return {  git = {
   --   end
   -- },
 
-  { "utilyre/sentiment.nvim",
+  {
+    "utilyre/sentiment.nvim",
     version = "*",
     event = "VeryLazy", -- keep for lazy loading
     opts = {
@@ -526,14 +567,15 @@ return {  git = {
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
 
-  { "sainttttt/vim-searchx",
+  {
+    "sainttttt/vim-searchx",
     branch = "mod",
     config = function()
-      vim.keymap.set("n", "as", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
-      vim.keymap.set("n", "m", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+      -- vim.keymap.set("n", "as", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+      vim.keymap.set("n", "as", "<Nop>")
+      vim.keymap.set("n", "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       -- vim.keymap.set("n", "<leader>m", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       vim.keymap.set("n", "/", "<Esc>")
-
     end
   },
 
@@ -548,18 +590,19 @@ return {  git = {
   --   end
   -- },
 
-  {'akinsho/toggleterm.nvim',
+  {
+    'akinsho/toggleterm.nvim',
     config = function()
       require("toggleterm").setup({
         shell = vim.o.shell, -- change the default shell
-        auto_scroll = true, -- automatically scroll to the bottom on terminal output
+        auto_scroll = true,  -- automatically scroll to the bottom on terminal output
 
         direction = 'float',
         start_in_insert = false,
         close_on_exit = false,
 
         on_open = function(term)
-          vim.keymap.set('n', 'q', '<cmd>q<CR>', {silent = true, buffer = true})
+          vim.keymap.set('n', 'q', '<cmd>q<CR>', { silent = true, buffer = true })
           -- local opts = {buffer = 0}
           -- vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
         end,
@@ -594,7 +637,7 @@ return {  git = {
       })
 
       function _G.TermToggle()
-        local ft = vim.api.nvim_get_option_value("filetype", {buf = buf})
+        local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
 
         if ft == "swift" or ft == "xclog" then
           local logger = require "xbase.logger"
@@ -610,26 +653,28 @@ return {  git = {
       -- the termtoggle mapping key
       vim.keymap.set('n', '<m-c>', TermToggle, { noremap = true, silent = false })
 
-      local Terminal  = require('toggleterm.terminal').Terminal
-      local gitui = Terminal:new({ cmd = "gitui",
+      local Terminal = require('toggleterm.terminal').Terminal
+      local gitui    = Terminal:new({
+        cmd = "gitui",
         -- hidden = true ,
         on_open = function(term)
           vim.cmd("startinsert!")
           -- vim.keymap.del('t', '<esc>')
         end,
-        start_in_insert = true })
+        start_in_insert = true
+      })
 
       function _gitui_toggle()
         gitui:toggle()
       end
 
       -- gh keyword for github
-      vim.api.nvim_set_keymap("n", "gh", "<cmd>lua _gitui_toggle()<CR>", {noremap = true, silent = true})
-
+      vim.api.nvim_set_keymap("n", "gh", "<cmd>lua _gitui_toggle()<CR>", { noremap = true, silent = true })
     end
   },
 
-  { 'haya14busa/vim-asterisk',
+  {
+    'haya14busa/vim-asterisk',
     config = function()
       -- I've reversed the # and * mappings because # is easier to press
       vim.keymap.set('n', '*', '<Plug>(asterisk-z#)', { noremap = true, silent = false })
@@ -662,7 +707,8 @@ return {  git = {
 
   'mfussenegger/nvim-lint',
 
-  { 'CRAG666/code_runner.nvim',
+  {
+    'CRAG666/code_runner.nvim',
     dependencies = 'nvim-lua/plenary.nvim',
 
     config = function()
@@ -682,8 +728,6 @@ return {  git = {
       vim.keymap.set('n', '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false })
       vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false })
       vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false })
-
-
     end
   },
 
@@ -761,7 +805,8 @@ return {  git = {
   --   end
   -- },
 
-  {"miversen33/sunglasses.nvim",
+  {
+    "miversen33/sunglasses.nvim",
     config = {
       filter_type = "SHADE",
       filter_percent = .10,
@@ -771,7 +816,8 @@ return {  git = {
     event = "UIEnter"
   },
 
-  { "RomanoZumbe/yanki.nvim",
+  {
+    "RomanoZumbe/yanki.nvim",
     config = function()
       require("yanki").setup()
     end,
@@ -779,9 +825,20 @@ return {  git = {
   },
 
 
-  { dir = "~/code/lucy.nvim",
+  {
+    dir = "~/code/lucy.nvim",
     config = function()
-      require("lucy").setup()
+      local lucy = require("lucy")
+      lucy.setup()
+      vim.keymap.set({ 'n', 'x' }, 'vv', function() lucy.toggleMarkPress() end)
+      vim.keymap.set('n', '<leader>ba', function() lucy.listMarks() end)
+      vim.keymap.set('n', '<leader>bd', function() lucy.readFile() end)
+      -- vim.keymap.set('n', '<leader>j', function() lucy.jump() end, {silent = true})
+      vim.keymap.set('n', '<s-down>', function() lucy.jump({}) end, { silent = true })
+      vim.keymap.set('n', '<s-up>', function() lucy.jump({ backwards = true }) end)
+      vim.keymap.set('n', '<M-^>', function() lucy.fileJump({}) end, { silent = true })
+      vim.keymap.set('n', '<M-!>', function() lucy.fileJump({ backwards = true }) end)
+      -- vim.keymap.set('n', '<leader>bc', function() toggleHighlightingGroup("LucyLine") end)
     end
   },
 
@@ -814,7 +871,8 @@ return {  git = {
   --     end
   -- },
 
-  { 'piersolenski/telescope-import.nvim',
+  {
+    'piersolenski/telescope-import.nvim',
     dependencies = 'nvim-telescope/telescope.nvim',
     config = function()
       require("telescope").load_extension("import")
@@ -823,7 +881,8 @@ return {  git = {
 
   -- {'airblade/vim-matchquote'},
 
-  { 'stevearc/oil.nvim',
+  {
+    'stevearc/oil.nvim',
     opts = {},
     -- Optional dependencies
     -- dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -878,16 +937,18 @@ return {  git = {
 
   'AndrewRadev/undoquit.vim',
 
-  {'windwp/nvim-ts-autotag',
+  {
+    'windwp/nvim-ts-autotag',
     config = function()
       require('nvim-ts-autotag').setup()
     end
   },
 
-  {'nvim-tree/nvim-tree.lua',
+  {
+    'nvim-tree/nvim-tree.lua',
     config = function()
       local show_tree = function()
-        local nvimtree = require'nvim-tree.view'
+        local nvimtree = require 'nvim-tree.view'
         if not nvimtree.is_visible() then
           vim.cmd("NvimTreeFindFile")
         else
@@ -902,18 +963,17 @@ return {  git = {
       local WIDTH_RATIO = 0.2  -- You can change this too
       require("nvim-tree").setup({
         on_attach = function(bufnr)
-
           local api = require('nvim-tree.api')
-          vim.keymap.set('n', 's', api.node.open.vertical, {buffer = bufnr})
-          vim.keymap.set('n', 'cc', api.fs.create, {buffer = bufnr})
-          vim.keymap.set('n', '<C-v>', api.node.open.vertical, {buffer = bufnr})
-          vim.keymap.set('n', '<C-v>', api.node.open.vertical, {buffer = bufnr})
-          vim.keymap.set('n', '<CR>', api.node.open.edit, {buffer = bufnr})
-          vim.keymap.set('n', 'l', api.node.open.edit, {buffer = bufnr})
-          vim.keymap.set('n', 'h', api.node.navigate.parent_close, {buffer = bufnr})
-          vim.keymap.set('n', 'o',   api.tree.change_root_to_node, {buffer = bufnr})
-          vim.keymap.set('n', 'D',   api.fs.trash, {buffer = bufnr})
-          vim.keymap.set('n', 'M',   api.fs.rename, {buffer = bufnr})
+          vim.keymap.set('n', 's', api.node.open.vertical, { buffer = bufnr })
+          vim.keymap.set('n', 'cc', api.fs.create, { buffer = bufnr })
+          vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
+          vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
+          vim.keymap.set('n', '<CR>', api.node.open.edit, { buffer = bufnr })
+          vim.keymap.set('n', 'l', api.node.open.edit, { buffer = bufnr })
+          vim.keymap.set('n', 'h', api.node.navigate.parent_close, { buffer = bufnr })
+          vim.keymap.set('n', 'o', api.tree.change_root_to_node, { buffer = bufnr })
+          vim.keymap.set('n', 'D', api.fs.trash, { buffer = bufnr })
+          vim.keymap.set('n', 'M', api.fs.rename, { buffer = bufnr })
         end,
         actions = {
           open_file = {
@@ -938,7 +998,7 @@ return {  git = {
               local window_h_int = math.floor(window_h)
               local center_x = (screen_w - window_w) / 2
               local center_y = ((vim.opt.lines:get() - window_h) / 2)
-              - vim.opt.cmdheight:get()
+                  - vim.opt.cmdheight:get()
               return {
                 border = "rounded",
                 relative = "editor",
@@ -967,10 +1027,10 @@ return {  git = {
 
   'keith/swift.vim',
 
-  { "sainttttt/everybody-wants-that-line.nvim",
+  {
+    "sainttttt/everybody-wants-that-line.nvim",
     branch = "saint",
     config = function()
-
       vim.keymap.set('n', '<leader>nn', require("everybody-wants-that-line.components.filename").toggle_float)
       require("everybody-wants-that-line").setup {
         buffer = {
@@ -1010,7 +1070,8 @@ return {  git = {
 
   { 'vim-crystal/vim-crystal' },
 
-  { "rcarriga/nvim-notify",
+  {
+    "rcarriga/nvim-notify",
     opts = {
       background_colour = "NotifyBackground",
       fps = 60,
@@ -1033,7 +1094,8 @@ return {  git = {
 
   },
 
-  {'folke/noice.nvim',
+  {
+    'folke/noice.nvim',
     dependencies = {
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
@@ -1105,9 +1167,9 @@ return {  git = {
           },
         },
         cmdline = {
-          enabled = true, -- enables the Noice cmdline UI
+          enabled = true,         -- enables the Noice cmdline UI
           view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
-          opts = {}, -- global options for the cmdline. See section on views
+          opts = {},              -- global options for the cmdline. See section on views
           ---@type table<string, CmdlineFormat>
           format = {
             -- conceal: (default=true) This will hide the text in the cmdline that matches the pattern.
@@ -1120,7 +1182,7 @@ return {  git = {
             search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
             filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
             lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
-            help = { pattern = {"^:%s*he?l?p?%s+","^:%s*vert he?l?p?%s+" }, icon = "" },
+            help = { pattern = { "^:%s*he?l?p?%s+", "^:%s*vert he?l?p?%s+" }, icon = "" },
             calculator = { pattern = "^=", icon = "", lang = "vimnormal" },
             input = {}, -- Used by input()
             -- lua = false, -- to disable a format, set to `false`
@@ -1153,21 +1215,21 @@ return {  git = {
         },
         -- you can enable a preset for easier configuration
         presets = {
-          bottom_search = true, -- use a classic bottom cmdline for search
+          bottom_search = true,          -- use a classic bottom cmdline for search
           -- command_palette = true, -- position the cmdline and popupmenu together
           long_message_to_split = false, -- long messages will be sent to a split
-          inc_rename = false, -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = false, -- add a border to hover docs and signature help
+          inc_rename = false,            -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false,        -- add a border to hover docs and signature help
         },
 
         messages = {
           -- NOTE: If you enable messages, then the cmdline is enabled automatically.
           -- This is a current Neovim limitation.
-          enabled = false, -- enables the Noice messages UI
-          view = "mini", -- default view for messages
-          view_error = "mini", -- view for errors
-          view_warn = "mini", -- view for warnings
-          view_history = "messages", -- view for :messages
+          enabled = false,             -- enables the Noice messages UI
+          view = "mini",               -- default view for messages
+          view_error = "mini",         -- view for errors
+          view_warn = "mini",          -- view for warnings
+          view_history = "messages",   -- view for :messages
           view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
         },
       }

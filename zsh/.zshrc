@@ -246,8 +246,8 @@ bindkey -M viins "^[v" vi-fg
 
 vi-back() { zle vi-insert; zle kill-whole-line; cd .. ; zle accept-line }
 zle -N vi-back
-bindkey -M vicmd "^[w" vi-back
-bindkey -M viins "^[w" vi-back
+bindkey -M vicmd "^[W" vi-back
+bindkey -M viins "^[W" vi-back
 
 vi-pop() { zle vi-insert; zle kill-whole-line; popd; zle accept-line }
 zle -N vi-pop

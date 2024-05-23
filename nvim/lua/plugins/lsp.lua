@@ -287,19 +287,24 @@ return {
         formatters_by_ft = {
           swift = { "swiftformat" },
         },
-        format_on_save = function(bufnr)
-          return { timeout_ms = 500, lsp_fallback = true }
-        end,
+        -- format_on_save = function(bufnr)
+        --   return { timeout_ms = 500, lsp_fallback = true }
+        -- end,
         log_level = vim.log.levels.ERROR,
       })
 
-      vim.keymap.set({ "n", "v" }, "<Space>", function()
-        conform.format({
-          lsp_fallback = true,
-          async = false,
-          timeout_ms = 500,
-        })
-        vim.cmd([[exe "normal! \<esc>"]])
+      vim.keymap.set({"v"}, "<Space>", function()
+
+        if vim.bo.filetype == 'swift' then
+          conform.format({
+            lsp_fallback = false,
+            async = false,
+            timeout_ms = 500,
+          })
+          vim.cmd([[exe "normal! \<esc>"]])
+        else
+          vim.cmd([[exe "normal! ="]])
+        end
       end, { desc = "Format file or range (in visual mode)" })
     end
   },

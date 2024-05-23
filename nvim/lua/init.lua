@@ -456,3 +456,22 @@ local lazy_format = function()
 end
 
 -- vim.keymap.set({"x", "n"}, "<leader>qq", lazy_format)
+
+-- use command +/- to change font size in neovide
+function _G.changeGuiFontSize(decrease)
+  local guifont = vim.o.guifont
+  local currentFontSize = nil
+  for v in string.gmatch(guifont, ":h(.*)") do
+    currentFontSize = v
+    break
+  end
+  if not decrease then
+    currentFontSize = currentFontSize + 1
+  else
+    currentFontSize = currentFontSize - 1
+  end
+  vim.o.guifont = guifont:gsub(":h.*",":h"..currentFontSize)
+end
+
+vim.keymap.set({"n", "x"}, "<D-=>", "<cmd>lua changeGuiFontSize()<CR>", {silent = true, noremap = true})
+vim.keymap.set({"n", "x"}, "<D-->", "<cmd>lua changeGuiFontSize(true)<CR>", {silent = true, noremap = true})
