@@ -9,6 +9,14 @@ xnoremap m :
 
 set conceallevel=0
 
+set viewoptions-=options
+
+augroup remember_folds
+  autocmd!
+  au BufWinLeave ?* mkview 2
+  au BufWinEnter ?* silent! call timer_start(200, { tid -> execute('!silent loadview 2')})
+augroup END
+
 " neovide
 cnoremap <d-v> <d-r>+
 vmap <d-c> "+y
@@ -29,6 +37,7 @@ map <silent> <D-}> :tabnext<CR>
 nnoremap 22 zz
 
 
+
 """"""""""""""""""""""""""""
 " motion
 """"""""""""""""""""""""""""
@@ -37,9 +46,18 @@ nn <C-u> u
 nn U <Nop>
 nn <C-n> <nop>
 
+" xn q $%
+xn Q %
+xn q %
+nn q %
+
+nn ag f
 nn e b
+nn de db
+nn ce cb
 nn E y$
 nn W Y
+xn W y
 
 " nn w <Nop>
 " nn b <Nop>
@@ -51,9 +69,6 @@ nn W Y
 nn <M-H> 0w
 nn <M-L> $
 
-nn H b
-nn L w
-
 nn 4 $
 map 3 #
 
@@ -64,10 +79,9 @@ nm <m-w> <Plug>CamelCaseMotion_w
 nm <m-e> <Plug>CamelCaseMotion_b
 " map b <Nop>
 
-xn Q %
 
 " visual search replace
-xn s :s$
+xn s :s#
 xm S s
 
 
@@ -83,8 +97,8 @@ nnoremap <S-Tab> N
 set maxmempattern=5000
 
 " nvim-surround stuff
-map a' ysiw'
-map a" ysiw"
+" map a' ysiw'
+" map a" ysiw"
 " map va ysa
 " map v( ysiw(
 " map v) ysiw)
@@ -100,7 +114,7 @@ set hidden
 set autoread
 filetype on
 filetype plugin on
-" set nofoldenable
+set nofoldenable
 set ignorecase
 set smartcase
 set backspace=2
@@ -112,9 +126,6 @@ set ph=9
 
 nnoremap 8 :
 nnoremap 9 0
-
-
-
 
 nnoremap aa a
 
@@ -138,13 +149,19 @@ vnoremap > >gv
 
 nn <M-&> <<
 xn <M-&> <gv
+xn <D-U> <gv
+nn <D-U> <<
 ino <M-&> <Esc><<i
+ino <D-U> <Esc><<i
 
 nn <M-o> <nop>
 
 nn <M-*> >>
+nn <D-I> >>
+xn <D-I> >gv
 xn <M-*> >gv
 ino <M-*> <Esc>>>i
+ino <D-I> <Esc>>>i
 
 
 " -------------------------------------
@@ -170,11 +187,6 @@ set fdo-=search
 nnoremap <c-p> <c-i>
 
 
-" augroup remember_folds
-"   autocmd!
-"   au BufWinLeave ?* mkview 1
-"   au BufRead ?* silent! loadview 1
-" augroup END
 
 nnoremap 2 z
 nnoremap z `
@@ -192,19 +204,9 @@ map zn zN
 map zb zB
 map zv zV
 
-" noremap ;; ``
-" nnoremap zz za
-" nnoremap B za
-
-" nnoremap q %
-" vnoremap q %
-map q %
-
 map <silent> <M-r> :call feedkeys(,rr<CR>)<CR>
 " nnoremap <silent> <Leader>w :w<CR>:Runtime<CR>
 nnoremap <silent> <Leader>bd :Bdelete hidden<CR>
-
-" map <silent> W Vaio
 
 nnoremap <silent> <Leader>e :Messages<CR>
 " nnoremap <silent> <Leader>ss :lua MiniSessions.read()<CR>
@@ -229,8 +231,8 @@ autocmd Filetype qf map <buffer> <Space> <CR>
 nnoremap J 15j
 nnoremap K 15k
 
-" nnoremap <silent>L :MoveCursor<cr>
-" nnoremap <silent>H :MoveCursor b<cr>
+nnoremap <silent>L :MoveCursor<cr>
+nnoremap <silent>H :MoveCursor b<cr>
 
 " grep search
 nm <silent><M-i> <C-u>
@@ -248,7 +250,6 @@ xnoremap <silent>K :<C-u> VMoveCursor b<cr>
 
 
 " this needs to be map and no noremap for macros/matchit.vim to work
-" nnoremap q %
 
 " splits
 nnoremap <C-J> <C-w>j
@@ -521,7 +522,7 @@ vmap F gc
 """""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""
 
-filetype indent on
+" filetype indent on
 
 autocmd FileType c,cpp,java,javascript,php autocmd BufWritePre <buffer> :retab
 

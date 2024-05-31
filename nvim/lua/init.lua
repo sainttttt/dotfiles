@@ -155,13 +155,13 @@ vim.keymap.set("n", "<leader>lm", "<cmd>lua LspSwap()<CR>", {noremap=true})
 --     return result
 -- end
 --
-function _G.luaReload(name)
-  name  = 'yoke'
-  require("plenary.reload").reload_module(name)
-  require(name)
-end
+-- function _G.luaReload(name)
+--   require("plenary.reload").reload_module(name)
+--   require(name)
+--   print ('reloaded: ' .. name)
+-- end
 
-vim.keymap.set("n", "<leader>qq", luaReload, {noremap=true})
+vim.keymap.set("n", "<leader>qq", "<cmd>Lazy reload plugin lucy.nvim<CR>", {noremap=true})
 
 -- local bufopts = { noremap=true, silent=true }
 -- vim.keymap.set('n', '<leader>l', ':LspRestart<CR>', bufopts)
@@ -455,7 +455,7 @@ local lazy_format = function()
   vim.api.nvim_buf_set_lines(current_buffer, current_line - 1, current_line, false, lua_string)
 end
 
--- vim.keymap.set({"x", "n"}, "<leader>qq", lazy_format)
+vim.keymap.set({"x", "n"}, "<leader>ww", lazy_format)
 
 -- use command +/- to change font size in neovide
 function _G.changeGuiFontSize(decrease)
@@ -475,3 +475,5 @@ end
 
 vim.keymap.set({"n", "x"}, "<D-=>", "<cmd>lua changeGuiFontSize()<CR>", {silent = true, noremap = true})
 vim.keymap.set({"n", "x"}, "<D-->", "<cmd>lua changeGuiFontSize(true)<CR>", {silent = true, noremap = true})
+
+-- vim.api.nvim_set_keymap('i', '<Esc>', 'd', { noremap = true, silent = true })

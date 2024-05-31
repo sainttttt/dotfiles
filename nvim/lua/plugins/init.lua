@@ -16,14 +16,23 @@ return {
     missing = true,
     -- try to load one of these colorschemes when starting an installation during startup
     colorscheme = { "flesh-and-blood" },
+    -- cool
   },
 
 
   -- † plugins † ----------------------------------------------
 
+  -- { 'm4xshen/autoclose.nvim',
+  --   config = function()
+  --     require("autoclose").setup({
 
-  {
-    'bloznelis/before.nvim',
+  --     ["("] = { escape = true, close = true, pair = "()", disabled_filetypes = {} },
+  --     })
+  --   end
+  -- },
+
+
+  { 'bloznelis/before.nvim',
     config = function()
       -- Configuration for bloznelis/before.nvim
       local before = require('before')
@@ -41,28 +50,24 @@ return {
       end, {})
     end
   },
-
-  {
-    'rktjmp/lush.nvim',
+  { 'rktjmp/lush.nvim',
     config = function()
       -- Configuration for rktjmp/lush.nvim
     end
   },
 
-  {
-    'andymass/vim-matchup',
-    config = function()
-      -- Configuration for andymass/vim-matchup
-    end
-  },
+  -- { 'andymass/vim-matchup',
+  --   config = function()
+  --     -- Configuration for andymass/vim-matchup
+  --   end
+  -- },
 
   -- {'brooth/far.vim',
   --   config = function()
   --   end
   -- },
 
-  {
-    'nmac427/guess-indent.nvim',
+  { 'nmac427/guess-indent.nvim',
     config = function() require('guess-indent').setup {} end,
   },
 
@@ -102,8 +107,7 @@ return {
   -- disables search highlight when cursor moves
   -- {'romainl/vim-cool'},
 
-  {
-    'BartSte/nvim-project-marks',
+  { 'BartSte/nvim-project-marks',
     lazy = false,
     config = function()
       require('projectmarks').setup({
@@ -112,8 +116,7 @@ return {
     end
   },
 
-  {
-    'echasnovski/mini.nvim',
+  { 'echasnovski/mini.nvim',
     version = false,
     config = function()
       require('mini.trailspace').setup()
@@ -268,7 +271,44 @@ return {
     end
   },
 
-  -- {'cohama/lexima.vim'},
+  -- {'cohama/lexima.vim',
+  --   config = function()
+
+  --     -- lua
+  --     local is_pair = {
+  --       ['{}'] = true,
+  --       ['[]'] = true,
+  --       ['\'\''] = true,
+  --       ['\"\"'] = true,
+  --       ['[\'\']'] = true,
+  --       ['[\"\"]'] = true,
+  --       ['{\'\'}'] = true,
+  --       ['{\"\"}'] = true,
+  --     }
+
+  --     vim.keymap.set('i', '<Esc>', function()
+  --       print("herere")
+  --       local line = vim.api.nvim_get_current_line()
+  --       local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+  --       -- {""}
+  --       --   |
+  --       -- The cursor is |
+  --       print(line:sub(col - 2, col + 1))
+  --       if is_pair[line:sub(col - 2, col + 1)] then
+  --         -- del deletes the character on the cursor
+  --         return '<del><del><esc>'
+  --       end
+  --       -- {}
+  --       --  |
+  --       if is_pair[line:sub(col - 1, col)] then
+  --         return '<del><esc>'
+  --       end
+  --       return '<esc>'
+  --     end, { })
+
+  --   end
+
+  -- },
 
   {
     'altermo/ultimate-autopair.nvim',
@@ -281,7 +321,7 @@ return {
       local end_pair = [[)]}"']] .. '\29'
       local pair_insert
       local save = {}
-      local group = vim.api.nvim_create_augroup('test', {})
+      local group = vim.api.nvim_create_augroup('autopair', {})
       vim.api.nvim_create_autocmd('InsertCharPre', {
         callback = function()
           pair_insert = false
@@ -383,17 +423,17 @@ return {
     end
   },
 
-  {
-    'Vonr/align.nvim',
-    config = function()
-      local NS = { noremap = true, silent = true }
+  -- {
+  --   'Vonr/align.nvim',
+  --   config = function()
+  --     local NS = { noremap = true, silent = true }
 
-      vim.keymap.set('x', 'aa', function() require 'align'.align_to_char(1, true) end, NS)             -- Aligns to 1 character, looking left
-      -- vim.keymap.set('x', 'as', function() require'align'.align_to_char(2, true, true)       end, NS) -- Aligns to 2 characters, looking left and with previews
-      vim.keymap.set('x', 'aw', function() require 'align'.align_to_string(false, true, true) end, NS) -- Aligns to a string, looking left and with previews
-      vim.keymap.set('x', 'ar', function() require 'align'.align_to_string(true, true, true) end, NS)  -- Aligns to a Lua pattern, looking left and with previews
-    end
-  },
+  --     vim.keymap.set('x', 'aa', function() require 'align'.align_to_char(1, true) end, NS)             -- Aligns to 1 character, looking left
+  --     -- vim.keymap.set('x', 'as', function() require'align'.align_to_char(2, true, true)       end, NS) -- Aligns to 2 characters, looking left and with previews
+  --     vim.keymap.set('x', 'aw', function() require 'align'.align_to_string(false, true, true) end, NS) -- Aligns to a string, looking left and with previews
+  --     vim.keymap.set('x', 'ar', function() require 'align'.align_to_string(true, true, true) end, NS)  -- Aligns to a Lua pattern, looking left and with previews
+  --   end
+  -- },
 
   -- {
   --   'tzachar/highlight-undo.nvim',
@@ -550,18 +590,18 @@ return {
   --   end
   -- },
 
-  {
-    "utilyre/sentiment.nvim",
-    version = "*",
-    event = "VeryLazy", -- keep for lazy loading
-    opts = {
-      -- config
-    },
-    init = function()
-      -- `matchparen.vim` needs to be disabled manually in case of lazy loading
-      vim.g.loaded_matchparen = 1
-    end,
-  },
+  -- {
+  --   "utilyre/sentiment.nvim",
+  --   version = "*",
+  --   event = "VeryLazy", -- keep for lazy loading
+  --   opts = {
+  --     -- config
+  --   },
+  --   init = function()
+  --     -- `matchparen.vim` needs to be disabled manually in case of lazy loading
+  --     vim.g.loaded_matchparen = 1
+  --   end,
+  -- },
 
 
   'hood/popui.nvim',
@@ -572,7 +612,7 @@ return {
     branch = "mod",
     config = function()
       -- vim.keymap.set("n", "as", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
-      vim.keymap.set("n", "as", "<Nop>")
+      -- vim.keymap.set("n", "as", "<Nop>")
       vim.keymap.set("n", "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       -- vim.keymap.set("n", "<leader>m", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       vim.keymap.set("n", "/", "<Esc>")
@@ -834,8 +874,8 @@ return {
       vim.keymap.set('n', '<leader>ba', function() lucy.listMarks() end)
       vim.keymap.set('n', '<leader>bd', function() lucy.readFile() end)
       -- vim.keymap.set('n', '<leader>j', function() lucy.jump() end, {silent = true})
-      vim.keymap.set('n', '<s-down>', function() lucy.jump({}) end, { silent = true })
-      vim.keymap.set('n', '<s-up>', function() lucy.jump({ backwards = true }) end)
+      vim.keymap.set('n', '<s-down>', function() lucy.jump({filejump = true}) end, { silent = true })
+      vim.keymap.set('n', '<s-up>', function() lucy.jump({ filejump = true, backwards = true }) end)
       vim.keymap.set('n', '<M-^>', function() lucy.fileJump({}) end, { silent = true })
       vim.keymap.set('n', '<M-!>', function() lucy.fileJump({ backwards = true }) end)
       -- vim.keymap.set('n', '<leader>bc', function() toggleHighlightingGroup("LucyLine") end)

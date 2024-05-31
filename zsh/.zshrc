@@ -155,6 +155,7 @@ alias dush="du -sh * | gsort -h"
 alias sudush="sudo du -sh * | gsort -h"
 alias esp="nvim ~/Library/Application\ Support/espanso/match/base.yml"
 alias kara="cd ~/code/karamake/; nvim ~/code/karamake/base.json"
+alias karalog="tail -f ~/.local/share/karabiner/log/console_user_server.log"
 
 
 cgif() {  convert $1 "$(echo "$1"  | sed -e "s/\..*/\.gif/")" }
@@ -270,4 +271,5 @@ export PATH=$PATH:~/bin/gobin/
 export PATH=$PATH:~/.cargo/bin/
 export PATH=$PATH:~/.nimble/bin/
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+
 

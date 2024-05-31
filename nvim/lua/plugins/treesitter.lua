@@ -31,15 +31,13 @@ return {
           -- disable = { "swift" },  -- optional, list of language that will be disabled
           -- [options]
         },
+
         highlight = {
           enable = true ,
-          disable = function(lang, bufnr)
-            -- return lang == "cmake" or lang == "swift" or ts_disable(lang, bufnr)
-            return lang == "cmake"  or ts_disable(lang, bufnr)
-          end,
+          disable = { "cmake" },
           additional_vim_regex_highlighting = {"latex"},
         },
-        indent = { enable = true },
+        indent = { enable = true, disable = { "swift", "text" } },
       })
 
       require 'vim.treesitter.query'.set("markdown", "highlights", [[

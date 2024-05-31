@@ -39,6 +39,7 @@
   lg = log
 [core]
 	editor = nvim
+	excludesFile = "~/.config/git/ignore"
 [init]
 	defaultBranch = master
 [http]
@@ -48,3 +49,5 @@
 
 [include]
   path = ~/.config/git/local
+[credential]
+	helper = osxkeychain
