@@ -8,7 +8,6 @@ nnoremap m J
 xnoremap m :
 
 set conceallevel=0
-
 set viewoptions-=options
 
 augroup remember_folds
@@ -194,6 +193,17 @@ nnoremap z `
 " marks
 "
 " nmap <leader>m m
+
+nnoremap <leader>1 mQ
+nnoremap <leader>2 mW
+nnoremap <leader>3 mE
+nnoremap <leader>4 mR
+
+map <M-!> zQ
+map <M-@> zW
+map <M-#> zE
+map <M-$> zR
+
 nnoremap <leader>m mM
 nnoremap <leader>n mN
 nnoremap <leader>b mB
@@ -350,8 +360,7 @@ iab pr print
 " autocmd BufRead * DetectIndent
 
 " reload vimrc on save
-autocmd! bufwritepost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
-
+autocmd! bufwritepost init.vim source ~/.config/nvim/init.vim
 
 nnoremap <silent> ) :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> ( :exe "vertical resize " . (winwidth(0) * 2/3)<CR>

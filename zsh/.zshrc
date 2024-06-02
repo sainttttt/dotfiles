@@ -187,7 +187,7 @@ alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
 
 rg2() { rg  --no-heading --line-number  "$@" | cut -d':' -f1-2 }
 alias v='vim'
-alias gt='gitui'
+alias gh='gitui'
 alias vrc='vim ~/.zshrc'
 alias ghc='gh repo create --source .'
 alias ghd='gh repo delete'

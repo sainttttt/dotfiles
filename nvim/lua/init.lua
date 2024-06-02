@@ -477,3 +477,18 @@ vim.keymap.set({"n", "x"}, "<D-=>", "<cmd>lua changeGuiFontSize()<CR>", {silent 
 vim.keymap.set({"n", "x"}, "<D-->", "<cmd>lua changeGuiFontSize(true)<CR>", {silent = true, noremap = true})
 
 -- vim.api.nvim_set_keymap('i', '<Esc>', 'd', { noremap = true, silent = true })
+
+-- Key:         Ctrl-e
+-- Action:      Show treesitter capture group for textobject under cursor.
+vim.keymap.set("n",    "<leader>tt",
+    function()
+        local result = vim.treesitter.get_captures_at_cursor(0)
+        print(vim.inspect(result))
+    end,
+    { noremap = true, silent = false }
+)
+
+-- TSPlayground provided command. (Need to install the plugin.)
+-- bindkey("n",    "<C-e>",  ":TSHighlightCapturesUnderCursor<CR>",   opts)
+-- This was misbehaving a lot.
+-- Might be more stable now in recent treesitter versions.

@@ -22,15 +22,14 @@ return {
 
   -- † plugins † ----------------------------------------------
 
-  -- { 'm4xshen/autoclose.nvim',
-  --   config = function()
-  --     require("autoclose").setup({
 
-  --     ["("] = { escape = true, close = true, pair = "()", disabled_filetypes = {} },
-  --     })
+  -- { "ThePrimeagen/harpoon",
+  --   branch = "harpoon2",
+  --   dependencies = { "nvim-lua/plenary.nvim" },
+  --   config = function()
+
   --   end
   -- },
-
 
   { 'bloznelis/before.nvim',
     config = function()
@@ -112,6 +111,7 @@ return {
     config = function()
       require('projectmarks').setup({
         shadafile = '.vim/main.shada',
+        mappings = false,
       })
     end
   },
@@ -317,8 +317,8 @@ return {
     config = function()
       require 'nvim-treesitter.configs'.setup {}
       require('ultimate-autopair').setup {}
-      local pair = [[([{"']]
-      local end_pair = [[)]}"']] .. '\29'
+      local pair = [[([{"`']]
+      local end_pair = [[)]}"`']] .. '\29'
       local pair_insert
       local save = {}
       local group = vim.api.nvim_create_augroup('autopair', {})
@@ -876,8 +876,8 @@ return {
       -- vim.keymap.set('n', '<leader>j', function() lucy.jump() end, {silent = true})
       vim.keymap.set('n', '<s-down>', function() lucy.jump({filejump = true}) end, { silent = true })
       vim.keymap.set('n', '<s-up>', function() lucy.jump({ filejump = true, backwards = true }) end)
-      vim.keymap.set('n', '<M-^>', function() lucy.fileJump({}) end, { silent = true })
-      vim.keymap.set('n', '<M-!>', function() lucy.fileJump({ backwards = true }) end)
+      -- vim.keymap.set('n', '<M-^>', function() lucy.fileJump({}) end, { silent = true })
+      --vim.keymap.set('n', '<M-!>', function() lucy.fileJump({ backwards = true }) end)
       -- vim.keymap.set('n', '<leader>bc', function() toggleHighlightingGroup("LucyLine") end)
     end
   },

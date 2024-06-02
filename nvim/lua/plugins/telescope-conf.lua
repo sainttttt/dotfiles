@@ -284,7 +284,7 @@ return
                 ["!"] = function() feedkey("1", "n") end
               },
               n = {
-                [";"] = trouble.open_with_trouble
+                -- [";"] = require("trouble.sources.telescope").open()
               },
             },
           },
