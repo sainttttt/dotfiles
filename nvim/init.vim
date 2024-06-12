@@ -9,6 +9,8 @@ xnoremap m :
 
 set conceallevel=0
 set viewoptions-=options
+set foldopen-=hor foldopen-=search
+set nofoldenable
 
 augroup remember_folds
   autocmd!
@@ -33,9 +35,14 @@ map <silent> <D-w> :close<CR>
 map <silent> <D-{> :tabprevious<CR>
 map <silent> <D-}> :tabnext<CR>
 
+nn <silent> <Right> :tabprevious<CR>
+nn <silent> <Left> :tabprevious<CR>
 nnoremap 22 zz
 
-
+autocmd BufEnter * call system("tmux rename-window " . expand("%:t"))
+autocmd VimLeave * call system("tmux rename-window zsh")
+autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+set title
 
 """"""""""""""""""""""""""""
 " motion
@@ -44,6 +51,8 @@ nnoremap 22 zz
 nn <C-u> u
 nn U <Nop>
 nn <C-n> <nop>
+
+nm ac vafo
 
 " xn q $%
 xn Q %
@@ -65,10 +74,11 @@ xn W y
 
 " nn <Left> 0w
 " nn <Right> $
-nn <M-H> 0w
-nn <M-L> $
+nn <silent> <M-H> :cprev<CR>
+nn <silent> <M-L> :cnext<CR>
 
 nn 4 $
+nn 1 0
 map 3 #
 
 
@@ -87,11 +97,13 @@ xm S s
 nnoremap <C-p> <C-i>
 
 nmap <M-b> <Nop>
-nnoremap <Tab> n
+" "nnoremap <Tab> n
 nnoremap M ?
 
+" nn <silent> norm! n
+
 cnoremap <Tab> <CR>
-nnoremap <S-Tab> N
+ nnoremap <S-Tab> N
 
 set maxmempattern=5000
 
@@ -113,7 +125,6 @@ set hidden
 set autoread
 filetype on
 filetype plugin on
-set nofoldenable
 set ignorecase
 set smartcase
 set backspace=2
@@ -132,9 +143,9 @@ nnoremap aa a
 " todo: clean this up ""
 nmap at <leader>mt
 
-nmap ar <leader>rr
+nm ar vafo
+nm ae vaIo
 
-nmap gf <leader>fg
 nmap ge <leader>ff
 """"""""""""""""""""""
 
@@ -169,7 +180,6 @@ ino <D-I> <Esc>>>i
 map gb i*<esc>f<space>i*<esc>
 map gv i_<esc>f<space>i_<esc>
 
-set foldopen-=hor
 set noshowmode
 
 autocmd CursorHold * echon ''
@@ -344,10 +354,11 @@ let g:searchx.markers = split('FDSREWVCXAQZUIOPHJKLBNMTYGVB', '.\zs')
 
 " Convert search pattern.
 function g:searchx.convert(input) abort
-  if a:input !~# '\k'
-    return '\V' .. a:input
-  endif
-  return a:input[0] .. substitute(a:input[1:], '\\\@<! ', '.\\{-}', 'g')
+  return a:input
+  " if a:input !~# '\k'
+  "   return '\V' .. a:input
+  " endif
+  " return a:input[0] .. substitute(a:input[1:], '\\\@<! ', '.\\{-}', 'g')
 endfunction
 
 
@@ -411,15 +422,33 @@ endfunction
 nnoremap <silent> <C-e> :TroubleToggle<CR>
 nnoremap <silent> <leader>e :TroubleToggle<cr>
 
-function! ToggleQuickFix()
-    if empty(filter(getwininfo(), 'v:val.quickfix'))
-        copen
-    else
-        cclose
-    endif
+
+function! s:GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
 endfunction
 
-nnoremap <silent> <F2> :call ToggleQuickFix()<cr>
+function! ToggleQuickfixList()
+  for bufnum in map(filter(split(s:GetBufferList(), '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      cclose
+      return
+    endif
+  endfor
+  let winnr = winnr()
+  if exists("g:toggle_list_copen_command")
+    exec(g:toggle_list_copen_command)
+  else
+    bot copen
+  endif
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+
+nnoremap <silent> <C-n> :call ToggleQuickfixList()<cr>
 
 " nnoremap <C-s> :cp<CR>
 " nnoremap <C-d> :cn<CR>
@@ -639,8 +668,8 @@ endfunction
 
 autocmd VimEnter * call StartCmd()
 
-map <M-n> Tab
-map <M-N> <S-Tab>
+" map <M-n> Tab
+" map <M-N> <S-Tab>
 
 nmap <leader>re <cmd>Lazy reload plugin yoke.vim<CR>
 

@@ -11,11 +11,14 @@ if [ "$TMUX" = "" ]; then
   if [ "$WINTYPE" = "dropdown" ]; then
     tmux new-session -A -s dropdown
   elif [ "$TERM" = "alacritty" ]; then
+    printf "\e[?1042l"
     aerc
   else
     tmux new-session -A -s main
   fi
 fi
+
+export TMUX=tmux
 
 source /usr/local/opt/asdf/libexec/asdf.sh
 eval "$(anyenv init -)"
@@ -187,7 +190,7 @@ alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
 
 rg2() { rg  --no-heading --line-number  "$@" | cut -d':' -f1-2 }
 alias v='vim'
-alias gh='gitui'
+alias gt='gitui'
 alias vrc='vim ~/.zshrc'
 alias ghc='gh repo create --source .'
 alias ghd='gh repo delete'
@@ -217,13 +220,14 @@ eval "$(atuin init zsh)"
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
  --color=fg+:#82263b,bg+:#262626,hl+:#7a88a0
- --bind ctrl-f:page-down,ctrl-u:last'
+ --bind ctrl-f:page-down,ctrl-u:last,alt-n:select,alt-N:deselect'
 
 zstyle ':completion:*:*:vim:*:*files' ignored-patterns '*.o'
 alias gcc="gcc-13"
 alias g++="g++-13"
 
-alias gf="nvim -c \"let g:startcmd='gf'\""
+# start vim with pickers
+alias as="nvim -c \"let g:startcmd='as'\""
 alias af="nvim -c \"let g:startcmd='af'\""
 
 alias fa="fg"
@@ -240,7 +244,7 @@ zle -N vi-ls
 bindkey -M vicmd "^A" vi-ls
 bindkey -M viins "^A" vi-ls
 
-vi-fg() { zle vi-insert; zle kill-whole-line; fg; zle accept-line }
+vi-fg() { zle vi-insert; zle kill-whole-line; BUFFER=fg; zle accept-line }
 zle -N vi-fg
 bindkey -M vicmd "^[v" vi-fg
 bindkey -M viins "^[v" vi-fg

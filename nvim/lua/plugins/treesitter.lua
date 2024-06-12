@@ -3,8 +3,10 @@ return {
   { "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function ()
-      local function ts_disable(_, bufnr)
-        return vim.fn.wordcount()['chars'] > 10000
+      local function ts_disable(lang, bufnr)
+        return lang == "css"
+          or lang == "cmake"
+          or vim.fn.wordcount()['chars'] > 30000
       end
       local configs = require("nvim-treesitter.configs")
 
@@ -28,13 +30,14 @@ return {
         sync_install = false,
         matchup = {
           enable = true,              -- mandatory, false will disable the whole extension
+          -- disable = ts_disable,
           -- disable = { "swift" },  -- optional, list of language that will be disabled
           -- [options]
         },
 
         highlight = {
-          enable = true ,
-          disable = { "cmake" },
+          enable = true,
+          disable = ts_disable,
           additional_vim_regex_highlighting = {"latex"},
         },
         indent = { enable = true, disable = { "swift", "text" } },
@@ -182,6 +185,7 @@ return {
           if vim.bo.filetype == "swift"
             or vim.bo.filetype == "nim"
             or vim.bo.filetype == "vim"
+            or vim.bo.filetype == "markdown"
             or vim.fn.bufname("%") == "[Command Line]" then
             -- vim.cmd("ContextEnable")
             return false

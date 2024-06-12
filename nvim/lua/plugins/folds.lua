@@ -6,14 +6,15 @@ return {
       vim.o.foldcolumn = '0' -- '0' is not bad
       vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
       vim.o.foldlevelstart = 99
-      vim.o.foldenable = true
+      vim.o.foldenable = false
 
-      --
-      require('ufo').setup({
-        provider_selector = function(bufnr, filetype, buftype)
-          return {'treesitter', 'indent'}
-        end
-      })
+
+       require('ufo').setup({
+         provider_selector = function(bufnr, filetype, buftype)
+           return {'treesitter', 'indent'}
+         end
+       })
+
 
       -- require('ufo').setup({
       --     provider_selector = function(bufnr, filetype, buftype)
@@ -145,7 +146,7 @@ return {
       end
 
       local function toggleFold()
-        vim.cmd("normal 2a")
+        vim.cmd("normal! za")
         incrementViewNumber()
       end
 
@@ -155,14 +156,14 @@ return {
       vim.keymap.set('n', '2u', undoFold, { noremap = true, silent = true })
       vim.keymap.set('n', '2U', redoFold, { noremap = true, silent = true })
 
-      vim.keymap.set('n', '2r', openAllFolds, { noremap = true, silent = true })
+      -- vim.keymap.set('n', '2r', openAllFolds, { noremap = true, silent = true })
 
-      vim.keymap.set('n', '2m', closeAllFolds,{ noremap = true, silent = true })
+      -- vim.keymap.set('n', '2m', closeAllFolds,{ noremap = true, silent = true })
 
 
       -- vim.keymap.set('n', 'zr', require('ufo').openAllFolds, { noremap = true, silent = true })
-      vim.keymap.set('n', '2R', require('ufo').openAllFolds, { noremap = true, silent = true })
-      vim.keymap.set('n', '2M', require('ufo').closeAllFolds,{ noremap = true, silent = true })
+      vim.keymap.set('n', '2r', require('ufo').openAllFolds, { silent = true })
+      vim.keymap.set('n', '2m', require('ufo').closeAllFolds,{ silent = true })
     end
   },
 
@@ -199,5 +200,6 @@ return {
   --     }) -- setup call needed
   --   end,
   -- },
+
 }
 

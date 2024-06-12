@@ -1,10 +1,9 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.o.foldlevelstart = -1
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 
-vim.g.neovide_input_macos_alt_is_meta = true
+vim.g.neovide_input_macos_option_is_meta = true
 
 function _G.dump(o)
    if type(o) == 'table' then
@@ -30,31 +29,6 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-
-
--- require('portion')
--- portionSetup()
-
-vim.api.nvim_create_augroup('folds', {
-  clear = true
-})
-
-
--- vim.api.nvim_create_autocmd({"BufWinLeave"}, {
---   group = "folds",
---   pattern = {"?*"},
---   callback = function()
---     vim.cmd("mkview " .. getViewNumber())
---   end
--- })
-
--- vim.cmd([[
--- augroup remember_folds
---   autocmd!
---   au BufWinLeave ?* mkview 1
---   au BufWinEnter ?* silent! loadview 1
--- augroup END
--- ]])
 
 
 function _G.zen()
@@ -492,3 +466,6 @@ vim.keymap.set("n",    "<leader>tt",
 -- bindkey("n",    "<C-e>",  ":TSHighlightCapturesUnderCursor<CR>",   opts)
 -- This was misbehaving a lot.
 -- Might be more stable now in recent treesitter versions.
+
+
+require("float")

@@ -30,6 +30,33 @@ return {
 
   --   end
   -- },
+  --
+
+  { 'yssl/QFEnter',
+    config = function()
+      vim.cmd([[
+      let g:qfenter_keymap = {}
+      let g:qfenter_keymap.vopen = ['<CR>', '<2-LeftMouse>']
+      ]])
+    end
+  },
+
+  { 'romainl/vim-qf',
+    config = function()
+      -- Configuration for romainl/vim-qf
+      --
+      --
+      vim.cmd([[
+      augroup CustomQfMappings
+      autocmd!
+      autocmd FileType qf silent! unmap <buffer> <up>
+      autocmd FileType qf silent! unmap <buffer> <down>
+      autocmd FileType qf nmap <buffer> <up> <Plug>(qf_previous_file)
+      autocmd FileType qf nmap <buffer> <down> <Plug>(qf_next_file)
+      augroup END
+      ]])
+    end
+  },
 
   { 'bloznelis/before.nvim',
     config = function()
@@ -70,11 +97,13 @@ return {
     config = function() require('guess-indent').setup {} end,
   },
 
-  -- { 'nvim-pack/nvim-spectre',
-  --   config = function()
-  --     -- Configuration for nvim-pack/nvim-spectre
-  --   end
-  -- },
+  { 'nvim-pack/nvim-spectre',
+    config = function()
+      vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
+        desc = "Toggle Spectre"
+      })
+    end
+  },
 
   -- {
   --   "roobert/search-replace.nvim",
@@ -90,8 +119,7 @@ return {
   --   end,
   -- },
 
-  {
-    'ixru/nvim-markdown',
+  { 'ixru/nvim-markdown',
     config = function()
       vim.cmd [[
         map <Plug> <Plug>Markdown_FollowLink
@@ -143,8 +171,7 @@ return {
 
   'tpope/vim-commentary',
 
-  {
-    "ariel-frischer/bmessages.nvim",
+  { "ariel-frischer/bmessages.nvim",
     config = function()
       require("bmessages").setup {}
       vim.keymap.set('n', '<leader>z', "<cmd>Bmessagesvs<CR>")
@@ -213,8 +240,7 @@ return {
   -- allows you to open nvim from cmdline with line number
   -- {'wsdjeg/vim-fetch'},
 
-  {
-    'sainttttt/flesh-and-blood',
+  { 'sainttttt/flesh-and-blood',
     -- dir = "~/code/flesh-and-blood",
     lazy = false,
     priority = 1000,
@@ -239,16 +265,14 @@ return {
   --   end
   -- },
 
-  {
-    dir = "~/code/yoke.vim",
+  { dir = "~/code/yoke.vim",
     'sainttttt/yoke.vim',
     config = function()
       require('yoke').setup()
     end
   },
 
-  {
-    "kylechui/nvim-surround",
+  { "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
     config = function()
@@ -271,47 +295,8 @@ return {
     end
   },
 
-  -- {'cohama/lexima.vim',
-  --   config = function()
 
-  --     -- lua
-  --     local is_pair = {
-  --       ['{}'] = true,
-  --       ['[]'] = true,
-  --       ['\'\''] = true,
-  --       ['\"\"'] = true,
-  --       ['[\'\']'] = true,
-  --       ['[\"\"]'] = true,
-  --       ['{\'\'}'] = true,
-  --       ['{\"\"}'] = true,
-  --     }
-
-  --     vim.keymap.set('i', '<Esc>', function()
-  --       print("herere")
-  --       local line = vim.api.nvim_get_current_line()
-  --       local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-  --       -- {""}
-  --       --   |
-  --       -- The cursor is |
-  --       print(line:sub(col - 2, col + 1))
-  --       if is_pair[line:sub(col - 2, col + 1)] then
-  --         -- del deletes the character on the cursor
-  --         return '<del><del><esc>'
-  --       end
-  --       -- {}
-  --       --  |
-  --       if is_pair[line:sub(col - 1, col)] then
-  --         return '<del><esc>'
-  --       end
-  --       return '<esc>'
-  --     end, { })
-
-  --   end
-
-  -- },
-
-  {
-    'altermo/ultimate-autopair.nvim',
+  { 'altermo/ultimate-autopair.nvim',
     event = { 'InsertEnter', 'CmdlineEnter' },
     branch = 'v0.6', --recomended as each new version will have breaking changes
     config = function()
@@ -362,8 +347,7 @@ return {
     end
   },
 
-  {
-    'ojroques/nvim-osc52',
+  { 'ojroques/nvim-osc52',
     config = function()
       vim.keymap.set('n', '<c-y>', require('osc52').copy_operator, { expr = true })
       vim.keymap.set('v', '<c-y>', require('osc52').copy_visual)
@@ -377,8 +361,7 @@ return {
     end
   },
 
-  {
-    "epwalsh/obsidian.nvim",
+  { "epwalsh/obsidian.nvim",
     lazy = false,
     event = {
       -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
@@ -462,15 +445,13 @@ return {
 
   -- 'kkharji/sqlite.lua',
 
-  {
-    'norcalli/nvim-colorizer.lua',
+  { 'norcalli/nvim-colorizer.lua',
     config = function()
       require 'colorizer'.setup()
     end
   },
 
-  {
-    "lukas-reineke/indent-blankline.nvim",
+  { "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     opts = {
       indent = { char = "│" },
@@ -483,16 +464,14 @@ return {
 
   -- {"ericvw/vim-nim"},
 
-  {
-    'jakemason/ouroboros',
+  { 'jakemason/ouroboros',
     dependencies = { { 'nvim-lua/plenary.nvim' } },
     config = function()
       vim.cmd("autocmd! Filetype c,cpp noremap<buffer> 3 :Ouroboros<CR>")
     end
   },
 
-  {
-    "sainttttt/zen-mode.nvim",
+  { "sainttttt/zen-mode.nvim",
     -- "folke/zen-mode.nvim",
     config = function()
       vim.keymap.set('n', 'vf', function()
@@ -539,11 +518,9 @@ return {
     end
   },
 
-
   'tpope/vim-fugitive',
 
-  {
-    'renerocksai/telekasten.nvim',
+  { 'renerocksai/telekasten.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim' },
     config = function()
       require('telekasten').setup({
@@ -590,26 +567,24 @@ return {
   --   end
   -- },
 
-  -- {
-  --   "utilyre/sentiment.nvim",
-  --   version = "*",
-  --   event = "VeryLazy", -- keep for lazy loading
-  --   opts = {
-  --     -- config
-  --   },
-  --   init = function()
-  --     -- `matchparen.vim` needs to be disabled manually in case of lazy loading
-  --     vim.g.loaded_matchparen = 1
-  --   end,
-  -- },
-
+  { "utilyre/sentiment.nvim",
+    version = "*",
+    event = "VeryLazy", -- keep for lazy loading
+    opts = {
+      -- config
+    },
+    init = function()
+      -- `matchparen.vim` needs to be disabled manually in case of lazy loading
+      vim.g.loaded_matchparen = 1
+    end,
+  },
 
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
 
-  {
-    "sainttttt/vim-searchx",
-    branch = "mod",
+  { dir = "~/code/vim-searchx",
+    -- "sainttttt/vim-searchx",
+    -- branch = "mod",
     config = function()
       -- vim.keymap.set("n", "as", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       -- vim.keymap.set("n", "as", "<Nop>")
@@ -679,11 +654,11 @@ return {
       function _G.TermToggle()
         local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
 
-        if ft == "swift" or ft == "xclog" then
-          local logger = require "xbase.logger"
-          logger.toggle()
-        else
-          -- if true then
+        -- if ft == "swift" or ft == "xclog" then
+        --   local logger = require "xbase.logger"
+        --   logger.toggle()
+        -- else
+          if true then
           vim.cmd("ToggleTerm")
           -- require("FTerm").toggle()
         end
@@ -956,24 +931,46 @@ return {
   --   end
   -- },
 
+  { "wojciech-kulik/xcodebuild.nvim",
+    branch = 'fix/issue-149-2',
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("xcodebuild").setup({
+        -- logs = { -- build & test logs
+        --   auto_open_on_success_tests = false, -- open logs when tests succeeded
+        --   auto_open_on_failed_tests = false, -- open logs when tests failed
+        --   auto_open_on_success_build = true, -- open logs when build succeeded
+        --   auto_open_on_failed_build = true, -- open logs when build failed
+        --   auto_close_on_app_launch = false, -- close logs when app is launched
+        --   auto_close_on_success_build = false, -- close logs when build succeeded (only if auto_open_on_success_build=false)
+        --   auto_focus = true, -- focus logs buffer when opened
+        --   filetype = "objc", -- file type set for buffer with logs
+        --   open_command = "Float {path}", -- command used to open logs panel. You must use {path} variable to load the log file
+        --   logs_formatter = "xcbeautify --disable-colored-output", -- command used to format logs, you can use "" to skip formatting
+        --   only_summary = false, -- if true logs won't be displayed, just xcodebuild.nvim summary
+        --   live_logs = true, -- if true logs will be updated in real-time
+        --   show_warnings = true, -- show warnings in logs summary
+        --   notify = function(message, severity) -- function to show notifications from this module (like "Build Failed")
+        --     vim.notify(message, severity)
+        --   end,
+        --   notify_progress = function(message) -- function to show live progress (like during tests)
+        --     vim.cmd("echo '" .. message .. "'")
+        --   end,
+        -- },
 
+      })
 
-  -- { "wojciech-kulik/xcodebuild.nvim",
-  --   dependencies = { "nvim-telescope/telescope.nvim" },
-  --   config = function()
-  --     require("xcodebuild").setup()
-
-  --     vim.keymap.set("n", "<leader>xl", "<cmd>XcodebuildToggleLogs<cr>", { desc = "Toggle Xcodebuild Logs" })
-  --     vim.keymap.set("n", "<leader>xb", "<cmd>XcodebuildBuild<cr>", { desc = "Build Project" })
-  --     vim.keymap.set("n", "<leader>xr", "<cmd>XcodebuildBuildRun<cr>", { desc = "Build & Run Project" })
-  --     vim.keymap.set("n", "<leader>xt", "<cmd>XcodebuildTest<cr>", { desc = "Run Tests" })
-  --     vim.keymap.set("n", "<leader>xT", "<cmd>XcodebuildTestClass<cr>", { desc = "Run This Test Class" })
-  --     vim.keymap.set("n", "<leader>X", "<cmd>XcodebuildPicker<cr>", { desc = "Show All Xcodebuild Actions" })
-  --     vim.keymap.set("n", "<leader>xd", "<cmd>XcodebuildSelectDevice<cr>", { desc = "Select Device" })
-  --     vim.keymap.set("n", "<leader>xp", "<cmd>XcodebuildSelectTestPlan<cr>", { desc = "Select Test Plan" })
-  --     vim.keymap.set("n", "<leader>xq", "<cmd>Telescope quickfix<cr>", { desc = "Show QuickFix List" })
-  --   end,
-  -- },
+      vim.keymap.set("n", "<leader>xl", "<cmd>XcodebuildToggleLogs<cr>", { desc = "Toggle Xcodebuild Logs" })
+      vim.keymap.set("n", "<leader>xb", "<cmd>XcodebuildBuild<cr>", { desc = "Build Project" })
+      vim.keymap.set("n", "<leader>xr", "<cmd>XcodebuildBuildRun<cr>", { desc = "Build & Run Project" })
+      vim.keymap.set("n", "<leader>xt", "<cmd>XcodebuildTest<cr>", { desc = "Run Tests" })
+      vim.keymap.set("n", "<leader>xT", "<cmd>XcodebuildTestClass<cr>", { desc = "Run This Test Class" })
+      vim.keymap.set("n", "<leader>X", "<cmd>XcodebuildPicker<cr>", { desc = "Show All Xcodebuild Actions" })
+      vim.keymap.set("n", "<leader>xd", "<cmd>XcodebuildSelectDevice<cr>", { desc = "Select Device" })
+      vim.keymap.set("n", "<leader>xp", "<cmd>XcodebuildSelectTestPlan<cr>", { desc = "Select Test Plan" })
+      vim.keymap.set("n", "<leader>xq", "<cmd>Telescope quickfix<cr>", { desc = "Show QuickFix List" })
+    end,
+  },
 
   'AndrewRadev/undoquit.vim',
 

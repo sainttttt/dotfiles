@@ -97,7 +97,7 @@ matches:
   - trigger: ";;hug1"
     replace: "https://cdn.discordapp.com/attachments/1117213342554144839/1117215020300910602/HugFrens.gif "
     propagate_case: false
-    word: true
+    word: false
 
   - trigger: ";;hug2"
     replace: "https://cdn.discordapp.com/emojis/765313892783751249.gif?size=240&quality=lossless "
@@ -134,6 +134,21 @@ matches:
   - trigger: ";;wave"
     replace: "https://media.discordapp.net/attachments/679399659843616831/967746694466928700/FrenWaving.gif"
     propagate_case: false
+
+  - trigger: ";;nap"
+    replace: "https://tenor.com/view/pepe-pepo-sleep-cofee-christmas-gif-19781381"
+    propagate_case: false
+
+  - trigger: ";;bed"
+    replace: "https://cdn.discordapp.com/emojis/682626761535651896.gif?size=160&quality=lossless"
+    propagate_case: false
+
+  - trigger: ";;jam"
+    replace: "https://cdn.discordapp.com/emojis/951199577787232296.gif?size=160&quality=lossless"
+    propagate_case: false
+
+
+
 
   # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
 

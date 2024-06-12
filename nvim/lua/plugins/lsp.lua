@@ -9,9 +9,10 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
   -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  -- vim.keymap.set('n', 'gf', [[<cmd>vsplit |  exe "normal \<c-w>l" | lua vim.lsp.buf.definition()<CR>]], bufopts)
+  vim.keymap.set('n', 'gf', [[<cmd>vsplit |  exe "normal! \<c-w>l" | exe "normal! \<C-]>"<CR>]], bufopts)
 
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'gd', "<C-]>", bufopts)
 
   -- vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
 

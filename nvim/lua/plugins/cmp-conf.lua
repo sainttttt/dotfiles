@@ -18,12 +18,12 @@ return {
     dependencies = { "rafamadriz/friendly-snippets" },
     config = function()
       vim.cmd([[
-      imap <silent><expr> <M-b> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Esc>'
+      imap <silent><expr> <M-n> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Esc>'
       " -1 for jumping backwards.
-      inoremap <silent> <M-B> <cmd>lua require'luasnip'.jump(-1)<Cr>
+      inoremap <silent> <M-N> <cmd>lua require'luasnip'.jump(-1)<Cr>
 
-      snoremap <silent> <M-b> <cmd>lua require('luasnip').jump(1)<Cr>
-      snoremap <silent> <M-B> <cmd>lua require('luasnip').jump(-1)<Cr>
+      snoremap <silent> <M-n> <cmd>lua require('luasnip').jump(1)<Cr>
+      snoremap <silent> <M-N> <cmd>lua require('luasnip').jump(-1)<Cr>
       ]])
 
       -- require("luasnip.loaders.from_vscode").lazy_load()

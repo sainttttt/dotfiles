@@ -22,7 +22,6 @@ return
               vim.keymap.set("t", "<C-j>", "<Down>", { silent = true, buffer = true })
               vim.keymap.set("t", "<C-k>", "<Up>", { silent = true, buffer = true })
               vim.keymap.set("n", "<esc>", "<C-w>h", { silent = true, buffer = true })
-              vim.keymap.set("t", "<Tab>", "<C-c>", { silent = true, buffer = true })
               vim.keymap.set("t", "<esc>", "<C-c>", { silent = true, buffer = true })
             end,
 
@@ -68,16 +67,17 @@ return
             -- set to `false` to remove a flag
             -- set to '' for a non-value flag
             -- for raw args use `fzf_args` instead
-            ['--ansi']        = '',
-            ['--info']        = 'inline',
-            ['--height']      = '100%',
-            ['--layout']      = 'default',
-            ['--keep-right']  = '',
-            ['--border']      = 'none',
-            ['--bind']      = 'change:top',
-            ["--prompt"]      = '† >',
-            ['--with-nth'] = '1..2',
-            ['--delimiter'] = ':',
+            ['--ansi']       = '',
+            ['--multi']      = true,
+            ['--info']       = 'inline',
+            ['--height']     = '100%',
+            ['--layout']     = 'default',
+            ['--keep-right'] = '',
+            ['--border']     = 'none',
+            ['--bind']       = 'change:top',
+            ["--prompt"]     = '† >',
+            ['--with-nth']   = '1..2',
+            ['--delimiter']  = ':',
           },
           keymap     = {
             fzf = {
@@ -86,13 +86,17 @@ return
               ["ctrl-h"] = "half-page-up",
               ["ctrl-l"] = "half-page-down",
               ["ctrl-n"] = "accept",
+              ["ctrl-a"] = "toggle-all",
             },
           },
+
+
           actions = {
             files = {
-              ["alt-v"]      = actions.file_vsplit,
-              ["alt-s"]      = actions.file_vsplit,
-              ["ctrl-v"]      = false,
+              ["alt-v"]  = actions.file_vsplit,
+              [	"alt-s"]  = actions.file_vsplit,
+              ["ctrl-v"] = false,
+              ["alt-b"]  = actions.file_sel_to_qf,
             },
 
             buffers = {
@@ -230,7 +234,7 @@ return
       },
     },
     {
-      'nvim-telescope/telescope.nvim', tag = '0.1.1',
+      'nvim-telescope/telescope.nvim',
       dependencies = { 'nvim-lua/plenary.nvim' },
       config = function()
 
