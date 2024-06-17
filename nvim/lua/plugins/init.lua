@@ -31,6 +31,13 @@ return {
   --   end
   -- },
   --
+  --
+
+  { 'NStefan002/screenkey.nvim',
+    config = function()
+    end
+  },
+
 
   { 'yssl/QFEnter',
     config = function()
@@ -82,11 +89,12 @@ return {
     end
   },
 
-  -- { 'andymass/vim-matchup',
-  --   config = function()
-  --     -- Configuration for andymass/vim-matchup
-  --   end
-  -- },
+  { 'andymass/vim-matchup',
+    config = function()
+      -- need this to work correctly
+      vim.cmd("map q %")
+    end
+  },
 
   -- {'brooth/far.vim',
   --   config = function()
@@ -567,17 +575,17 @@ return {
   --   end
   -- },
 
-  { "utilyre/sentiment.nvim",
-    version = "*",
-    event = "VeryLazy", -- keep for lazy loading
-    opts = {
-      -- config
-    },
-    init = function()
-      -- `matchparen.vim` needs to be disabled manually in case of lazy loading
-      vim.g.loaded_matchparen = 1
-    end,
-  },
+  -- { "utilyre/sentiment.nvim",
+  --   version = "*",
+  --   event = "VeryLazy", -- keep for lazy loading
+  --   opts = {
+  --     -- config
+  --   },
+  --   init = function()
+  --     -- `matchparen.vim` needs to be disabled manually in case of lazy loading
+  --     vim.g.loaded_matchparen = 1
+  --   end,
+  -- },
 
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
@@ -933,7 +941,11 @@ return {
 
   { "wojciech-kulik/xcodebuild.nvim",
     branch = 'fix/issue-149-2',
-    dependencies = { "nvim-telescope/telescope.nvim" },
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+
     config = function()
       require("xcodebuild").setup({
         -- logs = { -- build & test logs
@@ -1139,6 +1151,7 @@ return {
     },
     -- enabled = false,
     config = function()
+
       require("noice").setup {
         views = {
           mini = {
@@ -1238,18 +1251,19 @@ return {
           filter = { event = "msg_show", find = "nvim_win_close" },
           opts = { skip = true },
         },
-        lsp = {
-          message = {
-            -- Messages shown by lsp servers
-            enabled = false,
-          },
-          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-          override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = true,
-          },
-        },
+        lsp = { hover = {enabled = false } },
+        -- lsp = {
+        --   message = {
+        --     -- Messages shown by lsp servers
+        --     enabled = false,
+        --   },
+        --   -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        --   override = {
+        --     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        --     ["vim.lsp.util.stylize_markdown"] = true,
+        --     -- ["cmp.entry.get_documentation"] = true,
+        --   },
+        -- },
         -- you can enable a preset for easier configuration
         presets = {
           bottom_search = true,          -- use a classic bottom cmdline for search

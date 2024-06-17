@@ -55,6 +55,7 @@ bindkey '\e' vi-cmd-mode
 export KEYTIMEOUT=1
 
 
+export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 export PATH="/usr/local/opt/sqlite/bin:$PATH"
 export PATH=node_modules/.bin:$PATH

@@ -252,6 +252,7 @@ function _G.codeRun()
 end
 
 vim.keymap.set("n", "<leader>rr", "<cmd>lua codeRun()<CR>", {silent = true, noremap = true})
+vim.keymap.set("n", "<leader>re", "<cmd>RunFile<CR>", {silent = true, noremap = true})
 
 vim.cmd [[colorscheme flesh-and-blood]]
 

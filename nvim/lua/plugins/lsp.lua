@@ -1,6 +1,8 @@
-local completion_capabilities = require('cmp_nvim_lsp').default_capabilities();
+-- local completion_capabilities = require('cmp_nvim_lsp').default_capabilities();
 
 local on_attach = function(client, bufnr)
+  client.server_capabilities.hover = false
+  vim.lsp.handlers["textDocument/hover"] = false
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   -- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua show_line_diagnostics()]]
@@ -101,6 +103,11 @@ return {
 
       lspconfig.pyright.setup {
         on_attach = on_attach,
+        -- on_attach = function(client, bufnr)
+        --   client.resolved_capabilities.hover = false
+        --   on_attach(client, bufnr)
+        -- end,
+        -- handlers = { ["textDocument/hover"] = function() end }
       }
 
       lspconfig.lua_ls.setup {
@@ -138,36 +145,35 @@ return {
 
       lspconfig.sourcekit.setup {
         on_attach = on_attach,
-        capabilities = completion_capabilities,
+        -- capabilities = completion_capabilities,
         -- cmd = { "sourcekit-lsp" },
         filetypes = { "swift", "objective-c", "objective-cpp" },
         -- root_dir = lsp_config.util.root_pattern("Package.swift", ".git", "*.xcodeproj")
       }
     end
   },
-  {
-    'ranjithshegde/ccls.nvim',
-    config = function()
-      local util = require "lspconfig.util"
-      local server_config = {
-        filetypes = { "c", "cpp", "objc", "objcpp", "opencl" },
-        root_dir = function(fname)
-          return util.root_pattern("compile_commands.json", "compile_flags.txt", ".git")(fname)
-              or util.find_git_ancestor(fname)
-        end,
-        init_options = {
-          cache = {
-            directory = vim.fs.normalize "~/.cache/ccls"
-            -- or vim.fs.normalize "~/.cache/ccls" -- if on nvim 0.8 or higher
-          }
-        },
-        on_attach = on_attach,
-        capabilities = completion_capabilities,
-      }
-      require("ccls").setup { lsp = { lspconfig = server_config } }
-    end
-  },
-
+  -- {
+  --   'ranjithshegde/ccls.nvim',
+  --   config = function()
+  --     local util = require "lspconfig.util"
+  --     local server_config = {
+  --       filetypes = { "c", "cpp", "objc", "objcpp", "opencl" },
+  --       root_dir = function(fname)
+  --         return util.root_pattern("compile_commands.json", "compile_flags.txt", ".git")(fname)
+  --             or util.find_git_ancestor(fname)
+  --       end,
+  --       init_options = {
+  --         cache = {
+  --           directory = vim.fs.normalize "~/.cache/ccls"
+  --           -- or vim.fs.normalize "~/.cache/ccls" -- if on nvim 0.8 or higher
+  --         }
+  --       },
+  --       on_attach = on_attach,
+  --       capabilities = completion_capabilities,
+  --     }
+  --     require("ccls").setup { lsp = { lspconfig = server_config } }
+  --   end
+  -- },
 
   {
     'nvimdev/lspsaga.nvim',

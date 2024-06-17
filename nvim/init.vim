@@ -143,6 +143,7 @@ nnoremap aa a
 " todo: clean this up ""
 nmap at <leader>mt
 
+" select function textobject
 nm ar vafo
 nm ae vaIo
 
@@ -671,7 +672,7 @@ autocmd VimEnter * call StartCmd()
 " map <M-n> Tab
 " map <M-N> <S-Tab>
 
-nmap <leader>re <cmd>Lazy reload plugin yoke.vim<CR>
+nmap <leader>ee <cmd>Lazy reload plugin yoke.vim<CR>
 
 if !exists('g:neovide')
   hi Normal guibg=None
