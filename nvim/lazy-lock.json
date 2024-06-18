@@ -77,8 +77,8 @@
   "vim-matchup": { "branch": "master", "commit": "2d660e4aa7c566014c667af2cda0458043527902" },
   "vim-qf": { "branch": "master", "commit": "7e65325651ff5a0b06af8df3980d2ee54cf10e14" },
   "vim-searchx": { "branch": "main", "commit": "8ac2e88478a77793916bb3806882226871aa58e5" },
-  "xcodebuild.nvim": { "branch": "main", "commit": "b52a464652cd0e23ef1b71e9ea706dc7b16b18e1" },
+  "xcodebuild.nvim": { "branch": "fix/issue-149-2", "commit": "5bdd39f53053688994500cfbabeea19bac9171be" },
   "yanki.nvim": { "branch": "master", "commit": "ebccf6ec45c30a70a9a80bb93d2619584f2c6b8d" },
   "yoke.vim": { "branch": "master", "commit": "ee6220b9d8973c7bd5aedd590548f2d31bcbd730" },
-  "zen-mode.nvim": { "branch": "main", "commit": "3a14e01fde630e2b3ce1ad4f005676232bd857fe" }
+  "zen-mode.nvim": { "branch": "main", "commit": "837663d6c123652ff8e14d2111b1e4aa175848d1" }
 }
