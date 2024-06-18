@@ -51,3 +51,6 @@
   path = ~/.config/git/local
 [credential]
 	helper = osxkeychain
+[user]
+	email = sainttttt@x265.ca
+	name = Saint

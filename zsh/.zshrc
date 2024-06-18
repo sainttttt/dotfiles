@@ -39,7 +39,14 @@ bindkey '^R' history-incremental-search-backward
 export CLICOLOR=1
 setopt menu_complete
 # eval "$(pyenv init -)"
-PROMPT='✝ %4~ ✝  '
+
+
+if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
+  PROMPT='✝ %4~ ✝  '
+else
+  PROMPT=$HOST'✝ %4~ ✝  '
+fi
+
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format %d
 autoload -Uz compinit
