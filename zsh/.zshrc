@@ -4,9 +4,13 @@ zle -N bracketed-paste bracketed-paste-magic
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 
+if [[ $(uname) == "Darwin" ]]; then
+  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /usr/local/opt/asdf/libexec/asdf.sh
+fi
+
+export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 
 if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
   if [ "$TMUX" = "" ]; then
@@ -23,8 +27,9 @@ fi
 
 export TMUX=tmux
 
-source /usr/local/opt/asdf/libexec/asdf.sh
-eval "$(anyenv init -)"
+# eval "$(anyenv init -)"
+# eval "$(pyenv init -)"
+#
 export EDITOR=nvim
 
 PROMPT_COMMAND='echo -ne "\033]0;$(basename ${PWD})\007"'
@@ -38,7 +43,6 @@ export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 bindkey '^R' history-incremental-search-backward
 export CLICOLOR=1
 setopt menu_complete
-# eval "$(pyenv init -)"
 
 
 if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
@@ -63,7 +67,6 @@ export PATH=$PATH:~/bin/
 bindkey '\e' vi-cmd-mode
 # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
 export KEYTIMEOUT=1
-
 
 export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -95,7 +98,6 @@ alias rml="cd ~/code/reddit-ml"
 setopt auto_cd
 cdpath=($HOME/code)
 typeset -U path cdpath fpath
-
 
 export LDFLAGS="-L/usr/local/opt/curl/lib"
 export CPPFLAGS="-I/usr/local/opt/curl/include"
