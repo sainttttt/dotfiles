@@ -616,8 +616,9 @@ return {
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
 
-  { dir = "~/code/vim-searchx",
-    -- "sainttttt/vim-searchx",
+  {
+    -- dir = "~/code/vim-searchx",
+    "sainttttt/vim-searchx",
     -- branch = "mod",
     config = function()
       -- vim.keymap.set("n", "as", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
@@ -875,7 +876,8 @@ return {
 
 
   {
-    dir = "~/code/lucy.nvim",
+    -- dir = "~/code/lucy.nvim",
+    "sainttttt/lucy.nvim",
     config = function()
       local lucy = require("lucy")
       lucy.setup()
