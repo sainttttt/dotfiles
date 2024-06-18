@@ -7,14 +7,17 @@ zle -N self-insert url-quote-magic
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 
-if [ "$TMUX" = "" ]; then
-  if [ "$WINTYPE" = "dropdown" ]; then
-    tmux new-session -A -s dropdown
-  elif [ "$TERM" = "alacritty" ]; then
-    printf "\e[?1042l"
-    aerc
-  else
-    tmux new-session -A -s main
+
+if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
+  if [ "$TMUX" = "" ]; then
+    if [ "$WINTYPE" = "dropdown" ]; then
+      tmux new-session -A -s dropdown
+    elif [ "$TERM" = "alacritty" ]; then
+      printf "\e[?1042l"
+      aerc
+    else
+      tmux new-session -A -s main
+    fi
   fi
 fi
 

@@ -9,6 +9,11 @@
 # it gets replaced by the "replace" string.
 matches:
 
+
+  - trigger: ";;jr"
+    replace: "Hi! I was just wondering if this position is still available? Thanks!"
+    propagate_case: false
+
   - trigger: ";;rn"
     replace: "site:reddit.com/r/ after:2023-01-01"
     propagate_case: false

@@ -479,9 +479,12 @@ return {
     end
   },
 
-  { "sainttttt/zen-mode.nvim",
+  {
+    -- "sainttttt/zen-mode.nvim",
+    dir =  "~/code/zen-mode.nvim",
     -- "folke/zen-mode.nvim",
     config = function()
+      local zenmode = require('zen-mode')
 
       vim.keymap.set('n', 'vf', function()
         vim.cmd("ZenMode")
@@ -494,18 +497,19 @@ return {
 
       vim.keymap.set('n', '<C-h>', function()
         if vim.g.zen_opened then
-          vim.cmd("ZenMode")
+          zenmode.close({amount = 'half'})
           vim.cmd([[exe "norm! \<C-w>h"]])
-          vim.cmd("ZenMode")
+          zenmode.open({amount = 'half'})
         else
           vim.cmd([[exe "norm! \<C-w>h"]])
         end
       end)
+
       vim.keymap.set('n', '<C-t>', function()
         if vim.g.zen_opened then
-          vim.cmd("ZenMode")
+          zenmode.close({amount = 'half'})
           vim.cmd([[exe "norm! \<C-w>l"]])
-          vim.cmd("ZenMode")
+          zenmode.open({amount = 'half'})
         else
           vim.cmd([[exe "norm! \<C-w>l"]])
         end
