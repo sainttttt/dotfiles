@@ -482,6 +482,7 @@ return {
   { "sainttttt/zen-mode.nvim",
     -- "folke/zen-mode.nvim",
     config = function()
+
       vim.keymap.set('n', 'vf', function()
         vim.cmd("ZenMode")
         -- vim.cmd("TSContextDisable")
@@ -489,6 +490,25 @@ return {
         -- vim.cmd("redraw")
         -- vim.cmd("exec 'normal l'")
         -- vim.cmd("redraw")
+      end)
+
+      vim.keymap.set('n', '<C-h>', function()
+        if vim.g.zen_opened then
+          vim.cmd("ZenMode")
+          vim.cmd([[exe "norm! \<C-w>h"]])
+          vim.cmd("ZenMode")
+        else
+          vim.cmd([[exe "norm! \<C-w>h"]])
+        end
+      end)
+      vim.keymap.set('n', '<C-t>', function()
+        if vim.g.zen_opened then
+          vim.cmd("ZenMode")
+          vim.cmd([[exe "norm! \<C-w>l"]])
+          vim.cmd("ZenMode")
+        else
+          vim.cmd([[exe "norm! \<C-w>l"]])
+        end
       end)
 
 
@@ -523,6 +543,8 @@ return {
           vim.g.zen_opened = false
         end,
       }
+
+
     end
   },
 
