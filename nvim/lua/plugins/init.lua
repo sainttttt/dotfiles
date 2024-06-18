@@ -273,7 +273,8 @@ return {
   --   end
   -- },
 
-  { dir = "~/code/yoke.vim",
+  {
+    -- dir = "~/code/yoke.vim",
     'sainttttt/yoke.vim',
     config = function()
       require('yoke').setup()
@@ -480,8 +481,8 @@ return {
   },
 
   {
-    -- "sainttttt/zen-mode.nvim",
-    dir =  "~/code/zen-mode.nvim",
+    "sainttttt/zen-mode.nvim",
+    -- dir =  "~/code/zen-mode.nvim",
     -- "folke/zen-mode.nvim",
     config = function()
       local zenmode = require('zen-mode')
