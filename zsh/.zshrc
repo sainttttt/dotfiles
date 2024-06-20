@@ -8,9 +8,12 @@ zle -N self-insert url-quote-magic
 if [[ $(uname) == "Darwin" ]]; then
   source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/local/opt/asdf/libexec/asdf.sh
+  export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
+  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+  export PATH="/usr/local/opt/sqlite/bin:$PATH"
+  export PATH=/usr/local/opt/curl/bin:$PATH
 else
   source "$HOME/.asdf/asdf.sh"
-  source "$HOME/.asdf/completions/asdf.bash"
 fi
 
 export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
@@ -71,12 +74,9 @@ bindkey '\e' vi-cmd-mode
 # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
 export KEYTIMEOUT=1
 
-export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-export PATH="/usr/local/opt/sqlite/bin:$PATH"
+
 export PATH=node_modules/.bin:$PATH
-export PATH=/usr/local/opt/curl/bin:$PATH
-export PATH=/usr/local/opt/curl/bin:$PATH
+
 export PATH=/Users/saint/.local/bin:$PATH
 
 # export PATH="/usr/local/anaconda3/bin:$PATH"  # commented out by conda initialize
@@ -166,7 +166,7 @@ alias vim="nvim"
 alias vi="vim"
 
 alias jk="jobs -p | grep -o -E '\s\d+\s'  | xargs kill -9"
-alias ll="ls -ltrh"
+alias ll="ls -ltrh --color"
 alias l="ll"
 alias reload="source ~/.zshrc"
 alias lf="ls -tr1 | tail -n 1"
@@ -299,3 +299,6 @@ export PATH=$PATH:~/.nimble/bin/
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 
 
+
+. "$HOME/.atuin/bin/env"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

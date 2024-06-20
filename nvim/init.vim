@@ -39,8 +39,8 @@ nn <silent> <Right> :tabprevious<CR>
 nn <silent> <Left> :tabprevious<CR>
 nnoremap 22 zz
 
-autocmd BufEnter * call system("tmux rename-window " . expand("%:t"))
-autocmd VimLeave * call system("tmux rename-window zsh")
+" autocmd BufEnter * call system("tmux rename-window " . expand("%:t"))
+" autocmd VimLeave * call system("tmux rename-window zsh")
 autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
 set title
 

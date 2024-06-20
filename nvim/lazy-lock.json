@@ -16,7 +16,7 @@
   "conform.nvim": { "branch": "master", "commit": "63e0a32c85a39484813957dc480f171907aa90b9" },
   "diffview.nvim": { "branch": "main", "commit": "3afa6a053f680e9f1329c4a151db988a482306cd" },
   "everybody-wants-that-line.nvim": { "branch": "saint", "commit": "43d5a2d1b1b3c3448747b25a88a696ae46af2d3e" },
-  "flesh-and-blood": { "branch": "master", "commit": "2ff18ffb8bda485840e01c0fb91626c97d2255fd" },
+  "flesh-and-blood": { "branch": "master", "commit": "6b3ebc5cff9365bf69d216ff7b4797b692eb2e0e" },
   "friendly-snippets": { "branch": "main", "commit": "d0610077b6129cf9f7f78afbe3a1425d60f6e2f1" },
   "fzf-lua": { "branch": "main", "commit": "b92220ec838c195eb1c711daa69c905b1d7b8d8c" },
   "guess-indent.nvim": { "branch": "main", "commit": "b8ae749fce17aa4c267eec80a6984130b94f80b2" },
@@ -77,7 +77,7 @@
   "vim-matchup": { "branch": "master", "commit": "2d660e4aa7c566014c667af2cda0458043527902" },
   "vim-qf": { "branch": "master", "commit": "7e65325651ff5a0b06af8df3980d2ee54cf10e14" },
   "vim-searchx": { "branch": "mod", "commit": "37044bd947bad271de739fd910027d8532af9ec9" },
-  "xcodebuild.nvim": { "branch": "fix/issue-149-2", "commit": "5bdd39f53053688994500cfbabeea19bac9171be" },
+  "xcodebuild.nvim": { "branch": "main", "commit": "b52a464652cd0e23ef1b71e9ea706dc7b16b18e1" },
   "yanki.nvim": { "branch": "master", "commit": "ebccf6ec45c30a70a9a80bb93d2619584f2c6b8d" },
   "yoke.vim": { "branch": "master", "commit": "ee6220b9d8973c7bd5aedd590548f2d31bcbd730" },
   "zen-mode.nvim": { "branch": "main", "commit": "3a14e01fde630e2b3ce1ad4f005676232bd857fe" }
