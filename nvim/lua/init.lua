@@ -258,7 +258,11 @@ vim.cmd [[colorscheme flesh-and-blood]]
 
 
 -- Array of file names indicating root directory. Modify to your liking.
-local root_names = { '.git',
+
+local override_root_names  = { '.proot'}
+
+local root_names = { '.root',
+                    '.git',
                      'project.toml',
                      ".clang-format",
                      "pyproject.toml",
@@ -292,6 +296,9 @@ local set_root = function()
       root = obsidian_root
     else
       local root_file = vim.fs.find(root_names, { path = path, upward = true })[1]
+
+      local override_root_file = vim.fs.find(override_root_names, { path = path, upward = true })[1]
+      root_file = override_root_file or root_file
       if root_file == nil then
         root = vim.loop.cwd()
       else
@@ -446,6 +453,12 @@ function _G.changeGuiFontSize(decrease)
     currentFontSize = currentFontSize - 1
   end
   vim.o.guifont = guifont:gsub(":h.*",":h"..currentFontSize)
+end
+
+function _G.saveSessionQuit(decrease)
+  if vim.bo.filetype ~= "alpha" then
+    require('mini.sessions').write('main')
+  end
 end
 
 vim.keymap.set({"n", "x"}, "<D-=>", "<cmd>lua changeGuiFontSize()<CR>", {silent = true, noremap = true})

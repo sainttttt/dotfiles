@@ -8,6 +8,9 @@ zle -N self-insert url-quote-magic
 if [[ $(uname) == "Darwin" ]]; then
   source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/local/opt/asdf/libexec/asdf.sh
+else
+  source "$HOME/.asdf/asdf.sh"
+  source "$HOME/.asdf/completions/asdf.bash"
 fi
 
 export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
@@ -242,6 +245,7 @@ alias g++="g++-13"
 # start vim with pickers
 alias as="nvim -c \"let g:startcmd='as'\""
 alias af="nvim -c \"let g:startcmd='af'\""
+alias xx="nvim -c \"let g:restore='1'\""
 
 alias fa="fg"
 
@@ -261,6 +265,11 @@ vi-fg() { zle vi-insert; zle kill-whole-line; BUFFER=fg; zle accept-line }
 zle -N vi-fg
 bindkey -M vicmd "^[v" vi-fg
 bindkey -M viins "^[v" vi-fg
+
+bindkey -M vicmd "^R" atuin-search-vicmd
+bindkey -M vicmd 'k' up-line-or-history
+bindkey -M vicmd 'j' down-line-or-history
+
 
 vi-back() { zle vi-insert; zle kill-whole-line; cd .. ; zle accept-line }
 zle -N vi-back

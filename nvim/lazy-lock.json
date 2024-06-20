@@ -28,7 +28,7 @@
   "lush.nvim": { "branch": "main", "commit": "7c0e27f50901481fe83b974493c4ea67a4296aeb" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "a4caa0d083aab56f6cd5acf2d42331b74614a585" },
   "mason.nvim": { "branch": "main", "commit": "0950b15060067f752fde13a779a994f59516ce3d" },
-  "mini.nvim": { "branch": "main", "commit": "e08626092574872cdfa7aa2e2f2a83ce1e156ccd" },
+  "mini.nvim": { "branch": "main", "commit": "ebc8cb0c1f73ee6c53e0560957a37a2307a70f98" },
   "netrw.nvim": { "branch": "master", "commit": "c64f60b8a613900aad82ef1c285b892eb43e9e15" },
   "nim.nvim": { "branch": "master", "commit": "076239e8869e3e9b061b17cbca2cea2df73d5f92" },
   "noice.nvim": { "branch": "main", "commit": "f65b6b7ab87796f93ea8f8a92d5a64dc53d912d1" },
@@ -76,9 +76,9 @@
   "vim-fugitive": { "branch": "master", "commit": "4f59455d2388e113bd510e85b310d15b9228ca0d" },
   "vim-matchup": { "branch": "master", "commit": "2d660e4aa7c566014c667af2cda0458043527902" },
   "vim-qf": { "branch": "master", "commit": "7e65325651ff5a0b06af8df3980d2ee54cf10e14" },
-  "vim-searchx": { "branch": "main", "commit": "8ac2e88478a77793916bb3806882226871aa58e5" },
+  "vim-searchx": { "branch": "mod", "commit": "37044bd947bad271de739fd910027d8532af9ec9" },
   "xcodebuild.nvim": { "branch": "fix/issue-149-2", "commit": "5bdd39f53053688994500cfbabeea19bac9171be" },
   "yanki.nvim": { "branch": "master", "commit": "ebccf6ec45c30a70a9a80bb93d2619584f2c6b8d" },
   "yoke.vim": { "branch": "master", "commit": "ee6220b9d8973c7bd5aedd590548f2d31bcbd730" },
-  "zen-mode.nvim": { "branch": "main", "commit": "837663d6c123652ff8e14d2111b1e4aa175848d1" }
+  "zen-mode.nvim": { "branch": "main", "commit": "3a14e01fde630e2b3ce1ad4f005676232bd857fe" }
 }

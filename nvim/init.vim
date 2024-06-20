@@ -356,10 +356,10 @@ let g:searchx.markers = split('FDSREWVCXAQZUIOPHJKLBNMTYGVB', '.\zs')
 " Convert search pattern.
 function g:searchx.convert(input) abort
   return a:input
-  " if a:input !~# '\k'
-  "   return '\V' .. a:input
-  " endif
-  " return a:input[0] .. substitute(a:input[1:], '\\\@<! ', '.\\{-}', 'g')
+  if a:input !~# '\k'
+    return '\V' .. a:input
+  endif
+  return a:input[0] .. substitute(a:input[1:], '\\\@<! ', '.\\{-}', 'g')
 endfunction
 
 
@@ -664,10 +664,14 @@ augroup END
 function! StartCmd()
   if exists("g:startcmd")
     exec "normal ". g:startcmd
+  elseif exists("g:restore")
+    exec "normal! \<Cmd>lua require('mini.sessions').read('main')\<CR>"
   endif
 endfunction
 
+
 autocmd VimEnter * call StartCmd()
+autocmd VimLeave * lua saveSessionQuit()
 
 " map <M-n> Tab
 " map <M-N> <S-Tab>

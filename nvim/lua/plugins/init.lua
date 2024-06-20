@@ -170,9 +170,11 @@ return {
       -- require('mini.comment').setup()
 
       require('mini.sessions').setup({
-        autoread = false,
+        autoread = true,
         autowrite = true,
         directory = "~/.local/share/nvim/sessions",
+        verbose = { read = false, write = false, delete = false },
+
       })
     end
   },
@@ -427,29 +429,28 @@ return {
   --   end
   -- },
 
-  -- {
-  --   'tzachar/highlight-undo.nvim',
-  --   config = function()
-  --     require('highlight-undo').setup({
-  --       duration = 300,
-  --       undo = {
-  --         hlgroup = 'HighlightUndo',
-  --         mode = 'n',
-  --         lhs = 'u',
-  --         map = 'undo',
-  --         opts = {}
-  --       },
-  --       redo = {
-  --         hlgroup = 'HighlightUndo',
-  --         mode = 'n',
-  --         lhs = '<C-r>',
-  --         map = 'redo',
-  --         opts = {}
-  --       },
-  --       highlight_for_count = true,
-  --     })
-  --   end
-  -- },
+  { 'tzachar/highlight-undo.nvim',
+    config = function()
+      require('highlight-undo').setup({
+        duration = 500,
+        undo = {
+          hlgroup = 'HighlightUndo',
+          mode = 'n',
+          lhs = 'u',
+          map = 'undo',
+          opts = {}
+        },
+        redo = {
+          hlgroup = 'HighlightUndo',
+          mode = 'n',
+          lhs = '<C-r>',
+          map = 'redo',
+          opts = {}
+        },
+        highlight_for_count = true,
+      })
+    end
+  },
 
 
   -- 'kkharji/sqlite.lua',
@@ -620,11 +621,11 @@ return {
   {
     -- dir = "~/code/vim-searchx",
     "sainttttt/vim-searchx",
-    -- branch = "mod",
+    branch = "mod",
     config = function()
       -- vim.keymap.set("n", "as", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       -- vim.keymap.set("n", "as", "<Nop>")
-      vim.keymap.set("n", "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
+      vim.keymap.set("n", "f", "<cmd>silent! call searchx#start({ 'dir': 1 })<CR>", { silent = true })
       -- vim.keymap.set("n", "<leader>m", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
       vim.keymap.set("n", "/", "<Esc>")
     end
