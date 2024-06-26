@@ -1,3 +1,17 @@
+[[ -r ~/.local/share/znap/znap.zsh ]] ||
+    git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/.local/share/znap
+source ~/.local/share/znap/znap.zsh
+
+
+
+plugins=(git)
+
+export ZSH="$HOME/.oh-my-zsh"
+
+source $ZSH/oh-my-zsh.sh
+
+# znap source marlonrichert/zsh-autocomplete
+
 # Disable globbing for URLs
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
@@ -5,8 +19,10 @@ autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
 
+export ZSH_AUTOSUGGEST_STRATEGY=(completion)
 if [[ $(uname) == "Darwin" ]]; then
-  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+  # source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/local/opt/asdf/libexec/asdf.sh
   export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -14,9 +30,10 @@ if [[ $(uname) == "Darwin" ]]; then
   export PATH=/usr/local/opt/curl/bin:$PATH
 else
   source "$HOME/.asdf/asdf.sh"
+  . "$HOME/.atuin/bin/env"
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
-export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 
 if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
   if [ "$TMUX" = "" ]; then
@@ -256,7 +273,19 @@ zle -N nop
 bindkey -M vicmd "^H" nop
 bindkey -M viins "^H" nop
 
-vi-ls() { zle vi-insert; l; zle kill-whole-line; zle accept-line }
+vi-ls() {
+  BUFFER_TRIM="$(echo -e "${BUFFER}" | tr -d '[:space:]')"
+  zle vi-insert;
+  if [[ ! -z $BUFFER_TRIM ]]; then
+    zle complete-word
+    BUFFER=$BUFFER"; l"
+    zle accept-line;
+  else
+    BUFFER=l;
+    zle accept-line
+  fi
+
+}
 zle -N vi-ls
 bindkey -M vicmd "^A" vi-ls
 bindkey -M viins "^A" vi-ls
@@ -299,6 +328,12 @@ export PATH=$PATH:~/.nimble/bin/
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 
 
+function ssh_tmux(){
+    tmux set-window-option window-status-current-style fg=black,bg=magenta 2> /dev/null
+    tmux set-window-option window-status-style fg=magenta,bg=black > /dev/null
+    ssh "$@"
+    tmux set-window-option window-status-current-style fg=black,bg=white 2> /dev/null
+    tmux set-window-option window-status-style fg=white,bg=black 2> /dev/null
+}
+alias ssh=ssh_tmux
 
-. "$HOME/.atuin/bin/env"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

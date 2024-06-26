@@ -367,7 +367,7 @@ endfunction
 "
 
 iab cl console.log
-iab pr print
+iab p print
 
 " autocmd BufRead * DetectIndent
 

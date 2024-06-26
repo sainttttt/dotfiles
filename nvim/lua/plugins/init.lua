@@ -33,6 +33,34 @@ return {
   --
   --
 
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "debugloop/telescope-undo.nvim",
+    },
+    config = function()
+      require("telescope").setup({
+        -- the rest of your telescope config goes here
+        extensions = {
+          undo = {
+            -- telescope-undo.nvim config, see below
+          },
+          -- other extensions:
+          -- file_browser = { ... }
+        },
+      })
+      require("telescope").load_extension("undo")
+      -- optional: vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
+    end,
+  },
+
+    {
+        "lukas-reineke/headlines.nvim",
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        config = true, -- or `opts = {}`
+    },
+
   { 'NStefan002/screenkey.nvim',
     config = function()
     end
@@ -695,9 +723,8 @@ return {
         --   local logger = require "xbase.logger"
         --   logger.toggle()
         -- else
-          if true then
+        if true then
           vim.cmd("ToggleTerm")
-          -- require("FTerm").toggle()
         end
       end
 

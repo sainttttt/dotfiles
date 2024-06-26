@@ -1,3 +1,5 @@
+require("float")
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -74,6 +76,7 @@ function _G.set_terminal_keymaps()
   -- vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
   vim.keymap.set('t', '<C-]>', '<C-\\><C-n>', opts)
   vim.keymap.set('t', '<leader>rr', '<C-c>', opts)
+  vim.keymap.set('t', '<leader>re',  "<cmd>lua codeRunFile()<CR>", opts)
   if require'toggleterm' then
     vim.keymap.set('t', '<m-c>', TermToggle, opts)
   end
@@ -251,8 +254,15 @@ function _G.codeRun()
   end
 end
 
+function _G.codeRunFile()
+  local file_cmd = require("code_runner.commands").get_filetype_command()
+  vim.cmd('TermExec cmd=""')
+  vim.cmd(string.format('TermExec cmd="%s"', command_to_run))
+end
+
+
 vim.keymap.set("n", "<leader>rr", "<cmd>lua codeRun()<CR>", {silent = true, noremap = true})
-vim.keymap.set("n", "<leader>re", "<cmd>RunFile<CR>", {silent = true, noremap = true})
+vim.keymap.set("n", "<leader>re", "<cmd>lua codeRunFile()<CR>", {silent = true, noremap = true})
 
 vim.cmd [[colorscheme flesh-and-blood]]
 
@@ -281,11 +291,7 @@ end
 local set_root = function()
   -- Get directory path to start search from
   local path = vim.api.nvim_buf_get_name(0)
-  if path == '' then
-    path = vim.loop.cwd()
-  else
-    path = vim.fs.dirname(path)
-  end
+  path = vim.fs.dirname(path)
 
   -- Try cache and resort to searching upward for root directory
   local root = root_cache[path]
@@ -300,7 +306,7 @@ local set_root = function()
       local override_root_file = vim.fs.find(override_root_names, { path = path, upward = true })[1]
       root_file = override_root_file or root_file
       if root_file == nil then
-        root = vim.loop.cwd()
+        root = path
       else
         root = vim.fs.dirname(root_file)
         root_cache[path] = root
@@ -482,4 +488,11 @@ vim.keymap.set("n",    "<leader>tt",
 -- Might be more stable now in recent treesitter versions.
 
 
-require("float")
+function _G.revert(decrease)
+  local isMod = vim.api.nvim_buf_get_option(0, "mod")
+  if isMod then
+    vim.cmd([[earlier 1f]])
+  end
+end
+
+
