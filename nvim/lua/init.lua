@@ -76,7 +76,7 @@ function _G.set_terminal_keymaps()
   -- vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
   vim.keymap.set('t', '<C-]>', '<C-\\><C-n>', opts)
   vim.keymap.set('t', '<leader>rr', '<C-c>', opts)
-  vim.keymap.set('t', '<leader>re',  "<cmd>lua codeRunFile()<CR>", opts)
+  vim.keymap.set('t', '<leader>re',  "<cmd>lua codeRun({fileRun = true})<CR>", opts)
   if require'toggleterm' then
     vim.keymap.set('t', '<m-c>', TermToggle, opts)
   end
@@ -220,7 +220,7 @@ end
 ---
 --
 Last_coderun = ""
-function _G.codeRun()
+function _G.codeRun(opts)
   vim.cmd ("up")
   local buf = vim.api.nvim_get_current_buf()
   local ft = vim.api.nvim_get_option_value("filetype", {buf = buf})
@@ -236,7 +236,10 @@ function _G.codeRun()
       -- print("here")
       vim.cmd('TermExec cmd=""')
     end
-    if proj_cmd ~= nil then
+
+    if opts['fileRun'] then
+      command_to_run = file_cmd
+    elseif proj_cmd ~= nil then
       -- vim.cmd("RunProject")
       command_to_run = proj_cmd["command"]
     elseif file_cmd ~= "" then
@@ -262,7 +265,7 @@ end
 
 
 vim.keymap.set("n", "<leader>rr", "<cmd>lua codeRun()<CR>", {silent = true, noremap = true})
-vim.keymap.set("n", "<leader>re", "<cmd>lua codeRunFile()<CR>", {silent = true, noremap = true})
+vim.keymap.set("n", "<leader>re", "<cmd>lua codeRun({fileRun = true})<CR>", {silent = true, noremap = true})
 
 vim.cmd [[colorscheme flesh-and-blood]]
 
@@ -315,8 +318,10 @@ local set_root = function()
   end
 
   -- Set current directory
-  vim.fn.chdir(root)
-  vim.o.shadafile = root .. '/.vim/main.shada'
+  if root ~= nil and not string.starts(root, "term://") then
+    vim.fn.chdir(root)
+    vim.o.shadafile = root .. '/.vim/main.shada'
+  end
 end
 
 local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})

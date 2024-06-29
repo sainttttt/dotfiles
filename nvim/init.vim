@@ -48,9 +48,16 @@ set title
 " motion
 """"""""""""""""""""""""""""
 " nn u <Nop>
-nn <C-u> u
+nn <C-u> <nop>
 nn U <Nop>
 nn <C-n> <nop>
+ino <M-i> {
+ino <M-o> }
+ino <M-X> =
+ino <C-u> .
+ino <C-o> ,
+
+nn aw yw
 
 nm ac vafo
 
@@ -255,9 +262,6 @@ nnoremap K 15k
 nnoremap <silent>L :MoveCursor<cr>
 nnoremap <silent>H :MoveCursor b<cr>
 
-" grep search
-nm <silent><M-i> <C-u>
-nm <M-u> <Nop>
 
 nnoremap <silent><M-down> :MoveCursor<cr>
 nnoremap <silent><M-up> : MoveCursor b<cr>
@@ -367,7 +371,7 @@ endfunction
 "
 
 iab cl console.log
-iab p print
+iab pr print
 
 " autocmd BufRead * DetectIndent
 

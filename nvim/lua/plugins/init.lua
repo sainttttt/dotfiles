@@ -33,33 +33,12 @@ return {
   --
   --
 
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "debugloop/telescope-undo.nvim",
-    },
-    config = function()
-      require("telescope").setup({
-        -- the rest of your telescope config goes here
-        extensions = {
-          undo = {
-            -- telescope-undo.nvim config, see below
-          },
-          -- other extensions:
-          -- file_browser = { ... }
-        },
-      })
-      require("telescope").load_extension("undo")
-      -- optional: vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
-    end,
-  },
 
-    {
-        "lukas-reineke/headlines.nvim",
-        dependencies = "nvim-treesitter/nvim-treesitter",
-        config = true, -- or `opts = {}`
-    },
+  {
+    "lukas-reineke/headlines.nvim",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = true, -- or `opts = {}`
+  },
 
   { 'NStefan002/screenkey.nvim',
     config = function()
@@ -374,7 +353,7 @@ return {
       })
       vim.api.nvim_create_autocmd('CursorMovedI', {
         callback = function()
-          if pair_insert then return end
+          if pair_insert then pair_insert=false return end
           save = {}
         end,
         group = group
@@ -1308,7 +1287,10 @@ return {
           filter = { event = "msg_show", find = "nvim_win_close" },
           opts = { skip = true },
         },
-        lsp = { hover = {enabled = false } },
+        lsp = {
+          hover = {enabled = false },
+          signature = { enabled = false },
+        },
         -- lsp = {
         --   message = {
         --     -- Messages shown by lsp servers
