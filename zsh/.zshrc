@@ -14,13 +14,17 @@ zle -N self-insert url-quote-magic
 
 export ZSH_AUTOSUGGEST_STRATEGY=(completion)
 if [[ $(uname) == "Darwin" ]]; then
-  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/local/opt/asdf/libexec/asdf.sh
+
+  # not sure if I need/want this stuff
+  export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
+  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 else
   source "$HOME/.asdf/asdf.sh"
-  source "$HOME/.asdf/completions/asdf.bash"
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
   if [ "$TMUX" = "" ]; then
@@ -78,8 +82,6 @@ bindkey '\e' vi-cmd-mode
 # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
 export KEYTIMEOUT=1
 
-export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 export PATH="/usr/local/opt/sqlite/bin:$PATH"
 export PATH=node_modules/.bin:$PATH
 export PATH=/usr/local/opt/curl/bin:$PATH
