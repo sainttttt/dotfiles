@@ -1,16 +1,10 @@
-[[ -r ~/.local/share/znap/znap.zsh ]] ||
-    git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/.local/share/znap
-source ~/.local/share/znap/znap.zsh
-
-
-
-plugins=(git)
-
-export ZSH="$HOME/.oh-my-zsh"
-
-source $ZSH/oh-my-zsh.sh
-
+# [[ -r ~/.local/share/znap/znap.zsh ]] ||
+#     git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/.local/share/znap
+# source ~/.local/share/znap/znap.zsh
 # znap source marlonrichert/zsh-autocomplete
+
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
 
 # Disable globbing for URLs
 autoload -Uz bracketed-paste-magic
@@ -18,20 +12,13 @@ zle -N bracketed-paste bracketed-paste-magic
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
-
 export ZSH_AUTOSUGGEST_STRATEGY=(completion)
 if [[ $(uname) == "Darwin" ]]; then
-  source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-  # source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/local/opt/asdf/libexec/asdf.sh
-  export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
-  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-  export PATH="/usr/local/opt/sqlite/bin:$PATH"
-  export PATH=/usr/local/opt/curl/bin:$PATH
 else
   source "$HOME/.asdf/asdf.sh"
-  . "$HOME/.atuin/bin/env"
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  source "$HOME/.asdf/completions/asdf.bash"
 fi
 
 
@@ -91,9 +78,12 @@ bindkey '\e' vi-cmd-mode
 # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
 export KEYTIMEOUT=1
 
-
+export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+export PATH="/usr/local/opt/sqlite/bin:$PATH"
 export PATH=node_modules/.bin:$PATH
-
+export PATH=/usr/local/opt/curl/bin:$PATH
+export PATH=/usr/local/opt/curl/bin:$PATH
 export PATH=/Users/saint/.local/bin:$PATH
 
 # export PATH="/usr/local/anaconda3/bin:$PATH"  # commented out by conda initialize
@@ -126,7 +116,9 @@ export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacO
 
 
 ## youtube stuff
-alias adl='aydl(){ cd /Volumes/SSD3/Streams; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
+STREAMS_FOLDER=/Volumes/SSD1/Streams
+
+alias adl='aydl(){ cd $STREAMS_FOLDER; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
 alias a='adl'
 alias g="git"
 
@@ -138,20 +130,27 @@ test() {
 }
 
 yt() {
-  cd /Volumes/SSD3/Streams
+  cd $STREAMS_FOLDER
   yt-dlp --no-playlist "$@"
 }
 
 y() {
   startTime=$(timeToSecs $2)
   endTime=$(timeToSecs $3)
-  cd /Volumes/SSD3/Streams
-  yt-dlp --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
+  cd $STREAMS_FOLDER;
+  # yt-dlp -S "+codec:avc:m4a" -f "bv[height<=?720]" --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
+  yt-dlp  -f "bv[height<=?720]+ba/b[height<=720]" --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
+}
+
+yf() {
+  cd $STREAMS_FOLDER;
+  # yt-dlp -S "+codec:avc:m4a" -f "bv[height<=?720]" --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
+  yt-dlp --no-playlist $1
 }
 
 function ns { ffmpeg -i "$1" -c copy -an "${1%.*}-nosound.${1#*.}" }
 
-mp4() { ffmpeg -i $1 -c:a aac -c:v libx264 -crf 22 "$(echo "$1"  | sed -e "s/\..*/\.mp4/")" }
+mp4() { ffmpeg -i $1 -c:a aac -c:v libx264 -crf 24 "$(echo "$1"  | sed -e "s/\..*/\.mp4/")" }
 
 alias sf='singlef(){ cd ~/Screenshots/;  single-file --browser-executable-path /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "$1"}; singlef'
 
@@ -183,7 +182,7 @@ alias vim="nvim"
 alias vi="vim"
 
 alias jk="jobs -p | grep -o -E '\s\d+\s'  | xargs kill -9"
-alias ll="ls -ltrh --color"
+alias ll="ls -ltrh"
 alias l="ll"
 alias reload="source ~/.zshrc"
 alias lf="ls -tr1 | tail -n 1"
@@ -228,7 +227,8 @@ alias vrc='vim ~/.zshrc'
 alias ghc='gh repo create --source .'
 alias ghd='gh repo delete'
 
-t() { cd /Volumes/SSD3/Streams; yt-dlp --cookies-from-browser brave "$@" }
+
+t() { cd $STREAMS_FOLDER; yt-dlp --cookies-from-browser brave "$@" }
 
 # path copy
 pc() { greadlink -f "$1" | pbcopy }
@@ -315,6 +315,9 @@ zle -N vi-nvim
 bindkey -M vicmd "^[g" vi-nvim
 bindkey -M viins "^[g" vi-nvim
 
+bindkey -M viins "^H" forward-word
+bindkey -M viins "^T" autosuggest-accept
+
 vi-open() { zle kill-whole-line; open .; zle accept-line }
 zle -N vi-open
 bindkey -M vicmd "^O" vi-open
@@ -328,12 +331,12 @@ export PATH=$PATH:~/.nimble/bin/
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 
 
-function ssh_tmux(){
-    tmux set-window-option window-status-current-style fg=black,bg=magenta 2> /dev/null
-    tmux set-window-option window-status-style fg=magenta,bg=black > /dev/null
-    ssh "$@"
-    tmux set-window-option window-status-current-style fg=black,bg=white 2> /dev/null
-    tmux set-window-option window-status-style fg=white,bg=black 2> /dev/null
-}
-alias ssh=ssh_tmux
+# function ssh_tmux(){
+#     tmux set-window-option window-status-current-style fg=black,bg=magenta 2> /dev/null
+#     tmux set-window-option window-status-style fg=magenta,bg=black > /dev/null
+#     ssh "$@"
+#     tmux set-window-option window-status-current-style fg=black,bg=white 2> /dev/null
+#     tmux set-window-option window-status-style fg=white,bg=black 2> /dev/null
+# }
+# alias ssh=ssh_tmux
 

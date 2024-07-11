@@ -169,8 +169,8 @@ nn <M-&> <<
 xn <M-&> <gv
 xn <D-U> <gv
 nn <D-U> <<
-ino <M-&> <Esc><<i
-ino <D-U> <Esc><<i
+ino <M-&> <Space><BS><Esc><<A
+ino <D-U> <Space><BS><Esc><<A
 
 nn <M-o> <nop>
 
@@ -178,8 +178,8 @@ nn <M-*> >>
 nn <D-I> >>
 xn <D-I> >gv
 xn <M-*> >gv
-ino <M-*> <Esc>>>i
-ino <D-I> <Esc>>>i
+ino <M-*> <Space><BS><Esc>>>A
+ino <D-I> <Space><BS><Esc>>>A
 
 
 " -------------------------------------
@@ -246,8 +246,6 @@ nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 " nnoremap <silent> s <esc>
 nnoremap <silent> s :up<CR>
-nnoremap <silent> <M-s> :up<CR>
-inoremap <silent> <M-s> <esc>:w<CR>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
 nnoremap <silent> QA :qa!<CR>
 

@@ -292,6 +292,9 @@ function string.starts(String,Start)
 end
 
 local set_root = function()
+  if vim.bo.filetype == '' or vim.bo.filetype == 'oil' then
+    return
+  end
   -- Get directory path to start search from
   local path = vim.api.nvim_buf_get_name(0)
   path = vim.fs.dirname(path)
