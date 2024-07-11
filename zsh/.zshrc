@@ -333,12 +333,12 @@ export PATH=$PATH:~/.nimble/bin/
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 
 
-# function ssh_tmux(){
-#     tmux set-window-option window-status-current-style fg=black,bg=magenta 2> /dev/null
-#     tmux set-window-option window-status-style fg=magenta,bg=black > /dev/null
-#     ssh "$@"
-#     tmux set-window-option window-status-current-style fg=black,bg=white 2> /dev/null
-#     tmux set-window-option window-status-style fg=white,bg=black 2> /dev/null
-# }
-# alias ssh=ssh_tmux
+function ssh_tmux(){
+    tmux set-window-option window-status-current-style fg=black,bg=magenta 2> /dev/null
+    tmux set-window-option window-status-style fg=magenta,bg=black > /dev/null
+    ssh "$@"
+    tmux set-window-option window-status-current-style fg=black,bg=white 2> /dev/null
+    tmux set-window-option window-status-style fg=white,bg=black 2> /dev/null
+}
+alias ssh=ssh_tmux
 
