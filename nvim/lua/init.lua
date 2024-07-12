@@ -267,7 +267,6 @@ end
 vim.keymap.set("n", "<leader>rr", "<cmd>lua codeRun()<CR>", {silent = true, noremap = true})
 vim.keymap.set("n", "<leader>re", "<cmd>lua codeRun({fileRun = true})<CR>", {silent = true, noremap = true})
 
-vim.cmd [[colorscheme flesh-and-blood]]
 
 
 -- Array of file names indicating root directory. Modify to your liking.
@@ -504,3 +503,4 @@ function _G.revert(decrease)
 end
 
 
+vim.cmd [[colorscheme flesh-and-blood]]

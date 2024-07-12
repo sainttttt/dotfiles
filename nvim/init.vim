@@ -1,3 +1,5 @@
+autocmd! bufwritepost init.vim source ~/.config/nvim/init.vim
+
 set clipboard+=unnamedplus
 let mapleader = ","
 
@@ -57,6 +59,7 @@ ino <M-X> =
 ino <C-u> .
 ino <C-o> ,
 
+
 nn aw yw
 
 nm ac vafo
@@ -85,6 +88,8 @@ nn <silent> <M-H> :cprev<CR>
 nn <silent> <M-L> :cnext<CR>
 
 nn 4 $
+xn 4 $
+
 nn 1 0
 map 3 #
 
@@ -99,7 +104,6 @@ nm <m-e> <Plug>CamelCaseMotion_b
 " visual search replace
 xn s :s#
 xm S s
-
 
 nnoremap <C-p> <C-i>
 
@@ -198,11 +202,9 @@ autocmd CursorHold * echon ''
 " xm e y
 " nm E y$
 
-
 set fdo-=search
 
 nnoremap <c-p> <c-i>
-
 
 
 nnoremap 2 z
@@ -374,7 +376,11 @@ iab pr print
 " autocmd BufRead * DetectIndent
 
 " reload vimrc on save
-autocmd! bufwritepost init.vim source ~/.config/nvim/init.vim
+
+""""""""""""""""""""""""""""""""""""
+
+
+
 
 nnoremap <silent> ) :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> ( :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
@@ -490,6 +496,8 @@ set undodir=~/.vim/undodir
 set undofile
 set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+
+
 
 "autocomplete brace
 inoremap {<CR>  {<CR>}<Esc>O
@@ -650,9 +658,7 @@ highlight Conceal ctermbg=237 guibg=NONE guifg=DarkGrey term=NONE
 set fillchars=stl:─,stlnc:─
 
 set termguicolors
-lua require('init')
-let g:hybrid_use_Xresources = 1
-colorscheme flesh-and-blood
+
 
 augroup autocom
     autocmd!
@@ -688,3 +694,5 @@ if exists('g:neovide')
   exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Katarina'
   edit GEN\ TODO.md
 endif
+
+lua require('init')
