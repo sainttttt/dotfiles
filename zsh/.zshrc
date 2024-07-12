@@ -3,8 +3,9 @@
 # source ~/.local/share/znap/znap.zsh
 # znap source marlonrichert/zsh-autocomplete
 
+# this is used for zsh fish autocomplete stuff which allows
+# you to complete a portion of a path, separated by a /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
 
 # Disable globbing for URLs
 autoload -Uz bracketed-paste-magic
@@ -12,42 +13,58 @@ zle -N bracketed-paste bracketed-paste-magic
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
-export ZSH_AUTOSUGGEST_STRATEGY=(completion)
 if [[ $(uname) == "Darwin" ]]; then
   source /usr/local/opt/asdf/libexec/asdf.sh
 
   # not sure if I need/want this stuff
-  export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
-  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+  # export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
+  # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 else
   source "$HOME/.asdf/asdf.sh"
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+export ZSH_AUTOSUGGEST_STRATEGY=(completion)
+
+
+# these checks are to prevent ssh sessions from auto spawning another nested tmux
 if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
   if [ "$TMUX" = "" ]; then
+    # so we export tmux before opening the initial tmux sessions
+    # cause otherwise in these original spawned sessions for
+    # some reason you can't access the tmux commmand to
+    # do something like tmux source ~/.tmux.conf
+    # or for the ssh color changing feature
+    #
+    # Idk why this happens, it could be related to various other bugs
+    # we've been seeing with tmux and setting of the $TMUX var
     if [ "$WINTYPE" = "dropdown" ]; then
+      export TMUX=tmux
       tmux new-session -A -s dropdown
     elif [ "$TERM" = "alacritty" ]; then
       printf "\e[?1042l"
       aerc
     else
+      export TMUX=tmux
       tmux new-session -A -s main
     fi
   fi
 fi
 
+# if $TMUX isn't set to anything then for some reason opening nvim crashes,
+# this is some known bug which we've been discussing on the tmux github page
 export TMUX=tmux
 
-# eval "$(anyenv init -)"
-# eval "$(pyenv init -)"
-#
 export EDITOR=nvim
 
+# this is to turn off the bouncing dock icon in alacritty on
+# visual bell
+#
 PROMPT_COMMAND='echo -ne "\033]0;$(basename ${PWD})\007"'
 precmd() { eval "$PROMPT_COMMAND" }
+
 
 zstyle ':completion:*:cd:*' file-sort modification
 
@@ -58,7 +75,8 @@ bindkey '^R' history-incremental-search-backward
 export CLICOLOR=1
 setopt menu_complete
 
-
+# adds the hostname to the prompt if you're sshing from
+# somewhere
 if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
   PROMPT='✝ %4~ ✝  '
 else
@@ -84,7 +102,6 @@ export KEYTIMEOUT=1
 
 export PATH="/usr/local/opt/sqlite/bin:$PATH"
 export PATH=node_modules/.bin:$PATH
-export PATH=/usr/local/opt/curl/bin:$PATH
 export PATH=/usr/local/opt/curl/bin:$PATH
 export PATH=/Users/saint/.local/bin:$PATH
 
