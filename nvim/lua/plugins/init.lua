@@ -76,13 +76,13 @@ return {
       local before = require('before')
       before.setup()
       --
-      vim.keymap.set('n', '<M-U>', function()
+    vim.keymap.set('n', '<C-y>', function()
         before.jump_to_last_edit()
         vim.cmd("normal! zz")
       end, {})
 
       -- Jump to next entry in the edit history
-      vim.keymap.set('n', '<M-I>', function()
+      vim.keymap.set('n', '<C-p>', function()
         before.jump_to_next_edit()
         vim.cmd("normal! zz")
       end, {})
@@ -441,14 +441,14 @@ return {
         undo = {
           hlgroup = 'HighlightUndo',
           mode = 'n',
-          lhs = 'u',
+          lhs = 'U',
           map = 'undo',
           opts = {}
         },
         redo = {
           hlgroup = 'HighlightUndo',
           mode = 'n',
-          lhs = '<C-r>',
+          lhs = 'R',
           map = 'redo',
           opts = {}
         },

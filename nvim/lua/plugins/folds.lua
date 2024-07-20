@@ -151,7 +151,7 @@ return {
       end
 
       vim.keymap.set('n', '22', toggleFold, { noremap = true, silent = true })
-      vim.keymap.set({'n', 'x'}, 'R', toggleFold, { noremap = true, silent = true })
+      vim.keymap.set({'n', 'x'}, '<m-r>', toggleFold, { noremap = true, silent = true })
 
       vim.keymap.set('n', '2u', undoFold, { noremap = true, silent = true })
       vim.keymap.set('n', '2U', redoFold, { noremap = true, silent = true })

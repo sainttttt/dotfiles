@@ -1,11 +1,10 @@
 autocmd! bufwritepost init.vim source ~/.config/nvim/init.vim
 
 set clipboard+=unnamedplus
-let mapleader = ","
+let mapleader = "`"
 
 nnoremap <CR> :
 vnoremap <CR> :
-
 nnoremap m J
 xnoremap m :
 
@@ -51,13 +50,16 @@ set title
 """"""""""""""""""""""""""""
 " nn u <Nop>
 nn <C-u> <nop>
-nn U <Nop>
+nn u <Nop>
+nn U u
+nn R <C-r>
 nn <C-n> <nop>
-ino <M-i> {
-ino <M-o> }
-ino <M-X> =
-ino <C-u> .
-ino <C-o> ,
+
+" ino <M-i> {
+" ino <M-o> }
+" ino <M-X> =
+" ino <C-u> .
+" ino <C-o> ,
 
 
 nn aw yw
@@ -77,6 +79,9 @@ nn E y$
 nn W Y
 xn W y
 
+nn <Left> <C-o>
+nn <Right> <C-i>
+
 " nn w <Nop>
 " nn b <Nop>
 " nn dw dw
@@ -84,8 +89,8 @@ xn W y
 
 " nn <Left> 0w
 " nn <Right> $
-nn <silent> <M-H> :cprev<CR>
-nn <silent> <M-L> :cnext<CR>
+" nn <silent> <M-H> :cprev<CR>
+" nn <silent> <M-L> :cnext<CR>
 
 nn 4 $
 xn 4 $
@@ -128,8 +133,7 @@ set maxmempattern=5000
 " map v* ysiw*
 
 vnoremap / <esc>/\%V
-
-set guicursor=n-v-c-i:block
+" set guicursor=n-v-c-i:block
 vnoremap <Space> =
 set nocompatible
 set hidden
@@ -169,25 +173,23 @@ imap <M-t> †
 vnoremap < <gv
 vnoremap > >gv
 
-nn <M-&> <<
-xn <M-&> <gv
+nn <C-u> <<
+xn <C-u> <gv
 xn <D-U> <gv
 nn <D-U> <<
-ino <M-&> <Space><BS><Esc><<A
+ino <C-u> <Space><BS><Esc><<A
 ino <D-U> <Space><BS><Esc><<A
 
 nn <M-o> <nop>
-
-nn <M-*> >>
-nn <D-I> >>
-xn <D-I> >gv
-xn <M-*> >gv
-ino <M-*> <Space><BS><Esc>>>A
-ino <D-I> <Space><BS><Esc>>>A
+nn <M-A> >>
+nn <M-A> >>
+xn <M-A> >gv
+xn <M-A> >gv
+ino <M-A> <Space><BS><Esc>>>A
+ino <M-A> <Space><BS><Esc>>>A
 
 
 " -------------------------------------
-
 
 map gb i*<esc>f<space>i*<esc>
 map gv i_<esc>f<space>i_<esc>
@@ -195,12 +197,6 @@ map gv i_<esc>f<space>i_<esc>
 set noshowmode
 
 autocmd CursorHold * echon ''
-
-
-
-" nm e Y
-" xm e y
-" nm E y$
 
 set fdo-=search
 
@@ -211,7 +207,7 @@ nnoremap 2 z
 nnoremap z `
 
 " marks
-"
+
 " nmap <leader>m m
 
 nnoremap <leader>1 mQ
@@ -470,8 +466,8 @@ nnoremap <silent> <C-n> :call ToggleQuickfixList()<cr>
 " appearance ---------------------------------------
 
 " line cursor in insert mode, block in command mode
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+" let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+" let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 set guifont=Ac437_ToshibaSat_9x14:h33
 
@@ -695,4 +691,5 @@ if exists('g:neovide')
   edit GEN\ TODO.md
 endif
 
+set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
 lua require('init')

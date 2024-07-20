@@ -25,8 +25,9 @@ else
 fi
 
 
+# export ZSH_AUTOSUGGEST_STRATEGY=(completion)
+export ZSH_AUTOSUGGEST_STRATEGY_2=(history)
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-export ZSH_AUTOSUGGEST_STRATEGY=(completion)
 
 
 # these checks are to prevent ssh sessions from auto spawning another nested tmux
@@ -61,7 +62,7 @@ export EDITOR=nvim
 
 # this is to turn off the bouncing dock icon in alacritty on
 # visual bell
-#
+
 PROMPT_COMMAND='echo -ne "\033]0;$(basename ${PWD})\007"'
 precmd() { eval "$PROMPT_COMMAND" }
 
@@ -208,7 +209,7 @@ alias lf="ls -tr1 | tail -n 1"
 alias dush="du -sh * | gsort -h"
 alias sudush="sudo du -sh * | gsort -h"
 alias esp="nvim ~/Library/Application\ Support/espanso/match/base.yml"
-alias kara="cd ~/code/karamake/; nvim ~/code/karamake/base.json"
+alias kara="cd ~/code/karina/; nvim ~/code/karina/base.json"
 alias karalog="tail -f ~/.local/share/karabiner/log/console_user_server.log"
 
 
@@ -335,7 +336,7 @@ bindkey -M vicmd "^[g" vi-nvim
 bindkey -M viins "^[g" vi-nvim
 
 bindkey -M viins "^H" forward-word
-bindkey -M viins "^T" autosuggest-accept
+bindkey -M viins "^T" autosuggest-fetch
 
 vi-open() { zle kill-whole-line; open .; zle accept-line }
 zle -N vi-open
