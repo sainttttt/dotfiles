@@ -181,7 +181,7 @@ return {
         -- separator = '-',
         zindex = 41,
         on_attach = function()
-          -- print("new attach")
+          print("new attach")
 
           if vim.bo.filetype == "swift"
             or vim.bo.filetype == "nim"

@@ -76,13 +76,13 @@ return {
       local before = require('before')
       before.setup()
       --
-    vim.keymap.set('n', '<C-y>', function()
+    vim.keymap.set('n', '<M-J>', function()
         before.jump_to_last_edit()
         vim.cmd("normal! zz")
       end, {})
 
       -- Jump to next entry in the edit history
-      vim.keymap.set('n', '<C-p>', function()
+      vim.keymap.set('n', '<M-Q>', function()
         before.jump_to_next_edit()
         vim.cmd("normal! zz")
       end, {})
@@ -118,19 +118,6 @@ return {
     end
   },
 
-  -- {
-  --   "roobert/search-replace.nvim",
-  --   config = function()
-  --     require("search-replace").setup({
-  --       -- optionally override defaults
-  --       default_replace_single_buffer_options = "gcI",
-  --       default_replace_multi_buffer_options = "egcI",
-  --     })
-  --     vim.keymap.set("v", "<leader>rs", "<CMD>SearchReplaceWithinVisualSelection<CR>")
-
-  --     vim.o.inccommand = "split"
-  --   end,
-  -- },
 
   { 'ixru/nvim-markdown',
     config = function()
@@ -195,14 +182,6 @@ return {
 
   -- 'wellle/context.vim',
 
-  -- {'RRethy/vim-illuminate',
-  --   config = function()
-  --     require('illuminate').configure({
-  --       modes_denylist = {'v'},
-  --     })
-  --   end
-  -- },
-
   -- { "luckasRanarison/nvim-devdocs",
   --   dependencies = {
   --     "nvim-lua/plenary.nvim",
@@ -237,20 +216,6 @@ return {
   --   }
   -- },
 
-
-  -- {
-  --   "folke/which-key.nvim",
-  --   event = "VeryLazy",
-  --   init = function()
-  --     vim.o.timeout = true
-  --     vim.o.timeoutlen = 1500
-  --   end,
-  --   opts = {
-  --     -- your configuration comes here
-  --     -- or leave it empty to use the default settings
-  --     -- refer to the configuration section below
-  --   }
-  -- },
 
   -- allows you to open nvim from cmdline with line number
   -- {'wsdjeg/vim-fetch'},
@@ -421,18 +386,6 @@ return {
       end, { noremap = false, expr = true })
     end
   },
-
-  -- {
-  --   'Vonr/align.nvim',
-  --   config = function()
-  --     local NS = { noremap = true, silent = true }
-
-  --     vim.keymap.set('x', 'aa', function() require 'align'.align_to_char(1, true) end, NS)             -- Aligns to 1 character, looking left
-  --     -- vim.keymap.set('x', 'as', function() require'align'.align_to_char(2, true, true)       end, NS) -- Aligns to 2 characters, looking left and with previews
-  --     vim.keymap.set('x', 'aw', function() require 'align'.align_to_string(false, true, true) end, NS) -- Aligns to a string, looking left and with previews
-  --     vim.keymap.set('x', 'ar', function() require 'align'.align_to_string(true, true, true) end, NS)  -- Aligns to a Lua pattern, looking left and with previews
-  --   end
-  -- },
 
   { 'tzachar/highlight-undo.nvim',
     config = function()

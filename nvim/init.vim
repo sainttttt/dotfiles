@@ -5,8 +5,8 @@ let mapleader = "`"
 
 nnoremap <CR> :
 vnoremap <CR> :
-nnoremap m J
-xnoremap m :
+
+nn m J
 
 set conceallevel=0
 set viewoptions-=options
@@ -49,18 +49,13 @@ set title
 " motion
 """"""""""""""""""""""""""""
 " nn u <Nop>
+" undo stuff
 nn <C-u> <nop>
 nn u <Nop>
 nn U u
-nn R <C-r>
+nn e u
+nn E <C-r>
 nn <C-n> <nop>
-
-" ino <M-i> {
-" ino <M-o> }
-" ino <M-X> =
-" ino <C-u> .
-" ino <C-o> ,
-
 
 nn aw yw
 
@@ -72,11 +67,13 @@ xn q %
 nn q %
 
 nn ag f
-nn e b
+nn t b
+
 nn de db
 nn ce cb
-nn E y$
-nn W Y
+
+nn R yy
+nn W y$
 xn W y
 
 nn <Left> <C-o>
@@ -114,7 +111,7 @@ nnoremap <C-p> <C-i>
 
 nmap <M-b> <Nop>
 " "nnoremap <Tab> n
-nnoremap M ?
+" nnoremap M ?
 
 " nn <silent> norm! n
 
@@ -155,8 +152,6 @@ nnoremap 9 0
 nnoremap aa a
 
 """"""""""""""""""""""
-" todo: clean this up ""
-nmap at <leader>mt
 
 " select function textobject
 nm ar vafo
@@ -179,6 +174,10 @@ xn <D-U> <gv
 nn <D-U> <<
 ino <C-u> <Space><BS><Esc><<A
 ino <D-U> <Space><BS><Esc><<A
+
+nn <c-p> <nop>
+nn <c-y> <nop>
+nn <c-o> <nop>
 
 nn <M-o> <nop>
 nn <M-A> >>
@@ -281,14 +280,8 @@ inoremap <C-T> <esc><C-w>l
 
 map <C-K> <C-w>k
 
-nnoremap <C-H> <C-w>h
-nnoremap <C-L> <C-w>l
-
 nnoremap <D-h> <C-w>h
 nnoremap <D-l> <C-w>l
-
-inoremap <C-h> <Esc><C-w>h
-inoremap <C-l> <Esc><C-w>l
 
 nnoremap <M-.> <C-w>L
 nnoremap <M-,> <C-w>H
@@ -476,8 +469,6 @@ set wildmode=longest,list,full
 set wildmenu
 set gcr=n:blinkon0
 
-noremap tt :vsp<CR>
-
 "" edit vimrc
 "" todo: open in dedicated split for config stuff
 noremap <Leader>vv :vsp ~/.config/nvim/init.vim<CR>
@@ -583,7 +574,6 @@ map! <Nul> <C-c>
 vmap <Nul> <C-c>
 smap <Nul> <C-c>
 cnoremap <Nul> <C-c>
-noremap T y$
 
 set mouse=a
 set nobackup
