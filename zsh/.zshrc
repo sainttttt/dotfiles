@@ -249,6 +249,7 @@ alias g="git"
 alias gd="git diff"
 alias gs="git status"
 alias ga="git ls"
+alias gp="git pull"
 alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
 alias ghc='gh repo create --source .'
 alias gt='gitui'
