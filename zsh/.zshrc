@@ -27,8 +27,10 @@ fi
 
 # export ZSH_AUTOSUGGEST_STRATEGY=(completion)
 export ZSH_AUTOSUGGEST_STRATEGY_2=(history)
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+export ZSH_AUTOSUGGEST_COMPLETION_IGNORE="(a *)|(git *)|(g *)"
 
+# source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/code/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # these checks are to prevent ssh sessions from auto spawning another nested tmux
 if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
@@ -140,7 +142,6 @@ STREAMS_FOLDER=/Volumes/SSD1/Streams
 
 alias adl='aydl(){ cd $STREAMS_FOLDER; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
 alias a='adl'
-alias g="git"
 
 timeToSecs() {
   echo $1 | sed 's/:/ /g;' | awk '{print $4" "$3" "$2" "$1}' | awk '{print $1+$2*60+$3*3600+$4*86400}'
@@ -238,13 +239,19 @@ alias dd="cd /Users/saint/Library/Developer/Xcode/DerivedData/"
 alias cs="v /Users/saint/.local/share/nvim/lazy/flesh-and-blood/colors/flesh-and-blood.vim"
 
 
-alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
-
 rg2() { rg  --no-heading --line-number  "$@" | cut -d':' -f1-2 }
+
 alias v='vim'
-alias gt='gitui'
 alias vrc='vim ~/.zshrc'
+
+# git
+alias g="git"
+alias gd="git diff"
+alias gs="git status"
+alias ga="git ls"
+alias gc='gc() { cd ~/code; git clone "$@"; cd "$(basename "$_" .git)"}; gc'
 alias ghc='gh repo create --source .'
+alias gt='gitui'
 alias ghd='gh repo delete'
 
 
@@ -328,7 +335,6 @@ bindkey -M viins "^[W" vi-back
 vi-pop() { zle vi-insert; zle kill-whole-line; popd; zle accept-line }
 zle -N vi-pop
 bindkey -M vicmd "^N" vi-pop
-bindkey -M viins "^N" vi-pop
 
 vi-nvim() { zle kill-whole-line; nvim; zle accept-line }
 zle -N vi-nvim
@@ -336,7 +342,11 @@ bindkey -M vicmd "^[g" vi-nvim
 bindkey -M viins "^[g" vi-nvim
 
 bindkey -M viins "^H" forward-word
-bindkey -M viins "^T" autosuggest-fetch
+bindkey -M viins "^[[A" forward-word
+bindkey -M viins "^[n" autosuggest-fetch
+bindkey -M viins "^[N" autosuggest-fetch_backward
+bindkey -M viins "^[[B" autosuggest-execute
+
 
 vi-open() { zle kill-whole-line; open .; zle accept-line }
 zle -N vi-open
