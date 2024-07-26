@@ -27,7 +27,7 @@ fi
 
 # export ZSH_AUTOSUGGEST_STRATEGY=(completion)
 export ZSH_AUTOSUGGEST_STRATEGY_2=(history)
-export ZSH_AUTOSUGGEST_COMPLETION_IGNORE="(a *)|(git *)|(g *)"
+export ZSH_AUTOSUGGEST_COMPLETION_IGNORE="(a *)|(git *)|(g *)|(g?)"
 
 # source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/code/zsh-autosuggestions/zsh-autosuggestions.zsh
