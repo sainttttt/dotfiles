@@ -42,13 +42,13 @@ if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
     # Idk why this happens, it could be related to various other bugs
     # we've been seeing with tmux and setting of the $TMUX var
     if [ "$WINTYPE" = "dropdown" ]; then
-      export TMUX=tmux
+      # export TMUX=tmux
       tmux new-session -A -s dropdown
     elif [ "$TERM" = "alacritty" ]; then
       printf "\e[?1042l"
       aerc
     else
-      export TMUX=tmux
+      # export TMUX=tmux
       tmux new-session -A -s main
     fi
   fi
@@ -56,7 +56,7 @@ fi
 
 # if $TMUX isn't set to anything then for some reason opening nvim crashes,
 # this is some known bug which we've been discussing on the tmux github page
-export TMUX=tmux
+# export TMUX=tmux
 
 export EDITOR=nvim
 

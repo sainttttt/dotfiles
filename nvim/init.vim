@@ -57,6 +57,8 @@ nn e u
 nn E <C-r>
 nn <C-n> <nop>
 
+nn <C-p> <nop>
+
 nn aw yw
 
 nm ac vafo
