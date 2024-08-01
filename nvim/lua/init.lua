@@ -520,7 +520,12 @@ local function reloadFile()
   vim.cmd("silent! loadview 3")
 end
 
+local function reloadColorScheme()
+  vim.cmd("Lazy reload plugin flesh-and-blood")
+  vim.cmd("Lazy reload plugin indent-blankline.nvim")
+end
+
 
 vim.keymap.set({"n"}, "s", saveFile, {silent = false, noremap = true})
 vim.keymap.set({"n"}, "<M-e>", reloadFile, {silent = false, noremap = true})
-
+vim.keymap.set({"n"}, "<leader>cs", reloadColorScheme, {silent = false, noremap = true})
