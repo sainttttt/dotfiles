@@ -179,13 +179,14 @@ alias sf='singlef(){ cd ~/Screenshots/;  single-file --browser-executable-path /
 
 ######### blog stuff ####################################################################
 cb() {
-  cd ~/code/containers/saint-blog/_posts
+  cd ~/code/saint-blog/_posts
   new_post=$(./create_post.sh "$@")
   if [ "$?" -eq 2 ]; then
     echo $new_post
   else
     $EDITOR $new_post
   fi
+  cd ..
 }
 
 alias bb='cd ~/code/containers/saint-blog'
