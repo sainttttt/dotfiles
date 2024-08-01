@@ -478,6 +478,7 @@ if vim.g.firstload == nil then
   vim.keymap.set({"n", "x"}, "<D-=>", "<cmd>lua changeGuiFontSize()<CR>", {silent = true, noremap = true})
   vim.keymap.set({"n", "x"}, "<D-->", "<cmd>lua changeGuiFontSize(true)<CR>", {silent = true, noremap = true})
 
+
   -- vim.api.nvim_set_keymap('i', '<Esc>', 'd', { noremap = true, silent = true })
 
   -- Key:         Ctrl-e
@@ -506,3 +507,20 @@ if vim.g.firstload == nil then
 
   vim.cmd [[colorscheme flesh-and-blood]]
 end
+
+local function saveFile()
+  vim.cmd("mkview 3")
+  print("Saved")
+  vim.cmd("update")
+end
+
+
+local function reloadFile()
+  vim.cmd("edit!")
+  vim.cmd("loadview 3")
+end
+
+
+vim.keymap.set({"n"}, "s", saveFile, {silent = false, noremap = true})
+vim.keymap.set({"n"}, "<M-e>", reloadFile, {silent = false, noremap = true})
+

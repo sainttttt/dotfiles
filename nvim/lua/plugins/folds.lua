@@ -1,41 +1,81 @@
 return {
 
-  {'kevinhwang91/nvim-ufo',
+  {
+    -- 'kevinhwang91/nvim-ufo',
+    dir = '~/code/nvim-ufo',
+    lazy = false,
     dependencies = {'kevinhwang91/promise-async','kkharji/sqlite.lua',},
     config = function()
       vim.o.foldcolumn = '0' -- '0' is not bad
       vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
       vim.o.foldlevelstart = 99
-      vim.o.foldenable = false
+      vim.o.foldenable = true
+
+      vim.cmd([[
+       " I always have weird issues with this
+       " But I hope that the timer thing works
+       augroup remember_folds
+       autocmd!
+       au BufWinEnter ?* call timer_start(500, { tid -> execute('silent! loadview 3')})
+       augroup END
+       ]])
+
+      local function get_comment_folds(bufnr)
+        local comment_folds = {}
+        local line_count = vim.api.nvim_buf_line_count(bufnr)
+        local is_in_comment = false
+        local comment_start = 0
+
+        for i = 0, line_count - 1 do
+          local line = vim.api.nvim_buf_get_lines(bufnr, i, i + 1, false)[1]
+          if not is_in_comment and line:match('^%s*' .. vim.o.commentstring:sub(1, 1)) then
+            is_in_comment = true
+            comment_start = i
+          elseif is_in_comment and not line:match('^%s*' .. vim.o.commentstring:sub(1, 1)) then
+            is_in_comment = false
+            table.insert(comment_folds, {startLine = comment_start, endLine = i - 1})
+          end
+        end
+
+        if is_in_comment then
+          table.insert(comment_folds, {startLine = comment_start, endLine = line_count - 1})
+        end
+
+        return comment_folds
+      end
+
+      local function treesitter_and_comment_folding(bufnr)
+        local comment_folds = get_comment_folds(bufnr)
+        local treesitter_folds = require('ufo').getFolds(bufnr, "treesitter")
+        for _, fold in ipairs(comment_folds) do
+          table.insert(treesitter_folds, fold)
+        end
+        return treesitter_folds
+      end
 
 
-       require('ufo').setup({
-         provider_selector = function(bufnr, filetype, buftype)
-           return {'treesitter', 'indent'}
-         end
-       })
+      require('ufo').setup({
+        provider_selector = function(bufnr, filetype, buftype)
+          -- return ftMap[filetype] or {'treesitter', 'indent'}
+          return treesitter_and_comment_folding
+        end
+      })
 
-
-      -- require('ufo').setup({
-      --     provider_selector = function(bufnr, filetype, buftype)
-      --         return ''
-      --     end
-      -- })
-
-      -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-      -- capabilities.textDocument.foldingRange = {
-      --   dynamicRegistration = false,
-      --   lineFoldingOnly = true
-      -- }
-      -- local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
-      -- for _, ls in ipairs(language_servers) do
-      --   require('lspconfig')[ls].setup({
-      --     capabilities = capabilities
-      --     -- you can add other fields for setting up lsp server in this table
-      --   })
-      -- end
-      -- require('ufo').setup()
-      -- vim.cmd("silent! loadview 1")
+      local function lspProviderSetup()
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities.textDocument.foldingRange = {
+          dynamicRegistration = false,
+          lineFoldingOnly = true
+        }
+        local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
+        for _, ls in ipairs(language_servers) do
+          require('lspconfig')[ls].setup({
+            capabilities = capabilities
+            -- you can add other fields for setting up lsp server in this table
+          })
+        end
+        require('ufo').setup()
+      end
 
       local function readAll(file)
         local f = assert(io.open(file, "rb"))
@@ -47,6 +87,11 @@ return {
       local function getFoldsSavePath()
         local filepath = vim.fn.expand('%:p'):gsub("/", "_"):gsub("%.","_")
         return vim.fn.expand('$HOME/.local/state/nvim/view/') ..  filepath
+      end
+
+      local function foldsUndoPath()
+        local filepath = vim.fn.expand('%:p'):gsub("/", "_"):gsub("%.","_")
+        return vim.fn.expand('$HOME/.local/state/nvim/view/') ..  filepath .. "_undo"
       end
 
       local function readFoldsStatus ()
@@ -65,7 +110,6 @@ return {
         return vim.json.decode(readAll(filename))
       end
 
-
       local function writeFoldsStatus(foldsStatus)
         local filename = getFoldsSavePath() .. "_status"
 
@@ -75,7 +119,6 @@ return {
           foldStatusFile:close()
         end
       end
-
 
       local function loadCurrentFoldsSave()
         local foldsStatus = readFoldsStatus()
@@ -92,7 +135,6 @@ return {
         foldsStatus.current = foldsStatus.current - 1
         writeFoldsStatus(foldsStatus)
         loadCurrentFoldsSave()
-
       end
 
       local function redoFold()
@@ -105,7 +147,6 @@ return {
         foldsStatus.current = foldsStatus.current + 1
         writeFoldsStatus(foldsStatus)
         loadCurrentFoldsSave()
-
       end
 
       -- vim.api.nvim_create_autocmd({"BufRead"}, {
@@ -132,74 +173,85 @@ return {
 
         writeFoldsStatus(foldsStatus)
         vim.cmd("mkview! " .. getFoldsSavePath().. foldsStatus.current)
+      end
 
+      local function saveUndo()
+        vim.cmd("mkview! " .. foldsUndoPath())
       end
 
       local function openAllFolds()
         require('ufo').openAllFolds()
-        incrementViewNumber()
+        -- incrementViewNumber()
       end
 
       local function closeAllFolds()
         require('ufo').closeAllFolds()
-        incrementViewNumber()
+        -- incrementViewNumber()
       end
 
       local function toggleFold()
         vim.cmd("normal! za")
-        incrementViewNumber()
+        -- incrementViewNumber()
+      end
+
+      local function openFoldRec()
+        -- saveUndo()
+        -- saveUndo()
+        vim.cmd("normal! zA")
+      end
+
+      local function closeFoldsRec()
+        vim.cmd("normal! zxzc")
+      end
+      local function deleteViewFolder()
+        local view_folder = vim.opt.viewdir:get()
+        pcall(vim.fn.delete, view_folder, "rf")
+        print("Cleared View Folder")
       end
 
       vim.keymap.set('n', '22', toggleFold, { noremap = true, silent = true })
-      vim.keymap.set({'n', 'x'}, '<m-r>', toggleFold, { noremap = true, silent = true })
+      -- vim.keymap.set({'n'}, 've', openFoldRec, { noremap = true, silent = true })
+      vim.keymap.set({'x'}, 'T', function() vim.cmd('normal! zf') end, { noremap = true, silent = true })
+      -- vim.keymap.set({'n'}, 'T', function() vim.cmd('normal! zC') end, { noremap = true, silent = true })
 
-      vim.keymap.set('n', '2u', undoFold, { noremap = true, silent = true })
-      vim.keymap.set('n', '2U', redoFold, { noremap = true, silent = true })
-
-      -- vim.keymap.set('n', '2r', openAllFolds, { noremap = true, silent = true })
-
-      -- vim.keymap.set('n', '2m', closeAllFolds,{ noremap = true, silent = true })
+      vim.keymap.set('n', '2e', undoFold, { noremap = true, silent = true })
+      vim.keymap.set('n', '<leader>22', deleteViewFolder, { noremap = true, })
+      vim.keymap.set('n', '2E', redoFold, { noremap = true, silent = true })
 
 
-      -- vim.keymap.set('n', 'zr', require('ufo').openAllFolds, { noremap = true, silent = true })
       vim.keymap.set('n', '2r', require('ufo').openAllFolds, { silent = true })
+      -- vim.keymap.set('n', '2j', require('ufo').closeFoldsWith, { silent = true })
+      -- vim.keymap.set('n', '2k', require('ufo').openFoldsExceptKinds, { silent = true })
+
+      vim.keymap.set('n', '2j', require('ufo').closeAllFolds, { silent = true })
+      vim.keymap.set('n', '2k', require('ufo').openAllFolds, { silent = true })
       vim.keymap.set('n', '2m', require('ufo').closeAllFolds,{ silent = true })
     end
   },
 
-  -- { 'Vonr/foldcus.nvim',
-  --   dependencies = { 'nvim-treesitter/nvim-treesitter' },
-  --   config = function()
-  --     local foldcus = require('foldcus')
-  --     local NS = { noremap = true, silent = true }
+  { "chrisgrieser/nvim-origami",
+    event = "BufReadPost", -- later or on keypress would prevent saving folds
+    opts = true, -- needed even when using default config
+    config = function ()
+      require("origami").setup ({
+        keepFoldsAcrossSessions = false,
+      }) -- setup call needed
+    end,
+  },
 
-  --     local numFolds = 3
+  { 'jghauser/fold-cycle.nvim',
+    config = function()
+      require('fold-cycle').setup()
+      vim.keymap.set({'n'}, 'vr',  require('fold-cycle').close, { noremap = true, silent = true })
+      vim.keymap.set({'n'}, 'vR',  require('fold-cycle').close_all, { noremap = true, silent = true })
+      vim.keymap.set({'n'}, 've',  require('fold-cycle').open, { noremap = true, silent = true })
+      vim.keymap.set({'n'}, 'vE',  require('fold-cycle').open_all, { noremap = true, silent = true })
 
-  --     -- Fold multiline comments longer than or equal to 4 lines
-  --     vim.keymap.set('n', 'z;', function() foldcus.fold(numFolds)   end, NS)
-
-  --     -- Fold multiline comments longer than or equal to the number of lines specified by args
-  --     -- e.g. Foldcus 4
-  --     vim.api.nvim_create_user_command('Foldcus', function(args) foldcus.fold(tonumber(args.args))   end, { nargs = '*' })
-
-  --     -- Delete folds of multiline comments longer than or equal to 4 lines
-  --     vim.keymap.set('n', 'z\'', function() foldcus.unfold(4) end, NS)
-
-  --     -- Delete folds of multiline comments longer than or equal to the number of lines specified by args
-  --     -- e.g. Unfoldcus 4
-  --     vim.api.nvim_create_user_command('Unfoldcus', function(args) foldcus.unfold(tonumber(args.args)) end, { nargs = '*' })
-  --   end
-  -- },
-
-  -- { "chrisgrieser/nvim-origami",
-  --   event = "BufReadPost", -- later or on keypress would prevent saving folds
-  --   opts = true, -- needed even when using default config
-  --   config = function ()
-  --     require("origami").setup ({
-  --       -- keepFoldsAcrossSessions = false,
-  --     }) -- setup call needed
-  --   end,
-  -- },
-
+      -- vim.keymap.set({'n'}, 'vj',  require('fold-cycle').close, { noremap = true, silent = true })
+      -- vim.keymap.set({'n'}, 'vJ',  require('fold-cycle').close_all, { noremap = true, silent = true })
+      -- vim.keymap.set({'n'}, 'vk',  require('fold-cycle').open, { noremap = true, silent = true })
+      -- vim.keymap.set({'n'}, 'vK',  require('fold-cycle').open_all, { noremap = true, silent = true })
+    end
+  },
 }
 

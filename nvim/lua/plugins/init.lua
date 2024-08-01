@@ -18,22 +18,49 @@ return {
     colorscheme = { "flesh-and-blood" },
   },
 
-
   -- † plugins † ----------------------------------------------
 
+  { "debugloop/telescope-undo.nvim",
+    dependencies = { -- note how they're inverted to above example
+      {
+        "nvim-telescope/telescope.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+      },
+    },
+    keys = {
+      { -- lazy style key map
+        "<leader>e",
+        "<cmd>Telescope undo<cr>",
+        desc = "undo history",
+      },
+    },
+    opts = {
+      -- don't use `defaults = { }` here, do this in the main telescope spec
+      extensions = {
+        undo = {
+          -- telescope-undo.nvim config, see below
+          saved_only = true,
+        },
+        -- no other extensions here, they can have their own spec too
+      },
+    },
+    config = function(_, opts)
+      -- Calling telescope's setup from multiple specs does not hurt, it will happily merge the
+      -- configs for us. We won't use data, as everything is in it's own namespace (telescope
+      -- defaults, as well as each extension).
+      require("telescope").setup(opts)
+      require("telescope").load_extension("undo")
+    end,
+  },
 
   -- { "ThePrimeagen/harpoon",
   --   branch = "harpoon2",
   --   dependencies = { "nvim-lua/plenary.nvim" },
   --   config = function()
-
   --   end
   -- },
-  --
-  --
 
-  {
-    "lukas-reineke/headlines.nvim",
+  { "lukas-reineke/headlines.nvim",
     dependencies = "nvim-treesitter/nvim-treesitter",
     config = true, -- or `opts = {}`
   },
@@ -52,6 +79,7 @@ return {
       ]])
     end
   },
+
 
   { 'romainl/vim-qf',
     config = function()
@@ -88,6 +116,8 @@ return {
       end, {})
     end
   },
+
+
   { 'rktjmp/lush.nvim',
     config = function()
       -- Configuration for rktjmp/lush.nvim
@@ -101,11 +131,6 @@ return {
     end
   },
 
-  -- {'brooth/far.vim',
-  --   config = function()
-  --   end
-  -- },
-
   { 'nmac427/guess-indent.nvim',
     config = function() require('guess-indent').setup {} end,
   },
@@ -118,7 +143,6 @@ return {
     end
   },
 
-
   { 'ixru/nvim-markdown',
     config = function()
       vim.cmd [[
@@ -128,11 +152,6 @@ return {
       ]]
     end,
   },
-
-  -- {'rhysd/clever-f.vim'},
-
-  -- disables search highlight when cursor moves
-  -- {'romainl/vim-cool'},
 
   { 'BartSte/nvim-project-marks',
     lazy = false,
@@ -159,6 +178,46 @@ return {
 
       require('mini.splitjoin').setup()
       require('mini.align').setup()
+      -- require('mini.surround').setup {
+      --   -- Add custom surroundings to be used on top of builtin ones. For more
+      --   -- information with examples, see `:h MiniSurround.config`.
+      --   custom_surroundings = nil,
+
+      --   -- Duration (in ms) of highlight when calling `MiniSurround.highlight()`
+      --   highlight_duration = 500,
+
+      --   -- Module mappings. Use `''` (empty string) to disable one.
+      --   mappings = {
+      --     add = 'ys', -- Add surrounding in Normal and Visual modes
+      --     delete = 'ds', -- Delete surrounding
+      --     find = 'Zsf', -- Find surrounding (to the right)
+      --     find_left = 'ZsF', -- Find surrounding (to the left)
+      --     highlight = 'Zsh', -- Highlight surrounding
+      --     replace = 'sr', -- Replace surrounding
+      --     update_n_lines = 'sn', -- Update `n_lines`
+
+      --     suffix_last = 'l', -- Suffix to search with "prev" method
+      --     suffix_next = 'n', -- Suffix to search with "next" method
+      --   },
+
+      --   -- Number of lines within which surrounding is searched
+      --   n_lines = 20,
+
+      --   -- Whether to respect selection type:
+      --   -- - Place surroundings on separate lines in linewise mode.
+      --   -- - Place surroundings on each line in blockwise mode.
+      --   respect_selection_type = false,
+
+      --   -- How to search for surrounding (first inside current line, then inside
+      --   -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
+      --   -- 'cover_or_nearest', 'next', 'prev', 'nearest'. For more details,
+      --   -- see `:h MiniSurround.config`.
+      --   search_method = 'cover',
+
+      --   -- Whether to disable showing non-error feedback
+      --   silent = false,
+      -- }
+
       -- require('mini.comment').setup()
 
       require('mini.sessions').setup({
@@ -179,6 +238,7 @@ return {
       vim.keymap.set('n', '<leader>z', "<cmd>Bmessagesvs<CR>")
     end
   },
+
 
   -- 'wellle/context.vim',
 
@@ -216,7 +276,6 @@ return {
   --   }
   -- },
 
-
   -- allows you to open nvim from cmdline with line number
   -- {'wsdjeg/vim-fetch'},
 
@@ -245,9 +304,8 @@ return {
   --   end
   -- },
 
-  {
-    -- dir = "~/code/yoke.vim",
-    'sainttttt/yoke.vim',
+  { dir = "~/code/yoke.vim",
+    -- 'sainttttt/yoke.vim',
     config = function()
       require('yoke').setup()
     end
@@ -273,6 +331,17 @@ return {
     },
         -- Configuration here, or leave empty to use defaults
       })
+      vim.cmd([[
+      map zh ysiw'
+      map zj ysiw"
+      map zk ysiw(
+      map zl ysiw[
+
+      map zxh dos'
+      map zxj dos"
+      map zxk dos(
+      map zxl dos[
+      ]])
     end
   },
 
@@ -394,14 +463,14 @@ return {
         undo = {
           hlgroup = 'HighlightUndo',
           mode = 'n',
-          lhs = 'U',
+          lhs = 'e',
           map = 'undo',
           opts = {}
         },
         redo = {
           hlgroup = 'HighlightUndo',
           mode = 'n',
-          lhs = 'R',
+          lhs = 'E',
           map = 'redo',
           opts = {}
         },
@@ -409,9 +478,6 @@ return {
       })
     end
   },
-
-
-  -- 'kkharji/sqlite.lua',
 
   { 'norcalli/nvim-colorizer.lua',
     config = function()
@@ -439,8 +505,7 @@ return {
     end
   },
 
-  {
-    "sainttttt/zen-mode.nvim",
+  { "sainttttt/zen-mode.nvim",
     -- dir =  "~/code/zen-mode.nvim",
     -- "folke/zen-mode.nvim",
     config = function()
@@ -576,32 +641,53 @@ return {
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
 
-  {
+  { "sainttttt/vim-searchx",
     -- dir = "~/code/vim-searchx",
-    "sainttttt/vim-searchx",
     branch = "mod",
     config = function()
-      -- vim.keymap.set("n", "as", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
-      -- vim.keymap.set("n", "as", "<Nop>")
-      vim.keymap.set("n", "f", "<cmd>silent! call searchx#start({ 'dir': 1 })<CR>", { silent = true })
-      -- vim.keymap.set("n", "<leader>m", "<cmd>call searchx#start({ 'dir': 1 })<CR>")
-      vim.keymap.set("n", "/", "<Esc>")
+      vim.keymap.set("n", "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>", { silent = true })
+      vim.cmd([[
+      let g:searchx = {}
+
+      let g:context_enabled = 0
+      let g:context_border_char = ''
+      let g:context_highlight_normal = 'Context'
+      let g:context_highlight_tag = '<hide>'
+
+      " Auto jump if the recent input matches to any marker.
+      let g:searchx.auto_accept = v:true
+
+      " The scrolloff value for moving to next/prev.
+      let g:searchx.scrolloff = &scrolloff
+
+      " To enable scrolling animation.
+      let g:searchx.scrolltime = 1
+
+      " To enable auto nohlsearch after cursor is moved
+      let g:searchx.nohlsearch = {}
+      let g:searchx.nohlsearch.jump = v:true
+
+      " Marker characters.
+      let g:searchx.markers = split('FDSREWVCXAQZUIOPHJKLBNMTYGVB', '.\zs')
+
+      function g:searchx.convert(input) abort
+        " use two backticks to start regex mode
+        " which is basically magic mode I believe in vim parlance
+        if a:input[0:1] == '``'
+        return '\m' .. a:input[2:]
+        endif
+
+        " otherwise turn off all regex stuff and search verbatim
+        return '\V' .. a:input
+      endfunction
+
+      ]])
     end
   },
 
   'prichrd/netrw.nvim',
 
-  -- { 'https://gitlab.com/madyanov/svart.nvim',
-
-  --   config = function()
-  --     vim.keymap.set({ "n", "x", "o" }, "'", "<Cmd>Svart<CR>")        -- begin exact search
-  --     vim.keymap.set({ "n", "x", "o" }, "\"", "<Cmd>SvartRegex<CR>")   -- begin regex search
-  --     vim.keymap.set({ "n", "x", "o" }, "g'", "<Cmd>SvartRepeat<CR>") -- repeat with last accepted query
-  --   end
-  -- },
-
-  {
-    'akinsho/toggleterm.nvim',
+  { 'akinsho/toggleterm.nvim',
     config = function()
       require("toggleterm").setup({
         shell = vim.o.shell, -- change the default shell
@@ -682,8 +768,7 @@ return {
     end
   },
 
-  {
-    'haya14busa/vim-asterisk',
+  { 'haya14busa/vim-asterisk',
     config = function()
       -- I've reversed the # and * mappings because # is easier to press
       vim.keymap.set('n', '*', '<Plug>(asterisk-z#)', { noremap = true, silent = false })
@@ -694,30 +779,10 @@ return {
     end
   },
 
-  -- {'airblade/vim-rooter'},
-  -- {'azabiong/vim-highlighter',
-  --   config = function()
-
-  --     vim.cmd([[
-  --       unmap f<CR>
-  --       exe 'xnoremap <silent> ff :<C-U>if highlighter#Command("+x") \| noh \| endif \| silent! Hi save <CR> '
-
-  --       exe 'nnoremap <silent> f<CR> :<C-U>if highlighter#Command("clear") \| noh \| endif \| silent! Hi save <CR> '
-  --     nmap f~ f<C-L> \| <cmd>silent! Hi save<CR>
-
-  --     autocmd BufRead * silent! Hi load
-  --     " autocmd BufUnload * silent! Hi save
-  -- ]])
-
-  --     -- vim.keymap.set('v', 'ff', 'f<CR>', { noremap = false, silent = true })
-  --     -- vim.keymap.set('n', 'f~', 'f<C-L>', { noremap = true, silent = true })
-  --     end
-  --     },
 
   'mfussenegger/nvim-lint',
 
-  {
-    'CRAG666/code_runner.nvim',
+  { 'CRAG666/code_runner.nvim',
     dependencies = 'nvim-lua/plenary.nvim',
 
     config = function()
@@ -795,7 +860,6 @@ return {
   --       },
   --     })
 
-
   --     function _G.XbaseBuildDefault()
   --       local xbase_proj = require("xbase.state").project_info
   --       local next = pairs(xbase_proj)
@@ -814,19 +878,16 @@ return {
   --   end
   -- },
 
-  {
-    "miversen33/sunglasses.nvim",
+  { "miversen33/sunglasses.nvim",
     config = {
       filter_type = "SHADE",
       filter_percent = .10,
     },
 
-
     event = "UIEnter"
   },
 
-  {
-    "RomanoZumbe/yanki.nvim",
+  { "RomanoZumbe/yanki.nvim",
     config = function()
       require("yanki").setup()
     end,
@@ -834,9 +895,8 @@ return {
   },
 
 
-  {
+  { "sainttttt/lucy.nvim",
     -- dir = "~/code/lucy.nvim",
-    "sainttttt/lucy.nvim",
     config = function()
       local lucy = require("lucy")
       lucy.setup()
@@ -881,8 +941,7 @@ return {
   --     end
   -- },
 
-  {
-    'piersolenski/telescope-import.nvim',
+  { 'piersolenski/telescope-import.nvim',
     dependencies = 'nvim-telescope/telescope.nvim',
     config = function()
       require("telescope").load_extension("import")
@@ -891,8 +950,7 @@ return {
 
   -- {'airblade/vim-matchquote'},
 
-  {
-    'stevearc/oil.nvim',
+  { 'stevearc/oil.nvim',
     opts = {},
     -- Optional dependencies
     -- dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -973,15 +1031,13 @@ return {
 
   'AndrewRadev/undoquit.vim',
 
-  {
-    'windwp/nvim-ts-autotag',
+  { 'windwp/nvim-ts-autotag',
     config = function()
       require('nvim-ts-autotag').setup()
     end
   },
 
-  {
-    'nvim-tree/nvim-tree.lua',
+  { 'nvim-tree/nvim-tree.lua',
     config = function()
       local show_tree = function()
         local nvimtree = require 'nvim-tree.view'
@@ -1063,8 +1119,7 @@ return {
 
   'keith/swift.vim',
 
-  {
-    "sainttttt/everybody-wants-that-line.nvim",
+  { "sainttttt/everybody-wants-that-line.nvim",
     branch = "saint",
     config = function()
       vim.keymap.set('n', '<leader>nn', require("everybody-wants-that-line.components.filename").toggle_float)
@@ -1106,8 +1161,7 @@ return {
 
   { 'vim-crystal/vim-crystal' },
 
-  {
-    "rcarriga/nvim-notify",
+  { "rcarriga/nvim-notify",
     opts = {
       background_colour = "NotifyBackground",
       fps = 60,
@@ -1127,11 +1181,9 @@ return {
       top_down = true
 
     },
-
   },
 
-  {
-    'folke/noice.nvim',
+  { 'folke/noice.nvim',
     dependencies = {
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",

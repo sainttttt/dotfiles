@@ -1,72 +1,56 @@
 autocmd! bufwritepost init.vim source ~/.config/nvim/init.vim
-
-set clipboard+=unnamedplus
 let mapleader = "`"
-
-nnoremap <CR> :
-vnoremap <CR> :
-
-nn m J
-
-set conceallevel=0
-set viewoptions-=options
-set foldopen-=hor foldopen-=search
-set nofoldenable
-
-augroup remember_folds
-  autocmd!
-  au BufWinLeave ?* mkview 2
-  au BufWinEnter ?* silent! call timer_start(200, { tid -> execute('!silent loadview 2')})
-augroup END
-
-" neovide
-cnoremap <d-v> <d-r>+
-vmap <d-c> "+y
-nmap <d-v> "+p
-inoremap <d-v> <c-r>+
-cnoremap <d-v> <c-r>+
-" use <c-r> to insert original character without triggering things like auto-pairs
-inoremap <d-r> <c-v>
-nnoremap <D-v> "+p
-nnoremap <D-o> <C-o>
-nnoremap <D-p> <C-i>
-nnoremap <D-a> <C-a>
-map <silent> <D-t> :tabnew<CR>
-map <silent> <D-w> :close<CR>
-map <silent> <D-{> :tabprevious<CR>
-map <silent> <D-}> :tabnext<CR>
-
-nn <silent> <Right> :tabprevious<CR>
-nn <silent> <Left> :tabprevious<CR>
-nnoremap 22 zz
-
-" autocmd BufEnter * call system("tmux rename-window " . expand("%:t"))
-" autocmd VimLeave * call system("tmux rename-window zsh")
-autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
-set title
 
 """"""""""""""""""""""""""""
 " motion
 """"""""""""""""""""""""""""
-" nn u <Nop>
 " undo stuff
+"
+" remember to set undo/redo stuff in HighlightUndo
+" as well
 nn <C-u> <nop>
 nn u <Nop>
-nn U u
+nn U <Nop>
 nn e u
 nn E <C-r>
 nn <C-n> <nop>
-
 nn <C-p> <nop>
 
-nn aw yw
+nn aq <nop>
 
-nm ac vafo
+nn aww yi'
+nn awe yi"
+nn awr yi(
+nn awt yi[
+
+nn aw <nop>
+nn awW ya'
+nn awE ya"
+nn awR ya(
+nn awT ya[
+
+
+nn <M-H> 0^
+nn <M-L> $
+
+
+nm ac yw
 
 " xn q $%
 xn Q %
 xn q %
 nn q %
+
+nn ch ci'
+nn cj ci"
+nn ck ci(
+nn cl ci[
+
+nn ah yi'
+nn aj yi"
+nn ak yi(
+nn al yi[
+
 
 nn ag f
 nn t b
@@ -81,16 +65,6 @@ xn W y
 nn <Left> <C-o>
 nn <Right> <C-i>
 
-" nn w <Nop>
-" nn b <Nop>
-" nn dw dw
-" nn cw cw
-
-" nn <Left> 0w
-" nn <Right> $
-" nn <silent> <M-H> :cprev<CR>
-" nn <silent> <M-L> :cnext<CR>
-
 nn 4 $
 xn 4 $
 
@@ -101,7 +75,7 @@ map 3 #
 nm cx c<Plug>CamelCaseMotion_w
 map ds d<Plug>CamelCaseMotion_w
 nm <m-w> <Plug>CamelCaseMotion_w
-nm <m-e> <Plug>CamelCaseMotion_b
+
 " map b <Nop>
 
 
@@ -121,6 +95,39 @@ cnoremap <Tab> <CR>
  nnoremap <S-Tab> N
 
 set maxmempattern=5000
+
+set clipboard+=unnamedplus
+
+nnoremap <CR> :
+vnoremap <CR> :
+
+nn m J
+
+set conceallevel=0
+set viewoptions-=options
+set foldopen-=hor foldopen-=search
+set nofoldenable
+
+" neovide
+cnoremap <d-v> <d-r>+
+vmap <d-c> "+y
+nmap <d-v> "+p
+inoremap <d-v> <c-r>+
+cnoremap <d-v> <c-r>+
+inoremap <d-r> <c-v>
+nnoremap <D-v> "+p
+nnoremap <D-o> <C-o>
+nnoremap <D-p> <C-i>
+nnoremap <D-a> <C-a>
+map <silent> <D-t> :tabnew<CR>
+map <silent> <D-w> :close<CR>
+map <silent> <D-{> :tabprevious<CR>
+map <silent> <D-}> :tabnext<CR>
+
+" autocmd BufEnter * call system("tmux rename-window " . expand("%:t"))
+" autocmd VimLeave * call system("tmux rename-window zsh")
+autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+set title
 
 " nvim-surround stuff
 " map a' ysiw'
@@ -203,9 +210,7 @@ set fdo-=search
 
 nnoremap <c-p> <c-i>
 
-
-nnoremap 2 z
-nnoremap z `
+nn z <Nop>
 
 " marks
 
@@ -231,6 +236,8 @@ map zn zN
 map zb zB
 map zv zV
 
+autocmd FileType lua setlocal foldmethod=expr foldexpr=getline(v:lnum)=~'^\\s*--'
+
 map <silent> <M-r> :call feedkeys(,rr<CR>)<CR>
 " nnoremap <silent> <Leader>w :w<CR>:Runtime<CR>
 nnoremap <silent> <Leader>bd :Bdelete hidden<CR>
@@ -244,7 +251,6 @@ nnoremap <silent> <M-W> :call undoquit#SaveWindowQuitHistory()<cr>:close!<CR>
 nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 " nnoremap <silent> s <esc>
-nnoremap <silent> s :up<CR>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
 nnoremap <silent> QA :qa!<CR>
 
@@ -325,58 +331,16 @@ set updatetime=750
 " trigger `autoread` when files changes on disk
 set autoread
 
-let g:searchx = {}
 
-let g:context_enabled = 0
-let g:context_border_char = ''
-let g:context_highlight_normal = 'Context'
-let g:context_highlight_tag = '<hide>'
-
-" Auto jump if the recent input matches to any marker.
-let g:searchx.auto_accept = v:true
-
-" The scrolloff value for moving to next/prev.
-let g:searchx.scrolloff = &scrolloff
-
-" To enable scrolling animation.
-let g:searchx.scrolltime = 1
-
-" To enable auto nohlsearch after cursor is moved
-let g:searchx.nohlsearch = {}
-let g:searchx.nohlsearch.jump = v:true
-
-" Marker characters.
-let g:searchx.markers = split('FDSREWVCXAQZUIOPHJKLBNMTYGVB', '.\zs')
-
-" Convert search pattern.
-function g:searchx.convert(input) abort
-  return a:input
-  if a:input !~# '\k'
-    return '\V' .. a:input
-  endif
-  return a:input[0] .. substitute(a:input[1:], '\\\@<! ', '.\\{-}', 'g')
-endfunction
-
-
-" general settings ---------------------------------
-"
+" abbreviations ---------------------------------
 
 iab cl console.log
 iab pr print
 
-" autocmd BufRead * DetectIndent
-
-" reload vimrc on save
-
 """"""""""""""""""""""""""""""""""""
-
-
-
 
 nnoremap <silent> ) :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> ( :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
-
-let g:go_doc_keywordprg_enabled = 0
 
 set cursorline
 
@@ -420,7 +384,7 @@ endfunction
 " quickfix -----------------------------------------------------------
 "
 nnoremap <silent> <C-e> :TroubleToggle<CR>
-nnoremap <silent> <leader>e :TroubleToggle<cr>
+" nnoremap <silent> <leader>e :TroubleToggle<cr>
 
 
 function! s:GetBufferList()
@@ -562,8 +526,6 @@ vmap F gc
 
 " filetype indent on
 
-autocmd FileType c,cpp,java,javascript,php autocmd BufWritePre <buffer> :retab
-
 " select function def
 "map Q ?function<CR>V/{<CR>%
 " map Q va{V
@@ -647,7 +609,6 @@ set fillchars=stl:─,stlnc:─
 
 set termguicolors
 
-
 augroup autocom
     autocmd!
     "executes the command on quit
@@ -658,13 +619,13 @@ augroup autocom
 augroup END
 
 function! StartCmd()
+
   if exists("g:startcmd")
     exec "normal ". g:startcmd
   elseif exists("g:restore")
     exec "normal! \<Cmd>lua require('mini.sessions').read('main')\<CR>"
   endif
 endfunction
-
 
 autocmd VimEnter * call StartCmd()
 autocmd VimLeave * lua saveSessionQuit()
@@ -678,6 +639,7 @@ if !exists('g:neovide')
   hi Normal guibg=None
 endif
 
+
 if exists('g:neovide')
   exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Katarina'
   edit GEN\ TODO.md
@@ -685,3 +647,12 @@ endif
 
 set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
 lua require('init')
+
+set cursorline
+
+augroup yank_text_highlight
+  autocmd!
+  autocmd InsertEnter * highlight CursorLine guibg=#181010
+  autocmd InsertLeave * hi! link CursorLine CursorLineMain
+  autocmd TextYankPost * hi! link CursorLine YankText | call timer_start(200, { tid -> execute('hi! link CursorLine CursorLineMain')})
+augroup END
