@@ -652,7 +652,7 @@ set cursorline
 
 augroup yank_text_highlight
   autocmd!
-  autocmd InsertEnter * highlight CursorLine guibg=#181010
+  autocmd InsertEnter * hi! link CursorLine CursorLineEdit | echom "linking"
   autocmd InsertLeave * hi! link CursorLine CursorLineMain
   autocmd TextYankPost * hi! link CursorLine YankText | call timer_start(200, { tid -> execute('hi! link CursorLine CursorLineMain')})
 augroup END

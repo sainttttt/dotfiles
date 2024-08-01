@@ -517,7 +517,7 @@ end
 
 local function reloadFile()
   vim.cmd("edit!")
-  vim.cmd("loadview 3")
+  vim.cmd("silent! loadview 3")
 end
 
 

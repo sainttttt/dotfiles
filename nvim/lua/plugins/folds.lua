@@ -1,8 +1,6 @@
 return {
-
-  {
-    -- 'kevinhwang91/nvim-ufo',
-    dir = '~/code/nvim-ufo',
+  { 'kevinhwang91/nvim-ufo',
+    -- dir = '~/code/nvim-ufo',
     lazy = false,
     dependencies = {'kevinhwang91/promise-async','kkharji/sqlite.lua',},
     config = function()
