@@ -42,22 +42,41 @@ return {
         return comment_folds
       end
 
-      local function treesitter_and_comment_folding(bufnr)
-        local comment_folds = get_comment_folds(bufnr)
-        local treesitter_folds = require('ufo').getFolds(bufnr, "treesitter")
-        for _, fold in ipairs(comment_folds) do
-          table.insert(treesitter_folds, fold)
+      local function getFolds(bufnr)
+        local function handleFallbackException(err, providerName)
+          if type(err) == 'string' and err:match('UfoFallbackException') then
+            return require('ufo').getFolds(bufnr, providerName)
+          else
+            return require('promise').reject(err)
+          end
         end
-        return treesitter_folds
+
+        return require('ufo').getFolds(bufnr, 'lsp'):catch(function(err)
+          return handleFallbackException(err, 'treesitter')
+        end):catch(function(err)
+          return handleFallbackException(err, 'indent')
+        end)
+      end
+
+
+      local function all_folds_and_comment_folding(bufnr)
+        local comment_folds = get_comment_folds(bufnr)
+
+        local folds = getFolds(bufnr)
+        for _, fold in ipairs(comment_folds) do
+          table.insert(folds, fold)
+        end
+        return folds
       end
 
 
       require('ufo').setup({
         provider_selector = function(bufnr, filetype, buftype)
           -- return ftMap[filetype] or {'treesitter', 'indent'}
-          return treesitter_and_comment_folding
+          return all_folds_and_comment_folding
         end
       })
+
 
       local function lspProviderSetup()
         local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -74,6 +93,8 @@ return {
         end
         require('ufo').setup()
       end
+
+      -- lspProviderSetup()
 
       local function readAll(file)
         local f = assert(io.open(file, "rb"))

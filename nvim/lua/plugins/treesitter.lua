@@ -42,6 +42,7 @@ return {
           additional_vim_regex_highlighting = {"latex"},
         },
         indent = { enable = true, disable = { "swift", "text" } },
+        -- indent = { enable = true, disable = {  "text" } },
       })
 
       -- require 'vim.treesitter.query'.set("markdown", "highlights", [[
