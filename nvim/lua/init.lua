@@ -529,3 +529,26 @@ end
 vim.keymap.set({"n"}, "s", saveFile, {silent = false, noremap = true})
 vim.keymap.set({"n"}, "<M-e>", reloadFile, {silent = false, noremap = true})
 vim.keymap.set({"n"}, "<leader>cs", reloadColorScheme, {silent = false, noremap = true})
+
+local function addText(opts)
+  local vstart = vim.fn.getpos('v')[2]
+  local vend = vim.fn.getpos('.')[2]
+  if vend < vstart then
+    vend, vstart = vstart, vend -- swap
+  end
+  print(vend, vstart)
+
+  -- leave visual mode
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', false, true, true), 'nx', false)
+  vim.cmd("normal! ".. vstart ..'G')
+  vim.cmd([[exe "norm! \<C-v>"]])
+  vim.cmd("norm! " .. vend ..'G')
+  if opts.dir == "pre" then
+    vim.api.nvim_feedkeys("I", 'n', true)
+  else
+    vim.api.nvim_feedkeys("$A", 'n', true)
+  end
+end
+
+vim.keymap.set({"x"}, "<Left>", function() addText({dir='pre'}) end, {silent = false, noremap = true})
+vim.keymap.set({"x"}, "<Right>", function() addText({dir='post'}) end, {silent = false, noremap = true})

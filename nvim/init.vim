@@ -6,13 +6,14 @@ let mapleader = "`"
 """"""""""""""""""""""""""""
 " undo stuff
 "
-" remember to set undo/redo stuff in HighlightUndo
-" as well
+" remember to set undo/redo stuff in HighlightUndo plugin
+" setup bindings as well
 nn <C-u> <nop>
 nn u <Nop>
 nn U <Nop>
 nn e u
 nn E <C-r>
+
 nn <C-n> <nop>
 nn <C-p> <nop>
 
@@ -41,10 +42,10 @@ xn Q %
 xn q %
 nn q %
 
-nn ch ci'
-nn cj ci"
-nn ck ci(
-nn cl ci[
+nn ch "_ci'
+nn cj "_ci"
+nn ck "_ci(
+nn cl "_ci[
 
 nn ah yi'
 nn aj yi"
@@ -70,7 +71,6 @@ xn 4 $
 
 nn 1 0
 map 3 #
-
 
 nm cx c<Plug>CamelCaseMotion_w
 map ds d<Plug>CamelCaseMotion_w
@@ -252,7 +252,9 @@ nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 " nnoremap <silent> s <esc>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
-nnoremap <silent> QA :qa!<CR>
+nnoremap <silent> ZZ :qa!<CR>
+nnoremap <silent> MM :qa!<CR>
+nnoremap <silent> BB :qa!<CR>
 
 autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 autocmd Filetype qf map <buffer> <Space> <CR>
@@ -652,7 +654,7 @@ set cursorline
 
 augroup yank_text_highlight
   autocmd!
-  autocmd InsertEnter * hi! link CursorLine CursorLineEdit | echom "linking"
+  autocmd InsertEnter * hi! link CursorLine CursorLineEdit
   autocmd InsertLeave * hi! link CursorLine CursorLineMain
   autocmd TextYankPost * hi! link CursorLine YankText | call timer_start(200, { tid -> execute('hi! link CursorLine CursorLineMain')})
 augroup END
