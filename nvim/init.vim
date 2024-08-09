@@ -252,7 +252,7 @@ nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 " nnoremap <silent> s <esc>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
-nnoremap <silent> ZZ :qa!<CR>
+nnoremap <silent> <C-n><M-W> :qa!<CR>
 nnoremap <silent> MM :qa!<CR>
 nnoremap <silent> BB :qa!<CR>
 
@@ -414,7 +414,7 @@ function! ToggleQuickfixList()
   endif
 endfunction
 
-nnoremap <silent> <C-n> :call ToggleQuickfixList()<cr>
+" nnoremap <silent> <C-n> :call ToggleQuickfixList()<cr>
 
 " nnoremap <C-s> :cp<CR>
 " nnoremap <C-d> :cn<CR>

@@ -14,7 +14,11 @@ return {
        " But I hope that the timer thing works
        augroup remember_folds
        autocmd!
-       au BufWinEnter ?* call timer_start(500, { tid -> execute('silent! loadview 3')})
+
+       " this is a workaround / hack to add where you open in the jumplist
+       " before loading state, because this messes up when you open a file using
+       " ripgrep. Will look into a better fix later.
+       au BufWinEnter ?* call timer_start(500, { tid -> execute(["norm! m'" , 'loadview 3'], "")})
        augroup END
        ]])
 
