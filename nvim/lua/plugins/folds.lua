@@ -9,18 +9,35 @@ return {
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
 
+      -- this loadview function is used to preserve line jumps when you open a file
+      -- through ripgrep in fzf lua or something similar. it saves the line position of the
+      -- file when it is opened if it is not the first line and restores it
+      function _G.loadView()
+        local curpos = vim.fn.getpos('.')[2]
+        vim.cmd([[ silent! loadview 3 ]])
+
+        if curpos ~= 1 then
+          vim.cmd("norm! " .. curpos .. "G")
+        end
+
+        print("cat")
+      end
+
       vim.cmd([[
        " I always have weird issues with this
        " But I hope that the timer thing works
        augroup remember_folds
        autocmd!
 
-       " this is a workaround / hack to add where you open in the jumplist
-       " before loading state, because this messes up when you open a file using
-       " ripgrep. Will look into a better fix later.
-       au BufWinEnter ?* call timer_start(500, { tid -> execute(["norm! m'" , 'silent! loadview 3'])})
+       " this loadview function is used to preserve line jumps when you open a file
+       " through ripgrep in fzf lua or something similar. it saves the line position of the
+       " file when it is opened if it is not the first line and restores it
+       au BufWinEnter ?* call timer_start(500, { tid -> execute(['lua loadView()'])})
+
+       " au BufWinEnter ?* call timer_start(500, { tid -> execute(["norm! m'" , 'silent! loadview 3'])})
        augroup END
        ]])
+
 
       local function get_comment_folds(bufnr)
         local comment_folds = {}
