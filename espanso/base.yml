@@ -152,8 +152,12 @@ matches:
     replace: "https://cdn.discordapp.com/emojis/951199577787232296.gif?size=160&quality=lossless"
     propagate_case: false
 
-  - trigger: ";;dan"
+  - trigger: ";;da1"
     replace: "https://cdn.discordapp.com/attachments/679399659843616831/1244786130986205284/Dancegers.gif"
+    propagate_case: false
+
+  - trigger: ";;da2"
+    replace: "https://files.catbox.moe/uvvcks.gif"
     propagate_case: false
 
 
