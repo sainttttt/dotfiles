@@ -30,9 +30,16 @@ nn awE ya"
 nn awR ya(
 nn awT ya[
 
+nn vc V%
 
-nn <M-H> 0^
-nn <M-L> $
+" nn <M-H> 0^
+" nn <M-L> $
+
+nn <M-H> I
+nn <M-L> A
+
+nn <M-m> 0^
+nn <M-`> $
 
 
 nm ac yw
@@ -74,7 +81,9 @@ map 3 #
 
 nm cx c<Plug>CamelCaseMotion_w
 map ds d<Plug>CamelCaseMotion_w
-nm <m-w> <Plug>CamelCaseMotion_w
+
+nm <m-w> b
+nm t <Plug>CamelCaseMotion_w
 
 " map b <Nop>
 
@@ -281,12 +290,12 @@ xnoremap <silent>K :<C-u> VMoveCursor b<cr>
 
 " this needs to be map and no noremap for macros/matchit.vim to work
 
-" splits
-nnoremap <C-J> <C-w>j
-nnoremap <C-J> <esc><C-w>j
+" " splits
+" nnoremap <C-J> <C-w>j
+" nnoremap <C-J> <esc><C-w>j
 
-nnoremap <C-T> <C-w>l
-inoremap <C-T> <esc><C-w>l
+" nnoremap <C-T> <C-w>l
+" inoremap <C-T> <esc><C-w>l
 
 map <C-K> <C-w>k
 

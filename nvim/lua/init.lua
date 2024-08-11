@@ -269,6 +269,15 @@ if vim.g.firstload == nil then
   vim.keymap.set("n", "<leader>re", "<cmd>lua codeRun({fileRun = true})<CR>", {silent = true, noremap = true})
 
 
+function _G.swallow_output(callback, ...)
+  local old_print = print
+  print = function(...) end
+
+  pcall(callback, arg)
+
+  print = old_print
+end
+
 
   -- Array of file names indicating root directory. Modify to your liking.
 
@@ -328,7 +337,7 @@ if vim.g.firstload == nil then
   end
 
   local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
-  vim.api.nvim_create_autocmd({'BufReadPost', "BufEnter", "VimEnter"} , { group = root_augroup, callback = set_root })
+  vim.api.nvim_create_autocmd({'BufReadPost', "BufEnter", "VimEnter"} , { group = root_augroup, callback = function() swallow_output(function() set_root() end) end})
 
 
   local pre_write = function()
