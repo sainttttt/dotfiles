@@ -264,8 +264,9 @@ return {
   --   end
   -- },
 
-  { dir = "~/code/yoke.vim",
-    -- 'sainttttt/yoke.vim',
+  {
+    -- dir = "~/code/yoke.vim",
+    'sainttttt/yoke.vim',
     config = function()
       require('yoke').setup()
     end
