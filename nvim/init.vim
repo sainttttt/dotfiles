@@ -12,12 +12,14 @@ nn <C-u> <nop>
 nn u <Nop>
 nn U <Nop>
 nn e u
-nn E <C-r>
+nn <C-n> <C-r>
 
-nn <C-n> <nop>
 nn <C-p> <nop>
 
 nn aq <nop>
+
+
+nn <M-W> b
 
 nn aww yi'
 nn awe yi"
@@ -30,16 +32,24 @@ nn awE ya"
 nn awR ya(
 nn awT ya[
 
+cmap <M-f> F
+cmap <M-d> D
+cmap <M-s> S
+
 nn vc V%
 
 " nn <M-H> 0^
 " nn <M-L> $
+
+nn <M-C> 0^
+nn <M-V> $
 
 nn <M-H> I
 nn <M-L> A
 
 nn <M-m> 0^
 nn <M-`> $
+
 
 
 nm ac yw
@@ -107,8 +117,15 @@ set maxmempattern=5000
 
 set clipboard+=unnamedplus
 
-nnoremap <CR> :
-vnoremap <CR> :
+nn <M-E> :
+cnoremap <M-E> <CR>
+vnoremap <M-E> :
+
+nmap <CR> J
+nmap <M-D> K
+
+xmap <CR> J
+xmap <M-D> K
 
 nn m J
 
@@ -256,12 +273,13 @@ nnoremap <silent> <Leader>e :Messages<CR>
 " nnoremap <silent> WW :close!<CR>
 " nnoremap <silent> <M-W> :close!<CR>
 
-nnoremap <silent> <M-W> :call undoquit#SaveWindowQuitHistory()<cr>:close!<CR>
+nnoremap <silent> <M-w> :call undoquit#SaveWindowQuitHistory()<cr>:close!<CR>
 nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 " nnoremap <silent> s <esc>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
-nnoremap <silent> <C-n><M-W> :qa!<CR>
+nnoremap <silent> <M-%> :qa!<CR>
+
 nnoremap <silent> MM :qa!<CR>
 nnoremap <silent> BB :qa!<CR>
 

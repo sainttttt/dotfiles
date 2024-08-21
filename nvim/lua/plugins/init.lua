@@ -628,7 +628,7 @@ return {
       let g:searchx.nohlsearch.jump = v:true
 
       " Marker characters.
-      let g:searchx.markers = split('FDSREWVCXAQZUIOPHJKLBNMTYGVB', '.\zs')
+      let g:searchx.markers = split('FDSEWVCXRAQZUIOPHJKLBNMTYGVB', '.\zs')
 
       function g:searchx.convert(input) abort
         " use two backticks to start regex mode

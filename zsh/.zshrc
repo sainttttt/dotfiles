@@ -215,6 +215,7 @@ alias esp="nvim ~/Library/Application\ Support/espanso/match/base.yml"
 alias kara="cd ~/code/karina/; nvim ~/code/karina/base.json"
 alias karalog="tail -f ~/.local/share/karabiner/log/console_user_server.log"
 
+alias tc="tmux new-session -A -t"
 
 cgif() {  convert $1 "$(echo "$1"  | sed -e "s/\..*/\.gif/")" }
 cpng() {  convert $1 "$(echo "$1"  | sed -e "s/\..*/\.png/")" }
@@ -329,7 +330,6 @@ bindkey -M vicmd "^R" atuin-search-vicmd
 bindkey -M vicmd 'k' up-line-or-history
 bindkey -M vicmd 'j' down-line-or-history
 
-
 vi-back() { zle vi-insert; zle kill-whole-line; cd .. ; zle accept-line }
 zle -N vi-back
 bindkey -M vicmd "^[W" vi-back
@@ -338,6 +338,7 @@ bindkey -M viins "^[W" vi-back
 vi-pop() { zle vi-insert; zle kill-whole-line; popd; zle accept-line }
 zle -N vi-pop
 bindkey -M vicmd "^N" vi-pop
+bindkey -M viins "^N" vi-pop
 
 vi-nvim() { zle kill-whole-line; nvim; zle accept-line }
 zle -N vi-nvim

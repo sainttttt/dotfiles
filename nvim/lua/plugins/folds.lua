@@ -32,7 +32,7 @@ return {
        " this loadview function is used to preserve line jumps when you open a file
        " through ripgrep in fzf lua or something similar. it saves the line position of the
        " file when it is opened if it is not the first line and restores it
-       au BufWinEnter ?* call timer_start(500, { tid -> execute(['lua loadView()'])})
+       au BufWinEnter ?* call timer_start(500, { tid -> execute(['silent! lua loadView()'])})
 
        " au BufWinEnter ?* call timer_start(500, { tid -> execute(["norm! m'" , 'silent! loadview 3'])})
        augroup END
