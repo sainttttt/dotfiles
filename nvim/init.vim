@@ -77,6 +77,7 @@ nn de db
 nn ce cb
 
 nn R yy
+xn R y
 nn W y$
 xn W y
 
