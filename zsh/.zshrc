@@ -205,8 +205,9 @@ alias vim="nvim"
 alias vi="vim"
 
 alias jk="jobs -p | grep -o -E '\s\d+\s'  | xargs kill -9"
-alias ll="ls -ltrh"
-alias l="ll"
+alias ll="eza -l -smodified --no-user --no-permissions --color=always"
+alias lt="eza -l -smodified --no-user --no-permissions -T -L 2 --color=always | less -r"
+alias l=ll
 alias reload="source ~/.zshrc"
 alias lf="ls -tr1 | tail -n 1"
 alias dush="du -sh * | gsort -h"
@@ -315,11 +316,28 @@ vi-ls() {
     BUFFER=l;
     zle accept-line
   fi
-
 }
+
+vi-lst() {
+  BUFFER_TRIM="$(echo -e "${BUFFER}" | tr -d '[:space:]')"
+  zle vi-insert;
+  if [[ ! -z $BUFFER_TRIM ]]; then
+    zle complete-word
+    BUFFER=$BUFFER"; lt"
+    zle accept-line;
+  else
+    BUFFER=lt;
+    zle accept-line
+  fi
+}
+
 zle -N vi-ls
 bindkey -M vicmd "^A" vi-ls
 bindkey -M viins "^A" vi-ls
+
+zle -N vi-lst
+bindkey -M vicmd "^[a" vi-lst
+bindkey -M viins "^[a" vi-lst
 
 vi-fg() { zle vi-insert; zle kill-whole-line; BUFFER=fg; zle accept-line }
 zle -N vi-fg
