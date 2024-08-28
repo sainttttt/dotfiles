@@ -93,8 +93,7 @@ map 3 #
 nm cx c<Plug>CamelCaseMotion_w
 map ds d<Plug>CamelCaseMotion_w
 
-nm <m-w> b
-nm t <Plug>CamelCaseMotion_w
+nm <m-w> CamelCaseMotion_w
 
 " map b <Nop>
 
