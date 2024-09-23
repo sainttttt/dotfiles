@@ -20,7 +20,7 @@
 
     force_push: Some(( code: Char('P'), modifiers: "CONTROL")),
     // push: Some(( code: Char('p'), modifiers: "CONTROL")),
-    push: Some(( code: Char('>'), modifiers: "")),
+    push: Some(( code: Char('p'), modifiers: "CONTROL")),
     cmd_bar_toggle: Some(( code: Char(','), modifiers: "")),
 
     move_left: Some(( code: Char('h'), modifiers: "")),
