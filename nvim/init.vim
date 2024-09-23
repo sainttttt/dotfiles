@@ -16,7 +16,11 @@ nn <C-n> <C-r>
 
 nn <C-p> <nop>
 
+nmap v<space> Vq=
+
 nn aq <nop>
+
+nn <leader><leader>w <down>
 
 
 nn <M-W> b
@@ -41,6 +45,8 @@ nn vc V%
 " nn <M-H> 0^
 " nn <M-L> $
 
+
+" jump to end and beginning of line
 nn <M-C> 0^
 nn <M-V> $
 
@@ -117,7 +123,8 @@ set maxmempattern=5000
 
 set clipboard+=unnamedplus
 
-nn <M-E> :
+nn <M-n> :
+
 cnoremap <M-E> <CR>
 vnoremap <M-E> :
 
@@ -242,15 +249,17 @@ nn z <Nop>
 
 " nmap <leader>m m
 
-nnoremap <leader>1 mQ
-nnoremap <leader>2 mW
-nnoremap <leader>3 mE
-nnoremap <leader>4 mR
+nn <leader>2 mW
+nn <leader>3 mW
+nn <leader>4 mE
 
-map <M-!> zQ
-map <M-@> zW
-map <M-#> zE
-map <M-$> zR
+" nn <leader><leader> mR
+
+map <M-!> zW
+map <M-@> zE
+map <M-#> zR
+
+" map <M-$> zR
 
 nnoremap <leader>m mM
 nnoremap <leader>n mN
@@ -278,7 +287,9 @@ nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 " nnoremap <silent> s <esc>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
-nnoremap <silent> <M-%> :qa!<CR>
+"
+nnoremap <silent> <M-%><m-w> :qa!<CR>
+nnoremap <silent> <M-%> <nop>
 
 nnoremap <silent> MM :qa!<CR>
 nnoremap <silent> BB :qa!<CR>

@@ -252,6 +252,8 @@ return {
       vim.keymap.set('n', '22', toggleFold, { noremap = true, silent = true })
       -- vim.keymap.set({'n'}, 've', openFoldRec, { noremap = true, silent = true })
       vim.keymap.set({'x'}, 'T', function() vim.cmd('normal! zf') end, { noremap = true, silent = true })
+
+      vim.keymap.set({'n'}, '<C-d>', function() vim.cmd('normal! za') end, { noremap = true, silent = true })
       -- vim.keymap.set({'n'}, 'T', function() vim.cmd('normal! zC') end, { noremap = true, silent = true })
 
       vim.keymap.set('n', '2e', undoFold, { noremap = true, silent = true })
@@ -269,13 +271,19 @@ return {
     end
   },
 
+
   { "chrisgrieser/nvim-origami",
     event = "BufReadPost", -- later or on keypress would prevent saving folds
     opts = true, -- needed even when using default config
     config = function ()
       require("origami").setup ({
         keepFoldsAcrossSessions = false,
+        hOnlyOpensOnFirstColumn = true,
+
+        -- setupFoldKeymaps = false,
+
       }) -- setup call needed
+      -- vim.keymap.set("n", "<Right>", function() require("origami").l() end)
     end,
   },
 

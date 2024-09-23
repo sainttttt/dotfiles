@@ -139,6 +139,7 @@ export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacO
 
 ## youtube stuff
 STREAMS_FOLDER=/Volumes/SSD1/Streams
+STREAMS_FOLDER=/Volumes/HDD1A/streams-archive
 
 alias adl='aydl(){ cd $STREAMS_FOLDER; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
 alias a='adl'
@@ -170,6 +171,8 @@ yf() {
 }
 
 function ns { ffmpeg -i "$1" -c copy -an "${1%.*}-nosound.${1#*.}" }
+
+function fftrim { ffmpeg -ss $2 -i "$1" -to $3 -c copy "${1%.*}-trim.${1#*.}" }
 
 mp4() { ffmpeg -i $1 -c:a aac -c:v libx264 -crf 24 "$(echo "$1"  | sed -e "s/\..*/\.mp4/")" }
 mp4c() { ffmpeg -i $1 -c:a aac -c:v libx264 -crf $2 "$(echo "$1"  | sed -e "s/\..*/\-c.mp4/")" }
@@ -336,8 +339,8 @@ bindkey -M vicmd "^A" vi-ls
 bindkey -M viins "^A" vi-ls
 
 zle -N vi-lst
-bindkey -M vicmd "^[a" vi-lst
-bindkey -M viins "^[a" vi-lst
+bindkey -M vicmd "^[A" vi-lst
+bindkey -M viins "^[A" vi-lst
 
 vi-fg() { zle vi-insert; zle kill-whole-line; BUFFER=fg; zle accept-line }
 zle -N vi-fg
@@ -350,8 +353,8 @@ bindkey -M vicmd 'j' down-line-or-history
 
 vi-back() { zle vi-insert; zle kill-whole-line; cd .. ; zle accept-line }
 zle -N vi-back
-bindkey -M vicmd "^[W" vi-back
-bindkey -M viins "^[W" vi-back
+bindkey -M vicmd "^[w" vi-back
+bindkey -M viins "^[w" vi-back
 
 vi-pop() { zle vi-insert; zle kill-whole-line; popd; zle accept-line }
 zle -N vi-pop

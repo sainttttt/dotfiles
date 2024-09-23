@@ -536,7 +536,7 @@ end
 
 
 vim.keymap.set({"n"}, "s", saveFile, {silent = false, noremap = true})
-vim.keymap.set({"n"}, "<M-e>", reloadFile, {silent = false, noremap = true})
+vim.keymap.set({"n"}, "<C-n>", reloadFile, {silent = false, noremap = true})
 vim.keymap.set({"n"}, "<leader>cs", reloadColorScheme, {silent = false, noremap = true})
 
 local function addText(opts)
