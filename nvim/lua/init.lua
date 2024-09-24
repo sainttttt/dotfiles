@@ -561,3 +561,13 @@ end
 
 vim.keymap.set({"x"}, "<Left>", function() addText({dir='pre'}) end, {silent = false, noremap = true})
 vim.keymap.set({"x"}, "<Right>", function() addText({dir='post'}) end, {silent = false, noremap = true})
+
+local function karaSearch()
+  local fzf_lua = require'fzf-lua'
+  local keySearch = vim.fn.input("Key: ", "", "file")
+  local searchString = '"key_code": "' .. keySearch .. '"'
+
+  fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\"; }; rg2", query = searchString })
+end
+
+vim.keymap.set({"n"}, "<leader>as", function() karaSearch() end, {silent = false, noremap = true})

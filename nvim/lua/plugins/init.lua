@@ -19,6 +19,56 @@ return {
   },
 
   -- † plugins † ----------------------------------------------
+  --
+
+  {
+    "dgox16/devicon-colorscheme.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("devicon-colorscheme").setup({
+        colors = {
+          blue = "#92a2d5",
+          cyan = "#85b5ba",
+          green = "#000000",
+          magenta = "#e29eca",
+          orange = "#f5a191",
+          purple = "#aca1cf",
+          red = "#ea83a5",
+          white = "#c9c7cd",
+          yellow = "#ea83a5",
+          bright_blue = "#000000",
+          bright_cyan = "#99c9ce",
+          bright_green = "#9dc6ac",
+          bright_magenta = "#ecaad6",
+          bright_orange = "#ffae9f",
+          bright_purple = "#b9aeda",
+          bright_red = "#f591b2",
+          bright_yellow = "#ea83a5",
+        },
+      })
+      require("fzf-lua.devicons").unload()
+    end
+  },
+
+  {
+    "cbochs/grapple.nvim",
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons", lazy = true }
+    },
+    config = function()
+      vim.keymap.set("n", "<leader>m", require("grapple").toggle)
+      vim.keymap.set("n", "<leader>M", require("grapple").toggle_tags)
+
+      -- User command
+      vim.keymap.set("n", "<leader>2", "<cmd>Grapple select index=1<cr>")
+      vim.keymap.set("n", "<leader>3", "<cmd>Grapple select index=2<cr>")
+      vim.keymap.set("n", "<leader>4", "<cmd>Grapple select index=3<cr>")
+      vim.keymap.set("n", "<leader>5", "<cmd>Grapple select index=4<cr>")
+    end
+  },
+
 
   { "debugloop/telescope-undo.nvim",
     dependencies = { -- note how they're inverted to above example

@@ -41,6 +41,7 @@ cmap <M-d> D
 cmap <M-s> S
 
 nn vc V%
+nn va V%y
 
 " nn <M-H> 0^
 " nn <M-L> $
@@ -128,11 +129,7 @@ nn <M-n> :
 cnoremap <M-E> <CR>
 vnoremap <M-E> :
 
-nmap <CR> J
-nmap <M-D> K
-
-xmap <CR> J
-xmap <M-D> K
+nmap <CR> :
 
 nn m J
 
@@ -243,33 +240,41 @@ set fdo-=search
 
 nnoremap <c-p> <c-i>
 
-nn z <Nop>
+nn z <nop>
 
 " marks
 
 " nmap <leader>m m
+"
+function! SetMark()
+  " echo "meow"
+  normal! mQ
+  hi! link CursorLine MarkSet
+  call timer_start(200, { tid -> execute('hi! link CursorLine CursorLineMain')})
+endfunction
 
-nn <leader>2 mW
-nn <leader>3 mW
-nn <leader>4 mE
+" nn <leader>2 mQ | hi! link CursorLine YankText | call timer_start(200, { tid -> execute('hi! link CursorLine CursorLineMain')})
+" nn <silent> <leader>2 :call SetMark()<CR>
+" nn <leader>3 mW
+" nn <leader>4 mE
 
 " nn <leader><leader> mR
+"
 
-map <M-!> zW
-map <M-@> zE
-map <M-#> zR
+nn ;2 `Q
+nn ;3 `W
+nn ;4 `E
+
+nn <M-!> `Q
+nn <M-@> `W
+nn <M-#> `E
 
 " map <M-$> zR
-
-nnoremap <leader>m mM
+" nnoremap <leader>m mM
 nnoremap <leader>n mN
 nnoremap <leader>b mB
 nnoremap <leader>v mV
 
-map zm zM
-map zn zN
-map zb zB
-map zv zV
 
 autocmd FileType lua setlocal foldmethod=expr foldexpr=getline(v:lnum)=~'^\\s*--'
 
@@ -288,7 +293,9 @@ nnoremap <silent> <M-z> :Undoquit<CR>
 " nnoremap <silent> s <esc>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
 "
-nnoremap <silent> <M-%><m-w> :qa!<CR>
+nn <silent> <M-%><m-w> :qa!<CR>
+nn <silent> <M-(> :qa!<CR>
+
 nnoremap <silent> <M-%> <nop>
 
 nnoremap <silent> MM :qa!<CR>
@@ -304,7 +311,6 @@ nnoremap K 15k
 
 nnoremap <silent>L :MoveCursor<cr>
 nnoremap <silent>H :MoveCursor b<cr>
-
 
 nnoremap <silent><M-down> :MoveCursor<cr>
 nnoremap <silent><M-up> : MoveCursor b<cr>

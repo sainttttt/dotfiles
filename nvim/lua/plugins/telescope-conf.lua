@@ -9,6 +9,7 @@ return
       "ibhagwan/fzf-lua",
       -- optional for icon support
       dependencies = { "nvim-tree/nvim-web-devicons" },
+      -- dependencies = { "echasnovski/mini.icons" },
       config = function()
         local actions = require('fzf-lua.actions')
         -- calling `setup` is optional for customization
@@ -112,7 +113,7 @@ return
             multiprocess      = true,           -- run command in a separate process
             git_icons         = true,           -- show git icons?
             file_icons        = true,           -- show file icons?
-            color_icons       = true,           -- colorize file|git icons
+            color_icons       = false,           -- colorize file|git icons
             -- executed command priority is 'cmd' (if exists)
             -- otherwise auto-detect prioritizes `rg` over `grep`
             -- default options are controlled by 'rg|grep_opts'
@@ -161,7 +162,7 @@ return
             multiprocess      = true,           -- run command in a separate process
             git_icons         = true,           -- show git icons?
             file_icons        = true,           -- show file icons?
-            color_icons       = true,           -- colorize file|git icons
+            color_icons       = false,           -- colorize file|git icons
             -- path_shorten   = 1,              -- 'true' or number, shorten path?
             -- executed command priority is 'cmd' (if exists)
             -- otherwise auto-detect prioritizes `fd`:`rg`:`find`
@@ -200,6 +201,7 @@ return
 
         -- vim.keymap.set("n", "gf", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-2 | rev | cut -d'/' -f1 | rev; }; rg2" }) end)
         vim.keymap.set("n", "as", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\"; }; rg2" }) end)
+
         vim.keymap.set("n", "aS", function() fzf_lua.live_grep({ cmd = "rg2() { rg  --no-ignore --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\"; }; rg2" }) end)
 
         -- vim.keymap.set("n", "gF", function() fzf_lua.live_grep({ cmd = "rg2() {rg  --column --no-ignore --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\"; }; rg2" }) end)

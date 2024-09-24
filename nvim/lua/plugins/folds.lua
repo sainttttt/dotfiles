@@ -249,25 +249,26 @@ return {
         print("Cleared View Folder")
       end
 
-      vim.keymap.set('n', '22', toggleFold, { noremap = true, silent = true })
+      -- vim.keymap.set('n', '22', toggleFold, { noremap = true, silent = true })
       -- vim.keymap.set({'n'}, 've', openFoldRec, { noremap = true, silent = true })
       vim.keymap.set({'x'}, 'T', function() vim.cmd('normal! zf') end, { noremap = true, silent = true })
 
       vim.keymap.set({'n'}, '<C-d>', function() vim.cmd('normal! za') end, { noremap = true, silent = true })
       -- vim.keymap.set({'n'}, 'T', function() vim.cmd('normal! zC') end, { noremap = true, silent = true })
 
-      vim.keymap.set('n', '2e', undoFold, { noremap = true, silent = true })
-      vim.keymap.set('n', '<leader>22', deleteViewFolder, { noremap = true, })
-      vim.keymap.set('n', '2E', redoFold, { noremap = true, silent = true })
+      -- vim.keymap.set('n', '2e', undoFold, { noremap = true, silent = true })
+      -- vim.keymap.set('n', '<leader><leader>2', deleteViewFolder, { noremap = true, })
+      vim.keymap.set('n', '<leader>dv', deleteViewFolder, { noremap = true, })
+      -- vim.keymap.set('n', '2E', redoFold, { noremap = true, silent = true })
 
 
-      vim.keymap.set('n', '2r', require('ufo').openAllFolds, { silent = true })
+      -- vim.keymap.set('n', '2r', require('ufo').openAllFolds, { silent = true })
       -- vim.keymap.set('n', '2j', require('ufo').closeFoldsWith, { silent = true })
       -- vim.keymap.set('n', '2k', require('ufo').openFoldsExceptKinds, { silent = true })
 
-      vim.keymap.set('n', '2j', require('ufo').closeAllFolds, { silent = true })
-      vim.keymap.set('n', '2k', require('ufo').openAllFolds, { silent = true })
-      vim.keymap.set('n', '2m', require('ufo').closeAllFolds,{ silent = true })
+      vim.keymap.set('n', 'vj', require('ufo').closeAllFolds, { silent = true })
+      vim.keymap.set('n', 'vk', require('ufo').openAllFolds, { silent = true })
+      -- vim.keymap.set('n', '2m', require('ufo').closeAllFolds,{ silent = true })
     end
   },
 
