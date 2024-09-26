@@ -95,14 +95,14 @@ return
           actions = {
             files = {
               ["alt-v"]  = actions.file_vsplit,
-              [	"alt-s"]  = actions.file_vsplit,
+              [	">"]  = actions.file_vsplit,
               ["ctrl-v"] = false,
               ["alt-b"]  = actions.file_sel_to_qf,
             },
 
             buffers = {
               ["alt-v"]      = actions.file_vsplit,
-              ["alt-s"]      = actions.file_vsplit,
+              [">"]      = actions.file_vsplit,
             },
           },
 

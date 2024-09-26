@@ -12,7 +12,6 @@ nn <C-u> <nop>
 nn u <Nop>
 nn U <Nop>
 nn e u
-nn <C-n> <C-r>
 
 nn <C-p> <nop>
 
@@ -687,6 +686,7 @@ endif
 
 
 if exists('g:neovide')
+  let g:neovide_input_macos_option_key_is_meta = 'both'
   exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Katarina'
   edit GEN\ TODO.md
 endif
