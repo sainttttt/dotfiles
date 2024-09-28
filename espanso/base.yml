@@ -10,8 +10,8 @@
 matches:
 
 
-  - trigger: ";;jr"
-    replace: "Hi! I was just wondering if this position is still available? Thanks!"
+  - trigger: ";;e"
+    replace: "@x265.ca"
     propagate_case: false
 
   - trigger: ";;rn"

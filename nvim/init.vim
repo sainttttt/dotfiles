@@ -50,8 +50,13 @@ nn va V%y
 nn <M-C> 0^
 nn <M-V> $
 
-nn <M-H> I
-nn <M-L> A
+nn <M-H> <C-o>
+nn <M-v> <C-o>
+nn <M-L> <C-i>
+nn <M-g> <C-i>
+
+nn <Left>  I
+nn <Right> A
 
 nn <M-m> 0^
 nn <M-`> $
@@ -87,8 +92,6 @@ xn R y
 nn W y$
 xn W y
 
-nn <Left> <C-o>
-nn <Right> <C-i>
 
 nn 4 $
 xn 4 $
