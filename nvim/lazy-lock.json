@@ -33,7 +33,6 @@
   "lush.nvim": { "branch": "main", "commit": "6a254139d077ad53be7e4f3602c8da0c84447fd9" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "fd69d5c782a28420d51b648a3d7fe88df569d391" },
   "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
-  "mini.icons": { "branch": "main", "commit": "2d89252993fec829b24720097a687412d10f6c85" },
   "mini.nvim": { "branch": "main", "commit": "af673d8523c5c2c5ff0a53b1e42a296ca358dcc7" },
   "netrw.nvim": { "branch": "master", "commit": "90501c62b9b816ed3ed1e912ae9db9af5671a1b2" },
   "nim.nvim": { "branch": "master", "commit": "076239e8869e3e9b061b17cbca2cea2df73d5f92" },
@@ -87,6 +86,7 @@
   "vim-searchx": { "branch": "mod", "commit": "cd7fa51a52ad6ae3d1459e12b72803fc3f0661c1" },
   "xcodebuild.nvim": { "branch": "main", "commit": "aaf7591544a7088866da68cf6e9011981b6af863" },
   "yanki.nvim": { "branch": "master", "commit": "ebccf6ec45c30a70a9a80bb93d2619584f2c6b8d" },
+  "yanky.nvim": { "branch": "main", "commit": "73215b77d22ebb179cef98e7e1235825431d10e4" },
   "yoke.vim": { "branch": "master", "commit": "ee6220b9d8973c7bd5aedd590548f2d31bcbd730" },
   "zen-mode.nvim": { "branch": "main", "commit": "3a14e01fde630e2b3ce1ad4f005676232bd857fe" }
 }

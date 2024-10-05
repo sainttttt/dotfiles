@@ -18,6 +18,22 @@ matches:
     replace: "site:reddit.com/r/ after:2023-01-01"
     propagate_case: false
 
+  - trigger: ";;jog1"
+    replace: "https://files.catbox.moe/x3a2p5.gif"
+    propagate_case: false
+
+  - trigger: ";;jog2"
+    replace: "https://files.catbox.moe/avkrf2.gif"
+    propagate_case: false
+
+  - trigger: ";;sax"
+    replace: "https://files.catbox.moe/hk7j5y.gif"
+    propagate_case: false
+
+  - trigger: ";;cur"
+    replace: "https://files.catbox.moe/eyo4dx.gif"
+    propagate_case: false
+
   - trigger: ";;rb"
     replace: "site:reddit.com/r/ after:2022-01-01"
     propagate_case: false
@@ -46,6 +62,10 @@ matches:
     replace: "after:2023-01-01"
     propagate_case: false
     word: true
+
+  - trigger: ";;ano"
+    replace: "https://cdn.discordapp.com/attachments/1117213342554144839/1290640496766484524/AnoooNeFren.png?ex=66fd3221&is=66fbe0a1&hm=1d25750b93621457800a45078257eed1562cd49c86dbb647a47f3265ec6cf386&"
+    propagate_case: false
 
   - trigger: ";;ang"
     replace: "https://media.discordapp.net/attachments/679399659843616831/957582470214217758/AngelFren.gif "

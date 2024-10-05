@@ -19,21 +19,61 @@ nmap v<space> Vq=
 
 nn aq <nop>
 
+
+nnoremap c "_c
+nnoremap cc "_cc
+
+nn ch "_ci'
+nn cj "_ci"
+nn ck "_ci(
+nn cl "_ci[
+
+nn cH "_ca'
+nn cJ "_ca"
+nn cK "_ca(
+nn cL "_ca[
+
+nn ce cb
+nm cx c<Plug>CamelCaseMotion_w
+
+" map c b
+
 nn <leader><leader>w <down>
 
+" nn aww yi'
+" nn awe yi"
+" nn awr yi(
+" nn awt yi[
 
-nn <M-W> b
-
-nn aww yi'
-nn awe yi"
-nn awr yi(
-nn awt yi[
+" nn awW ya'
+" nn awE ya"
+" nn awR ya(
+" nn awT ya[
 
 nn aw <nop>
-nn awW ya'
-nn awE ya"
-nn awR ya(
-nn awT ya[
+
+nn a <nop>
+
+nn ah yi'
+nn aj yi"
+nn ak yi(
+nn al yi[
+
+nn aH ya'
+nn aJ ya"
+nn aK ya(
+nn aL ya[
+
+nn dh di'
+nn dj di"
+nn dk di(
+nn dl di[
+
+nn dH da'
+nn dJ da"
+nn dK da(
+nn dL da[
+
 
 cmap <M-f> F
 cmap <M-d> D
@@ -41,6 +81,8 @@ cmap <M-s> S
 
 nn vc V%
 nn va V%y
+nn vD V%X
+
 
 " nn <M-H> 0^
 " nn <M-L> $
@@ -70,22 +112,10 @@ xn Q %
 xn q %
 nn q %
 
-nn ch "_ci'
-nn cj "_ci"
-nn ck "_ci(
-nn cl "_ci[
-
-nn ah yi'
-nn aj yi"
-nn ak yi(
-nn al yi[
-
-
 nn ag f
 nn t b
 
 nn de db
-nn ce cb
 
 nn R yy
 xn R y
@@ -99,8 +129,7 @@ xn 4 $
 nn 1 0
 map 3 #
 
-nm cx c<Plug>CamelCaseMotion_w
-map ds d<Plug>CamelCaseMotion_w
+nm ds d<Plug>CamelCaseMotion_w
 
 nm <m-w> CamelCaseMotion_w
 
@@ -131,7 +160,6 @@ nn <M-n> :
 cnoremap <M-E> <CR>
 vnoremap <M-E> :
 
-nmap <CR> :
 
 nn m J
 
@@ -296,6 +324,7 @@ nnoremap <silent> <M-z> :Undoquit<CR>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
 "
 nn <silent> <M-%><m-w> :qa!<CR>
+nn <silent> <M-%><c-n> :e!<CR>
 nn <silent> <M-(> :qa!<CR>
 
 nnoremap <silent> <M-%> <nop>
@@ -311,15 +340,22 @@ autocmd Filetype qf map <buffer> <Space> <CR>
 nnoremap J 15j
 nnoremap K 15k
 
-nnoremap <silent>L :MoveCursor<cr>
-nnoremap <silent>H :MoveCursor b<cr>
+nmap <CR> :
+
+nn <silent>L :MoveCursor<cr>
+nn <silent>H :MoveCursor b<cr>
+
+" nn <silent>L w
+" nn <silent>H b
+
+xn <silent>L :<C-u> VMoveCursor<cr>
+xn <silent>H :<C-u> VMoveCursor b<cr>
+
 
 nnoremap <silent><M-down> :MoveCursor<cr>
-nnoremap <silent><M-up> : MoveCursor b<cr>
+" nnoremap <silent><M-up> :MoveCursor b<cr>
+nnoremap <silent><M-up> <nop>
 
-xnoremap <silent>L :<C-u> VMoveCursor<cr>
-
-xnoremap <silent>H :<C-u> VMoveCursor b<cr>
 
 xnoremap <silent>J :<C-u> VMoveCursor<cr>
 xnoremap <silent>K :<C-u> VMoveCursor b<cr>
@@ -348,14 +384,16 @@ nnoremap <M-,> <C-w>H
 " --------------------------------------------------
 
 nnoremap dd "_dd
+nnoremap X "_dd
 nnoremap d "_d
+xn d "_d
+
+xn D x
+
 nnoremap x "_x
 vnoremap x "_x
 
-vnoremap X x
-
-nnoremap c "_c
-nnoremap cc "_cc
+vnoremap D x
 
 nnoremap C "_C
 nnoremap D Ydd
@@ -378,7 +416,6 @@ set updatetime=750
 
 " trigger `autoread` when files changes on disk
 set autoread
-
 
 " abbreviations ---------------------------------
 
@@ -703,5 +740,5 @@ augroup yank_text_highlight
   autocmd!
   autocmd InsertEnter * hi! link CursorLine CursorLineEdit
   autocmd InsertLeave * hi! link CursorLine CursorLineMain
-  autocmd TextYankPost * hi! link CursorLine YankText | call timer_start(200, { tid -> execute('hi! link CursorLine CursorLineMain')})
+  " autocmd TextYankPost * hi! link CursorLine YankText | call timer_start(200, { tid -> execute('hi! link CursorLine CursorLineMain')})
 augroup END

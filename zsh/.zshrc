@@ -235,7 +235,7 @@ c() { clear; tmux clear-history }
 
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 alias sq="sqlite3"
-alias tra="trash"
+alias ts="trash"
 alias src="vim ~/.zshrc"
 
 # common paths
@@ -344,6 +344,7 @@ bindkey -M viins "^[A" vi-lst
 
 vi-fg() { zle vi-insert; zle kill-whole-line; BUFFER=fg; zle accept-line }
 zle -N vi-fg
+
 bindkey -M vicmd "^[v" vi-fg
 bindkey -M viins "^[v" vi-fg
 

@@ -79,7 +79,7 @@ if vim.g.firstload == nil then
     vim.keymap.set('t', '<leader>rr', '<C-c>', opts)
     vim.keymap.set('t', '<leader>re',  "<cmd>lua codeRun({fileRun = true})<CR>", opts)
     if require'toggleterm' then
-      vim.keymap.set('t', '<m-c>', TermToggle, opts)
+      vim.keymap.set('t', '<m-Z>', TermToggle, opts)
     end
   end
 

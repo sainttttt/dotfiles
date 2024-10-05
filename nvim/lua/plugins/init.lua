@@ -21,6 +21,24 @@ return {
   -- † plugins † ----------------------------------------------
   --
 
+  { 'gbprod/yanky.nvim',
+    config = function()
+      require("yanky").setup({
+        highlight = {
+          on_put = true,
+          on_yank = true,
+          timer = 300,
+        },
+      })
+      -- Configuration for gbprod/yanky.nvim
+      vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
+      vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
+
+      vim.keymap.set("n", "vp", "<Plug>(YankyPreviousEntry)")
+      vim.keymap.set("n", "vo", "<Plug>(YankyNextEntry)")
+    end
+  },
+
   {
     "dgox16/devicon-colorscheme.nvim",
     dependencies = {
@@ -337,8 +355,8 @@ return {
         visual = "S",
         visual_line = "gS",
         delete = "dos",
-        change = "cs",
-        change_line = "cS",
+        change = "<leader>cs",
+        change_line = "<leader>cS",
     },
         -- Configuration here, or leave empty to use defaults
       })
@@ -512,7 +530,7 @@ return {
   { 'jakemason/ouroboros',
     dependencies = { { 'nvim-lua/plenary.nvim' } },
     config = function()
-      vim.cmd("autocmd! Filetype c,cpp noremap<buffer> 3 :Ouroboros<CR>")
+      vim.cmd("autocmd! Filetype c,cpp noremap<buffer> 4 :Ouroboros<CR>")
     end
   },
 
@@ -757,7 +775,7 @@ return {
 
       -- note: have to check init.lua for another mapping if you want to change
       -- the termtoggle mapping key
-      vim.keymap.set('n', '<m-c>', TermToggle, { noremap = true, silent = false })
+      vim.keymap.set('n', '<m-Z>', TermToggle, { noremap = true, silent = false })
 
       local Terminal = require('toggleterm.terminal').Terminal
       local gitui    = Terminal:new({

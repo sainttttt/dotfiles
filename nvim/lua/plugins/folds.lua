@@ -266,8 +266,8 @@ return {
       -- vim.keymap.set('n', '2j', require('ufo').closeFoldsWith, { silent = true })
       -- vim.keymap.set('n', '2k', require('ufo').openFoldsExceptKinds, { silent = true })
 
-      vim.keymap.set('n', 'vj', require('ufo').closeAllFolds, { silent = true })
-      vim.keymap.set('n', 'vk', require('ufo').openAllFolds, { silent = true })
+      vim.keymap.set('n', 'gj', require('ufo').closeAllFolds, { silent = true })
+      vim.keymap.set('n', 'gk', require('ufo').openAllFolds, { silent = true })
       -- vim.keymap.set('n', '2m', require('ufo').closeAllFolds,{ silent = true })
     end
   },
@@ -281,10 +281,12 @@ return {
         keepFoldsAcrossSessions = false,
         hOnlyOpensOnFirstColumn = true,
 
-        -- setupFoldKeymaps = false,
+        setupFoldKeymaps = false,
 
       }) -- setup call needed
       -- vim.keymap.set("n", "<Right>", function() require("origami").l() end)
+      --
+      vim.keymap.set("n", "l", function() require("origami").l() end)
     end,
   },
 
