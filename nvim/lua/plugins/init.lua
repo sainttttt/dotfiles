@@ -34,8 +34,8 @@ return {
       vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
       vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
 
-      vim.keymap.set("n", "vp", "<Plug>(YankyPreviousEntry)")
-      vim.keymap.set("n", "vo", "<Plug>(YankyNextEntry)")
+      vim.keymap.set("n", "zp", "<Plug>(YankyPreviousEntry)")
+      vim.keymap.set("n", "zo", "<Plug>(YankyNextEntry)")
     end
   },
 
@@ -205,9 +205,23 @@ return {
 
   { 'nvim-pack/nvim-spectre',
     config = function()
+      require("spectre").setup({
+        replace_engine = {
+          ["sed"] = {
+            cmd = "sed",
+            args = {
+              "-i",
+              "",
+              "-E",
+            },
+          },
+        },
+      })
+
       vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
         desc = "Toggle Spectre"
       })
+
     end
   },
 
@@ -534,8 +548,9 @@ return {
     end
   },
 
-  { "sainttttt/zen-mode.nvim",
-    -- dir =  "~/code/zen-mode.nvim",
+  {
+    -- "sainttttt/zen-mode.nvim",
+    dir =  "~/code/zen-mode.nvim",
     -- "folke/zen-mode.nvim",
     config = function()
       local zenmode = require('zen-mode')
@@ -589,6 +604,20 @@ return {
             -- cursorcolumn = false, -- disable cursor column
             -- foldcolumn = "0", -- disable fold column
             -- list = false, -- disable whitespace characters
+          },
+        },
+        plugins = {
+          neovide = {
+            enabled = true,
+            scale = 1.0,
+            disable_animations = {
+              neovide_animation_length = 0,
+              neovide_cursor_animate_command_line = false,
+              neovide_scroll_animation_length = 0,
+              neovide_position_animation_length = 0,
+              neovide_cursor_animation_length = 0,
+              neovide_cursor_vfx_mode = "",
+            }
           },
         },
         -- callback where you can add custom code when the Zen window opens

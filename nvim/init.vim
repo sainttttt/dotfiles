@@ -15,12 +15,10 @@ nn e u
 
 nn <C-p> <nop>
 
-nmap v<space> Vq=
-
+nm v<space> Vq=
+nn V<space> gg=G<c-o>
 nn aq <nop>
 
-
-nnoremap c "_c
 nnoremap cc "_cc
 
 nn ch "_ci'
@@ -32,6 +30,8 @@ nn cH "_ca'
 nn cJ "_ca"
 nn cK "_ca(
 nn cL "_ca[
+
+
 
 nn ce cb
 nm cx c<Plug>CamelCaseMotion_w
@@ -149,7 +149,7 @@ nmap <M-b> <Nop>
 " nn <silent> norm! n
 
 cnoremap <Tab> <CR>
- nnoremap <S-Tab> N
+nnoremap <S-Tab> N
 
 set maxmempattern=5000
 
@@ -330,7 +330,6 @@ nn <silent> <M-(> :qa!<CR>
 nnoremap <silent> <M-%> <nop>
 
 nnoremap <silent> MM :qa!<CR>
-nnoremap <silent> BB :qa!<CR>
 
 autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 autocmd Filetype qf map <buffer> <Space> <CR>
@@ -668,19 +667,19 @@ function! s:getchar()
 endfunction
 
 function! CallMacro()
-   "execute "normal! d".input("enter motion: ")
-   "let @/=@"
-   "startinsert
+  "execute "normal! d".input("enter motion: ")
+  "let @/=@"
+  "startinsert
   "echo "(InteractiveWindow) TYPE: h,j,k,l to resize or a for auto resize"
   let macro_reg = ""
   let macro_reg = s:getchar()
   echo l:macro_reg
   call RunMacro(l:macro_reg)
 
-"  let l:mylist = getreg(l:macro_reg)
-"  for l:item in split(l:mylist, '\zs')
-"    call feedkeys(l:item, 't')
-"  endfor
+  "  let l:mylist = getreg(l:macro_reg)
+  "  for l:item in split(l:mylist, '\zs')
+  "    call feedkeys(l:item, 't')
+  "  endfor
 
 endfunction
 
@@ -695,12 +694,12 @@ set fillchars=stl:─,stlnc:─
 set termguicolors
 
 augroup autocom
-    autocmd!
-    "executes the command on quit
-     autocmd VimLeave *.swift !killall xbase xbase-sourcekit-helper
+  autocmd!
+  "executes the command on quit
+  autocmd VimLeave *.swift !killall xbase xbase-sourcekit-helper
 
-    ""execute the command on write
-    "autocmd BufWritePost,FileWritePost *.cpp !your_commad
+  ""execute the command on write
+  "autocmd BufWritePost,FileWritePost *.cpp !your_commad
 augroup END
 
 function! StartCmd()

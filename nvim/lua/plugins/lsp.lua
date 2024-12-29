@@ -54,7 +54,7 @@ return {
         }
       })
       require("mason-lspconfig").setup {
-        ensure_installed = { "lua_ls", "nimls", "html", "crystalline", "tsserver", "pyright" },
+        ensure_installed = { "lua_ls", "nimls", "html", "crystalline", "ts_ls", "pyright" },
         automatic_installation = true,
       }
     end,
@@ -91,10 +91,6 @@ return {
           client.server_capabilities.completionProvider = false
           on_attach(client, bufnr)
         end
-      }
-
-      lspconfig.tsserver.setup {
-        on_attach = on_attach,
       }
 
       lspconfig.nimls.setup {

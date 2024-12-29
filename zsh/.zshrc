@@ -14,7 +14,7 @@ autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
 if [[ $(uname) == "Darwin" ]]; then
-  source /usr/local/opt/asdf/libexec/asdf.sh
+  source /opt/homebrew/opt/asdf/libexec/asdf.sh
 
   # not sure if I need/want this stuff
   # export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes

@@ -1,5 +1,4 @@
 # espanso match file
-
 # For a complete introduction, visit the official docs at: https://espanso.org/docs/
 
 # You can use this file to define the base matches (aka snippets)
@@ -14,8 +13,33 @@ matches:
     replace: "@x265.ca"
     propagate_case: false
 
+  - trigger: ";;qw"
+    replace: "Hi! Do you know if the thermal pads/paste have been replaced recently? Do you know what the card was used for? Thanks!"
+    propagate_case: false
+
+  - trigger: ";;qe"
+    replace: "Hi! Do you know if the thermal pads/paste have been replaced recently? Thanks!"
+    propagate_case: false
+
+
+  - trigger: ";;hehe"
+    replace: "https://cdn.discordapp.com/emojis/1103365947907121194.webp?size=240&quality=lossless"
+    propagate_case: false
+
+  - trigger: ";;mhm"
+    replace: "https://cdn.discordapp.com/emojis/1115744474228867214.webp?size=240&quality=lossless"
+    propagate_case: false
+
+  - trigger: ";;dog"
+    replace: "https://cdn.discordapp.com/attachments/1117213342554144839/1296144321254260819/CourageTheCowardlyFren.png?ex=671137f7&is=670fe677&hm=4016054225de028e70b0f4a702a2611b1917e80f26555f5adab1a623fdf5d06c&"
+    propagate_case: false
+
   - trigger: ";;rn"
     replace: "site:reddit.com/r/ after:2023-01-01"
+    propagate_case: false
+
+  - trigger: ";;hap"
+    replace: "https://files.catbox.moe/x57tiu.png"
     propagate_case: false
 
   - trigger: ";;jog1"
@@ -130,6 +154,10 @@ matches:
 
   - trigger: ";;hug3"
     replace: "https://i.imgur.com/2o2p0HQ.gif "
+    propagate_case: false
+
+  - trigger: ";;hug4"
+    replace: "https://cdn.discordapp.com/attachments/1117213342554144839/1313220703541268570/FrensHugs.png?ex=674f5796&is=674e0616&hm=fc80ccc80ce66971c6fa95ca1cdaf7e9be7e7c3c14961014ef9372879d64c83d&"
     propagate_case: false
 
   - trigger: ";;sal"
