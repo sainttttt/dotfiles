@@ -87,5 +87,6 @@
   "xcodebuild.nvim": { "branch": "main", "commit": "157197db1c701b6b3fc340f6d8213aa4a1fa07ac" },
   "yanki.nvim": { "branch": "master", "commit": "ebccf6ec45c30a70a9a80bb93d2619584f2c6b8d" },
   "yanky.nvim": { "branch": "main", "commit": "f9b905994cccf3c55f41af3a0a1f4c76c844e411" },
-  "yoke.vim": { "branch": "master", "commit": "ee6220b9d8973c7bd5aedd590548f2d31bcbd730" }
+  "yoke.vim": { "branch": "master", "commit": "ee6220b9d8973c7bd5aedd590548f2d31bcbd730" },
+  "zen-mode.nvim": { "branch": "main", "commit": "6c23894d00a2b1ac88f9984ce3cca29543b2a6d5" }
 }
