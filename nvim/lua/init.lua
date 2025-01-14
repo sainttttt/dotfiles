@@ -332,7 +332,7 @@ end
     -- Set current directory
     if root ~= nil and not string.starts(root, "term://") then
       vim.fn.chdir(root)
-      vim.o.shadafile = root .. '/.vim/main.shada'
+      -- vim.o.shadafile = root .. '/.vim/main.shada'
     end
   end
 
@@ -536,7 +536,8 @@ end
 
 
 vim.keymap.set({"n"}, "s", saveFile, {silent = false, noremap = true})
-vim.keymap.set({"n"}, "<C-n>", reloadFile, {silent = false, noremap = true})
+vim.keymap.set({"n"}, "<C-r>", reloadFile, {silent = false, noremap = true})
+vim.keymap.set({"n"}, "<C-n>", "<C-r>", {silent = false, noremap = true})
 vim.keymap.set({"n"}, "<leader>cs", reloadColorScheme, {silent = false, noremap = true})
 
 local function addText(opts)

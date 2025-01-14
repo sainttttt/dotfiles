@@ -387,10 +387,11 @@ nnoremap X "_dd
 nnoremap d "_d
 xn d "_d
 
-xn D x
+xn X x
+
+xn p P
 
 nnoremap x "_x
-vnoremap x "_x
 
 vnoremap D x
 
@@ -726,7 +727,7 @@ endif
 
 if exists('g:neovide')
   let g:neovide_input_macos_option_key_is_meta = 'both'
-  exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Katarina'
+  exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/TODO'
   edit GEN\ TODO.md
 endif
 

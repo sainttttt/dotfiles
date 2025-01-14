@@ -20,6 +20,12 @@ return {
 
   -- † plugins † ----------------------------------------------
   --
+  {'NlGHT/vim-eel',
+    config = function()
+      vim.cmd([[autocmd BufNewFile,BufRead *.jsfx :set filetype=eel2]])
+    end
+
+  },
 
   { 'gbprod/yanky.nvim',
     config = function()
@@ -31,8 +37,8 @@ return {
         },
       })
       -- Configuration for gbprod/yanky.nvim
-      vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
-      vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
+      vim.keymap.set({"n"}, "p", "<Plug>(YankyPutAfter)")
+      vim.keymap.set({"n"}, "P", "<Plug>(YankyPutBefore)")
 
       vim.keymap.set("n", "zp", "<Plug>(YankyPreviousEntry)")
       vim.keymap.set("n", "zo", "<Plug>(YankyNextEntry)")
@@ -172,7 +178,7 @@ return {
       local before = require('before')
       before.setup()
       --
-    vim.keymap.set('n', '<M-J>', function()
+      vim.keymap.set('n', '<M-J>', function()
         before.jump_to_last_edit()
         vim.cmd("normal! zz")
       end, {})
@@ -231,7 +237,7 @@ return {
         map <Plug> <Plug>Markdown_FollowLink
         map <Plug> <Plug>Markdown_Fold
         let g:vim_markdown_conceal = 0
-      ]]
+        ]]
     end,
   },
 
@@ -359,19 +365,19 @@ return {
     event = "VeryLazy",
     config = function()
       require("nvim-surround").setup({
-    keymaps = {
-        insert = "<C-g>s",
-        insert_line = "<C-g>S",
-        normal = "ys",
-        normal_cur = "yss",
-        normal_line = "yS",
-        normal_cur_line = "ySS",
-        visual = "S",
-        visual_line = "gS",
-        delete = "dos",
-        change = "<leader>cs",
-        change_line = "<leader>cS",
-    },
+        keymaps = {
+          insert = "<C-g>s",
+          insert_line = "<C-g>S",
+          normal = "ys",
+          normal_cur = "yss",
+          normal_line = "yS",
+          normal_cur_line = "ySS",
+          visual = "S",
+          visual_line = "gS",
+          delete = "dos",
+          change = "<leader>cs",
+          change_line = "<leader>cS",
+        },
         -- Configuration here, or leave empty to use defaults
       })
       vim.cmd([[
@@ -519,6 +525,7 @@ return {
         },
         highlight_for_count = true,
       })
+      vim.cmd("map u <Nop>")
     end
   },
 
@@ -606,20 +613,20 @@ return {
             -- list = false, -- disable whitespace characters
           },
         },
-        plugins = {
-          neovide = {
-            enabled = true,
-            scale = 1.0,
-            disable_animations = {
-              neovide_animation_length = 0,
-              neovide_cursor_animate_command_line = false,
-              neovide_scroll_animation_length = 0,
-              neovide_position_animation_length = 0,
-              neovide_cursor_animation_length = 0,
-              neovide_cursor_vfx_mode = "",
-            }
-          },
-        },
+        -- plugins = {
+        --   neovide = {
+        --     enabled = true,
+        --     scale = 1.0,
+        --     disable_animations = {
+        --       neovide_animation_length = 0,
+        --       neovide_cursor_animate_command_line = false,
+        --       neovide_scroll_animation_length = 0,
+        --       neovide_position_animation_length = 0,
+        --       neovide_cursor_animation_length = 0,
+        --       neovide_cursor_vfx_mode = "",
+        --     }
+        --   },
+        -- },
         -- callback where you can add custom code when the Zen window opens
         on_open = function(win)
           vim.g.zen_opened = true
@@ -729,14 +736,14 @@ return {
       let g:searchx.markers = split('FDSEWVCXRAQZUIOPHJKLBNMTYGVB', '.\zs')
 
       function g:searchx.convert(input) abort
-        " use two backticks to start regex mode
-        " which is basically magic mode I believe in vim parlance
-        if a:input[0:1] == '``'
-        return '\m' .. a:input[2:]
-        endif
+      " use two backticks to start regex mode
+      " which is basically magic mode I believe in vim parlance
+      if a:input[0:1] == '``'
+      return '\m' .. a:input[2:]
+      endif
 
-        " otherwise turn off all regex stuff and search verbatim
-        return '\V' .. a:input
+      " otherwise turn off all regex stuff and search verbatim
+      return '\V' .. a:input
       endfunction
 
       ]])
@@ -1115,7 +1122,7 @@ return {
         on_attach = function(bufnr)
           local api = require('nvim-tree.api')
           vim.keymap.set('n', 's', api.node.open.vertical, { buffer = bufnr })
-          vim.keymap.set('n', 'cc', api.fs.create, { buffer = bufnr })
+          vim.keymap.set('n', 'a', api.fs.create, { buffer = bufnr })
           vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
           vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
           vim.keymap.set('n', '<CR>', api.node.open.edit, { buffer = bufnr })
@@ -1148,7 +1155,7 @@ return {
               local window_h_int = math.floor(window_h)
               local center_x = (screen_w - window_w) / 2
               local center_y = ((vim.opt.lines:get() - window_h) / 2)
-                  - vim.opt.cmdheight:get()
+              - vim.opt.cmdheight:get()
               return {
                 border = "rounded",
                 relative = "editor",

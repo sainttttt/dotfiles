@@ -138,8 +138,8 @@ export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacO
 
 
 ## youtube stuff
-STREAMS_FOLDER=/Volumes/SSD1/Streams
 STREAMS_FOLDER=/Volumes/HDD1A/streams-archive
+STREAMS_FOLDER=/Volumes/SSD1/Streams
 
 alias adl='aydl(){ cd $STREAMS_FOLDER; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
 alias a='adl'
@@ -242,6 +242,7 @@ alias src="vim ~/.zshrc"
 alias code="cd ~/code"
 alias lazy="cd ~/.local/share/nvim/lazy"
 alias el="open /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Release/eligius.app"
+alias ke="killall eligius"
 alias dd="cd /Users/saint/Library/Developer/Xcode/DerivedData/"
 alias cs="v /Users/saint/.local/share/nvim/lazy/flesh-and-blood/colors/flesh-and-blood.vim"
 
