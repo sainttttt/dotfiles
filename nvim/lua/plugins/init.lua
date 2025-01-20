@@ -613,20 +613,22 @@ return {
             -- list = false, -- disable whitespace characters
           },
         },
-        -- plugins = {
-        --   neovide = {
-        --     enabled = true,
-        --     scale = 1.0,
-        --     disable_animations = {
-        --       neovide_animation_length = 0,
-        --       neovide_cursor_animate_command_line = false,
-        --       neovide_scroll_animation_length = 0,
-        --       neovide_position_animation_length = 0,
-        --       neovide_cursor_animation_length = 0,
-        --       neovide_cursor_vfx_mode = "",
-        --     }
-        --   },
-        -- },
+
+        plugins = {
+          neovide = {
+            enabled = true,
+            scale = 1.0,
+            disable_animations = {
+              neovide_animation_length = 0,
+              neovide_cursor_animate_command_line = false,
+              neovide_scroll_animation_length = 0,
+              neovide_position_animation_length = 0,
+              neovide_cursor_animation_length = 0,
+              neovide_cursor_vfx_mode = "",
+            }
+          },
+        },
+
         -- callback where you can add custom code when the Zen window opens
         on_open = function(win)
           vim.g.zen_opened = true
@@ -710,7 +712,7 @@ return {
     -- dir = "~/code/vim-searchx",
     branch = "mod",
     config = function()
-      vim.keymap.set("n", "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>", { silent = true })
+      vim.keymap.set({"n", "x"}, "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>", { silent = true })
       vim.cmd([[
       let g:searchx = {}
 

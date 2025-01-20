@@ -16,7 +16,9 @@ nn e u
 nn <C-p> <nop>
 
 nm v<space> Vq=
-nn V<space> gg=G<c-o>
+
+" nn V<space> gg=G<c-o>
+
 nn aq <nop>
 
 nnoremap cc "_cc
@@ -159,7 +161,6 @@ nn <M-n> :
 
 cnoremap <M-E> <CR>
 vnoremap <M-E> :
-
 
 nn m J
 
@@ -601,9 +602,8 @@ autocmd FileType python set ts=4|set shiftwidth=4
 """""""""""""""""""""""""""""""""""""""""""
 " COMMENTING
 """"""""""""""""""""""""""""""""""""""""""
-nmap av gcc
-vmap av gcc
-vmap f gc
+nmap av gc
+vmap av gc
 vmap F gc
 
 """""""""""""""""""""""""""""""""""""""""""
