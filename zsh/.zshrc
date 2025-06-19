@@ -141,15 +141,15 @@ export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacO
 STREAMS_FOLDER=/Volumes/HDD1A/streams-archive
 STREAMS_FOLDER=/Volumes/SSD1/Streams
 
-alias adl='aydl(){ cd $STREAMS_FOLDER; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
+alias adl='aydl(){ cd $STREAMS_FOLDER; yt-dlp -f 234 --no-playlist  "$@" }; aydl'
 alias a='adl'
 
 timeToSecs() {
   echo $1 | sed 's/:/ /g;' | awk '{print $4" "$3" "$2" "$1}' | awk '{print $1+$2*60+$3*3600+$4*86400}'
 }
-test() {
-  echo $1
-}
+
+
+ff() { find . -name "*$1*"; }
 
 yt() {
   cd $STREAMS_FOLDER
@@ -162,6 +162,7 @@ y() {
   cd $STREAMS_FOLDER;
   # yt-dlp -S "+codec:avc:m4a" -f "bv[height<=?720]" --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
   yt-dlp  -f "bv[height<=?720]+ba/b[height<=720]" --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
+  # yt-dlp  --no-playlist --download-sections "*$startTime-$endTime" "${@:4}" -o "%(title)s [%(id)s] clip $startTime-$endTime.%(ext)s" $1
 }
 
 yf() {
@@ -206,6 +207,7 @@ alias cxlast='chmod +x $(ls -t1 | head -1)'
 
 alias vim="nvim"
 alias vi="vim"
+alias p="python"
 
 alias jk="jobs -p | grep -o -E '\s\d+\s'  | xargs kill -9"
 alias ll="eza -l -smodified --no-user --no-permissions --color=always"
@@ -376,9 +378,11 @@ bindkey -M viins "^[[B" autosuggest-execute
 
 
 vi-open() { zle kill-whole-line; open .; zle accept-line }
+
 zle -N vi-open
 bindkey -M vicmd "^O" vi-open
 bindkey -M viins "^O" vi-open
+
 
 export QTDIR=/usr/local/qt/5.15.2/clang_64
 export PATH=$QTDIR:$QTDIR/bin:$PATH
@@ -396,4 +400,5 @@ function ssh_tmux(){
     tmux set-window-option window-status-style fg=white,bg=black 2> /dev/null
 }
 alias ssh=ssh_tmux
+
 

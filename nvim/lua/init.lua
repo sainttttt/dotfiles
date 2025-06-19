@@ -314,7 +314,7 @@ end
     local obsidian_root =  vim.fn.expand "~/Library/Mobile Documents/iCloud~md~obsidian/"
     if root == nil then
       if string.starts(path, obsidian_root) then
-        root = obsidian_root
+        root = vim.fs.dirname(path)
       else
         local root_file = vim.fs.find(root_names, { path = path, upward = true })[1]
 
@@ -499,6 +499,150 @@ end
     end,
     { noremap = true, silent = false }
   )
+
+  vim.keymap.set("n",    "<leader>we",
+    function()
+      print("i am here")
+      require("noice").setup {
+        views = {
+          mini = {
+            backend = "mini",
+            relative = "editor",
+            align = "text-left",
+            timeout = 1000,
+            reverse = true,
+            focusable = false,
+            position = {
+              row = -1,
+              col = "100%",
+              -- col = 0,
+            },
+            size = "auto",
+            border = {
+              style = "none",
+            },
+            zindex = 360,
+            win_options = {
+              winbar = "",
+              foldenable = false,
+              winblend = 0,
+              winhighlight = {
+                Normal = "NoiceMini",
+                IncSearch = "",
+                CurSearch = "",
+                Search = "",
+              },
+            },
+          },
+          confirm = {
+            backend = "popup",
+            relative = "editor",
+            focusable = false,
+            align = "center",
+            enter = false,
+            zindex = 210,
+            format = { "{confirm}" },
+            position = {
+              row = "50%",
+              col = "50%",
+            },
+            size = "auto",
+            border = {
+              style = "rounded",
+              padding = { 0, 1 },
+              text = {
+                top = " Confirm ",
+              },
+            },
+          },
+          cmdline_popup = {
+            filter_options = {},
+            position = {
+              row = "70%",
+              col = "50%",
+            },
+            size = {
+              width = "50",
+              height = "1",
+            },
+          },
+        },
+        cmdline = {
+          enabled = true,         -- enables the Noice cmdline UI
+          view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+          opts = {},              -- global options for the cmdline. See section on views
+          ---@type table<string, CmdlineFormat>
+          format = {
+            -- conceal: (default=true) This will hide the text in the cmdline that matches the pattern.
+            -- view: (default is cmdline view)
+            -- opts: any options passed to the view
+            -- icon_hl_group: optional hl_group for the icon
+            -- title: set to anything or empty string to hide
+            cmdline = { pattern = "^:", icon = "", lang = "vim" },
+            search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
+            search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
+            filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
+            lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
+            help = { pattern = { "^:%s*he?l?p?%s+", "^:%s*vert he?l?p?%s+" }, icon = "" },
+            calculator = { pattern = "^=", icon = "", lang = "vimnormal" },
+            input = {}, -- Used by input()
+            -- lua = false, -- to disable a format, set to `false`
+          },
+        },
+
+        routes = {
+          filter = {
+            event = 'msg_show',
+            kind = '',
+            find = 'more line',
+          },
+          opts = { skip = true },
+        },
+        {
+          filter = { event = "msg_show", find = "nvim_win_close" },
+          opts = { skip = true },
+        },
+        lsp = {
+          hover = {enabled = false },
+          signature = { enabled = false },
+        },
+        -- lsp = {
+        --   message = {
+        --     -- Messages shown by lsp servers
+        --     enabled = false,
+        --   },
+        --   -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        --   override = {
+        --     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        --     ["vim.lsp.util.stylize_markdown"] = true,
+        --     -- ["cmp.entry.get_documentation"] = true,
+        --   },
+        -- },
+        -- you can enable a preset for easier configuration
+        presets = {
+          bottom_search = true,          -- use a classic bottom cmdline for search
+          -- command_palette = true, -- position the cmdline and popupmenu together
+          long_message_to_split = false, -- long messages will be sent to a split
+          inc_rename = false,            -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false,        -- add a border to hover docs and signature help
+        },
+
+        messages = {
+          -- NOTE: If you enable messages, then the cmdline is enabled automatically.
+          -- This is a current Neovim limitation.
+          enabled = false,             -- enables the Noice messages UI
+          view = "mini",               -- default view for messages
+          view_error = "mini",         -- view for errors
+          view_warn = "mini",          -- view for warnings
+          view_history = "messages",   -- view for :messages
+          view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+        },
+      }
+    end,
+    { noremap = true, silent = false }
+  )
+
+
 
   -- TSPlayground provided command. (Need to install the plugin.)
   -- bindkey("n",    "<C-e>",  ":TSHighlightCapturesUnderCursor<CR>",   opts)

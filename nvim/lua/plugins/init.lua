@@ -3,7 +3,7 @@ return {
     -- defaults for the `Lazy log` command
     -- log = { "-10" }, -- show the last 10 commits
     log = { "--since=3 days ago" }, -- show commits from the last 3 days
-    timeout = 10000,                -- kill processes that take more than 2 minutes
+timeout = 10000,                -- kill processes that take more than 2 minutes
     url_format = "https://github.com/%s.git",
     -- lazy.nvim requires git >=2.19.0. If you really want to use lazy with an older version,
     -- then set the below to false. This should work, but is NOT supported and will
@@ -20,6 +20,16 @@ return {
 
   -- † plugins † ----------------------------------------------
   --
+
+{
+    'nullromo/go-up.nvim',
+    opts = {}, -- specify options here
+    config = function(_, opts)
+        local goUp = require('go-up')
+        goUp.setup(opts)
+    end,
+},
+
   {'NlGHT/vim-eel',
     config = function()
       vim.cmd([[autocmd BufNewFile,BufRead *.jsfx :set filetype=eel2]])
@@ -44,6 +54,89 @@ return {
       vim.keymap.set("n", "zo", "<Plug>(YankyNextEntry)")
     end
   },
+
+  { 'nvim-tree/nvim-tree.lua',
+    config = function()
+      local show_tree = function()
+        local nvimtree = require 'nvim-tree.view'
+        if not nvimtree.is_visible() then
+          vim.cmd("NvimTreeFindFile")
+        else
+          vim.cmd("NvimTreeClose")
+        end
+      end
+
+      vim.keymap.set('n', '<C-a>', show_tree)
+      vim.keymap.set('n', '<D-a>', show_tree)
+
+      local HEIGHT_RATIO = 0.5 -- You can change this
+      local WIDTH_RATIO = 0.2  -- You can change this too
+      require("nvim-tree").setup({
+        on_attach = function(bufnr)
+          local api = require('nvim-tree.api')
+          vim.keymap.set('n', 's', api.node.open.vertical, { buffer = bufnr })
+          vim.keymap.set('n', 'a', api.fs.create, { buffer = bufnr })
+          vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
+          vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
+          vim.keymap.set('n', '<CR>', api.node.open.edit, { buffer = bufnr })
+          vim.keymap.set('n', 'l', api.node.open.edit, { buffer = bufnr })
+          vim.keymap.set('n', 'h', api.node.navigate.parent_close, { buffer = bufnr })
+          vim.keymap.set('n', 'o', api.tree.change_root_to_node, { buffer = bufnr })
+          vim.keymap.set('n', 'D', api.fs.trash, { buffer = bufnr })
+          vim.keymap.set('n', 'M', api.fs.rename, { buffer = bufnr })
+        end,
+        actions = {
+          open_file = {
+            window_picker = {
+              enable = false
+            }
+          }
+        },
+        filters = {
+          dotfiles = true,
+        },
+        view = {
+          relativenumber = true,
+          float = {
+            enable = false,
+            open_win_config = function()
+              local screen_w = vim.opt.columns:get()
+              local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+              local window_w = screen_w * WIDTH_RATIO
+              local window_h = screen_h * HEIGHT_RATIO
+              local window_w_int = math.floor(window_w)
+              local window_h_int = math.floor(window_h)
+              local center_x = (screen_w - window_w) / 2
+              local center_y = ((vim.opt.lines:get() - window_h) / 2)
+              - vim.opt.cmdheight:get()
+              return {
+                border = "rounded",
+                relative = "editor",
+                row = center_y,
+                col = center_x,
+                width = window_w_int,
+                height = window_h_int,
+              }
+            end,
+          },
+          width = function()
+            return math.max(35, math.floor(vim.opt.columns:get() * WIDTH_RATIO))
+          end,
+        },
+        renderer = {
+          icons = {
+            show = {
+              file = false
+            }
+          }
+        }
+
+      })
+    end
+  },
+
+
+
 
   {
     "dgox16/devicon-colorscheme.nvim",
@@ -448,8 +541,8 @@ return {
 
   { 'ojroques/nvim-osc52',
     config = function()
-      vim.keymap.set('n', '<c-y>', require('osc52').copy_operator, { expr = true })
-      vim.keymap.set('v', '<c-y>', require('osc52').copy_visual)
+      -- vim.keymap.set('n', '<c-y>', require('osc52').copy_operator, { expr = true })
+      -- vim.keymap.set('v', '<c-y>', require('osc52').copy_visual)
 
       require('osc52').setup {
         max_length = 0,          -- Maximum length of selection (0 for no limit)
@@ -623,7 +716,7 @@ return {
               neovide_cursor_animate_command_line = false,
               neovide_scroll_animation_length = 0,
               neovide_position_animation_length = 0,
-              neovide_cursor_animation_length = 0,
+              neovide_fursor_animation_length = 1,
               neovide_cursor_vfx_mode = "",
             }
           },
@@ -1101,86 +1194,6 @@ return {
   { 'windwp/nvim-ts-autotag',
     config = function()
       require('nvim-ts-autotag').setup()
-    end
-  },
-
-  { 'nvim-tree/nvim-tree.lua',
-    config = function()
-      local show_tree = function()
-        local nvimtree = require 'nvim-tree.view'
-        if not nvimtree.is_visible() then
-          vim.cmd("NvimTreeFindFile")
-        else
-          vim.cmd("NvimTreeClose")
-        end
-      end
-
-      vim.keymap.set('n', '<C-a>', show_tree)
-      vim.keymap.set('n', '<D-a>', show_tree)
-
-      local HEIGHT_RATIO = 0.5 -- You can change this
-      local WIDTH_RATIO = 0.2  -- You can change this too
-      require("nvim-tree").setup({
-        on_attach = function(bufnr)
-          local api = require('nvim-tree.api')
-          vim.keymap.set('n', 's', api.node.open.vertical, { buffer = bufnr })
-          vim.keymap.set('n', 'a', api.fs.create, { buffer = bufnr })
-          vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
-          vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
-          vim.keymap.set('n', '<CR>', api.node.open.edit, { buffer = bufnr })
-          vim.keymap.set('n', 'l', api.node.open.edit, { buffer = bufnr })
-          vim.keymap.set('n', 'h', api.node.navigate.parent_close, { buffer = bufnr })
-          vim.keymap.set('n', 'o', api.tree.change_root_to_node, { buffer = bufnr })
-          vim.keymap.set('n', 'D', api.fs.trash, { buffer = bufnr })
-          vim.keymap.set('n', 'M', api.fs.rename, { buffer = bufnr })
-        end,
-        actions = {
-          open_file = {
-            window_picker = {
-              enable = false
-            }
-          }
-        },
-        filters = {
-          dotfiles = true,
-        },
-        view = {
-          relativenumber = true,
-          float = {
-            enable = false,
-            open_win_config = function()
-              local screen_w = vim.opt.columns:get()
-              local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
-              local window_w = screen_w * WIDTH_RATIO
-              local window_h = screen_h * HEIGHT_RATIO
-              local window_w_int = math.floor(window_w)
-              local window_h_int = math.floor(window_h)
-              local center_x = (screen_w - window_w) / 2
-              local center_y = ((vim.opt.lines:get() - window_h) / 2)
-              - vim.opt.cmdheight:get()
-              return {
-                border = "rounded",
-                relative = "editor",
-                row = center_y,
-                col = center_x,
-                width = window_w_int,
-                height = window_h_int,
-              }
-            end,
-          },
-          width = function()
-            return math.max(35, math.floor(vim.opt.columns:get() * WIDTH_RATIO))
-          end,
-        },
-        renderer = {
-          icons = {
-            show = {
-              file = false
-            }
-          }
-        }
-
-      })
     end
   },
 

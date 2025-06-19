@@ -246,7 +246,7 @@ ino <C-u> <Space><BS><Esc><<A
 ino <D-U> <Space><BS><Esc><<A
 
 nn <c-p> <nop>
-nn <c-y> <nop>
+" nn <c-y> <nop>
 nn <c-o> <nop>
 
 nn <M-o> <nop>
@@ -389,6 +389,7 @@ nnoremap d "_d
 xn d "_d
 
 xn X x
+xn x "_x
 
 xn p P
 
@@ -469,7 +470,7 @@ endfunction
 " --------------------------------------------------------------------
 " quickfix -----------------------------------------------------------
 "
-nnoremap <silent> <C-e> :TroubleToggle<CR>
+" nnoremap <silent> <C-e> :TroubleToggle<CR>
 " nnoremap <silent> <leader>e :TroubleToggle<cr>
 
 
@@ -602,7 +603,7 @@ autocmd FileType python set ts=4|set shiftwidth=4
 """""""""""""""""""""""""""""""""""""""""""
 " COMMENTING
 """"""""""""""""""""""""""""""""""""""""""
-nmap av gc
+nmap av gcc
 vmap av gc
 vmap F gc
 
