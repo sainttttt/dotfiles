@@ -36,8 +36,7 @@ end
 
 return {
 
-  {
-    "williamboman/mason.nvim",
+  { "williamboman/mason.nvim",
     -- cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
     -- build = ":MasonUpdate",
     dependencies = {
@@ -54,7 +53,7 @@ return {
         }
       })
       require("mason-lspconfig").setup {
-        ensure_installed = { "lua_ls", "nimls", "html", "crystalline", "ts_ls", "pyright" },
+        ensure_installed = { "lua_ls", "nim_langserver", "html", "crystalline", "ts_ls", "pyright" },
         automatic_installation = true,
       }
     end,
@@ -62,6 +61,11 @@ return {
 
   {
     'neovim/nvim-lspconfig',
+
+    dependencies = {
+      { "williamboman/mason.nvim" },
+      { "williamboman/mason-lspconfig.nvim", }
+    },
     config = function()
       -- Use an on_attach function to only map the following keys
       -- after the language server attaches to the current buffer
@@ -148,6 +152,7 @@ return {
       }
     end
   },
+
   -- {
   --   'ranjithshegde/ccls.nvim',
   --   config = function()

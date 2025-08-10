@@ -75,7 +75,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
         on_attach = function(bufnr)
           local api = require('nvim-tree.api')
           vim.keymap.set('n', 's', api.node.open.vertical, { buffer = bufnr })
-          vim.keymap.set('n', 'a', api.fs.create, { buffer = bufnr })
+          vim.keymap.set('n', 'aa', api.fs.create, { buffer = bufnr })
           vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
           vim.keymap.set('n', '<C-v>', api.node.open.vertical, { buffer = bufnr })
           vim.keymap.set('n', '<CR>', api.node.open.edit, { buffer = bufnr })
@@ -828,7 +828,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
       let g:searchx.nohlsearch.jump = v:true
 
       " Marker characters.
-      let g:searchx.markers = split('FDSEWVCXRAQZUIOPHJKLBNMTYGVB', '.\zs')
+      let g:searchx.markers = split('FDSEWVCXRUIOPHJKLBNMTYGVB', '.\zs')
 
       function g:searchx.convert(input) abort
       " use two backticks to start regex mode

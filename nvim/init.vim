@@ -13,6 +13,10 @@ nn u <Nop>
 nn U <Nop>
 nn e u
 
+im <M-n> <C-i>
+im <silent> <Down> <Esc>o
+im <silent> <Right> <Esc>A
+
 nn <C-p> <nop>
 
 nm v<space> Vq=
@@ -20,8 +24,6 @@ nm v<space> Vq=
 " nn V<space> gg=G<c-o>
 
 nn aq <nop>
-
-nnoremap cc "_cc
 
 nn ch "_ci'
 nn cj "_ci"
@@ -33,6 +35,13 @@ nn cJ "_ca"
 nn cK "_ca(
 nn cL "_ca[
 
+nn va V%y%o<esc>p
+
+nn vc V%
+
+" nn va V%y
+"
+nn vD V%X
 
 
 nn ce cb
@@ -81,9 +90,6 @@ cmap <M-f> F
 cmap <M-d> D
 cmap <M-s> S
 
-nn vc V%
-nn va V%y
-nn vD V%X
 
 
 " nn <M-H> 0^
@@ -386,6 +392,11 @@ nnoremap <M-,> <C-w>H
 nnoremap dd "_dd
 nnoremap X "_dd
 nnoremap d "_d
+
+
+nn cc wb"_cw
+
+nn c "_c
 xn d "_d
 
 xn X x
