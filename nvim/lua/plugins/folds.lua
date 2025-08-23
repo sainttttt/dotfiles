@@ -274,13 +274,16 @@ return {
 
 
   { "chrisgrieser/nvim-origami",
+    tag = "v1.9",
+    pin = true,
     event = "BufReadPost", -- later or on keypress would prevent saving folds
     opts = true, -- needed even when using default config
     config = function ()
       require("origami").setup ({
         keepFoldsAcrossSessions = false,
-        hOnlyOpensOnFirstColumn = true,
-
+        foldKeymaps = {
+          hOnlyOpensOnFirstColumn = true
+        },
         setupFoldKeymaps = false,
 
       }) -- setup call needed

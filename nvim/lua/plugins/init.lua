@@ -20,6 +20,56 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
 
   -- † plugins † ----------------------------------------------
   --
+  { 'sainttttt/flesh-and-blood',
+    -- dir = "~/code/flesh-and-blood",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[colorscheme flesh-and-blood]])
+    end
+  },
+
+{
+	"jessekelighine/vindent.nvim",
+	config = function()
+		local vindent = require("vindent")
+		local block_opts = {
+			strict     = { skip_empty_lines = false, skip_more_indented_lines = false },
+			contiguous = { skip_empty_lines = false, skip_more_indented_lines = true  },
+			loose      = { skip_empty_lines = true,  skip_more_indented_lines = true  },
+		}
+		vindent.map.BlockMotion({ prev = "[=", next = "]=" }, block_opts.strict)
+		vindent.map.Motion({ prev = "[-", next = "]-" }, "less")
+		vindent.map.Motion({ prev = "[+", next = "]+" }, "more")
+		vindent.map.Motion({ prev = "[;", next = "];" }, "diff")
+		vindent.map.BlockEdgeMotion({ prev = "[p", next = "]p" }, block_opts.loose)
+		vindent.map.BlockEdgeMotion({ prev = "[P", next = "]P" }, block_opts.contiguous)
+		vindent.map.Object("iI", "ii", block_opts.strict)
+		vindent.map.Object("ii", "ii", block_opts.loose)
+		vindent.map.Object("ai", "ai", block_opts.loose)
+		vindent.map.Object("aI", "aI", block_opts.loose)
+		vim.g.vindent_begin = false
+	end
+},
+
+    -- Your other plugins
+    {
+        'jakewvincent/mkdnflow.nvim',
+        config = function()
+            require('mkdnflow').setup({
+                -- Config goes here; leave blank for defaults
+            })
+        end
+    },
+
+  -- {
+  --   "tadmccorkle/markdown.nvim",
+  --   ft = "markdown", -- or 'event = "VeryLazy"'
+  --   opts = {
+  --     -- configuration here or empty for defaults
+  --   },
+  -- },
+
 
 {
     'nullromo/go-up.nvim',
@@ -138,8 +188,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
 
 
 
-  {
-    "dgox16/devicon-colorscheme.nvim",
+  { "dgox16/devicon-colorscheme.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
@@ -169,8 +218,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-  {
-    "cbochs/grapple.nvim",
+  { "cbochs/grapple.nvim",
     dependencies = {
       { "nvim-tree/nvim-web-devicons", lazy = true }
     },
@@ -218,6 +266,17 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
       require("telescope").setup(opts)
       require("telescope").load_extension("undo")
     end,
+
+
+
+
+
+
+
+
+
+
+
   },
 
   -- { "ThePrimeagen/harpoon",
@@ -227,11 +286,13 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   --   end
   -- },
 
+  --  highlights for text filetypes, like markdown
   { "lukas-reineke/headlines.nvim",
     dependencies = "nvim-treesitter/nvim-treesitter",
     config = true, -- or `opts = {}`
   },
 
+  -- displays pressed keys for screencast
   { 'NStefan002/screenkey.nvim',
     config = function()
     end
@@ -295,6 +356,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     config = function()
       -- need this to work correctly
       vim.cmd("map q %")
+      vim.cmd([[ let g:matchup_matchparen_offscreen = {'method': 'popup'} ]])
     end
   },
 
@@ -376,7 +438,11 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   { "ariel-frischer/bmessages.nvim",
     config = function()
       require("bmessages").setup {}
-      vim.keymap.set('n', '<leader>z', "<cmd>Bmessagesvs<CR>")
+      vim.keymap.set('n', '<leader>z', function()
+        vim.cmd([[ Bmessagesvs ]])
+        local key_sequence = vim.api.nvim_replace_termcodes('<C-W><C-W>', true, false, true)
+        vim.api.nvim_feedkeys(key_sequence, 'n', false)
+      end)
     end
   },
 
@@ -419,15 +485,6 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
 
   -- allows you to open nvim from cmdline with line number
   -- {'wsdjeg/vim-fetch'},
-
-  { 'sainttttt/flesh-and-blood',
-    -- dir = "~/code/flesh-and-blood",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme flesh-and-blood]])
-    end
-  },
 
   -- { dir = "~/code/portion.vim",
   --   config = function()
@@ -828,7 +885,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
       let g:searchx.nohlsearch.jump = v:true
 
       " Marker characters.
-      let g:searchx.markers = split('FDSEWVCXRUIOPHJKLBNMTYGVB', '.\zs')
+      let g:searchx.markers = split('FDSEWVCXRZUIOPHJKLBNMTYGVB', '.\zs')
 
       function g:searchx.convert(input) abort
       " use two backticks to start regex mode
@@ -1087,7 +1144,6 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   --     lazy = false,
   --     config = function()
   --       require('projectmarks').setup({
-  --         -- If set to a string, the path to the shada file is set to the given value.
   --         -- If set to a boolean, the global shada file of neovim is used.
   --         shadafile = 'nvim.shada',
 

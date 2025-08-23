@@ -141,7 +141,7 @@ export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacO
 STREAMS_FOLDER=/Volumes/HDD1A/streams-archive
 STREAMS_FOLDER=/Volumes/SSD1/Streams
 
-alias adl='aydl(){ cd $STREAMS_FOLDER; yt-dlp -f 234 --no-playlist  "$@" }; aydl'
+alias adl='aydl(){ cd $STREAMS_FOLDER; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
 alias a='adl'
 
 timeToSecs() {
@@ -371,11 +371,10 @@ bindkey -M vicmd "^[g" vi-nvim
 bindkey -M viins "^[g" vi-nvim
 
 bindkey -M viins "^H" forward-word
-bindkey -M viins "^[[A" forward-word
-bindkey -M viins "^[n" autosuggest-fetch
-bindkey -M viins "^[N" autosuggest-fetch_backward
+# bindkey -M viins "^[[A" forward-word
+bindkey -M viins "^[[A" autosuggest-fetch
+bindkey -M viins "^[Q" autosuggest-fetch_backward
 bindkey -M viins "^[[B" autosuggest-execute
-
 
 vi-open() { zle kill-whole-line; open .; zle accept-line }
 

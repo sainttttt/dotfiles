@@ -1,5 +1,14 @@
 -- local completion_capabilities = require('cmp_nvim_lsp').default_capabilities();
 
+vim.lsp.config("lua_ls", {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { "vim" }}}}})
+
+
+
+
 local on_attach = function(client, bufnr)
   client.server_capabilities.hover = false
   vim.lsp.handlers["textDocument/hover"] = false
@@ -176,8 +185,7 @@ return {
   --   end
   -- },
 
-  {
-    'nvimdev/lspsaga.nvim',
+  { 'nvimdev/lspsaga.nvim',
     event = "LspAttach",
     config = function()
       require("lspsaga").setup({

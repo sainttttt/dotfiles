@@ -13,6 +13,10 @@ matches:
     replace: "@x265.ca"
     propagate_case: false
 
+  - trigger: ";E"
+    replace: "@x265.ca"
+    propagate_case: false
+
   - trigger: ";;qw"
     replace: "Hi! Do you know if the thermal pads/paste have been replaced recently? Do you know what the card was used for? Thanks!"
     propagate_case: false
@@ -63,6 +67,10 @@ matches:
     propagate_case: false
 
   - trigger: ";;rs"
+    replace: "site:reddit.com/r/"
+    propagate_case: false
+
+  - trigger: ";Rs"
     replace: "site:reddit.com/r/"
     propagate_case: false
 

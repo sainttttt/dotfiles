@@ -12,5 +12,6 @@ ln -s -f $(greadlink -f fd) ~/.config
 
 mkdir -p ~/.config/git
 ln -s -f $(greadlink -f git/config) ~/.config/git/
+ln -s -f $(greadlink -f gitui) ~/.config/
 
 ln -s -f $(greadlink -f alacritty) ~/.config/

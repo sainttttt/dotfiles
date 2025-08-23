@@ -1,5 +1,6 @@
 if vim.g.firstload == nil then
   require("float")
+  require("todo")
 
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
@@ -268,6 +269,10 @@ if vim.g.firstload == nil then
   vim.keymap.set("n", "<leader>rr", "<cmd>lua codeRun()<CR>", {silent = true, noremap = true})
   vim.keymap.set("n", "<leader>re", "<cmd>lua codeRun({fileRun = true})<CR>", {silent = true, noremap = true})
 
+
+
+  vim.api.nvim_set_hl(0, "StatusLine", {reverse = false})
+  vim.api.nvim_set_hl(0, "StatusLineNC", {reverse = false})
 
 function _G.swallow_output(callback, ...)
   local old_print = print
@@ -657,8 +662,6 @@ end
     end
   end
 
-
-  vim.cmd [[colorscheme flesh-and-blood]]
 end
 
 local function saveFile()
@@ -717,3 +720,21 @@ local function karaSearch()
 end
 
 vim.keymap.set({"n"}, "<leader>as", function() karaSearch() end, {silent = false, noremap = true})
+
+
+vim.keymap.set('n', 'cj', function()
+  local count = vim.v.count
+  print(count)
+  if count == 0 then count = 1 end -- default to 1 if no count given
+  vim.cmd([[norm! f"]])
+  for i=2,count do
+    print(i)
+    vim.cmd([[norm! f"]])
+    vim.cmd([[norm! f"]])
+  end
+  vim.cmd([[norm! "_ci"]])
+  vim.cmd([[stopinsert ]])
+  vim.cmd([[norm! l]])
+  vim.cmd([[startinsert ]])
+end)
+

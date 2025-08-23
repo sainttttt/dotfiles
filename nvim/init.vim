@@ -26,14 +26,18 @@ nm v<space> Vq=
 nn aq <nop>
 
 nn ch "_ci'
-nn cj "_ci"
+" nn cj "_ci"
+
 nn ck "_ci(
 nn cl "_ci[
+
 
 nn cH "_ca'
 nn cJ "_ca"
 nn cK "_ca(
 nn cL "_ca[
+
+
 
 nn va V%y%o<esc>p
 
@@ -125,10 +129,11 @@ nn t b
 
 nn de db
 
-nn R yy
-xn R y
-nn W y$
+nn W yy
 xn W y
+
+nn R y$
+xn R y
 
 
 nn 4 $
