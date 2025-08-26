@@ -738,3 +738,55 @@ vim.keymap.set('n', 'cj', function()
   vim.cmd([[startinsert ]])
 end)
 
+
+
+
+
+
+function find_buffer_by_prefix(prefix)
+  -- Get a list of all window handles in the current tab
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    -- Get the buffer number displayed in the current window
+    local bufnr = vim.api.nvim_win_get_buf(win)
+
+    -- Check if the buffer is valid and loaded
+    if vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_buf_is_loaded(bufnr) then
+      -- Get the name (file path) of the buffer
+      local name = vim.api.nvim_buf_get_name(bufnr)
+
+      -- Check if the buffer name starts with the given prefix
+      if name and name:find(prefix, 1, true) == 1 then
+        return win -- Return the window handle if it matches
+      end
+    end
+  end
+  return false -- Return false if no match is found
+end
+
+-- Example usage:
+local path_prefix = "/Users/saint/code/dotfiles/nvim/"
+
+function find_buffer()
+  return find_buffer_by_prefix(path_prefix)
+end
+
+function open_file_in_window(win_id, file_path)
+  -- Set the focus to the specified window
+  vim.api.nvim_set_current_win(win_id)
+  vim.cmd('e ' .. file_path)
+end
+
+function open_config_file_in_same_win(config_file)
+  local buff_res = find_buffer()
+  if buff_res then
+    open_file_in_window(buff_res, config_file)
+  else
+    vim.cmd('vsplit ' .. config_file)
+  end
+end
+
+
+vim.keymap.set({"n"}, "<leader>vz", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/lua/plugins/init.lua")) end, {silent = false, noremap = true})
+vim.keymap.set({"n"}, "<leader>va", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/lua/init.lua")) end, {silent = false, noremap = true})
+
+vim.keymap.set({"n"}, "<leader>vv", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/init.vim")) end, {silent = false, noremap = true})

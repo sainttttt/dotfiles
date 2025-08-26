@@ -538,14 +538,6 @@ set wildmode=longest,list,full
 set wildmenu
 set gcr=n:blinkon0
 
-"" edit vimrc
-"" todo: open in dedicated split for config stuff
-noremap <Leader>vv :vsp ~/.config/nvim/init.vim<CR>
-noremap <Leader>va :vsp ~/.config/nvim/lua/init.lua<CR>
-noremap <Leader>vz :vsp ~/.config/nvim/lua/plugins/init.lua<CR>
-" noremap <Leader>vc :vsp ~/.config/nvim/lua/plugins/<CR>
-" noremap <Leader>vx :vsp ~/.config/nvim/lua/<CR>
-
 noremap <Leader>xr :!chmod +x % <CR><CR>
 
 set undodir=~/.vim/undodir

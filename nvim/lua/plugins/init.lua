@@ -29,6 +29,8 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
+-- { "adlrwbr/keep-split-ratio.nvim", opts = {} },
+
 {
 	"jessekelighine/vindent.nvim",
 	config = function()
