@@ -120,12 +120,18 @@ nn <M-`> $
 nm ac yw
 
 " xn q $%
-xn Q %
-xn q %
-nn q %
+
+xn Q b
+xn q b
+nn q b
+
+map b %
+xn B %
+map B %
 
 nn ag f
 nn t b
+
 
 nn de db
 

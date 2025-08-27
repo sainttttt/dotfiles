@@ -358,6 +358,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     config = function()
       -- need this to work correctly
       vim.cmd("map q %")
+      vim.cmd("xmap B %")
       vim.cmd([[ let g:matchup_matchparen_offscreen = {'method': 'popup'} ]])
     end
   },
