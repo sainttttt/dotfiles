@@ -243,7 +243,7 @@ alias src="vim ~/.zshrc"
 # common paths
 alias code="cd ~/code"
 alias lazy="cd ~/.local/share/nvim/lazy"
-alias el="open /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Release/eligius.app"
+alias el="open /Users/saint/Library/Developer/Xcode/DerivedData/eligius-frjwycapnyhfbfcdbfcycfnkwxqh/Build/Products/Debug/eligius.app"
 alias ke="killall eligius"
 alias dd="cd /Users/saint/Library/Developer/Xcode/DerivedData/"
 alias cs="v /Users/saint/.local/share/nvim/lazy/flesh-and-blood/colors/flesh-and-blood.vim"

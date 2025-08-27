@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # TODO: This needs to be fixed for Linux - greadlink has to be changed to readlink
 
 ln -s -f $(greadlink -f mpv) ~/.config/
