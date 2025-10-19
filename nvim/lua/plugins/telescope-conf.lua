@@ -211,7 +211,7 @@ return
         vim.keymap.set("n", "<M-u>", "<Nop>")
         -- vim.keymap.set("n", "<leader>dg", function() fzf_lua.live_grep() end)
         vim.keymap.set("n", "gq", function() fzf_lua.resume() end)
-        vim.keymap.set("n", "<Down>", function() fzf_lua.resume() end)
+        -- vim.keymap.set("n", "<Down>", function() fzf_lua.resume() end)
         vim.keymap.set("n", "gr", function() fzf_lua.lsp_references() end)
         vim.keymap.set("n", "ad", function() fzf_lua.buffers(({fzf_opts={["--delimiter"]="' '",["--with-nth"]="-1.."}})) end)
 

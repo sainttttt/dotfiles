@@ -58,7 +58,7 @@ local function jump_to_less_indent()
     current_line = vim.api.nvim_win_get_cursor(0)[1]
   end
   print(dump(headers))
-  find_and_append_in_background("/Users/saint/foo.md", headers[1], lineText)
+  -- find_and_append_in_background("/Users/saint/foo.md", headers[1], lineText)
 end
 
 vim.keymap.set('n', '<leader>kk', jump_to_less_indent, { desc = "Jump to previous line with less indentation" })

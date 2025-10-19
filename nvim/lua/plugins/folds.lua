@@ -90,7 +90,6 @@ return {
         return folds
       end
 
-
       require('ufo').setup({
         provider_selector = function(bufnr, filetype, buftype)
           -- return ftMap[filetype] or {'treesitter', 'indent'}

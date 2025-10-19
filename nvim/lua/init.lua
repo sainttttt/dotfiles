@@ -790,3 +790,6 @@ vim.keymap.set({"n"}, "<leader>vz", function() open_config_file_in_same_win(vim.
 vim.keymap.set({"n"}, "<leader>va", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/lua/init.lua")) end, {silent = false, noremap = true})
 
 vim.keymap.set({"n"}, "<leader>vv", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/init.vim")) end, {silent = false, noremap = true})
+
+
+vim.g.markdown_folding = 1

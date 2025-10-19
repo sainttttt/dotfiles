@@ -11,6 +11,7 @@ let mapleader = "`"
 nn <C-u> <nop>
 nn u <Nop>
 nn U <Nop>
+
 nn e u
 
 im <M-n> <C-i>
@@ -125,12 +126,12 @@ xn Q b
 xn q b
 nn q b
 
-map b %
-xn B %
-map B %
+nn b <nop>
+map <down> %
+xn <down> %
+map <down> %
 
 nn ag f
-nn t b
 
 
 nn de db
@@ -403,7 +404,6 @@ nnoremap <M-,> <C-w>H
 nnoremap dd "_dd
 nnoremap X "_dd
 nnoremap d "_d
-
 
 nn cc wb"_cw
 

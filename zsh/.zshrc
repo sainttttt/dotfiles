@@ -141,8 +141,8 @@ export LIBRARY_PATH="$LIBRARY_PATH:/Library/Developer/CommandLineTools/SDKs/MacO
 STREAMS_FOLDER=/Volumes/HDD1A/streams-archive
 STREAMS_FOLDER=/Volumes/SSD1/Streams
 
-alias adl='aydl(){ cd $STREAMS_FOLDER; yt-dlp -f 140 --no-playlist  "$@" }; aydl'
-alias a='adl'
+a2() { cd $STREAMS_FOLDER; yt-dlp -f 234 --no-playlist  "$@"; }
+a() { cd $STREAMS_FOLDER; yt-dlp -f 140 --no-playlist  "$@"; }
 
 timeToSecs() {
   echo $1 | sed 's/:/ /g;' | awk '{print $4" "$3" "$2" "$1}' | awk '{print $1+$2*60+$3*3600+$4*86400}'
@@ -382,6 +382,11 @@ zle -N vi-open
 bindkey -M vicmd "^O" vi-open
 bindkey -M viins "^O" vi-open
 
+
+
+# some vi mode rebindings
+
+bindkey -M vicmd 'q' vi-backward-word
 
 export QTDIR=/usr/local/qt/5.15.2/clang_64
 export PATH=$QTDIR:$QTDIR/bin:$PATH

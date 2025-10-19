@@ -29,10 +29,20 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons", -- optional, but recommended
+    },
+    lazy = false, -- neo-tree will lazily load itself
+  },
+
 -- { "adlrwbr/keep-split-ratio.nvim", opts = {} },
 
-{
-	"jessekelighine/vindent.nvim",
+{ "jessekelighine/vindent.nvim",
 	config = function()
 		local vindent = require("vindent")
 		local block_opts = {
@@ -55,14 +65,14 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
 },
 
     -- Your other plugins
-    {
-        'jakewvincent/mkdnflow.nvim',
-        config = function()
-            require('mkdnflow').setup({
-                -- Config goes here; leave blank for defaults
-            })
-        end
-    },
+    -- {
+    --     'jakewvincent/mkdnflow.nvim',
+    --     config = function()
+    --         require('mkdnflow').setup({
+    --             -- Config goes here; leave blank for defaults
+    --         })
+    --     end
+    -- },
 
   -- {
   --   "tadmccorkle/markdown.nvim",
@@ -136,6 +146,9 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
           vim.keymap.set('n', 'o', api.tree.change_root_to_node, { buffer = bufnr })
           vim.keymap.set('n', 'D', api.fs.trash, { buffer = bufnr })
           vim.keymap.set('n', 'M', api.fs.rename, { buffer = bufnr })
+          vim.keymap.set('n', '<2-LeftMouse>', api.node.open.edit, { buffer = bufnr })
+
+
         end,
         actions = {
           open_file = {
@@ -187,9 +200,6 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-
-
-
   { "dgox16/devicon-colorscheme.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
@@ -235,7 +245,6 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
       vim.keymap.set("n", "<leader>5", "<cmd>Grapple select index=4<cr>")
     end
   },
-
 
   { "debugloop/telescope-undo.nvim",
     dependencies = { -- note how they're inverted to above example
@@ -289,10 +298,109 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   -- },
 
   --  highlights for text filetypes, like markdown
-  { "lukas-reineke/headlines.nvim",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    config = true, -- or `opts = {}`
-  },
+  -- { "lukas-reineke/headlines.nvim",
+  --   dependencies = "nvim-treesitter/nvim-treesitter",
+  --   config = true, -- or `opts = {}`
+  -- },
+
+{ 'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {
+      heading = {
+        -- Useful context to have when evaluating values.
+        -- | level    | the number of '#' in the heading marker         |
+        -- | sections | for each level how deeply nested the heading is |
+
+        -- Turn on / off heading icon & background rendering.
+        enabled = true,
+        -- Additional modes to render headings.
+        render_modes = false,
+        -- Turn on / off atx heading rendering.
+        atx = true,
+        -- Turn on / off setext heading rendering.
+        setext = true,
+        -- Turn on / off sign column related rendering.
+        sign = false,
+        -- Replaces '#+' of 'atx_h._marker'.
+        -- Output is evaluated depending on the type.
+        -- | function | `value(context)`              |
+        -- | string[] | `cycle(value, context.level)` |
+        icons = { ' † '},
+        -- Determines how icons fill the available space.
+        -- | right   | '#'s are concealed and icon is appended to right side                      |
+        -- | inline  | '#'s are concealed and icon is inlined on left side                        |
+        -- | overlay | icon is left padded with spaces and inserted on left hiding additional '#' |
+        position = 'overlay',
+        -- Added to the sign column if enabled.
+        -- Output is evaluated by `cycle(value, context.level)`.
+        signs = { '󰫎 ' },
+        -- Width of the heading background.
+        -- | block | width of the heading text |
+        -- | full  | full width of the window  |
+        -- Can also be a list of the above values evaluated by `clamp(value, context.level)`.
+        width = 'block',
+        -- Amount of margin to add to the left of headings.
+        -- Margin available space is computed after accounting for padding.
+        -- If a float < 1 is provided it is treated as a percentage of available window space.
+        -- Can also be a list of numbers evaluated by `clamp(value, context.level)`.
+        left_margin = 0,
+        -- Amount of padding to add to the left of headings.
+        -- Output is evaluated using the same logic as 'left_margin'.
+        left_pad = 0,
+        -- Amount of padding to add to the right of headings when width is 'block'.
+        -- Output is evaluated using the same logic as 'left_margin'.
+        right_pad = 4,
+        -- Minimum width to use for headings when width is 'block'.
+        -- Can also be a list of integers evaluated by `clamp(value, context.level)`.
+        min_width = 0,
+        -- Determines if a border is added above and below headings.
+        -- Can also be a list of booleans evaluated by `clamp(value, context.level)`.
+        border = false,
+        -- Always use virtual lines for heading borders instead of attempting to use empty lines.
+        border_virtual = false,
+        -- Highlight the start of the border using the foreground highlight.
+        border_prefix = false,
+        -- Used above heading for border.
+        above = '▄',
+        -- Used below heading for border.
+        below = '▀',
+        -- Highlight for the heading icon and extends through the entire line.
+        -- Output is evaluated by `clamp(value, context.level)`.
+        backgrounds = {
+          'RenderMarkdownH1Bg',
+          'RenderMarkdownH2Bg',
+          'RenderMarkdownH3Bg',
+          'RenderMarkdownH4Bg',
+          'RenderMarkdownH5Bg',
+          'RenderMarkdownH6Bg',
+        },
+        -- Highlight for the heading and sign icons.
+        -- Output is evaluated using the same logic as 'backgrounds'.
+        foregrounds = {
+          'RenderMarkdownH1',
+          'RenderMarkdownH2',
+          'RenderMarkdownH3',
+          'RenderMarkdownH4',
+          'RenderMarkdownH5',
+          'RenderMarkdownH6',
+        },
+        -- Define custom heading patterns which allow you to override various properties based on
+        -- the contents of a heading.
+        -- The key is for healthcheck and to allow users to change its values, value type below.
+        -- | pattern    | matched against the heading text @see :h lua-patterns |
+        -- | icon       | optional override for the icon                        |
+        -- | background | optional override for the background                  |
+        -- | foreground | optional override for the foreground                  |
+        custom = {},
+      },
+
+
+    },
+},
 
   -- displays pressed keys for screencast
   { 'NStefan002/screenkey.nvim',
@@ -357,8 +465,10 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   { 'andymass/vim-matchup',
     config = function()
       -- need this to work correctly
-      vim.cmd("map q %")
-      vim.cmd("xmap B %")
+      vim.cmd("xm c %")
+      vim.cmd("xm C %")
+      vim.cmd("nm <down> %")
+      vim.cmd("xm <down> %")
       vim.cmd([[ let g:matchup_matchparen_offscreen = {'method': 'popup'} ]])
     end
   },
@@ -389,15 +499,16 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-  { 'ixru/nvim-markdown',
-    config = function()
-      vim.cmd [[
-        map <Plug> <Plug>Markdown_FollowLink
-        map <Plug> <Plug>Markdown_Fold
-        let g:vim_markdown_conceal = 0
-        ]]
-    end,
-  },
+  -- { 'ixru/nvim-markdown',
+  --   config = function()
+  --     vim.cmd [[
+  --       map <Plug> <Plug>Markdown_FollowLink
+  --       map <Plug> <Plug>Markdown_Fold
+  --       let g:vim_markdown_conceal = 0
+  --       ]]
+  --   end,
+  -- },
+
 
   { 'BartSte/nvim-project-marks',
     lazy = false,
@@ -613,50 +724,50 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-  { "epwalsh/obsidian.nvim",
-    lazy = false,
-    event = {
-      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-      "BufReadPre " .. vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
-      "BufNewFile " .. vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    config = function()
-      local path = vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/"
-      vim.keymap.set('n', '<Leader>.', ":ObsidianNew ")
-      require("obsidian").setup {
-        dir = path,
+  -- { "epwalsh/obsidian.nvim",
+  --   lazy = false,
+  --   event = {
+  --     -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+  --     -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+  --     "BufReadPre " .. vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
+  --     "BufNewFile " .. vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
+  --   },
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --   },
+  --   config = function()
+  --     local path = vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/"
+  --     vim.keymap.set('n', '<Leader>.', ":ObsidianNew ")
+  --     require("obsidian").setup {
+  --       dir = path,
 
-        note_id_func = function(title)
-          return title
-        end,
-        disable_frontmatter = true,
+  --       note_id_func = function(title)
+  --         return title
+  --       end,
+  --       disable_frontmatter = true,
 
-        ui = {
-          enable = false,
-        },
-        finder = "fzf-lua",
-        mappings = {
-          ["gd"] = {
-            action = function()
-              return require("obsidian").util.gf_passthrough()
-            end,
-            opts = { noremap = false, expr = true, buffer = true },
-          },
-        },
-      }
-      vim.keymap.set("n", "gd", function()
-        if require("obsidian").util.cursor_on_markdown_link() then
-          return "<cmd>ObsidianFollowLink<CR>"
-        else
-          return "gd"
-        end
-      end, { noremap = false, expr = true })
-    end
-  },
+  --       ui = {
+  --         enable = false,
+  --       },
+  --       finder = "fzf-lua",
+  --       mappings = {
+  --         ["gd"] = {
+  --           action = function()
+  --             return require("obsidian").util.gf_passthrough()
+  --           end,
+  --           opts = { noremap = false, expr = true, buffer = true },
+  --         },
+  --       },
+  --     }
+  --     vim.keymap.set("n", "gd", function()
+  --       if require("obsidian").util.cursor_on_markdown_link() then
+  --         return "<cmd>ObsidianFollowLink<CR>"
+  --       else
+  --         return "gd"
+  --       end
+  --     end, { noremap = false, expr = true })
+  --   end
+  -- },
 
   { 'tzachar/highlight-undo.nvim',
     config = function()
@@ -865,7 +976,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     -- dir = "~/code/vim-searchx",
     branch = "mod",
     config = function()
-      vim.keymap.set({"n", "x"}, "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>", { silent = true })
+      vim.keymap.set({"n", "x"}, "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>", { silent = false })
       vim.cmd([[
       let g:searchx = {}
 
