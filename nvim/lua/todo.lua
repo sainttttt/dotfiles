@@ -24,8 +24,6 @@ function create_blank_if_not_exists(filename)
     end
 end
 
-create_blank_if_not_exists("somefile.txt")
-
 local function insert_at_final_match_or_add_missing(string_list, new_line, filename)
   -- Read the file into lines
   local lines = {}
