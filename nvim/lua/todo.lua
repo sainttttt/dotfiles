@@ -1,47 +1,123 @@
--- Place this in your init.lua or a related file
-
----Searches for a target string in a file. If found, it appends a new string
----after it. If not found, it appends both strings to the end of the file.
----All operations are performed on a background buffer.
----
----@param filename string The path to the file to modify.
----@param target_text string The text to search for.
----@param text_to_append string The text to append.
-local function find_and_append_in_background(filename, target_text, text_to_append)
-  -- 1. Get a buffer for the file, creating one if it doesn't exist.
-  local bufnr = vim.fn.bufnr(filename, true)
-  if bufnr == -1 then
-    print("Error: Could not create or find a buffer for " .. filename)
-    return
-  end
-
-  -- -- 2. Manually load the file's content into the buffer for compatibility.
-  -- -- This replaces the nvim_buf_load() call.
-  -- local file_content = vim.fn.readfile(filename)
-  -- if file_content then
-  --   -- The `false` argument means the lines are not followed by a newline.
-  --   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, file_content)
-  -- end
-
-  -- 3. Search for the target text within the now-loaded buffer.
-  local pos = vim.fn.searchpos(target_text, 'nW', bufnr)
-  local lnum = pos[1] -- Line number of the match (0 if not found)
-
-  -- 4. Check if the target text was found and act accordingly.
-  if lnum > 0 then
-    -- CASE 1: Target text FOUND. Append the new text after the match.
-    vim.api.nvim_buf_set_lines(bufnr, lnum, lnum, false, {text_to_append})
-    print("Found '" .. target_text .. "'. Appended new text in " .. filename)
-  else
-    -- CASE 2: Target text NOT FOUND. Append both texts to the end.
-    local last_line = vim.api.nvim_buf_line_count(bufnr)
-    vim.api.nvim_buf_set_lines(bufnr, last_line, last_line, false, {target_text, text_to_append})
-    print("'" .. target_text .. "' not found. Appended both texts to the end of " .. filename)
-  end
-
-  -- To save the changes to disk, you still need to explicitly write the buffer:
-  -- vim.api.nvim_buf_call(bufnr, function() vim.cmd('write') end)
+function reverse_in_place(list)
+    local n = #list
+    for i = 1, math.floor(n / 2) do
+        list[i], list[n - i + 1] = list[n - i + 1], list[i]
+    end
 end
+
+function create_blank_if_not_exists(filename)
+    local f = io.open(filename, "r")
+    if not f then
+        -- File doesn't exist, so create it:
+        f = io.open(filename, "w")
+        if f then f:close() end
+    else
+        -- File exists, just close the handle
+        f:close()
+    end
+end
+
+create_blank_if_not_exists("somefile.txt")
+
+local function insert_at_final_match_or_add_missing(string_list, new_line, filename)
+  -- Read the file into lines
+  local lines = {}
+  for line in io.lines(filename) do
+    table.insert(lines, line)
+  end
+
+  local cursor = 1
+  local missing = {}
+  local last_match = #lines
+
+  -- Step through each search string, updating "cursor"
+  for _, search_str in ipairs(string_list) do
+    local found = false
+    while cursor <= #lines do
+      if lines[cursor]:find(search_str, 1, true) then
+        found = true
+        last_match = cursor
+        break
+      end
+      cursor = cursor + 1
+    end
+    if found then
+      cursor = cursor + 1 -- Move cursor past the match
+    else
+      table.insert(missing, search_str)
+      -- Don't advance cursor if not found, so inserted lines will be together
+    end
+  end
+
+  cursor = last_match + 1
+
+
+  print("here")
+  print(cursor)
+  -- print(#lines + 1)
+  print("here2")
+
+  if cursor == (#lines + 1) and cursor ~= 1 then
+    print("hereeeee")
+    table.insert(lines, cursor, "\n")
+    cursor = cursor + 1
+  end
+
+  -- Insert any missing lines right before new_line
+  for i, str in ipairs(missing) do
+    table.insert(lines, cursor + i - 1, str)
+  end
+  table.insert(lines, cursor + #missing, new_line)
+
+  -- Write modified lines back to file
+  local file = io.open(filename, "w")
+  if not file then error("Cannot open file for writing: " .. filename) end
+  for _, line in ipairs(lines) do
+    file:write(line .. "\n")
+  end
+  file:close()
+end
+
+local function insert_at_final_match(string_list, new_line, filename)
+  -- Read the file into a lines table
+  local lines = {}
+  for line in io.lines(filename) do
+    table.insert(lines, line)
+  end
+
+  -- Start from beginning, searching for each string in order
+  local cursor = 1
+  for _, search_str in ipairs(string_list) do
+    local found = false
+    while cursor <= #lines do
+      if lines[cursor]:find(search_str, 1, true) then
+        found = true
+        break
+      end
+      cursor = cursor + 1
+    end
+    if not found then
+      error("String not found: " .. search_str)
+    end
+    -- move cursor to the line after the match for next search
+    cursor = cursor + 1
+  end
+
+  -- Insert new_line at cursor position
+  table.insert(lines, cursor, new_line)
+
+  -- Write back to file
+  local file = io.open(filename, "w")
+  if not file then error("Cannot open file for writing: " .. filename) end
+  for _, line in ipairs(lines) do
+    file:write(line .. "\n")
+  end
+  file:close()
+end
+
+
+local dailies_root = "/Users/saint/Library/Mobile Documents/iCloud~md~obsidian/Documents/DAY"
+
 
 local function jump_to_less_indent()
   local lineText = vim.api.nvim_get_current_line()
@@ -58,7 +134,13 @@ local function jump_to_less_indent()
     current_line = vim.api.nvim_win_get_cursor(0)[1]
   end
   print(dump(headers))
-  -- find_and_append_in_background("/Users/saint/foo.md", headers[1], lineText)
+  reverse_in_place(headers)
+
+
+
+  local daily_filename = string.format("%s/%s-daily.md", dailies_root, os.date("%Y-%m-%d"))
+  create_blank_if_not_exists(daily_filename)
+  insert_at_final_match_or_add_missing(headers, lineText, daily_filename)
 end
 
 vim.keymap.set('n', '<leader>kk', jump_to_less_indent, { desc = "Jump to previous line with less indentation" })
