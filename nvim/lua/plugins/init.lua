@@ -510,6 +510,8 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   -- },
 
 
+  -- So if I'm not mistaken this creates a shada file, which stores marks
+  -- and other stuff per project.
   { 'BartSte/nvim-project-marks',
     lazy = false,
     config = function()
