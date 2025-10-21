@@ -295,10 +295,11 @@ return {
   { 'jghauser/fold-cycle.nvim',
     config = function()
       require('fold-cycle').setup()
+
       vim.keymap.set({'n'}, 'vr',  require('fold-cycle').close, { noremap = true, silent = true })
-      vim.keymap.set({'n'}, 'vR',  require('fold-cycle').close_all, { noremap = true, silent = true })
+      vim.keymap.set({'n'}, '<M-Q>',  require('fold-cycle').close_all, { noremap = true, silent = true })
       vim.keymap.set({'n'}, 've',  require('fold-cycle').open, { noremap = true, silent = true })
-      vim.keymap.set({'n'}, 'vE',  require('fold-cycle').open_all, { noremap = true, silent = true })
+      vim.keymap.set({'n'}, '<M-J>',  require('fold-cycle').open_all, { noremap = true, silent = true })
 
       -- vim.keymap.set({'n'}, 'vj',  require('fold-cycle').close, { noremap = true, silent = true })
       -- vim.keymap.set({'n'}, 'vJ',  require('fold-cycle').close_all, { noremap = true, silent = true })

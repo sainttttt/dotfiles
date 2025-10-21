@@ -5,26 +5,36 @@ let mapleader = "`"
 " motion
 """"""""""""""""""""""""""""
 " undo stuff
-"
+
 " remember to set undo/redo stuff in HighlightUndo plugin
 " setup bindings as well
 nn <C-u> <nop>
 nn u <Nop>
 nn U <Nop>
-
 nn e u
 
+" not sure what this stuff is
 im <M-n> <C-i>
 im <silent> <Down> <Esc>o
 im <silent> <Right> <Esc>A
 
-nn <C-p> <nop>
 
+" random disables
+nn <C-p> <nop>
+nn aq <nop>
+
+
+" option-o to shift o (inserting a line above)
+" cause it just seems more natural at the moment
+nm , O
+
+" indenting
 nm v<space> Vq=
 
+
+" Need something to indent the whole file
 " nn V<space> gg=G<c-o>
 
-nn aq <nop>
 
 nn ch "_ci'
 " nn cj "_ci"
@@ -619,7 +629,8 @@ autocmd FileType python set ts=4|set shiftwidth=4
 """"""""""""""""""""""""""""""""""""""""""
 nmap av gcc
 vmap av gc
-vmap F gc
+
+" vmap F gc
 
 """""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""

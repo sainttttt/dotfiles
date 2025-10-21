@@ -436,19 +436,20 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
+  -- this jumps back and forth between your edit history
   { 'bloznelis/before.nvim',
     config = function()
       -- Configuration for bloznelis/before.nvim
       local before = require('before')
       before.setup()
-      --
-      vim.keymap.set('n', '<M-J>', function()
+
+      vim.keymap.set('n', '<M-U>', function()
         before.jump_to_last_edit()
         vim.cmd("normal! zz")
       end, {})
 
       -- Jump to next entry in the edit history
-      vim.keymap.set('n', '<M-Q>', function()
+      vim.keymap.set('n', '<M-I>', function()
         before.jump_to_next_edit()
         vim.cmd("normal! zz")
       end, {})
@@ -660,6 +661,18 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
+  {
+    {"nvim-treesitter/nvim-treesitter",
+      branch = 'master',
+      lazy = false,
+      build = ":TSUpdate",
+      config = function()
+        require'nvim-treesitter.configs'.setup {
+          playground = { enable = true }
+        }
+      end
+    }
+  },
 
   { 'altermo/ultimate-autopair.nvim',
     event = { 'InsertEnter', 'CmdlineEnter' },
@@ -810,7 +823,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   },
 
   -- need this for nim comments apparently
-  { 'alaviss/nim.nvim' },
+  -- { 'alaviss/nim.nvim' },
 
   -- {"ericvw/vim-nim"},
 
@@ -973,6 +986,13 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
 
   'hood/popui.nvim',
   "sindrets/diffview.nvim",
+
+
+  { dir = "~/code/zita.nvim",
+    config = function()
+      require("zita").setup({})
+    end
+  },
 
   { "sainttttt/vim-searchx",
     -- dir = "~/code/vim-searchx",

@@ -1,6 +1,7 @@
 if vim.g.firstload == nil then
   require("float")
-  require("todo")
+  require("comment")
+  -- require("todo")
 
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
@@ -711,6 +712,7 @@ end
 vim.keymap.set({"x"}, "<Left>", function() addText({dir='pre'}) end, {silent = false, noremap = true})
 vim.keymap.set({"x"}, "<Right>", function() addText({dir='post'}) end, {silent = false, noremap = true})
 
+
 local function karaSearch()
   local fzf_lua = require'fzf-lua'
   local keySearch = vim.fn.input("Key: ", "", "file")
@@ -721,7 +723,11 @@ end
 
 vim.keymap.set({"n"}, "<leader>as", function() karaSearch() end, {silent = false, noremap = true})
 
-
+-- change text object with repeat number in front of it
+-- this is for when you want to use a change text object but it's not the
+-- first one on the line, and you want to repeat it
+-- todo: I need to extend this for all the text object shortcuts
+-- that I'm currently using
 vim.keymap.set('n', 'cj', function()
   local count = vim.v.count
   print(count)
@@ -737,11 +743,6 @@ vim.keymap.set('n', 'cj', function()
   vim.cmd([[norm! l]])
   vim.cmd([[startinsert ]])
 end)
-
-
-
-
-
 
 function find_buffer_by_prefix(prefix)
   -- Get a list of all window handles in the current tab
@@ -793,3 +794,4 @@ vim.keymap.set({"n"}, "<leader>vv", function() open_config_file_in_same_win(vim.
 
 
 vim.g.markdown_folding = 1
+
