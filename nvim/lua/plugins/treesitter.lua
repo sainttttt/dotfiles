@@ -31,9 +31,9 @@ return {
         sync_install = false,
         matchup = {
           enable = true,              -- mandatory, false will disable the whole extension
-          -- disable = ts_disable,
-          -- disable = { "swift" },  -- optional, list of language that will be disabled
-          -- [options]
+          --_ disable = ts_disable,
+          --_ disable = { "swift" },  -- optional, list of language that will be disabled
+          --_ [options]
         },
 
         highlight = {
@@ -242,10 +242,10 @@ return {
 
             -- Automatically jump forward to textobj, similar to targets.vim
             lookahead = true,
-
+            --_
             keymaps = {
               -- You can use the capture groups defined in textobjects.scm
-              ["af"] = "@function.outer",
+              --_ ["af"] = "@function.outer",
               ["if"] = "@function.inner",
               ["ac"] = "@class.outer",
               -- You can optionally set descriptions to the mappings (used in the desc parameter of

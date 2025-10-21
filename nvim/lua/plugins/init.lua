@@ -538,7 +538,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
       require('mini.splitjoin').setup()
       require('mini.align').setup()
 
-      -- require('mini.comment').setup()
+      require('mini.comment').setup()
 
       require('mini.sessions').setup({
         autoread = true,
@@ -550,7 +550,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-  'tpope/vim-commentary',
+  --_ 'tpope/vim-commentary',
 
   { "ariel-frischer/bmessages.nvim",
     config = function()
@@ -998,7 +998,8 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     -- dir = "~/code/vim-searchx",
     branch = "mod",
     config = function()
-      vim.keymap.set({"n", "x"}, "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>", { silent = false })
+      vim.keymap.set({"n"}, "f", "<cmd>call searchx#start({ 'dir': 1 })<CR>", { silent = false })
+      vim.keymap.set({"x"}, "af", "<cmd>call searchx#start({ 'dir': 1 })<CR>", { silent = false })
       vim.cmd([[
       let g:searchx = {}
 

@@ -250,7 +250,6 @@ nnoremap 9 0
 nnoremap aa a
 
 """"""""""""""""""""""
-
 " select function textobject
 nm ar vafo
 nm ae vaIo
@@ -288,10 +287,17 @@ ino <M-A> <Space><BS><Esc>>>A
 
 " -------------------------------------
 
-map gb i*<esc>f<space>i*<esc>
-map gv i_<esc>f<space>i_<esc>
+" ohh okay this stuff was to bold or italicize a word
+" but I will disable this for now?
 
+"_ map gb i*<esc>f<space>i*<esc>
+"_ map gv i_<esc>f<space>i_<esc>
+
+
+" prevents the editor from displaying the current mode
+" (e.g., INSERT, VISUAL) in the status line.
 set noshowmode
+
 
 autocmd CursorHold * echon ''
 
@@ -627,8 +633,8 @@ autocmd FileType python set ts=4|set shiftwidth=4
 """""""""""""""""""""""""""""""""""""""""""
 " COMMENTING
 """"""""""""""""""""""""""""""""""""""""""
-nmap av gcc
-vmap av gc
+" nmap av gcc
+" vmap av gc
 
 " vmap F gc
 
