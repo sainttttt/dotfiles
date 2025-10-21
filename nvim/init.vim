@@ -127,7 +127,7 @@ nn <M-m> 0^
 nn <M-`> $
 
 
-
+" copy a word
 nm ac yw
 
 " xn q $%

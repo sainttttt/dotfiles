@@ -723,6 +723,7 @@ end
 
 vim.keymap.set({"n"}, "<leader>as", function() karaSearch() end, {silent = false, noremap = true})
 
+
 -- change text object with repeat number in front of it
 -- this is for when you want to use a change text object but it's not the
 -- first one on the line, and you want to repeat it
@@ -787,7 +788,9 @@ function open_config_file_in_same_win(config_file)
 end
 
 
-vim.keymap.set({"n"}, "<leader>vz", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/lua/plugins/init.lua")) end, {silent = false, noremap = true})
+
+--_ vim.keymap.set({"n"}, "<leader>vz", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/lua/plugins/init.lua")) end, {silent = false, noremap = true})
+
 vim.keymap.set({"n"}, "<leader>va", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/lua/init.lua")) end, {silent = false, noremap = true})
 
 vim.keymap.set({"n"}, "<leader>vv", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/init.vim")) end, {silent = false, noremap = true})
@@ -795,3 +798,53 @@ vim.keymap.set({"n"}, "<leader>vv", function() open_config_file_in_same_win(vim.
 
 vim.g.markdown_folding = 1
 
+--_ vim.api.nvim_create_autocmd("FileType", {
+--_   pattern = "*",
+--_   callback = function()
+--_     vim.opt_local.formatoptions:remove({ "r", "o" })
+--_   end,
+--_ })
+
+local function insert_newline_without_comment()
+  -- Save current formatoptions
+  local save_fo = vim.opt.formatoptions:get()
+
+  -- Remove 'r' and 'o' to disable auto comment continuation temporarily
+  vim.opt.formatoptions = vim.opt.formatoptions - "r" - "o"
+
+  -- Insert a new line below the current line without entering insert mode
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("O", true, false, true), "n", false)
+
+  -- Restore original formatoptions
+
+  vim.schedule(function()
+    vim.opt.formatoptions = save_fo
+  end)
+end
+
+
+local function insert_newline_with_comment()
+  -- Get comment leader for the current filetype
+  local commentstring = vim.bo.commentstring
+  if commentstring == '' then
+    commentstring = '-- %s'  -- default fallback comment string
+  end
+  -- Extract just the leader before the %s
+  local leader = commentstring:gsub('%%s*', ''):gsub('%s*$', '') .. ' '
+
+  local save_fo = vim.opt.formatoptions:get()
+
+  -- Remove 'r' and 'o' to disable auto comment continuation temporarily
+  vim.opt.formatoptions = vim.opt.formatoptions - "r" - "o"
+
+
+  -- Insert a new line and prepend leader
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("O" .. leader, true, false, true), "n", false)
+
+  vim.schedule(function()
+    vim.opt.formatoptions = save_fo
+  end)
+end
+
+vim.keymap.set({"n"}, "O", insert_newline_without_comment, {silent = false, noremap = true})
+vim.keymap.set({"n"}, "<M-O>", insert_newline_with_comment, {silent = false, noremap = true})

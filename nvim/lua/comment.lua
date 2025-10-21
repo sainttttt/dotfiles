@@ -1,29 +1,28 @@
-
--- local function disable_comment()
---   local MiniComment = require('mini.comment')
---   local original = vim.bo.commentstring
---
---   -- Create new commentstring with '_' before %s
---   print(original)
---   local modified = original:gsub(" %%s", "_ %%s")
---   print(modified)
---   vim.bo.commentstring = modified
---   MiniComment.config.options.custom_commentstring = function() return modified end
---
---   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(MiniComment.operator(), true, false, true), 'n', false)
---   vim.schedule(function()
---     -- This runs after the mapped command is executed
---     vim.bo.commentstring = original
---     MiniComment.config.options.custom_commentstring = function() return original end
---   end)
--- end
+--_ local function disable_comment()
+--_   local MiniComment = require('mini.comment')
+--_   local original = vim.bo.commentstring
+--_
+--_   -- Create new commentstring with '_' before %s
+--_   print(original)
+--_   local modified = original:gsub(" %%s", "_ %%s")
+--_   print(modified)
+--_   vim.bo.commentstring = modified
+--_   MiniComment.config.options.custom_commentstring = function() return modified end
+--_
+--_   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(MiniComment.operator(), true, false, true), 'n', false)
+--_   vim.schedule(function()
+--_     -- This runs after the mapped command is executed
+--_     vim.bo.commentstring = original
+--_     MiniComment.config.options.custom_commentstring = function() return original end
+--_   end)
+--_ end
 
 local function disable_comment()
   local MiniComment = require('mini.comment')
   local original = vim.bo.commentstring
 
   -- Create new commentstring with '_' before %s
-  local modified = original:gsub(" %%s", "_ %%s")
+  local modified = original:gsub(" ?%%s", "_ %%s")
   vim.bo.commentstring = modified
   MiniComment.config.options.custom_commentstring = function() return modified end
 
@@ -76,7 +75,7 @@ local function convert_to_disabled_comment()
   MiniComment.toggle_lines(start_line, end_line)
 
   -- Then comment with modified commentstring
-  local modified = original:gsub(" %%s", "_ %%s")
+  local modified = original:gsub(" ?%%s", "_ %%s")
   vim.bo.commentstring = modified
 
   MiniComment.config.options.custom_commentstring = function() return modified end
@@ -98,8 +97,8 @@ vim.keymap.set({"x"}, "av", disable_comment, {silent = false, noremap = true})
 vim.keymap.set({"n"}, "av", disable_comment, {silent = false, noremap = true})
 
 vim.cmd([[
-  nn aV gc
-  xn aV gc
+  nm ax gcc
+  xn ax gcc
 ]])
 
 -- vim.keymap.set({"x"}, "gc", disable_comment, {silent = false, noremap = false})
