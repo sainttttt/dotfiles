@@ -789,7 +789,7 @@ end
 
 
 
---_ vim.keymap.set({"n"}, "<leader>vz", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/lua/plugins/init.lua")) end, {silent = false, noremap = true})
+vim.keymap.set({"n"}, "<leader>vz", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/lua/plugins/init.lua")) end, {silent = false, noremap = true})
 
 vim.keymap.set({"n"}, "<leader>va", function() open_config_file_in_same_win(vim.fn.expand("~/.config/nvim/lua/init.lua")) end, {silent = false, noremap = true})
 

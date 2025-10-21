@@ -33,11 +33,11 @@ nm v<space> Vq=
 
 
 " Need something to indent the whole file
-" nn V<space> gg=G<c-o>
+"_ nn V<space> gg=G<c-o>
 
 
 nn ch "_ci'
-" nn cj "_ci"
+"_ nn cj "_ci"
 
 nn ck "_ci(
 nn cl "_ci[
@@ -62,19 +62,18 @@ nn vD V%X
 nn ce cb
 nm cx c<Plug>CamelCaseMotion_w
 
-" map c b
 
-nn <leader><leader>w <down>
+"_ nn <leader><leader>w <down>
 
-" nn aww yi'
-" nn awe yi"
-" nn awr yi(
-" nn awt yi[
-
-" nn awW ya'
-" nn awE ya"
-" nn awR ya(
-" nn awT ya[
+"_ nn aww yi'
+"_ nn awe yi"
+"_ nn awr yi(
+"_ nn awt yi[
+"_
+"_ nn awW ya'
+"_ nn awE ya"
+"_ nn awR ya(
+"_ nn awT ya[
 
 nn aw <nop>
 
@@ -428,8 +427,6 @@ xn d "_d
 
 xn X x
 xn x "_x
-
-xn p P
 
 nnoremap x "_x
 

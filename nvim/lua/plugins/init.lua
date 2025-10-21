@@ -99,6 +99,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
 
   },
 
+
   { 'gbprod/yanky.nvim',
     config = function()
       require("yanky").setup({
@@ -109,8 +110,8 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
         },
       })
       -- Configuration for gbprod/yanky.nvim
-      vim.keymap.set({"n"}, "p", "<Plug>(YankyPutAfter)")
-      vim.keymap.set({"n"}, "P", "<Plug>(YankyPutBefore)")
+      vim.keymap.set({"n"}, "p", "<Plug>(YankyPutAfter)<CR>`[v`]=`[v`]<Esc>0^")
+      vim.keymap.set({"n"}, "P", "<Plug>(YankyPutBefore)<CR>`[v`]=`[v`]<Esc>0^")
 
       vim.keymap.set("n", "zp", "<Plug>(YankyPreviousEntry)")
       vim.keymap.set("n", "zo", "<Plug>(YankyNextEntry)")
