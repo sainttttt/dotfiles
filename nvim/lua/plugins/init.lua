@@ -64,27 +64,26 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
 	end
 },
 
-    -- Your other plugins
-    -- {
-    --     'jakewvincent/mkdnflow.nvim',
-    --     config = function()
-    --         require('mkdnflow').setup({
-    --             -- Config goes here; leave blank for defaults
-    --         })
-    --     end
-    -- },
+  --_   Your other plugins
+  --_   {
+  --_       'jakewvincent/mkdnflow.nvim',
+  --_       config = function()
+  --_           require('mkdnflow').setup({
+  --_               -- Config goes here; leave blank for defaults
+  --_           })
+  --_       end
+  --_   },
+  --_
+  --_ {
+  --_   "tadmccorkle/markdown.nvim",
+  --_   ft = "markdown", -- or 'event = "VeryLazy"'
+  --_   opts = {
+  --_     -- configuration here or empty for defaults
+  --_   },
+  --_ },
 
-  -- {
-  --   "tadmccorkle/markdown.nvim",
-  --   ft = "markdown", -- or 'event = "VeryLazy"'
-  --   opts = {
-  --     -- configuration here or empty for defaults
-  --   },
-  -- },
 
-
-{
-    'nullromo/go-up.nvim',
+{ 'nullromo/go-up.nvim',
     opts = {}, -- specify options here
     config = function(_, opts)
         local goUp = require('go-up')
@@ -92,13 +91,13 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end,
 },
 
+  -- This is a plugin for reaper jsfx files
   {'NlGHT/vim-eel',
     config = function()
       vim.cmd([[autocmd BufNewFile,BufRead *.jsfx :set filetype=eel2]])
     end
 
   },
-
 
   { 'gbprod/yanky.nvim',
     config = function()
@@ -501,16 +500,34 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-  -- { 'ixru/nvim-markdown',
-  --   config = function()
-  --     vim.cmd [[
-  --       map <Plug> <Plug>Markdown_FollowLink
-  --       map <Plug> <Plug>Markdown_Fold
-  --       let g:vim_markdown_conceal = 0
-  --       ]]
-  --   end,
-  -- },
+  --_ { 'ixru/nvim-markdown',
+  --_   config = function()
+  --_     vim.cmd [[
+  --_       map <Plug> <Plug>Markdown_FollowLink
+  --_       map <Plug> <Plug>Markdown_Fold
+  --_       let g:vim_markdown_conceal = 0
+  --_       ]]
+  --_   end,
+  --_ },
 
+  {
+    "tadmccorkle/markdown.nvim",
+    ft = "markdown", -- or 'event = "VeryLazy"'
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      -- configuration here or empty for defaults
+      on_attach = function(bufnr)
+        local map = vim.keymap.set
+        local opts = { buffer = bufnr }
+        map({ 'n', }, 'o', '<Cmd>MDListItemBelow<CR>', opts)
+        map({ 'n', }, 'O', '<Cmd>MDListItemAbove<CR>', opts)
+
+      end,
+    },
+
+  },
 
   -- So if I'm not mistaken this creates a shada file, which stores marks
   -- and other stuff per project.

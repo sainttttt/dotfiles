@@ -1,11 +1,7 @@
 autocmd! bufwritepost init.vim source ~/.config/nvim/init.vim
 let mapleader = "`"
 
-""""""""""""""""""""""""""""
-" motion
-""""""""""""""""""""""""""""
 " undo stuff
-
 " remember to set undo/redo stuff in HighlightUndo plugin
 " setup bindings as well
 nn <C-u> <nop>
@@ -15,8 +11,8 @@ nn e u
 
 " not sure what this stuff is
 im <M-n> <C-i>
-im <silent> <Down> <Esc>o
-im <silent> <Right> <Esc>A
+inor <silent> <Down> <Esc>o
+inor <silent> <Right> <Esc>wa
 
 
 " random disables
@@ -30,7 +26,6 @@ nm , O
 
 " indenting
 nm v<space> Vq=
-
 
 " Need something to indent the whole file
 "_ nn V<space> gg=G<c-o>
@@ -753,12 +748,6 @@ if !exists('g:neovide')
   hi Normal guibg=None
 endif
 
-
-if exists('g:neovide')
-  let g:neovide_input_macos_option_key_is_meta = 'both'
-  exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/TODO'
-  edit GEN\ TODO.md
-endif
 
 set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
 lua require('init')
