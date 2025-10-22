@@ -12,6 +12,10 @@ matches:
     replace: "✝️🙏"
     propagate_case: false
 
+  - trigger: ";;cx"
+    replace: "†"
+    propagate_case: false
+
   - trigger: ";;e"
     replace: "@x265.ca"
     propagate_case: false
