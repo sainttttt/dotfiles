@@ -991,16 +991,16 @@ return {
 
         plugins = {
           neovide = {
-            enabled = true,
+            enabled = false,
             scale = 1.0,
-            disable_animations = {
-              neovide_animation_length = 0,
-              neovide_cursor_animate_command_line = false,
-              neovide_scroll_animation_length = 0,
-              neovide_position_animation_length = 0,
-              neovide_fursor_animation_length = 1,
-              neovide_cursor_vfx_mode = "",
-            }
+            --_ disable_animations = {
+            --_   neovide_animation_length = 0,
+            --_   neovide_cursor_animate_command_line = false,
+            --_   neovide_scroll_animation_length = 0,
+            --_   neovide_position_animation_length = 0,
+            --_   neovide_fursor_animation_length = 1,
+            --_   neovide_cursor_vfx_mode = "",
+            --_ }
           },
         },
 
