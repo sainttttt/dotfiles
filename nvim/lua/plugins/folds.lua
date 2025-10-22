@@ -466,7 +466,7 @@ ufo.setup({
       require('fold-cycle').setup()
 
       vim.keymap.set({'n'}, 'vr',  require('fold-cycle').close, { noremap = true, silent = true })
-      vim.keymap.set({'n'}, '<Up>',  require('fold-cycle').close_all, { noremap = true, silent = true })
+      vim.keymap.set({'n'}, '<Up>',  require('fold-cycle').toggle_all, { noremap = true, silent = true })
       vim.keymap.set({'n'}, 've',  require('fold-cycle').open, { noremap = true, silent = true })
       vim.keymap.set({'n'}, '<Down>',  require('fold-cycle').toggle_all, { noremap = true, silent = true })
 

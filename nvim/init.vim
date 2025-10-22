@@ -45,7 +45,7 @@ nn cL "_ca[
 
 
 
-nn va V%y%o<esc>p
+"_ nn va V%y%o<esc>p
 
 nn vc V%
 
@@ -71,9 +71,10 @@ nm cx c<Plug>CamelCaseMotion_w
 "_ nn awT ya[
 
 nn aw <nop>
-
 nn a <nop>
 
+
+" Text object yanking and changing and stuff
 nn ah yi'
 nn aj yi"
 nn ak yi(
@@ -95,15 +96,13 @@ nn dK da(
 nn dL da[
 
 
+" No idea what this stuff is
 cmap <M-f> F
 cmap <M-d> D
 cmap <M-s> S
 
-
-
-" nn <M-H> 0^
-" nn <M-L> $
-
+"_ nn <M-H> 0^
+"_ nn <M-L> $
 
 " jump to end and beginning of line
 nn <M-C> 0^
@@ -131,9 +130,12 @@ xn q b
 nn q b
 
 nn b <nop>
-map <down> %
-xn <down> %
-map <down> %
+
+" more match stuff
+" not sure if I need these bindings
+"_ map 1 %
+"_ xn 1 %
+"_ map 1 %
 
 nn ag f
 
@@ -146,12 +148,13 @@ xn W y
 nn R y$
 xn R y
 
-
 nn 4 $
 xn 4 $
 
-nn 1 0
+" search next binds, testing this out
+" or maybe something else like { } < > even ( )
 map 3 #
+map <M-N> #
 
 nm ds d<Plug>CamelCaseMotion_w
 
@@ -179,7 +182,8 @@ set maxmempattern=5000
 
 set clipboard+=unnamedplus
 
-nn <M-n> :
+" option n for command? not really using this
+"_ nn <M-n> :
 
 cnoremap <M-E> <CR>
 vnoremap <M-E> :

@@ -41,7 +41,8 @@ return {
 
   -- { "adlrwbr/keep-split-ratio.nvim", opts = {} },
 
-  { "jessekelighine/vindent.nvim",
+  { dir = "~/code/vindent.nvim",
+    --_ "jessekelighine/vindent.nvim",
     config = function()
       local vindent = require("vindent")
       local block_opts = {
@@ -539,8 +540,8 @@ return {
       -- need this to work correctly
       vim.cmd("xm c %")
       vim.cmd("xm C %")
-      vim.cmd("nm b %")
-      vim.cmd("xm b %")
+      vim.cmd("nm <M-n> %")
+      vim.cmd("xm <M-n> %")
       vim.cmd([[ let g:matchup_matchparen_offscreen = {'method': 'popup'} ]])
     end
   },
@@ -591,14 +592,23 @@ return {
             end,
             {buffer = buffer, silent = false, noremap = true})
 
-          vim.keymap.set({"n"}, "O",
+          vim.keymap.set({"i"}, "<CR>",
             function()
               vim.api.nvim_feedkeys(
-                vim.api.nvim_replace_termcodes("<Plug>Markdown_NewLineAbove",
-                  true, false, true), "n", false
+                vim.api.nvim_replace_termcodes("<Plug>Markdown_NewLineBelow",
+                  true, false, true), "i", false
               )
             end,
             {buffer = buffer, silent = false, noremap = true})
+
+          --_ vim.keymap.set({"n"}, "O",
+          --_   function()
+          --_     vim.api.nvim_feedkeys(
+          --_       vim.api.nvim_replace_termcodes("<Plug>Markdown_NewLineAbove",
+          --_         true, false, true), "n", false
+          --_     )
+          --_   end,
+          --_   {buffer = buffer, silent = false, noremap = true})
         end,
       })
     end,
