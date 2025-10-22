@@ -341,7 +341,7 @@ return {
         left_pad = 0,
         -- Amount of padding to add to the right of headings when width is 'block'.
         -- Output is evaluated using the same logic as 'left_margin'.
-        right_pad = 4,
+        right_pad = 1,
         -- Minimum width to use for headings when width is 'block'.
         -- Can also be a list of integers evaluated by `clamp(value, context.level)`.
         min_width = 0,
