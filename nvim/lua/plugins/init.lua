@@ -3,7 +3,7 @@ return {
     -- defaults for the `Lazy log` command
     -- log = { "-10" }, -- show the last 10 commits
     log = { "--since=3 days ago" }, -- show commits from the last 3 days
-timeout = 10000,                -- kill processes that take more than 2 minutes
+    timeout = 10000,                -- kill processes that take more than 2 minutes
     url_format = "https://github.com/%s.git",
     -- lazy.nvim requires git >=2.19.0. If you really want to use lazy with an older version,
     -- then set the below to false. This should work, but is NOT supported and will
@@ -29,8 +29,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-  {
-    "nvim-neo-tree/neo-tree.nvim",
+  { "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -40,29 +39,29 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     lazy = false, -- neo-tree will lazily load itself
   },
 
--- { "adlrwbr/keep-split-ratio.nvim", opts = {} },
+  -- { "adlrwbr/keep-split-ratio.nvim", opts = {} },
 
-{ "jessekelighine/vindent.nvim",
-	config = function()
-		local vindent = require("vindent")
-		local block_opts = {
-			strict     = { skip_empty_lines = false, skip_more_indented_lines = false },
-			contiguous = { skip_empty_lines = false, skip_more_indented_lines = true  },
-			loose      = { skip_empty_lines = true,  skip_more_indented_lines = true  },
-		}
-		vindent.map.BlockMotion({ prev = "[=", next = "]=" }, block_opts.strict)
-		vindent.map.Motion({ prev = "[-", next = "]-" }, "less")
-		vindent.map.Motion({ prev = "[+", next = "]+" }, "more")
-		vindent.map.Motion({ prev = "[;", next = "];" }, "diff")
-		vindent.map.BlockEdgeMotion({ prev = "[p", next = "]p" }, block_opts.loose)
-		vindent.map.BlockEdgeMotion({ prev = "[P", next = "]P" }, block_opts.contiguous)
-		vindent.map.Object("iI", "ii", block_opts.strict)
-		vindent.map.Object("ii", "ii", block_opts.loose)
-		vindent.map.Object("ai", "ai", block_opts.loose)
-		vindent.map.Object("aI", "aI", block_opts.loose)
-		vim.g.vindent_begin = false
-	end
-},
+  { "jessekelighine/vindent.nvim",
+    config = function()
+      local vindent = require("vindent")
+      local block_opts = {
+        strict     = { skip_empty_lines = false, skip_more_indented_lines = false },
+        contiguous = { skip_empty_lines = false, skip_more_indented_lines = true  },
+        loose      = { skip_empty_lines = true,  skip_more_indented_lines = true  },
+      }
+      vindent.map.BlockMotion({ prev = "[=", next = "]=" }, block_opts.strict)
+      vindent.map.Motion({ prev = "[-", next = "]-" }, "less")
+      vindent.map.Motion({ prev = "[+", next = "]+" }, "more")
+      vindent.map.Motion({ prev = "[;", next = "];" }, "diff")
+      vindent.map.BlockEdgeMotion({ prev = "[p", next = "]p" }, block_opts.loose)
+      vindent.map.BlockEdgeMotion({ prev = "[P", next = "]P" }, block_opts.contiguous)
+      vindent.map.Object("iI", "ii", block_opts.strict)
+      vindent.map.Object("ii", "ii", block_opts.loose)
+      vindent.map.Object("ai", "ai", block_opts.loose)
+      vindent.map.Object("aI", "aI", block_opts.loose)
+      vim.g.vindent_begin = false
+    end
+  },
 
   --_   Your other plugins
   --_   {
@@ -83,13 +82,13 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   --_ },
 
 
-{ 'nullromo/go-up.nvim',
+  { 'nullromo/go-up.nvim',
     opts = {}, -- specify options here
     config = function(_, opts)
-        local goUp = require('go-up')
-        goUp.setup(opts)
+      local goUp = require('go-up')
+      goUp.setup(opts)
     end,
-},
+  },
 
   -- This is a plugin for reaper jsfx files
   {'NlGHT/vim-eel',
@@ -277,33 +276,22 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
       require("telescope").setup(opts)
       require("telescope").load_extension("undo")
     end,
-
-
-
-
-
-
-
-
-
-
-
   },
 
-  -- { "ThePrimeagen/harpoon",
-  --   branch = "harpoon2",
-  --   dependencies = { "nvim-lua/plenary.nvim" },
-  --   config = function()
-  --   end
-  -- },
+  --_ { "ThePrimeagen/harpoon",
+  --_   branch = "harpoon2",
+  --_   dependencies = { "nvim-lua/plenary.nvim" },
+  --_   config = function
+  --_   end
+  --_ },
 
   --  highlights for text filetypes, like markdown
-  -- { "lukas-reineke/headlines.nvim",
-  --   dependencies = "nvim-treesitter/nvim-treesitter",
-  --   config = true, -- or `opts = {}`
-  -- },
+  --_ { "lukas-reineke/headlines.nvim",
+  --_   dependencies = "nvim-treesitter/nvim-treesitter",
+  --_   config = true, -- or `opts = {}`
+  --_ },
 
-{ 'MeanderingProgrammer/render-markdown.nvim',
+  { 'MeanderingProgrammer/render-markdown.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
@@ -533,8 +521,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end,
   },
 
-  --_ {
-  --_   "tadmccorkle/markdown.nvim",
+  --_ { _   "tadmccorkle/markdown.nvim",
   --_   ft = "markdown", -- or 'event = "VeryLazy"'
   --_   dependencies = {
   --_     "nvim-treesitter/nvim-treesitter",
@@ -607,7 +594,6 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-
   -- 'wellle/context.vim',
 
   -- { "luckasRanarison/nvim-devdocs",
@@ -663,8 +649,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   --   end
   -- },
 
-  {
-    -- dir = "~/code/yoke.vim",
+  { -- dir = "~/code/yoke.vim",
     'sainttttt/yoke.vim',
     config = function()
       require('yoke').setup()
@@ -703,19 +688,6 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
       map zxl dos[
       ]])
     end
-  },
-
-  {
-    {"nvim-treesitter/nvim-treesitter",
-      branch = 'master',
-      lazy = false,
-      build = ":TSUpdate",
-      config = function()
-        require'nvim-treesitter.configs'.setup {
-          playground = { enable = true }
-        }
-      end
-    }
   },
 
   { 'altermo/ultimate-autopair.nvim',
@@ -799,12 +771,10 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
   --     vim.keymap.set('n', '<Leader>.', ":ObsidianNew ")
   --     require("obsidian").setup {
   --       dir = path,
-
   --       note_id_func = function(title)
   --         return title
   --       end,
   --       disable_frontmatter = true,
-
   --       ui = {
   --         enable = false,
   --       },
@@ -878,8 +848,7 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-  {
-    "sainttttt/zen-mode.nvim",
+  { "sainttttt/zen-mode.nvim",
     -- dir =  "~/code/zen-mode.nvim",
     -- "folke/zen-mode.nvim",
     config = function()
