@@ -856,10 +856,19 @@ end
 
 if vim.g.neovide then
   --_ require("markdown").setup()
-
   vim.cmd([[
     let g:neovide_input_macos_option_key_is_meta = 'both'
     exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/TODO'
     edit GEN\ TODO.md
     ]])
 end
+
+-- This might help kill rogue LSP clients, but idk if it actually
+-- helps or not
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    for _, client in pairs(vim.lsp.get_active_clients()) do
+      client.stop(true)  -- force stop; true = force kill without waiting
+    end
+  end,
+})
