@@ -19,6 +19,7 @@
     exit: Some(( code: Char('x'), modifiers: "CONTROL")),
     commit: Some(( code: BackTab, modifiers: "SHIFT")),
 
+
     force_push: Some(( code: Char('P'), modifiers: "CONTROL")),
     push: Some(( code: Char('p'), modifiers: "CONTROL")),
     cmd_bar_toggle: Some(( code: Char(','), modifiers: "")),
