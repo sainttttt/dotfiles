@@ -72,6 +72,7 @@ return {
 
       require'lspconfig'.nim_langserver.setup{
         on_attach = on_attach,
+        --_ cmd = { "nimlsp" },
       }
 
 
