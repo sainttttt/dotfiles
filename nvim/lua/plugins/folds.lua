@@ -39,18 +39,41 @@ return {
        ]])
 
 
+      local function get_comment_prefix()
+        local commentstring = vim.bo.commentstring
+
+        -- Handle empty commentstring
+        if commentstring == "" then
+          return ""
+        end
+
+        -- Split on %s and take the first part (the prefix)
+        local prefix = commentstring:match("^(.-)%%s")
+
+        -- If no %s found, use the whole string
+        if not prefix then
+          prefix = commentstring
+        end
+
+        -- Trim trailing whitespace
+        prefix = prefix:match("^(.-)%s*$")
+
+        return prefix
+      end
+
       local function get_comment_folds(bufnr)
         local comment_folds = {}
         local line_count = vim.api.nvim_buf_line_count(bufnr)
         local is_in_comment = false
         local comment_start = 0
 
+        local comment_prefix = get_comment_prefix()
         for i = 0, line_count - 1 do
           local line = vim.api.nvim_buf_get_lines(bufnr, i, i + 1, false)[1]
-          if not is_in_comment and line:match('^%s*' .. vim.o.commentstring:sub(1, 1)) then
+          if not is_in_comment and line:match('^%s*' .. comment_prefix) then
             is_in_comment = true
             comment_start = i
-          elseif is_in_comment and not line:match('^%s*' .. vim.o.commentstring:sub(1, 1)) then
+          elseif is_in_comment and not line:match('^%s*' .. comment_prefix) then
             is_in_comment = false
             table.insert(comment_folds, {startLine = comment_start, endLine = i - 1})
           end
@@ -81,21 +104,167 @@ return {
 
 
       local function all_folds_and_comment_folding(bufnr)
-        local comment_folds = get_comment_folds(bufnr)
 
-        local folds = getFolds(bufnr)
-        for _, fold in ipairs(comment_folds) do
-          table.insert(folds, fold)
-        end
-        return folds
+        return getFolds(bufnr)
+
+        --_ local treesitterFolds = getFolds(bufnr)
+        --_   :thenCall( function(lspFolds)
+        --_   if lspFolds ~= nil then
+        --_     --_ print(dump(lspFolds[1]))
+        --_     return lspFolds
+        --_   end
+        --_
+        --_
+        --_     -- lspFolds might be an array of promises, not actual fold objects
+        --_
+        --_     -- Resolve all fold promises
+        --_     --_ if not lspFolds or #lspFolds == 0 then
+        --_     --_   return get_comment_folds(bufnr)
+        --_     --_ end
+        --_
+        --_
+        --_   local promise = require('promise')
+
+            --_ -- Check if first element is a promise
+            --_ if type(lspFolds[1]) == 'table' and lspFolds[1].queue then
+            --_   -- Array of promises - resolve them all
+            --_   return promise.all(lspFolds):thenCall(function(resolvedFolds)
+            --_     vim.print("Resolved LSP fold structure:")
+            --_     vim.print(resolvedFolds[1])
+            --_
+            --_     --_ local customFolds = getCustomCommentFolds(bufnr)
+            --_     --_ local merged = vim.list_extend(resolvedFolds, customFolds)
+            --_     --_
+            --_     --_ table.sort(merged, function(a, b)
+            --_     --_   return a.startLine < b.startLine
+            --_     --_ end)
+            --_
+            --_     return resolvedFolds
+            --_   end)
+            --_ else
+            --_   -- Already resolved
+            --_   vim.print("LSP fold structure:")
+            --_   vim.print(lspFolds[1])
+            --_
+            --_   --_ local customFolds = getCustomCommentFolds(bufnr)
+            --_   --_ local merged = vim.list_extend(lspFolds, customFolds)
+            --_   --_
+            --_   --_ table.sort(merged, function(a, b)
+            --_   --_   return a.startLine < b.startLine
+            --_   --_ end)
+            --_   --_
+            --_   return lspFolds
+            --_ end
+          --_ end)
       end
 
-      require('ufo').setup({
-        provider_selector = function(bufnr, filetype, buftype)
-          -- return ftMap[filetype] or {'treesitter', 'indent'}
-          return all_folds_and_comment_folding
+      --_ require('ufo').setup({
+      --_   provider_selector = function(bufnr, filetype, buftype)
+      --_     -- return ftMap[filetype] or {'treesitter', 'indent'}
+      --_     return all_folds_and_comment_folding
+      --_   end
+      --_ })
+
+local ufo = require('ufo')
+
+-- Function to detect consecutive comment blocks
+local function getCommentBlockFolds(bufnr)
+  local folds = {}
+  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+
+  local commentstring = vim.bo[bufnr].commentstring or "# %s"
+  local prefix = commentstring:match("^(.-)%%s") or commentstring
+  prefix = prefix:match("^(.-)%s*$")
+
+  local pattern = "^%s*" .. vim.pesc(prefix)
+  local commentStart = nil
+
+  for i, line in ipairs(lines) do
+    local isComment = line:match(pattern) ~= nil
+
+    if isComment then
+      if not commentStart then
+        commentStart = i - 1
+      end
+    else
+      if commentStart then
+        local numLines = (i - 1) - commentStart
+        if numLines >= 2 then
+          table.insert(folds, {
+            startLine = commentStart,
+            endLine = i - 2,
+            kind = 'comment',
+          })
         end
+        commentStart = nil
+      end
+    end
+  end
+
+  if commentStart then
+    local numLines = #lines - commentStart
+    if numLines >= 2 then
+      table.insert(folds, {
+        startLine = commentStart,
+        endLine = #lines - 1,
+        kind = 'comment',
       })
+    end
+  end
+
+  return folds
+end
+
+-- Handle the fallback exception
+local function handleFallback(err, providerName)
+  if type(err) == 'string' and err:match('UfoFallbackException') then
+    return require('promise').reject(err)
+  end
+  return require('promise').resolve({})
+end
+
+-- Custom provider with proper fallback handling
+local function customFoldProvider(bufnr)
+  local commentFolds = getCommentBlockFolds(bufnr)
+
+  -- Try LSP first
+  return ufo.getFolds(bufnr, 'lsp')
+    :catch(function(err)
+      -- LSP not available, try treesitter
+      if type(err) == 'string' and err:match('UfoFallbackException') then
+        return ufo.getFolds(bufnr, 'treesitter')
+      end
+      return require('promise').reject(err)
+    end)
+    :catch(function(err)
+      -- Treesitter not available, try indent
+      if type(err) == 'string' and err:match('UfoFallbackException') then
+        return ufo.getFolds(bufnr, 'indent')
+      end
+      return require('promise').reject(err)
+    end)
+    :thenCall(function(baseFolds)
+      -- Merge with comment folds
+      local allFolds = vim.list_extend(baseFolds or {}, commentFolds)
+
+      table.sort(allFolds, function(a, b)
+        return a.startLine < b.startLine
+      end)
+
+      return allFolds
+    end)
+    :catch(function(err)
+      -- All providers failed, just use comment folds
+      return commentFolds
+    end)
+end
+
+-- Setup
+ufo.setup({
+  provider_selector = function(bufnr, filetype, buftype)
+    return customFoldProvider
+  end,
+})
 
 
       local function lspProviderSetup()
