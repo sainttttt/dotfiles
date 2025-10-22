@@ -500,34 +500,57 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
     end
   },
 
-  --_ { 'ixru/nvim-markdown',
-  --_   config = function()
-  --_     vim.cmd [[
-  --_       map <Plug> <Plug>Markdown_FollowLink
-  --_       map <Plug> <Plug>Markdown_Fold
-  --_       let g:vim_markdown_conceal = 0
-  --_       ]]
-  --_   end,
-  --_ },
+  { 'ixru/nvim-markdown',
+    config = function()
+      vim.cmd [[
+        let g:vim_markdown_conceal = 0
+        let g:vim_markdown_no_default_key_mappings = 1
+        ]]
 
-  {
-    "tadmccorkle/markdown.nvim",
-    ft = "markdown", -- or 'event = "VeryLazy"'
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {
-      -- configuration here or empty for defaults
-      on_attach = function(bufnr)
-        local map = vim.keymap.set
-        local opts = { buffer = bufnr }
-        map({ 'n', }, 'o', '<Cmd>MDListItemBelow<CR>', opts)
-        map({ 'n', }, 'O', '<Cmd>MDListItemAbove<CR>', opts)
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "markdown",
+        callback = function()
+          local buffer = vim.api.nvim_get_current_buf()
+          vim.keymap.set({"n"}, "o",
+            function()
+              vim.api.nvim_feedkeys(
+                vim.api.nvim_replace_termcodes("<Plug>Markdown_NewLineBelow",
+                  true, false, true), "n", false
+              )
+            end,
+            {buffer = buffer, silent = false, noremap = true})
 
-      end,
-    },
-
+          vim.keymap.set({"n"}, "O",
+            function()
+              vim.api.nvim_feedkeys(
+                vim.api.nvim_replace_termcodes("<Plug>Markdown_NewLineAbove",
+                  true, false, true), "n", false
+              )
+            end,
+            {buffer = buffer, silent = false, noremap = true})
+        end,
+      })
+    end,
   },
+
+  --_ {
+  --_   "tadmccorkle/markdown.nvim",
+  --_   ft = "markdown", -- or 'event = "VeryLazy"'
+  --_   dependencies = {
+  --_     "nvim-treesitter/nvim-treesitter",
+  --_   },
+  --_   opts = {
+  --_     -- configuration here or empty for defaults
+  --_     on_attach = function(bufnr)
+  --_       local map = vim.keymap.set
+  --_       local opts = { buffer = bufnr }
+  --_       map({ 'n', }, 'o', '<Cmd>MDListItemBelow<CR>', opts)
+  --_       map({ 'n', }, 'O', '<Cmd>MDListItemAbove<CR>', opts)
+  --_
+  --_     end,
+  --_   },
+  --_
+  --_ },
 
   -- So if I'm not mistaken this creates a shada file, which stores marks
   -- and other stuff per project.

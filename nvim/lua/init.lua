@@ -854,25 +854,12 @@ if vim.g.neovide then
   --_ vim.keymap.set('n', 'o', '<Plug>Markdown_NewLineBelow', { buffer = true })
 end
 
--- This setups up specific stuff for neovide, including ensuring that
--- the markdown plugin is automatically loaded cause it doesn't work
--- otherwise
 if vim.g.neovide then
-  require("markdown").setup()
+  --_ require("markdown").setup()
 
   vim.cmd([[
     let g:neovide_input_macos_option_key_is_meta = 'both'
     exec 'cd /Users/saint/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/TODO'
     edit GEN\ TODO.md
     ]])
-
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "markdown",
-    callback = function()
-      vim.schedule(function()
-        -- Ensure nvim-markdown.nvim is fully loaded
-        require("markdown").setup()
-      end)
-    end,
-  })
 end
