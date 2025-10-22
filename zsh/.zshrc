@@ -24,7 +24,6 @@ else
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
-
 # export ZSH_AUTOSUGGEST_STRATEGY=(completion)
 export ZSH_AUTOSUGGEST_STRATEGY_2=(history)
 export ZSH_AUTOSUGGEST_COMPLETION_IGNORE="(a *)|(git *)|(g *)|(g?)"
@@ -365,6 +364,7 @@ zle -N vi-pop
 bindkey -M vicmd "^N" vi-pop
 bindkey -M viins "^N" vi-pop
 
+
 vi-nvim() { zle kill-whole-line; nvim; zle accept-line }
 zle -N vi-nvim
 bindkey -M vicmd "^[g" vi-nvim
@@ -382,11 +382,26 @@ zle -N vi-open
 bindkey -M vicmd "^O" vi-open
 bindkey -M viins "^O" vi-open
 
-
-
 # some vi mode rebindings
-
 bindkey -M vicmd 'q' vi-backward-word
+
+# adds option shift L for adding to the end of the line,
+# like how my current nvim setup is
+vi-add-eol-from-ins () { zle vi-cmd-mode; zle vi-add-eol }
+zle -N vi-add-eol-from-ins
+bindkey -M vicmd "^[L" vi-add-eol
+bindkey -M viins "^[L" vi-add-eol-from-ins
+
+# adds option shift H for adding to the beginning of the line,
+# like how my current nvim setup is
+vi-insert-bol-from-ins () { zle vi-cmd-mode; zle vi-insert-bol }
+zle -N vi-insert-bol-from-ins
+bindkey -M vicmd "^[H" vi-insert-bol
+bindkey -M viins "^[H" vi-insert-bol-from-ins
+
+
+
+
 
 export QTDIR=/usr/local/qt/5.15.2/clang_64
 export PATH=$QTDIR:$QTDIR/bin:$PATH
