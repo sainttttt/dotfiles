@@ -575,9 +575,12 @@ timeout = 10000,                -- kill processes that take more than 2 minutes
       end
       )
 
-      -- vim.keymap.set('n', '<leader>mll', MiniTrailspace.trim_last_lines)
+      --_ vim.keymap.set('n', '<leader>mll', MiniTrailspace.trim_last_lines)
+
       require('mini.splitjoin').setup()
       require('mini.align').setup()
+
+      require('mini.test').setup()
 
       require('mini.comment').setup()
 
