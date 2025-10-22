@@ -351,11 +351,11 @@ nnoremap <silent> <M-z> :Undoquit<CR>
 " unmap S
 " nnoremap <silent> s <esc>
 " nnoremap <silent> WQ :up<CR>:close!<CR>
-"
+
+" quitting vim
 nn <silent> <M-%><m-w> :qa!<CR>
 nn <silent> <M-%><c-n> :e!<CR>
 nn <silent> <M-(> :qa!<CR>
-
 nnoremap <silent> <M-%> <nop>
 
 nnoremap <silent> MM :qa!<CR>
