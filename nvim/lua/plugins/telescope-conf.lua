@@ -207,7 +207,7 @@ return
         -- vim.keymap.set("n", "gF", function() fzf_lua.live_grep({ cmd = "rg2() {rg  --column --no-ignore --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\"; }; rg2" }) end)
         -- vim.keymap.set("n", "<leader>fw", function() fzf_lua.grep_cword({ cmd = "rg2() { export LANG=en_US.UTF-8; rg  --column --no-ignore --line-number --no-heading --color=always --smart-case --max-columns=4096 -e  \"$@\" | cut -d':' -f1-3; }; rg2" }) end)
         vim.keymap.set("n", "<leader>fw", function() fzf_lua.grep_cword() end)
-        vim.keymap.set("n", "<Up>", function() fzf_lua.grep_cword() end)
+        vim.keymap.set("n", "<M-Q>", function() fzf_lua.grep_cword() end)
         vim.keymap.set("n", "<M-u>", "<Nop>")
         -- vim.keymap.set("n", "<leader>dg", function() fzf_lua.live_grep() end)
         vim.keymap.set("n", "gq", function() fzf_lua.resume() end)

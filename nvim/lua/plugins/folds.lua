@@ -440,7 +440,6 @@ ufo.setup({
     end
   },
 
-
   { "chrisgrieser/nvim-origami",
     tag = "v1.9",
     pin = true,
@@ -450,7 +449,8 @@ ufo.setup({
       require("origami").setup ({
         keepFoldsAcrossSessions = false,
         foldKeymaps = {
-          hOnlyOpensOnFirstColumn = true
+          setup = false,
+          --_ hOnlyOpensOnFirstColumn = true
         },
         setupFoldKeymaps = false,
 
@@ -466,9 +466,9 @@ ufo.setup({
       require('fold-cycle').setup()
 
       vim.keymap.set({'n'}, 'vr',  require('fold-cycle').close, { noremap = true, silent = true })
-      vim.keymap.set({'n'}, '<M-Q>',  require('fold-cycle').close_all, { noremap = true, silent = true })
+      vim.keymap.set({'n'}, '<Up>',  require('fold-cycle').close_all, { noremap = true, silent = true })
       vim.keymap.set({'n'}, 've',  require('fold-cycle').open, { noremap = true, silent = true })
-      vim.keymap.set({'n'}, '<M-J>',  require('fold-cycle').open_all, { noremap = true, silent = true })
+      vim.keymap.set({'n'}, '<Down>',  require('fold-cycle').toggle_all, { noremap = true, silent = true })
 
       -- vim.keymap.set({'n'}, 'vj',  require('fold-cycle').close, { noremap = true, silent = true })
       -- vim.keymap.set({'n'}, 'vJ',  require('fold-cycle').close_all, { noremap = true, silent = true })
