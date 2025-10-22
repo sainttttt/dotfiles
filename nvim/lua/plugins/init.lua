@@ -456,8 +456,8 @@ return {
       -- need this to work correctly
       vim.cmd("xm c %")
       vim.cmd("xm C %")
-      vim.cmd("nm <down> %")
-      vim.cmd("xm <down> %")
+      vim.cmd("nm b %")
+      vim.cmd("xm b %")
       vim.cmd([[ let g:matchup_matchparen_offscreen = {'method': 'popup'} ]])
     end
   },
