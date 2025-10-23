@@ -855,6 +855,9 @@ if vim.g.neovide then
 end
 
 if vim.g.neovide then
+  vim.opt.scrolloff = 0
+  vim.g.neovide_scroll_animation_far_lines = 0
+
   --_ require("markdown").setup()
   vim.cmd([[
     let g:neovide_input_macos_option_key_is_meta = 'both'
@@ -872,3 +875,22 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
     end
   end,
 })
+
+
+-- Function to scroll up only if not at the first line
+local function smart_scroll_up()
+  local topline = vim.fn.line('w0')  -- Get the line number at top of window
+  if topline > 1 then
+    -- Not at the top yet, perform viewport scroll
+    vim.cmd('normal! \x19')  -- \x19 is Ctrl-Y
+  end
+end
+
+-- Map regular scroll wheel
+vim.keymap.set({'', 'i', 'v'}, '<ScrollWheelUp>', smart_scroll_up, {})
+vim.keymap.set({'', 'i', 'v'}, '<2-ScrollWheelUp>', smart_scroll_up, {})
+vim.keymap.set({'', 'i', 'v'}, '<3-ScrollWheelUp>', smart_scroll_up, {})
+vim.keymap.set({'', 'i', 'v'}, '<4-ScrollWheelUp>', smart_scroll_up, {})
+
+vim.keymap.set({'', 'i', 'v'}, '<S-ScrollWheelUp>', smart_scroll_up, {})
+vim.keymap.set({'', 'i', 'v'}, '<S-ScrollWheelDown>', smart_scroll_up, {})
