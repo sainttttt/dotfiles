@@ -2,7 +2,6 @@
 !*/
 !*.*
 *.html
-*.md
 *.git
 .git/*
 node_modules

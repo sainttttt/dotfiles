@@ -225,6 +225,11 @@ end
 
 -- Custom provider with proper fallback handling
 local function customFoldProvider(bufnr)
+
+  if vim.bo.filetype == "markdown" then
+    return
+  end
+
   local commentFolds = getCommentBlockFolds(bufnr)
 
   -- Try LSP first
@@ -474,6 +479,11 @@ ufo.setup({
       -- vim.keymap.set({'n'}, 'vJ',  require('fold-cycle').close_all, { noremap = true, silent = true })
       -- vim.keymap.set({'n'}, 'vk',  require('fold-cycle').open, { noremap = true, silent = true })
       -- vim.keymap.set({'n'}, 'vK',  require('fold-cycle').open_all, { noremap = true, silent = true })
+    end
+  },
+
+  { "https://github.com/masukomi/vim-markdown-folding",
+    config = function()
     end
   },
 }

@@ -95,14 +95,18 @@ return
           actions = {
             files = {
               ["alt-v"]  = actions.file_vsplit,
-              [	">"]  = actions.file_vsplit,
+              [	")"]  = actions.file_vsplit,
+              ["enter"] = actions.file_edit,
               ["ctrl-v"] = false,
               ["alt-b"]  = actions.file_sel_to_qf,
             },
 
             buffers = {
-              ["alt-v"]      = actions.file_vsplit,
-              [">"]      = actions.file_vsplit,
+              ["alt-v"]  = actions.file_vsplit,
+              [	")"]  = actions.file_vsplit,
+              ["enter"] = actions.file_edit,
+              ["ctrl-v"] = false,
+              ["alt-b"]  = actions.file_sel_to_qf,
             },
           },
 
@@ -214,6 +218,7 @@ return
         -- vim.keymap.set("n", "<Down>", function() fzf_lua.resume() end)
         vim.keymap.set("n", "gr", function() fzf_lua.lsp_references() end)
         vim.keymap.set("n", "ad", function() fzf_lua.buffers(({fzf_opts={["--delimiter"]="' '",["--with-nth"]="-1.."}})) end)
+        --_ vim.keymap.set("n", "ad", function() fzf_lua.buffers() end)
 
                 -- :lua require'fzf-lua'.files({ prompt="LS> ", cmd = "ls", cwd="~/<folder>" })
       end

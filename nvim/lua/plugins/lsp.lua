@@ -70,10 +70,10 @@ return {
       -- Use an on_attach function to only map the following keys
       -- after the language server attaches to the current buffer
 
-      require'lspconfig'.nim_langserver.setup{
+      vim.lsp.config("nim_langserver", {
         on_attach = on_attach,
         --_ cmd = { "nimlsp" },
-      }
+      })
 
 
       local lspconfig = require 'lspconfig'
@@ -91,25 +91,25 @@ return {
       --   }
       -- }
 
-      lspconfig.crystalline.setup {
+      vim.lsp.config("crystalline", {
         on_attach = function(client, bufnr)
           client.server_capabilities.completionProvider = false
           on_attach(client, bufnr)
         end
-      }
+      })
 
       -- lspconfig.nimls.setup {
       --   on_attach = on_attach,
       -- }
 
-      lspconfig.pyright.setup {
+      vim.lsp.config("pyright", {
         on_attach = on_attach,
         -- on_attach = function(client, bufnr)
         --   client.resolved_capabilities.hover = false
         --   on_attach(client, bufnr)
         -- end,
         -- handlers = { ["textDocument/hover"] = function() end }
-      }
+      })
 
 
       vim.lsp.config('lua_ls', {
@@ -167,13 +167,13 @@ return {
         }
       })
 
-      lspconfig.sourcekit.setup {
+      vim.lsp.config("sourcekit", {
         on_attach = on_attach,
         -- capabilities = completion_capabilities,
         -- cmd = { "sourcekit-lsp" },
         filetypes = { "swift", "objective-c", "objective-cpp" },
         -- root_dir = lsp_config.util.root_pattern("Package.swift", ".git", "*.xcodeproj")
-      }
+      })
     end
   },
 

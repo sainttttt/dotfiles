@@ -29,15 +29,17 @@ return {
     end
   },
 
-  { "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
+
+  { 'j-morano/buffer_manager.nvim',
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons", -- optional, but recommended
     },
-    lazy = false, -- neo-tree will lazily load itself
+    config = function()
+      require("buffer_manager").setup({ })
+      vim.keymap.set({"n"}, "<M-N>", function() require("buffer_manager.ui").toggle_quick_menu() end)
+    end
   },
+
 
   -- { "adlrwbr/keep-split-ratio.nvim", opts = {} },
 
@@ -117,6 +119,102 @@ return {
     end
   },
 
+
+  {'b0o/nvim-tree-preview.lua',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      '3rd/image.nvim', -- Optional, for previewing images
+    },
+    config = function()
+      -- Default config:
+      require('nvim-tree-preview').setup {
+        -- Keymaps for the preview window (does not apply to the tree window).
+        -- Keymaps can be a string (vimscript command), a function, or a table.
+        --
+        -- If a function is provided:
+        --   When the keymap is invoked, the function is called.
+        --   It will be passed a single argument, which is a table of the following form:
+        --     {
+        --       node: NvimTreeNode|NvimTreeRootNode, -- The tree node under the cursor
+        --     }
+        --   See the type definitions in `lua/nvim-tree-preview/types.lua` for a description
+        --   of the fields in the table.
+        --
+        -- If a table, it must contain either an 'action' or 'open' key:
+        --   Actions:
+        --     { action = 'close', unwatch? = false, focus_tree? = true }
+        --     { action = 'toggle_focus' }
+        --     { action = 'select_node', target: 'next'|'prev' }
+        --
+        --   Open modes:
+        --     { open = 'edit' }
+        --     { open = 'tab' }
+        --     { open = 'vertical' }
+        --     { open = 'horizontal' }
+        --
+        -- To disable a default keymap, set it to false.
+        -- All keymaps are set in normal mode. Other modes are not currently supported.
+        keymaps = {
+          ['<Esc>'] = { action = 'close', unwatch = true },
+          ['<Tab>'] = { action = 'toggle_focus' },
+          ['<CR>'] = { open = 'edit' },
+          ['<C-t>'] = { open = 'tab' },
+          ['<C-v>'] = { open = 'vertical' },
+          ['<C-x>'] = { open = 'horizontal' },
+          ['<C-n>'] = { action = 'select_node', target = 'next' },
+          ['<C-p>'] = { action = 'select_node', target = 'prev' },
+        },
+        min_width = 10,
+        min_height = 5,
+        max_width = 85,
+        max_height = 25,
+        wrap = false, -- Whether to wrap lines in the preview window
+        border = 'rounded', -- Border style for the preview window
+        zindex = 100, -- Stacking order. Increase if the preview window is shown below other windows.
+        show_title = true, -- Whether to show the file name as the title of the preview window
+        title_pos = 'top-left', -- top-left|top-center|top-right|bottom-left|bottom-center|bottom-right
+        title_format = ' %s ',
+        follow_links = true, -- Whether to follow symlinks when previewing files
+        -- win_position: { row?: number|function, col?: number|function }
+        -- Position of the preview window relative to the tree window.
+        -- If not specified, the position is automatically calculated.
+        -- Functions receive (tree_win, size) parameters and must return a number, where:
+        --   tree_win: number - tree window handle
+        --   size: {width: number, height: number} - dimensions of the preview window
+        -- Example:
+        --   win_position = {
+        --    col = function(tree_win, size)
+        --      local view_side = require('nvim-tree').config.view.side
+        --      return view_side == 'left' and vim.fn.winwidth(tree_win) + 1 or -size.width - 3
+        --    end,
+        --   },
+        win_position = {},
+        image_preview = {
+          enable = false, -- Whether to preview images (for more info see Previewing Images section in README)
+          patterns = { -- List of Lua patterns matching image file names
+            '.*%.png$',
+            '.*%.jpg$',
+            '.*%.jpeg$',
+            '.*%.gif$',
+            '.*%.webp$',
+            '.*%.avif$',
+            -- Additional patterns:
+            -- '.*%.svg$',
+            -- '.*%.bmp$',
+            -- '.*%.pdf$', (known to have issues)
+          },
+        },
+        on_open = nil, -- fun(win: number, buf: number) called when the preview window is opened
+        on_close = nil, -- fun() called when the preview window is closed
+        watch = {
+          event = 'CursorMoved' -- 'CursorMoved'|'CursorHold'. Event to use to update the preview in watch mode
+        },
+      }
+    end
+  },
+
+
+
   { 'nvim-tree/nvim-tree.lua',
     config = function()
       local show_tree = function()
@@ -147,6 +245,35 @@ return {
           vim.keymap.set('n', 'D', api.fs.trash, { buffer = bufnr })
           vim.keymap.set('n', 'M', api.fs.rename, { buffer = bufnr })
           vim.keymap.set('n', '<2-LeftMouse>', api.node.open.edit, { buffer = bufnr })
+
+
+          api.config.mappings.default_on_attach(bufnr)
+
+          local function opts(desc)
+            return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+          end
+
+          local preview = require('nvim-tree-preview')
+
+
+
+          vim.keymap.set('n', 'P', preview.watch, opts 'Preview (Watch)')
+          vim.keymap.set('n', '<Esc>', preview.unwatch, opts 'Close Preview/Unwatch')
+          vim.keymap.set('n', '<C-f>', function() return preview.scroll(4) end, opts 'Scroll Down')
+          vim.keymap.set('n', '<C-b>', function() return preview.scroll(-4) end, opts 'Scroll Up')
+
+          -- Option A: Smart tab behavior: Only preview files, expand/collapse directories (recommended)
+          vim.keymap.set('n', '<Tab>', function()
+            local ok, node = pcall(api.tree.get_node_under_cursor)
+            if ok and node then
+              if node.type == 'directory' then
+                api.node.open.edit()
+              else
+                preview.node(node, { toggle_focus = true })
+              end
+            end
+          end, opts 'Preview')
+
 
 
         end,
@@ -292,104 +419,104 @@ return {
   --_   config = true, -- or `opts = {}`
   --_ },
 
-  { 'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {
-      heading = {
-        -- Useful context to have when evaluating values.
-        -- | level    | the number of '#' in the heading marker         |
-        -- | sections | for each level how deeply nested the heading is |
-
-        -- Turn on / off heading icon & background rendering.
-        enabled = true,
-        -- Additional modes to render headings.
-        render_modes = false,
-        -- Turn on / off atx heading rendering.
-        atx = true,
-        -- Turn on / off setext heading rendering.
-        setext = true,
-        -- Turn on / off sign column related rendering.
-        sign = false,
-        -- Replaces '#+' of 'atx_h._marker'.
-        -- Output is evaluated depending on the type.
-        -- | function | `value(context)`              |
-        -- | string[] | `cycle(value, context.level)` |
-        icons = { ' † '},
-        -- Determines how icons fill the available space.
-        -- | right   | '#'s are concealed and icon is appended to right side                      |
-        -- | inline  | '#'s are concealed and icon is inlined on left side                        |
-        -- | overlay | icon is left padded with spaces and inserted on left hiding additional '#' |
-        position = 'overlay',
-        -- Added to the sign column if enabled.
-        -- Output is evaluated by `cycle(value, context.level)`.
-        signs = { '󰫎 ' },
-        -- Width of the heading background.
-        -- | block | width of the heading text |
-        -- | full  | full width of the window  |
-        -- Can also be a list of the above values evaluated by `clamp(value, context.level)`.
-        width = 'block',
-        -- Amount of margin to add to the left of headings.
-        -- Margin available space is computed after accounting for padding.
-        -- If a float < 1 is provided it is treated as a percentage of available window space.
-        -- Can also be a list of numbers evaluated by `clamp(value, context.level)`.
-        left_margin = 0,
-        -- Amount of padding to add to the left of headings.
-        -- Output is evaluated using the same logic as 'left_margin'.
-        left_pad = 0,
-        -- Amount of padding to add to the right of headings when width is 'block'.
-        -- Output is evaluated using the same logic as 'left_margin'.
-        right_pad = 1,
-        -- Minimum width to use for headings when width is 'block'.
-        -- Can also be a list of integers evaluated by `clamp(value, context.level)`.
-        min_width = 0,
-        -- Determines if a border is added above and below headings.
-        -- Can also be a list of booleans evaluated by `clamp(value, context.level)`.
-        border = false,
-        -- Always use virtual lines for heading borders instead of attempting to use empty lines.
-        border_virtual = false,
-        -- Highlight the start of the border using the foreground highlight.
-        border_prefix = false,
-        -- Used above heading for border.
-        above = '▄',
-        -- Used below heading for border.
-        below = '▀',
-        -- Highlight for the heading icon and extends through the entire line.
-        -- Output is evaluated by `clamp(value, context.level)`.
-        backgrounds = {
-          'RenderMarkdownH1Bg',
-          'RenderMarkdownH2Bg',
-          'RenderMarkdownH3Bg',
-          'RenderMarkdownH4Bg',
-          'RenderMarkdownH5Bg',
-          'RenderMarkdownH6Bg',
-        },
-        -- Highlight for the heading and sign icons.
-        -- Output is evaluated using the same logic as 'backgrounds'.
-        foregrounds = {
-          'RenderMarkdownH1',
-          'RenderMarkdownH2',
-          'RenderMarkdownH3',
-          'RenderMarkdownH4',
-          'RenderMarkdownH5',
-          'RenderMarkdownH6',
-        },
-        -- Define custom heading patterns which allow you to override various properties based on
-        -- the contents of a heading.
-        -- The key is for healthcheck and to allow users to change its values, value type below.
-        -- | pattern    | matched against the heading text @see :h lua-patterns |
-        -- | icon       | optional override for the icon                        |
-        -- | background | optional override for the background                  |
-        -- | foreground | optional override for the foreground                  |
-        custom = {},
-      },
-
-
-    },
-  },
+  --_ { 'MeanderingProgrammer/render-markdown.nvim',
+  --_   dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+  --_   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+  --_   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+  --_   ---@module 'render-markdown'
+  --_   ---@type render.md.UserConfig
+  --_   opts = {
+  --_     heading = {
+  --_       -- Useful context to have when evaluating values.
+  --_       -- | level    | the number of '#' in the heading marker         |
+  --_       -- | sections | for each level how deeply nested the heading is |
+  --_
+  --_       -- Turn on / off heading icon & background rendering.
+  --_       enabled = true,
+  --_       -- Additional modes to render headings.
+  --_       render_modes = false,
+  --_       -- Turn on / off atx heading rendering.
+  --_       atx = true,
+  --_       -- Turn on / off setext heading rendering.
+  --_       setext = true,
+  --_       -- Turn on / off sign column related rendering.
+  --_       sign = false,
+  --_       -- Replaces '#+' of 'atx_h._marker'.
+  --_       -- Output is evaluated depending on the type.
+  --_       -- | function | `value(context)`              |
+  --_       -- | string[] | `cycle(value, context.level)` |
+  --_       icons = { ' † '},
+  --_       -- Determines how icons fill the available space.
+  --_       -- | right   | '#'s are concealed and icon is appended to right side                      |
+  --_       -- | inline  | '#'s are concealed and icon is inlined on left side                        |
+  --_       -- | overlay | icon is left padded with spaces and inserted on left hiding additional '#' |
+  --_       position = 'overlay',
+  --_       -- Added to the sign column if enabled.
+  --_       -- Output is evaluated by `cycle(value, context.level)`.
+  --_       signs = { '󰫎 ' },
+  --_       -- Width of the heading background.
+  --_       -- | block | width of the heading text |
+  --_       -- | full  | full width of the window  |
+  --_       -- Can also be a list of the above values evaluated by `clamp(value, context.level)`.
+  --_       width = 'block',
+  --_       -- Amount of margin to add to the left of headings.
+  --_       -- Margin available space is computed after accounting for padding.
+  --_       -- If a float < 1 is provided it is treated as a percentage of available window space.
+  --_       -- Can also be a list of numbers evaluated by `clamp(value, context.level)`.
+  --_       left_margin = 0,
+  --_       -- Amount of padding to add to the left of headings.
+  --_       -- Output is evaluated using the same logic as 'left_margin'.
+  --_       left_pad = 0,
+  --_       -- Amount of padding to add to the right of headings when width is 'block'.
+  --_       -- Output is evaluated using the same logic as 'left_margin'.
+  --_       right_pad = 1,
+  --_       -- Minimum width to use for headings when width is 'block'.
+  --_       -- Can also be a list of integers evaluated by `clamp(value, context.level)`.
+  --_       min_width = 0,
+  --_       -- Determines if a border is added above and below headings.
+  --_       -- Can also be a list of booleans evaluated by `clamp(value, context.level)`.
+  --_       border = false,
+  --_       -- Always use virtual lines for heading borders instead of attempting to use empty lines.
+  --_       border_virtual = false,
+  --_       -- Highlight the start of the border using the foreground highlight.
+  --_       border_prefix = false,
+  --_       -- Used above heading for border.
+  --_       above = '▄',
+  --_       -- Used below heading for border.
+  --_       below = '▀',
+  --_       -- Highlight for the heading icon and extends through the entire line.
+  --_       -- Output is evaluated by `clamp(value, context.level)`.
+  --_       backgrounds = {
+  --_         'RenderMarkdownH1Bg',
+  --_         'RenderMarkdownH2Bg',
+  --_         'RenderMarkdownH3Bg',
+  --_         'RenderMarkdownH4Bg',
+  --_         'RenderMarkdownH5Bg',
+  --_         'RenderMarkdownH6Bg',
+  --_       },
+  --_       -- Highlight for the heading and sign icons.
+  --_       -- Output is evaluated using the same logic as 'backgrounds'.
+  --_       foregrounds = {
+  --_         'RenderMarkdownH1',
+  --_         'RenderMarkdownH2',
+  --_         'RenderMarkdownH3',
+  --_         'RenderMarkdownH4',
+  --_         'RenderMarkdownH5',
+  --_         'RenderMarkdownH6',
+  --_       },
+  --_       -- Define custom heading patterns which allow you to override various properties based on
+  --_       -- the contents of a heading.
+  --_       -- The key is for healthcheck and to allow users to change its values, value type below.
+  --_       -- | pattern    | matched against the heading text @see :h lua-patterns |
+  --_       -- | icon       | optional override for the icon                        |
+  --_       -- | background | optional override for the background                  |
+  --_       -- | foreground | optional override for the foreground                  |
+  --_       custom = {},
+  --_     },
+  --_
+  --_
+  --_   },
+  --_ },
 
   -- displays pressed keys for screencast
   { 'NStefan002/screenkey.nvim',
@@ -550,6 +677,8 @@ return {
     config = function() require('guess-indent').setup {} end,
   },
 
+  -- this is the search and replace plugin that I keep forgetting about
+  -- until I have to do it and so I look it up here
   { 'nvim-pack/nvim-spectre',
     config = function()
       require("spectre").setup({
@@ -1366,6 +1495,8 @@ return {
       -- vim.keymap.set('n', '<leader>j', function() lucy.jump() end, {silent = true})
       vim.keymap.set('n', '<S-Down>', function() lucy.jump({filejump = true}) end, { silent = true })
       vim.keymap.set('n', '<S-Up>', function() lucy.jump({ filejump = true, backwards = true }) end, { silent = true })
+
+
       -- vim.keymap.set('n', '<M-^>', function() lucy.fileJump({}) end, { silent = true })
       --vim.keymap.set('n', '<M-!>', function() lucy.fileJump({ backwards = true }) end)
       -- vim.keymap.set('n', '<leader>bc', function() toggleHighlightingGroup("LucyLine") end)

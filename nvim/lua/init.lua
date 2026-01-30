@@ -10,18 +10,18 @@ if vim.g.firstload == nil then
 
   vim.g.neovide_input_macos_option_is_meta = true
 
-  function _G.dump(o)
-    if type(o) == 'table' then
-      local s = '{ '
-      for k,v in pairs(o) do
-        if type(k) ~= 'number' then k = '"'..k..'"' end
-        s = s .. '['..k..'] = ' .. dump(v) .. ','
-      end
-      return s .. '} '
-    else
-      return tostring(o)
-    end
-  end
+  --_ function _G.dump(o)
+  --_   if type(o) == 'table' then
+  --_     local s = '{ '
+  --_     for k,v in pairs(o) do
+  --_       if type(k) ~= 'number' then k = '"'..k..'"' end
+  --_       s = s .. '['..k..'] = ' .. dump(v) .. ','
+  --_     end
+  --_     return s .. '} '
+  --_   else
+  --_     return tostring(o)
+  --_   end
+  --_ end
 
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not vim.loop.fs_stat(lazypath) then
@@ -894,3 +894,28 @@ vim.keymap.set({'', 'i', 'v'}, '<4-ScrollWheelUp>', smart_scroll_up, {})
 
 vim.keymap.set({'', 'i', 'v'}, '<S-ScrollWheelUp>', smart_scroll_up, {})
 vim.keymap.set({'', 'i', 'v'}, '<S-ScrollWheelDown>', smart_scroll_up, {})
+
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.foldmethod = "expr"
+    vim.opt_local.foldexpr = "v:lua.MarkdownFoldLevel()"
+  end
+})
+
+function _G.MarkdownFoldLevel()
+  local line = vim.fn.getline(vim.v.lnum)
+  local depth = line:match("^#+")
+
+  if depth then
+    return ">" .. #depth
+  end
+
+  -- Keep blank lines at same fold level as surrounding content
+  if line:match("^%s*$") then
+    return "="
+  end
+
+  return "="
+end
