@@ -1,6 +1,7 @@
 if vim.g.firstload == nil then
   require("float")
   require("comment")
+  require("splits")
   -- require("todo")
 
   vim.g.loaded_netrw = 1
