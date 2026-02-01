@@ -174,7 +174,7 @@ function ns { ffmpeg -i "$1" -c copy -an "${1%.*}-nosound.${1#*.}" }
 
 function fftrim { ffmpeg -ss $2 -i "$1" -to $3 -c copy "${1%.*}-trim.${1#*.}" }
 
-mp4() { ffmpeg -i $1 -c:a aac -c:v libx264 -crf 24 "$(echo "$1"  | sed -e "s/\..*/\.mp4/")" }
+mp4() { ffmpeg -i $1 -c:a aac -c:v libx264 -crf 24 "$(echo "$1"  | sed -E 's/\./_/g; s/_([^_]*)_*$/.mp4/')" }
 mp4c() { ffmpeg -i $1 -c:a aac -c:v libx264 -crf $2 "$(echo "$1"  | sed -e "s/\..*/\-c.mp4/")" }
 
 alias sf='singlef(){ cd ~/Screenshots/;  single-file --browser-executable-path /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "$1"}; singlef'
