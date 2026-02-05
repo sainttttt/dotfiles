@@ -237,7 +237,6 @@ c() { clear; tmux clear-history }
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 alias sq="sqlite3"
 alias ts="trash"
-alias src="vim ~/.zshrc"
 
 # common paths
 alias code="cd ~/code"
@@ -382,8 +381,9 @@ zle -N vi-open
 bindkey -M vicmd "^O" vi-open
 bindkey -M viins "^O" vi-open
 
-# some vi mode rebindings
+# some vi mode rebindings to match my current vim setup
 bindkey -M vicmd 'q' vi-backward-word
+bindkey -M vicmd 'e' vi-undo-change
 
 # adds option shift L for adding to the end of the line,
 # like how my current nvim setup is
