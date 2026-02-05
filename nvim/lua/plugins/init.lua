@@ -35,10 +35,41 @@ return {
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      require("buffer_manager").setup({ })
-      vim.keymap.set({"n"}, "<M-N>", function() require("buffer_manager.ui").toggle_quick_menu() end)
-      vim.keymap.set({"n"}, "an", function() require("buffer_manager.ui").toggle_quick_menu() end)
+
+      vim.api.nvim_command([[
+      autocmd FileType buffer_manager nn <Down> j
+      autocmd FileType buffer_manager nn <Up> k
+]])
+
+      local buffer_manager_ui = require("buffer_manager.ui")
+      require("buffer_manager").setup({
+        select_menu_item_commands = {
+          edit = {
+            key = "<c-f>",
+            command = "edit"
+          }
+        },
+        focus_alternate_buffer = false,
+        short_file_names = true,
+        short_term_names = true,
+        loop_nav = false,
+        highlight = 'Normal:BufferManagerBorder',
+        win_extra_options = {
+          winhighlight = 'Normal:BufferManagerNormal',
+        },
+        use_shortcuts = true,
+      })
+
+
+
+      vim.keymap.set({"n"}, "<M-N>", function() buffer_manager_ui.toggle_quick_menu() end)
+      vim.keymap.set({"n"}, "an", function() buffer_manager_ui.toggle_quick_menu() end)
+
+      vim.keymap.set({"n"}, "<leader>J", function() buffer_manager_ui.nav_next() end)
+      vim.keymap.set({"n"}, "<leader>nk", function() buffer_manager_ui.nav_prev() end)
+
     end
+
   },
 
 
