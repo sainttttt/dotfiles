@@ -104,6 +104,7 @@ return
             buffers = {
               ["alt-v"]  = actions.file_vsplit,
               [	")"]  = actions.file_vsplit,
+
               ["enter"] = actions.file_edit,
               ["ctrl-v"] = false,
               ["alt-b"]  = actions.file_sel_to_qf,
@@ -121,11 +122,9 @@ return
             -- executed command priority is 'cmd' (if exists)
             -- otherwise auto-detect prioritizes `rg` over `grep`
             -- default options are controlled by 'rg|grep_opts'
-            cmd            = "rg --vimgrep",
             -- grep_opts         = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp -e",
-            rg_opts           = function()
-                                  return "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e"
-                                end,
+            rg_opts           = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096",
+
             -- set to 'true' to always parse globs in both 'grep' and 'live_grep'
             -- search strings will be split using the 'glob_separator' and translated
             -- to '--iglob=' arguments, requires 'rg'

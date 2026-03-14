@@ -684,6 +684,12 @@ local function reloadColorScheme()
 end
 
 
+
+
+vim.keymap.set("n", "p", "p`[", { desc = "Paste and move cursor to start" })
+vim.keymap.set("n", "P", "P`[", { desc = "Paste before and move cursor to start" })
+
+
 vim.keymap.set({"n"}, "s", saveFile, {silent = false, noremap = true})
 vim.keymap.set({"n"}, "<C-r>", reloadFile, {silent = false, noremap = true})
 vim.keymap.set({"n"}, "<C-n>", "<C-r>", {silent = false, noremap = true})

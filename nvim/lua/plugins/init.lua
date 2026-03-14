@@ -29,6 +29,16 @@ return {
     end
   },
 
+  {
+    "jiaoshijie/undotree",
+    opts = {
+      -- your options
+    },
+    keys = { -- load the plugin only when using it's keybinding:
+      { "<leader>u", "<cmd>lua require('undotree').toggle()<cr>" },
+    },
+  },
+
 
   { 'j-morano/buffer_manager.nvim',
     dependencies = {
@@ -75,8 +85,8 @@ return {
 
   -- { "adlrwbr/keep-split-ratio.nvim", opts = {} },
 
-  { dir = "~/code/vindent.nvim",
-    --_ "jessekelighine/vindent.nvim",
+  { "jessekelighine/vindent.nvim",
+    --_ dir = "~/code/vindent.nvim",
     config = function()
       local vindent = require("vindent")
       local block_opts = {
