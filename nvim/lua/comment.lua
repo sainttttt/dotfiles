@@ -91,16 +91,10 @@ local function convert_to_disabled_comment()
 
 end
 
-vim.keymap.set({"x"}, "f", disable_comment, {silent = false, noremap = true})
 vim.keymap.set({"x"}, "F", disable_comment, {silent = false, noremap = true})
 
 vim.keymap.set({"x"}, "av", disable_comment, {silent = false, noremap = true})
 vim.keymap.set({"n"}, "av", disable_comment, {silent = false, noremap = true})
-
-vim.cmd([[
-  nm ax gcc
-  xn ax gcc
-]])
 
 -- vim.keymap.set({"x"}, "gc", disable_comment, {silent = false, noremap = false})
 -- vim.keymap.set({"n"}, "gc", disable_comment, {silent = false, noremap = false})

@@ -71,7 +71,6 @@ return {
       })
 
 
-
       vim.keymap.set({"n"}, "<M-N>", function() buffer_manager_ui.toggle_quick_menu() end)
       vim.keymap.set({"n"}, "an", function() buffer_manager_ui.toggle_quick_menu() end)
 
@@ -108,23 +107,6 @@ return {
     end
   },
 
-  --_   Your other plugins
-  --_   {
-  --_       'jakewvincent/mkdnflow.nvim',
-  --_       config = function()
-  --_           require('mkdnflow').setup({
-  --_               -- Config goes here; leave blank for defaults
-  --_           })
-  --_       end
-  --_   },
-  --_
-  --_ {
-  --_   "tadmccorkle/markdown.nvim",
-  --_   ft = "markdown", -- or 'event = "VeryLazy"'
-  --_   opts = {
-  --_     -- configuration here or empty for defaults
-  --_   },
-  --_ },
 
 
   { 'nullromo/go-up.nvim',
@@ -239,118 +221,6 @@ return {
       require("telescope").load_extension("undo")
     end,
   },
-
-  --_ { "ThePrimeagen/harpoon",
-  --_   branch = "harpoon2",
-  --_   dependencies = { "nvim-lua/plenary.nvim" },
-  --_   config = function
-  --_   end
-  --_ },
-
-  --  highlights for text filetypes, like markdown
-  --_ { "lukas-reineke/headlines.nvim",
-  --_   dependencies = "nvim-treesitter/nvim-treesitter",
-  --_   config = true, -- or `opts = {}`
-  --_ },
-
-  --_ { 'MeanderingProgrammer/render-markdown.nvim',
-  --_   dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-  --_   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-  --_   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-  --_   ---@module 'render-markdown'
-  --_   ---@type render.md.UserConfig
-  --_   opts = {
-  --_     heading = {
-  --_       -- Useful context to have when evaluating values.
-  --_       -- | level    | the number of '#' in the heading marker         |
-  --_       -- | sections | for each level how deeply nested the heading is |
-  --_
-  --_       -- Turn on / off heading icon & background rendering.
-  --_       enabled = true,
-  --_       -- Additional modes to render headings.
-  --_       render_modes = false,
-  --_       -- Turn on / off atx heading rendering.
-  --_       atx = true,
-  --_       -- Turn on / off setext heading rendering.
-  --_       setext = true,
-  --_       -- Turn on / off sign column related rendering.
-  --_       sign = false,
-  --_       -- Replaces '#+' of 'atx_h._marker'.
-  --_       -- Output is evaluated depending on the type.
-  --_       -- | function | `value(context)`              |
-  --_       -- | string[] | `cycle(value, context.level)` |
-  --_       icons = { ' † '},
-  --_       -- Determines how icons fill the available space.
-  --_       -- | right   | '#'s are concealed and icon is appended to right side                      |
-  --_       -- | inline  | '#'s are concealed and icon is inlined on left side                        |
-  --_       -- | overlay | icon is left padded with spaces and inserted on left hiding additional '#' |
-  --_       position = 'overlay',
-  --_       -- Added to the sign column if enabled.
-  --_       -- Output is evaluated by `cycle(value, context.level)`.
-  --_       signs = { '󰫎 ' },
-  --_       -- Width of the heading background.
-  --_       -- | block | width of the heading text |
-  --_       -- | full  | full width of the window  |
-  --_       -- Can also be a list of the above values evaluated by `clamp(value, context.level)`.
-  --_       width = 'block',
-  --_       -- Amount of margin to add to the left of headings.
-  --_       -- Margin available space is computed after accounting for padding.
-  --_       -- If a float < 1 is provided it is treated as a percentage of available window space.
-  --_       -- Can also be a list of numbers evaluated by `clamp(value, context.level)`.
-  --_       left_margin = 0,
-  --_       -- Amount of padding to add to the left of headings.
-  --_       -- Output is evaluated using the same logic as 'left_margin'.
-  --_       left_pad = 0,
-  --_       -- Amount of padding to add to the right of headings when width is 'block'.
-  --_       -- Output is evaluated using the same logic as 'left_margin'.
-  --_       right_pad = 1,
-  --_       -- Minimum width to use for headings when width is 'block'.
-  --_       -- Can also be a list of integers evaluated by `clamp(value, context.level)`.
-  --_       min_width = 0,
-  --_       -- Determines if a border is added above and below headings.
-  --_       -- Can also be a list of booleans evaluated by `clamp(value, context.level)`.
-  --_       border = false,
-  --_       -- Always use virtual lines for heading borders instead of attempting to use empty lines.
-  --_       border_virtual = false,
-  --_       -- Highlight the start of the border using the foreground highlight.
-  --_       border_prefix = false,
-  --_       -- Used above heading for border.
-  --_       above = '▄',
-  --_       -- Used below heading for border.
-  --_       below = '▀',
-  --_       -- Highlight for the heading icon and extends through the entire line.
-  --_       -- Output is evaluated by `clamp(value, context.level)`.
-  --_       backgrounds = {
-  --_         'RenderMarkdownH1Bg',
-  --_         'RenderMarkdownH2Bg',
-  --_         'RenderMarkdownH3Bg',
-  --_         'RenderMarkdownH4Bg',
-  --_         'RenderMarkdownH5Bg',
-  --_         'RenderMarkdownH6Bg',
-  --_       },
-  --_       -- Highlight for the heading and sign icons.
-  --_       -- Output is evaluated using the same logic as 'backgrounds'.
-  --_       foregrounds = {
-  --_         'RenderMarkdownH1',
-  --_         'RenderMarkdownH2',
-  --_         'RenderMarkdownH3',
-  --_         'RenderMarkdownH4',
-  --_         'RenderMarkdownH5',
-  --_         'RenderMarkdownH6',
-  --_       },
-  --_       -- Define custom heading patterns which allow you to override various properties based on
-  --_       -- the contents of a heading.
-  --_       -- The key is for healthcheck and to allow users to change its values, value type below.
-  --_       -- | pattern    | matched against the heading text @see :h lua-patterns |
-  --_       -- | icon       | optional override for the icon                        |
-  --_       -- | background | optional override for the background                  |
-  --_       -- | foreground | optional override for the foreground                  |
-  --_       custom = {},
-  --_     },
-  --_
-  --_
-  --_   },
-  --_ },
 
   -- displays pressed keys for screencast
   { 'NStefan002/screenkey.nvim',
@@ -476,13 +346,13 @@ return {
       local before = require('before')
       before.setup()
 
-      vim.keymap.set('n', '<M-U>', function()
+      vim.keymap.set('n', '<M-J>', function()
         before.jump_to_last_edit()
         vim.cmd("normal! zz")
       end, {})
 
       -- Jump to next entry in the edit history
-      vim.keymap.set('n', '<M-I>', function()
+      vim.keymap.set('n', '<M-K>', function()
         before.jump_to_next_edit()
         vim.cmd("normal! zz")
       end, {})
@@ -535,65 +405,6 @@ return {
     end
   },
 
-  { 'ixru/nvim-markdown',
-    config = function()
-      vim.cmd [[
-        let g:vim_markdown_conceal = 0
-        let g:vim_markdown_no_default_key_mappings = 1
-        ]]
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "markdown",
-        callback = function()
-          local buffer = vim.api.nvim_get_current_buf()
-          vim.keymap.set({"n"}, "o",
-            function()
-              vim.api.nvim_feedkeys(
-                vim.api.nvim_replace_termcodes("<Plug>Markdown_NewLineBelow",
-                  true, false, true), "n", false
-              )
-            end,
-            {buffer = buffer, silent = false, noremap = true})
-
-          vim.keymap.set({"i"}, "<CR>",
-            function()
-              vim.api.nvim_feedkeys(
-                vim.api.nvim_replace_termcodes("<Plug>Markdown_NewLineBelow",
-                  true, false, true), "i", false
-              )
-            end,
-            {buffer = buffer, silent = false, noremap = true})
-
-          --_ vim.keymap.set({"n"}, "O",
-          --_   function()
-          --_     vim.api.nvim_feedkeys(
-          --_       vim.api.nvim_replace_termcodes("<Plug>Markdown_NewLineAbove",
-          --_         true, false, true), "n", false
-          --_     )
-          --_   end,
-          --_   {buffer = buffer, silent = false, noremap = true})
-        end,
-      })
-    end,
-  },
-
-  --_ { _   "tadmccorkle/markdown.nvim",
-  --_   ft = "markdown", -- or 'event = "VeryLazy"'
-  --_   dependencies = {
-  --_     "nvim-treesitter/nvim-treesitter",
-  --_   },
-  --_   opts = {
-  --_     -- configuration here or empty for defaults
-  --_     on_attach = function(bufnr)
-  --_       local map = vim.keymap.set
-  --_       local opts = { buffer = bufnr }
-  --_       map({ 'n', }, 'o', '<Cmd>MDListItemBelow<CR>', opts)
-  --_       map({ 'n', }, 'O', '<Cmd>MDListItemAbove<CR>', opts)
-  --_
-  --_     end,
-  --_   },
-  --_
-  --_ },
 
   -- So if I'm not mistaken this creates a shada file, which stores marks
   -- and other stuff per project.
@@ -810,49 +621,6 @@ return {
       }
     end
   },
-
-  -- { "epwalsh/obsidian.nvim",
-  --   lazy = false,
-  --   event = {
-  --     -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-  --     -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-  --     "BufReadPre " .. vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
-  --     "BufNewFile " .. vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/**.md",
-  --   },
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --   },
-  --   config = function()
-  --     local path = vim.fn.expand "~" .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Katarina/"
-  --     vim.keymap.set('n', '<Leader>.', ":ObsidianNew ")
-  --     require("obsidian").setup {
-  --       dir = path,
-  --       note_id_func = function(title)
-  --         return title
-  --       end,
-  --       disable_frontmatter = true,
-  --       ui = {
-  --         enable = false,
-  --       },
-  --       finder = "fzf-lua",
-  --       mappings = {
-  --         ["gd"] = {
-  --           action = function()
-  --             return require("obsidian").util.gf_passthrough()
-  --           end,
-  --           opts = { noremap = false, expr = true, buffer = true },
-  --         },
-  --       },
-  --     }
-  --     vim.keymap.set("n", "gd", function()
-  --       if require("obsidian").util.cursor_on_markdown_link() then
-  --         return "<cmd>ObsidianFollowLink<CR>"
-  --       else
-  --         return "gd"
-  --       end
-  --     end, { noremap = false, expr = true })
-  --   end
-  -- },
 
   { 'tzachar/highlight-undo.nvim',
     config = function()

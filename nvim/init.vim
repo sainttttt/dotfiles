@@ -28,7 +28,7 @@ nm , O
 nm v<space> Vq=
 
 " Need something to indent the whole file
-"_ nn V<space> gg=G<c-o>
+nn a<space> gg=G<c-o>
 
 
 nn ch "_ci'
@@ -139,14 +139,7 @@ nn b <nop>
 
 nn ag f
 
-
 nn de db
-
-nn W yy
-xn W y
-
-nn R y$
-xn R y
 
 nn 4 $
 xn 4 $
@@ -260,6 +253,7 @@ nnoremap Q: q:
 imap <M-t> †
 
 " indenting -------------------------
+
 vnoremap < <gv
 vnoremap > >gv
 
@@ -412,8 +406,14 @@ nnoremap <M-,> <C-w>H
 " nnoremap <M-m> <C-w>J
 
 " --------------------------------------------------
-" delete and yank ----------------------------------
+" delete and yank and paste ------------------------
 " --------------------------------------------------
+
+nn W yy`]
+xn W y`]
+
+nn R y$
+xn R y
 
 nnoremap dd "_dd
 nnoremap X "_dd
@@ -444,11 +444,15 @@ nnoremap <M-p> "pp
 " Don't touch unnamed register when pasting over visual selection
 xnoremap <expr> p 'pgv"' . v:register . 'y'
 
-
 " --------------------------------------------------
 " --------------------------------------------------
+nn W yy`]
+xn W y`]
 
-set updatetime=750
+nn R y$
+xn R y
+
+set updatetime=750 " this seems to be a recommended value
 
 " trigger `autoread` when files changes on disk
 set autoread
@@ -564,18 +568,12 @@ set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 
 
-
 "autocomplete brace
 inoremap {<CR>  {<CR>}<Esc>O
 
-" inoremap ({<CR>  ({<CR>});<Esc>O
-
-" vimrc
 set hlsearch
 
-
 nmap <silent> <Space> :nohlsearch<CR>
-" set clipboard=unnamed
 
 """""""""""""""""""
 " syntax
@@ -584,7 +582,6 @@ syntax on
 let g:jsx_ext_required = 0
 au BufRead,BufNewFile *.py set filetype=python
 
-" nnoremap <C-u> u
 nnoremap <C-q> q
 
 " defaults
@@ -742,9 +739,6 @@ endfunction
 
 autocmd VimEnter * call StartCmd()
 autocmd VimLeave * lua saveSessionQuit()
-
-" map <M-n> Tab
-" map <M-N> <S-Tab>
 
 nmap <leader>ee <cmd>Lazy reload plugin yoke.vim<CR>
 
